@@ -1,0 +1,600 @@
+Epoch 1/600, Loss: 0.0047917918, Elapsed Time: 00:00:05, CURRENT MODEL SAVED
+Epoch 2/600, Loss: 0.0021083180, Elapsed Time: 00:00:10, CURRENT MODEL SAVED
+Epoch 3/600, Loss: 0.0020664576, Elapsed Time: 00:00:15, CURRENT MODEL SAVED
+Epoch 4/600, Loss: 0.0020475642, Elapsed Time: 00:00:19, CURRENT MODEL SAVED
+Epoch 5/600, Loss: 0.0020376526, Elapsed Time: 00:00:24, CURRENT MODEL SAVED
+Epoch 6/600, Loss: 0.0020314414, Elapsed Time: 00:00:29, CURRENT MODEL SAVED
+Epoch 7/600, Loss: 0.0020260360, Elapsed Time: 00:00:34, CURRENT MODEL SAVED
+Epoch 8/600, Loss: 0.0020256410, Elapsed Time: 00:00:39, CURRENT MODEL SAVED
+Epoch 9/600, Loss: 0.0020210634, Elapsed Time: 00:00:44, CURRENT MODEL SAVED
+Epoch 10/600, Loss: 0.0020171377, Elapsed Time: 00:00:49, CURRENT MODEL SAVED
+Epoch 11/600, Loss: 0.0020181212, Elapsed Time: 00:00:54
+Epoch 12/600, Loss: 0.0020139218, Elapsed Time: 00:00:59, CURRENT MODEL SAVED
+Epoch 13/600, Loss: 0.0020102813, Elapsed Time: 00:01:04, CURRENT MODEL SAVED
+Epoch 14/600, Loss: 0.0020102076, Elapsed Time: 00:01:09, CURRENT MODEL SAVED
+Epoch 15/600, Loss: 0.0020079478, Elapsed Time: 00:01:14, CURRENT MODEL SAVED
+Epoch 16/600, Loss: 0.0020077905, Elapsed Time: 00:01:19, CURRENT MODEL SAVED
+Epoch 17/600, Loss: 0.0020059205, Elapsed Time: 00:01:24, CURRENT MODEL SAVED
+Epoch 18/600, Loss: 0.0020043604, Elapsed Time: 00:01:29, CURRENT MODEL SAVED
+Epoch 19/600, Loss: 0.0020036130, Elapsed Time: 00:01:34, CURRENT MODEL SAVED
+Epoch 20/600, Loss: 0.0020018182, Elapsed Time: 00:01:39, CURRENT MODEL SAVED
+Epoch 21/600, Loss: 0.0020007167, Elapsed Time: 00:01:44, CURRENT MODEL SAVED
+Epoch 22/600, Loss: 0.0020037428, Elapsed Time: 00:01:49
+Epoch 23/600, Loss: 0.0019972227, Elapsed Time: 00:01:53, CURRENT MODEL SAVED
+Epoch 24/600, Loss: 0.0019982068, Elapsed Time: 00:01:58
+Epoch 25/600, Loss: 0.0019957779, Elapsed Time: 00:02:03, CURRENT MODEL SAVED
+Epoch 26/600, Loss: 0.0019990765, Elapsed Time: 00:02:08
+Epoch 27/600, Loss: 0.0019952915, Elapsed Time: 00:02:13, CURRENT MODEL SAVED
+Epoch 28/600, Loss: 0.0019955396, Elapsed Time: 00:02:18
+Epoch 29/600, Loss: 0.0019923649, Elapsed Time: 00:02:23, CURRENT MODEL SAVED
+Epoch 30/600, Loss: 0.0019942953, Elapsed Time: 00:02:28
+Epoch 31/600, Loss: 0.0019923251, Elapsed Time: 00:02:33, CURRENT MODEL SAVED
+Epoch 32/600, Loss: 0.0019920708, Elapsed Time: 00:02:38, CURRENT MODEL SAVED
+Epoch 33/600, Loss: 0.0019906235, Elapsed Time: 00:02:43, CURRENT MODEL SAVED
+Epoch 34/600, Loss: 0.0019896149, Elapsed Time: 00:02:47, CURRENT MODEL SAVED
+Epoch 35/600, Loss: 0.0019903169, Elapsed Time: 00:02:52
+Epoch 36/600, Loss: 0.0019891392, Elapsed Time: 00:02:57, CURRENT MODEL SAVED
+Epoch 37/600, Loss: 0.0019878735, Elapsed Time: 00:03:02, CURRENT MODEL SAVED
+Epoch 38/600, Loss: 0.0019870655, Elapsed Time: 00:03:07, CURRENT MODEL SAVED
+Epoch 39/600, Loss: 0.0019862383, Elapsed Time: 00:03:12, CURRENT MODEL SAVED
+Epoch 40/600, Loss: 0.0019861111, Elapsed Time: 00:03:17, CURRENT MODEL SAVED
+Epoch 41/600, Loss: 0.0019866004, Elapsed Time: 00:03:22
+Epoch 42/600, Loss: 0.0019863344, Elapsed Time: 00:03:27
+Epoch 43/600, Loss: 0.0019847229, Elapsed Time: 00:03:32, CURRENT MODEL SAVED
+Epoch 44/600, Loss: 0.0019852376, Elapsed Time: 00:03:37
+Epoch 45/600, Loss: 0.0019846613, Elapsed Time: 00:03:41, CURRENT MODEL SAVED
+Epoch 46/600, Loss: 0.0019845697, Elapsed Time: 00:03:46, CURRENT MODEL SAVED
+Epoch 47/600, Loss: 0.0019816710, Elapsed Time: 00:03:51, CURRENT MODEL SAVED
+Epoch 48/600, Loss: 0.0019819904, Elapsed Time: 00:03:56
+Epoch 49/600, Loss: 0.0019820993, Elapsed Time: 00:04:01
+Epoch 50/600, Loss: 0.0019819273, Elapsed Time: 00:04:06
+Epoch 51/600, Loss: 0.0019801918, Elapsed Time: 00:04:11, CURRENT MODEL SAVED
+Epoch 52/600, Loss: 0.0019814771, Elapsed Time: 00:04:16
+Epoch 53/600, Loss: 0.0019799337, Elapsed Time: 00:04:21, CURRENT MODEL SAVED
+Epoch 54/600, Loss: 0.0019791224, Elapsed Time: 00:04:26, CURRENT MODEL SAVED
+Epoch 55/600, Loss: 0.0019795253, Elapsed Time: 00:04:31
+Epoch 56/600, Loss: 0.0019789526, Elapsed Time: 00:04:36, CURRENT MODEL SAVED
+Epoch 57/600, Loss: 0.0019766990, Elapsed Time: 00:04:41, CURRENT MODEL SAVED
+Epoch 58/600, Loss: 0.0019795932, Elapsed Time: 00:04:46
+Epoch 59/600, Loss: 0.0019783019, Elapsed Time: 00:04:51
+Epoch 60/600, Loss: 0.0019781030, Elapsed Time: 00:04:56
+Epoch 61/600, Loss: 0.0019774789, Elapsed Time: 00:05:01
+Epoch 62/600, Loss: 0.0019766038, Elapsed Time: 00:05:06, CURRENT MODEL SAVED
+Epoch 63/600, Loss: 0.0019757965, Elapsed Time: 00:05:11, CURRENT MODEL SAVED
+Epoch 64/600, Loss: 0.0019747104, Elapsed Time: 00:05:16, CURRENT MODEL SAVED
+Epoch 65/600, Loss: 0.0019753433, Elapsed Time: 00:05:21
+Epoch 66/600, Loss: 0.0019730732, Elapsed Time: 00:05:26, CURRENT MODEL SAVED
+Epoch 67/600, Loss: 0.0019746529, Elapsed Time: 00:05:31
+Epoch 68/600, Loss: 0.0019739737, Elapsed Time: 00:05:36
+Epoch 69/600, Loss: 0.0019753058, Elapsed Time: 00:05:41
+Epoch 70/600, Loss: 0.0019749343, Elapsed Time: 00:05:46
+Epoch 71/600, Loss: 0.0019728330, Elapsed Time: 00:05:51, CURRENT MODEL SAVED
+Epoch 72/600, Loss: 0.0019729137, Elapsed Time: 00:05:56
+Epoch 73/600, Loss: 0.0019733733, Elapsed Time: 00:06:01
+Epoch 74/600, Loss: 0.0019726507, Elapsed Time: 00:06:06, CURRENT MODEL SAVED
+Epoch 75/600, Loss: 0.0019721075, Elapsed Time: 00:06:11, CURRENT MODEL SAVED
+Epoch 76/600, Loss: 0.0019725073, Elapsed Time: 00:06:16
+Epoch 77/600, Loss: 0.0019707506, Elapsed Time: 00:06:21, CURRENT MODEL SAVED
+Epoch 78/600, Loss: 0.0019712668, Elapsed Time: 00:06:26
+Epoch 79/600, Loss: 0.0019714017, Elapsed Time: 00:06:30
+Epoch 80/600, Loss: 0.0019719113, Elapsed Time: 00:06:35
+Epoch 81/600, Loss: 0.0019706441, Elapsed Time: 00:06:40, CURRENT MODEL SAVED
+Epoch 82/600, Loss: 0.0019709378, Elapsed Time: 00:06:45
+Epoch 83/600, Loss: 0.0019689663, Elapsed Time: 00:06:50, CURRENT MODEL SAVED
+Epoch 84/600, Loss: 0.0019705694, Elapsed Time: 00:06:55
+Epoch 85/600, Loss: 0.0019694024, Elapsed Time: 00:07:00
+Epoch 86/600, Loss: 0.0019695056, Elapsed Time: 00:07:05
+Epoch 87/600, Loss: 0.0019682485, Elapsed Time: 00:07:10, CURRENT MODEL SAVED
+Epoch 88/600, Loss: 0.0019691204, Elapsed Time: 00:07:15
+Epoch 89/600, Loss: 0.0019673794, Elapsed Time: 00:07:20, CURRENT MODEL SAVED
+Epoch 90/600, Loss: 0.0019684869, Elapsed Time: 00:07:25
+Epoch 91/600, Loss: 0.0019682472, Elapsed Time: 00:07:30
+Epoch 92/600, Loss: 0.0019664368, Elapsed Time: 00:07:35, CURRENT MODEL SAVED
+Epoch 93/600, Loss: 0.0019682180, Elapsed Time: 00:07:40
+Epoch 94/600, Loss: 0.0019658288, Elapsed Time: 00:07:45, CURRENT MODEL SAVED
+Epoch 95/600, Loss: 0.0019674750, Elapsed Time: 00:07:50
+Epoch 96/600, Loss: 0.0019661665, Elapsed Time: 00:07:55
+Epoch 97/600, Loss: 0.0019671242, Elapsed Time: 00:08:00
+Epoch 98/600, Loss: 0.0019656334, Elapsed Time: 00:08:05, CURRENT MODEL SAVED
+Epoch 99/600, Loss: 0.0019657301, Elapsed Time: 00:08:10
+Epoch 100/600, Loss: 0.0019654600, Elapsed Time: 00:08:15, CURRENT MODEL SAVED
+Epoch 101/600, Loss: 0.0019661446, Elapsed Time: 00:08:20
+Epoch 102/600, Loss: 0.0019653710, Elapsed Time: 00:08:25, CURRENT MODEL SAVED
+Epoch 103/600, Loss: 0.0019654835, Elapsed Time: 00:08:30
+Epoch 104/600, Loss: 0.0019644172, Elapsed Time: 00:08:35, CURRENT MODEL SAVED
+Epoch 105/600, Loss: 0.0019637859, Elapsed Time: 00:08:40, CURRENT MODEL SAVED
+Epoch 106/600, Loss: 0.0019646741, Elapsed Time: 00:08:45
+Epoch 107/600, Loss: 0.0019649482, Elapsed Time: 00:08:49
+Epoch 108/600, Loss: 0.0019635471, Elapsed Time: 00:08:54, CURRENT MODEL SAVED
+Epoch 109/600, Loss: 0.0019629353, Elapsed Time: 00:08:59, CURRENT MODEL SAVED
+Epoch 110/600, Loss: 0.0019630583, Elapsed Time: 00:09:04
+Epoch 111/600, Loss: 0.0019632754, Elapsed Time: 00:09:09
+Epoch 112/600, Loss: 0.0019624636, Elapsed Time: 00:09:14, CURRENT MODEL SAVED
+Epoch 113/600, Loss: 0.0019622954, Elapsed Time: 00:09:19, CURRENT MODEL SAVED
+Epoch 114/600, Loss: 0.0019639653, Elapsed Time: 00:09:24
+Epoch 115/600, Loss: 0.0019619605, Elapsed Time: 00:09:29, CURRENT MODEL SAVED
+Epoch 116/600, Loss: 0.0019619699, Elapsed Time: 00:09:34
+Epoch 117/600, Loss: 0.0019609422, Elapsed Time: 00:09:39, CURRENT MODEL SAVED
+Epoch 118/600, Loss: 0.0019613976, Elapsed Time: 00:09:44
+Epoch 119/600, Loss: 0.0019614794, Elapsed Time: 00:09:49
+Epoch 120/600, Loss: 0.0019621476, Elapsed Time: 00:09:54
+Epoch 121/600, Loss: 0.0019608575, Elapsed Time: 00:09:59, CURRENT MODEL SAVED
+Epoch 122/600, Loss: 0.0019604803, Elapsed Time: 00:10:04, CURRENT MODEL SAVED
+Epoch 123/600, Loss: 0.0019613116, Elapsed Time: 00:10:09
+Epoch 124/600, Loss: 0.0019597353, Elapsed Time: 00:10:14, CURRENT MODEL SAVED
+Epoch 125/600, Loss: 0.0019599483, Elapsed Time: 00:10:19
+Epoch 126/600, Loss: 0.0019602977, Elapsed Time: 00:10:24
+Epoch 127/600, Loss: 0.0019597770, Elapsed Time: 00:10:29
+Epoch 128/600, Loss: 0.0019601147, Elapsed Time: 00:10:34
+Epoch 129/600, Loss: 0.0019592175, Elapsed Time: 00:10:39, CURRENT MODEL SAVED
+Epoch 130/600, Loss: 0.0019606864, Elapsed Time: 00:10:44
+Epoch 131/600, Loss: 0.0019581196, Elapsed Time: 00:10:49, CURRENT MODEL SAVED
+Epoch 132/600, Loss: 0.0019577701, Elapsed Time: 00:10:54, CURRENT MODEL SAVED
+Epoch 133/600, Loss: 0.0019583330, Elapsed Time: 00:10:59
+Epoch 134/600, Loss: 0.0019582440, Elapsed Time: 00:11:04
+Epoch 135/600, Loss: 0.0019594391, Elapsed Time: 00:11:09
+Epoch 136/600, Loss: 0.0019574966, Elapsed Time: 00:11:14, CURRENT MODEL SAVED
+Epoch 137/600, Loss: 0.0019589994, Elapsed Time: 00:11:19
+Epoch 138/600, Loss: 0.0019578286, Elapsed Time: 00:11:24
+Epoch 139/600, Loss: 0.0019574825, Elapsed Time: 00:11:28, CURRENT MODEL SAVED
+Epoch 140/600, Loss: 0.0019577326, Elapsed Time: 00:11:33
+Epoch 141/600, Loss: 0.0019583134, Elapsed Time: 00:11:38
+Epoch 142/600, Loss: 0.0019575721, Elapsed Time: 00:11:43
+Epoch 143/600, Loss: 0.0019567176, Elapsed Time: 00:11:48, CURRENT MODEL SAVED
+Epoch 144/600, Loss: 0.0019562338, Elapsed Time: 00:11:53, CURRENT MODEL SAVED
+Epoch 145/600, Loss: 0.0019572654, Elapsed Time: 00:11:58
+Epoch 146/600, Loss: 0.0019559885, Elapsed Time: 00:12:03, CURRENT MODEL SAVED
+Epoch 147/600, Loss: 0.0019566313, Elapsed Time: 00:12:08
+Epoch 148/600, Loss: 0.0019561912, Elapsed Time: 00:12:13
+Epoch 149/600, Loss: 0.0019553786, Elapsed Time: 00:12:18, CURRENT MODEL SAVED
+Epoch 150/600, Loss: 0.0019552567, Elapsed Time: 00:12:23, CURRENT MODEL SAVED
+Epoch 151/600, Loss: 0.0019556014, Elapsed Time: 00:12:28
+Epoch 152/600, Loss: 0.0019544777, Elapsed Time: 00:12:33, CURRENT MODEL SAVED
+Epoch 153/600, Loss: 0.0019552967, Elapsed Time: 00:12:38
+Epoch 154/600, Loss: 0.0019562687, Elapsed Time: 00:12:43
+Epoch 155/600, Loss: 0.0019537211, Elapsed Time: 00:12:48, CURRENT MODEL SAVED
+Epoch 156/600, Loss: 0.0019554666, Elapsed Time: 00:12:53
+Epoch 157/600, Loss: 0.0019542875, Elapsed Time: 00:12:58
+Epoch 158/600, Loss: 0.0019535796, Elapsed Time: 00:13:03, CURRENT MODEL SAVED
+Epoch 159/600, Loss: 0.0019524628, Elapsed Time: 00:13:08, CURRENT MODEL SAVED
+Epoch 160/600, Loss: 0.0019545918, Elapsed Time: 00:13:13
+Epoch 161/600, Loss: 0.0019543150, Elapsed Time: 00:13:18
+Epoch 162/600, Loss: 0.0019546891, Elapsed Time: 00:13:23
+Epoch 163/600, Loss: 0.0019534789, Elapsed Time: 00:13:27
+Epoch 164/600, Loss: 0.0019526696, Elapsed Time: 00:13:32
+Epoch 165/600, Loss: 0.0019527235, Elapsed Time: 00:13:37
+Epoch 166/600, Loss: 0.0019538684, Elapsed Time: 00:13:42
+Epoch 167/600, Loss: 0.0019535759, Elapsed Time: 00:13:47
+Epoch 168/600, Loss: 0.0019538015, Elapsed Time: 00:13:52
+Epoch 169/600, Loss: 0.0019532535, Elapsed Time: 00:13:58
+Epoch 170/600, Loss: 0.0019537854, Elapsed Time: 00:14:02
+Epoch 171/600, Loss: 0.0019525501, Elapsed Time: 00:14:07
+Epoch 172/600, Loss: 0.0019521284, Elapsed Time: 00:14:12, CURRENT MODEL SAVED
+Epoch 173/600, Loss: 0.0019523482, Elapsed Time: 00:14:17
+Epoch 174/600, Loss: 0.0019518147, Elapsed Time: 00:14:22, CURRENT MODEL SAVED
+Epoch 175/600, Loss: 0.0019533484, Elapsed Time: 00:14:27
+Epoch 176/600, Loss: 0.0019522392, Elapsed Time: 00:14:32
+Epoch 177/600, Loss: 0.0019515487, Elapsed Time: 00:14:37, CURRENT MODEL SAVED
+Epoch 178/600, Loss: 0.0019527120, Elapsed Time: 00:14:42
+Epoch 179/600, Loss: 0.0019520394, Elapsed Time: 00:14:47
+Epoch 180/600, Loss: 0.0019528815, Elapsed Time: 00:14:52
+Epoch 181/600, Loss: 0.0019511673, Elapsed Time: 00:14:57, CURRENT MODEL SAVED
+Epoch 182/600, Loss: 0.0019501637, Elapsed Time: 00:15:02, CURRENT MODEL SAVED
+Epoch 183/600, Loss: 0.0019518958, Elapsed Time: 00:15:07
+Epoch 184/600, Loss: 0.0019511857, Elapsed Time: 00:15:12
+Epoch 185/600, Loss: 0.0019513604, Elapsed Time: 00:15:17
+Epoch 186/600, Loss: 0.0019503725, Elapsed Time: 00:15:21
+Epoch 187/600, Loss: 0.0019508703, Elapsed Time: 00:15:26
+Epoch 188/600, Loss: 0.0019506364, Elapsed Time: 00:15:31
+Epoch 189/600, Loss: 0.0019491717, Elapsed Time: 00:15:36, CURRENT MODEL SAVED
+Epoch 190/600, Loss: 0.0019496655, Elapsed Time: 00:15:41
+Epoch 191/600, Loss: 0.0019505035, Elapsed Time: 00:15:46
+Epoch 192/600, Loss: 0.0019499372, Elapsed Time: 00:15:51
+Epoch 193/600, Loss: 0.0019503814, Elapsed Time: 00:15:56
+Epoch 194/600, Loss: 0.0019481248, Elapsed Time: 00:16:01, CURRENT MODEL SAVED
+Epoch 195/600, Loss: 0.0019492068, Elapsed Time: 00:16:06
+Epoch 196/600, Loss: 0.0019494229, Elapsed Time: 00:16:11
+Epoch 197/600, Loss: 0.0019487526, Elapsed Time: 00:16:16
+Epoch 198/600, Loss: 0.0019500644, Elapsed Time: 00:16:21
+Epoch 199/600, Loss: 0.0019497092, Elapsed Time: 00:16:26
+Epoch 200/600, Loss: 0.0019489343, Elapsed Time: 00:16:31
+Epoch 201/600, Loss: 0.0019491935, Elapsed Time: 00:16:36
+Epoch 202/600, Loss: 0.0019493932, Elapsed Time: 00:16:41
+Epoch 203/600, Loss: 0.0019498616, Elapsed Time: 00:16:46
+Epoch 204/600, Loss: 0.0019486086, Elapsed Time: 00:16:51
+Epoch 205/600, Loss: 0.0019493958, Elapsed Time: 00:16:55
+Epoch 206/600, Loss: 0.0019495948, Elapsed Time: 00:17:00
+Epoch 207/600, Loss: 0.0019485045, Elapsed Time: 00:17:05
+Epoch 208/600, Loss: 0.0019483184, Elapsed Time: 00:17:10
+Epoch 209/600, Loss: 0.0019473722, Elapsed Time: 00:17:15, CURRENT MODEL SAVED
+Epoch 210/600, Loss: 0.0019491084, Elapsed Time: 00:17:20
+Epoch 211/600, Loss: 0.0019480076, Elapsed Time: 00:17:25
+Epoch 212/600, Loss: 0.0019465172, Elapsed Time: 00:17:30, CURRENT MODEL SAVED
+Epoch 213/600, Loss: 0.0019488153, Elapsed Time: 00:17:35
+Epoch 214/600, Loss: 0.0019482124, Elapsed Time: 00:17:40
+Epoch 215/600, Loss: 0.0019484720, Elapsed Time: 00:17:45
+Epoch 216/600, Loss: 0.0019489604, Elapsed Time: 00:17:50
+Epoch 217/600, Loss: 0.0019479221, Elapsed Time: 00:17:55
+Epoch 218/600, Loss: 0.0019484838, Elapsed Time: 00:18:00
+Epoch 219/600, Loss: 0.0019471828, Elapsed Time: 00:18:05
+Epoch 220/600, Loss: 0.0019468501, Elapsed Time: 00:18:10
+Epoch 221/600, Loss: 0.0019472907, Elapsed Time: 00:18:15
+Epoch 222/600, Loss: 0.0019478870, Elapsed Time: 00:18:20
+Epoch 223/600, Loss: 0.0019471050, Elapsed Time: 00:18:25
+Epoch 224/600, Loss: 0.0019471630, Elapsed Time: 00:18:30
+Epoch 225/600, Loss: 0.0019472689, Elapsed Time: 00:18:35
+Epoch 226/600, Loss: 0.0019457729, Elapsed Time: 00:18:40, CURRENT MODEL SAVED
+Epoch 227/600, Loss: 0.0019463470, Elapsed Time: 00:18:44
+Epoch 228/600, Loss: 0.0019468850, Elapsed Time: 00:18:49
+Epoch 229/600, Loss: 0.0019471883, Elapsed Time: 00:18:54
+Epoch 230/600, Loss: 0.0019455172, Elapsed Time: 00:18:59, CURRENT MODEL SAVED
+Epoch 231/600, Loss: 0.0019468162, Elapsed Time: 00:19:04
+Epoch 232/600, Loss: 0.0019461141, Elapsed Time: 00:19:09
+Epoch 233/600, Loss: 0.0019455767, Elapsed Time: 00:19:14
+Epoch 234/600, Loss: 0.0019460286, Elapsed Time: 00:19:19
+Epoch 235/600, Loss: 0.0019472530, Elapsed Time: 00:19:24
+Epoch 236/600, Loss: 0.0019458697, Elapsed Time: 00:19:29
+Epoch 237/600, Loss: 0.0019456213, Elapsed Time: 00:19:34
+Epoch 238/600, Loss: 0.0019452613, Elapsed Time: 00:19:39, CURRENT MODEL SAVED
+Epoch 239/600, Loss: 0.0019465483, Elapsed Time: 00:19:44
+Epoch 240/600, Loss: 0.0019463817, Elapsed Time: 00:19:49
+Epoch 241/600, Loss: 0.0019448178, Elapsed Time: 00:19:54, CURRENT MODEL SAVED
+Epoch 242/600, Loss: 0.0019444686, Elapsed Time: 00:19:59, CURRENT MODEL SAVED
+Epoch 243/600, Loss: 0.0019460472, Elapsed Time: 00:20:04
+Epoch 244/600, Loss: 0.0019439627, Elapsed Time: 00:20:09, CURRENT MODEL SAVED
+Epoch 245/600, Loss: 0.0019464752, Elapsed Time: 00:20:14
+Epoch 246/600, Loss: 0.0019446225, Elapsed Time: 00:20:19
+Epoch 247/600, Loss: 0.0019451576, Elapsed Time: 00:20:23
+Epoch 248/600, Loss: 0.0019449505, Elapsed Time: 00:20:28
+Epoch 249/600, Loss: 0.0019448275, Elapsed Time: 00:20:33
+Epoch 250/600, Loss: 0.0019441708, Elapsed Time: 00:20:38
+Epoch 251/600, Loss: 0.0019450450, Elapsed Time: 00:20:43
+Epoch 252/600, Loss: 0.0019447305, Elapsed Time: 00:20:48
+Epoch 253/600, Loss: 0.0019444320, Elapsed Time: 00:20:53
+Epoch 254/600, Loss: 0.0019441334, Elapsed Time: 00:20:58
+Epoch 255/600, Loss: 0.0019436426, Elapsed Time: 00:21:03, CURRENT MODEL SAVED
+Epoch 256/600, Loss: 0.0019446160, Elapsed Time: 00:21:08
+Epoch 257/600, Loss: 0.0019431502, Elapsed Time: 00:21:13, CURRENT MODEL SAVED
+Epoch 258/600, Loss: 0.0019435270, Elapsed Time: 00:21:18
+Epoch 259/600, Loss: 0.0019436084, Elapsed Time: 00:21:23
+Epoch 260/600, Loss: 0.0019423665, Elapsed Time: 00:21:28, CURRENT MODEL SAVED
+Epoch 261/600, Loss: 0.0019438646, Elapsed Time: 00:21:33
+Epoch 262/600, Loss: 0.0019430365, Elapsed Time: 00:21:38
+Epoch 263/600, Loss: 0.0019440070, Elapsed Time: 00:21:43
+Epoch 264/600, Loss: 0.0019435148, Elapsed Time: 00:21:48
+Epoch 265/600, Loss: 0.0019431401, Elapsed Time: 00:21:53
+Epoch 266/600, Loss: 0.0019426681, Elapsed Time: 00:21:58
+Epoch 267/600, Loss: 0.0019436312, Elapsed Time: 00:22:03
+Epoch 268/600, Loss: 0.0019437065, Elapsed Time: 00:22:08
+Epoch 269/600, Loss: 0.0019429874, Elapsed Time: 00:22:13
+Epoch 270/600, Loss: 0.0019421268, Elapsed Time: 00:22:18, CURRENT MODEL SAVED
+Epoch 271/600, Loss: 0.0019428734, Elapsed Time: 00:22:23
+Epoch 272/600, Loss: 0.0019413068, Elapsed Time: 00:22:28, CURRENT MODEL SAVED
+Epoch 273/600, Loss: 0.0019420276, Elapsed Time: 00:22:33
+Epoch 274/600, Loss: 0.0019418227, Elapsed Time: 00:22:38
+Epoch 275/600, Loss: 0.0019422634, Elapsed Time: 00:22:43
+Epoch 276/600, Loss: 0.0019425364, Elapsed Time: 00:22:48
+Epoch 277/600, Loss: 0.0019419850, Elapsed Time: 00:22:53
+Epoch 278/600, Loss: 0.0019415107, Elapsed Time: 00:22:58
+Epoch 279/600, Loss: 0.0019421357, Elapsed Time: 00:23:02
+Epoch 280/600, Loss: 0.0019420729, Elapsed Time: 00:23:07
+Epoch 281/600, Loss: 0.0019415589, Elapsed Time: 00:23:12
+Epoch 282/600, Loss: 0.0019410911, Elapsed Time: 00:23:17, CURRENT MODEL SAVED
+Epoch 283/600, Loss: 0.0019420367, Elapsed Time: 00:23:22
+Epoch 284/600, Loss: 0.0019405897, Elapsed Time: 00:23:27, CURRENT MODEL SAVED
+Epoch 285/600, Loss: 0.0019425489, Elapsed Time: 00:23:32
+Epoch 286/600, Loss: 0.0019416527, Elapsed Time: 00:23:37
+Epoch 287/600, Loss: 0.0019417507, Elapsed Time: 00:23:42
+Epoch 288/600, Loss: 0.0019408053, Elapsed Time: 00:23:47
+Epoch 289/600, Loss: 0.0019410963, Elapsed Time: 00:23:52
+Epoch 290/600, Loss: 0.0019402696, Elapsed Time: 00:23:57, CURRENT MODEL SAVED
+Epoch 291/600, Loss: 0.0019416891, Elapsed Time: 00:24:02
+Epoch 292/600, Loss: 0.0019423290, Elapsed Time: 00:24:07
+Epoch 293/600, Loss: 0.0019396863, Elapsed Time: 00:24:12, CURRENT MODEL SAVED
+Epoch 294/600, Loss: 0.0019413759, Elapsed Time: 00:24:17
+Epoch 295/600, Loss: 0.0019393510, Elapsed Time: 00:24:22, CURRENT MODEL SAVED
+Epoch 296/600, Loss: 0.0019409373, Elapsed Time: 00:24:27
+Epoch 297/600, Loss: 0.0019404795, Elapsed Time: 00:24:32
+Epoch 298/600, Loss: 0.0019410153, Elapsed Time: 00:24:37
+Epoch 299/600, Loss: 0.0019404683, Elapsed Time: 00:24:42
+Epoch 300/600, Loss: 0.0019401397, Elapsed Time: 00:24:47
+Epoch 301/600, Loss: 0.0019386845, Elapsed Time: 00:24:52, CURRENT MODEL SAVED
+Epoch 302/600, Loss: 0.0019393261, Elapsed Time: 00:24:57
+Epoch 303/600, Loss: 0.0019397964, Elapsed Time: 00:25:02
+Epoch 304/600, Loss: 0.0019408579, Elapsed Time: 00:25:07
+Epoch 305/600, Loss: 0.0019394693, Elapsed Time: 00:25:12
+Epoch 306/600, Loss: 0.0019401382, Elapsed Time: 00:25:16
+Epoch 307/600, Loss: 0.0019394109, Elapsed Time: 00:25:21
+Epoch 308/600, Loss: 0.0019393459, Elapsed Time: 00:25:26
+Epoch 309/600, Loss: 0.0019393722, Elapsed Time: 00:25:31
+Epoch 310/600, Loss: 0.0019403775, Elapsed Time: 00:25:36
+Epoch 311/600, Loss: 0.0019383215, Elapsed Time: 00:25:41, CURRENT MODEL SAVED
+Epoch 312/600, Loss: 0.0019402392, Elapsed Time: 00:25:46
+Epoch 313/600, Loss: 0.0019384600, Elapsed Time: 00:25:51
+Epoch 314/600, Loss: 0.0019394165, Elapsed Time: 00:25:56
+Epoch 315/600, Loss: 0.0019385262, Elapsed Time: 00:26:01
+Epoch 316/600, Loss: 0.0019394939, Elapsed Time: 00:26:06
+Epoch 317/600, Loss: 0.0019387475, Elapsed Time: 00:26:11
+Epoch 318/600, Loss: 0.0019391330, Elapsed Time: 00:26:16
+Epoch 319/600, Loss: 0.0019387569, Elapsed Time: 00:26:21
+Epoch 320/600, Loss: 0.0019382156, Elapsed Time: 00:26:26, CURRENT MODEL SAVED
+Epoch 321/600, Loss: 0.0019368306, Elapsed Time: 00:26:31, CURRENT MODEL SAVED
+Epoch 322/600, Loss: 0.0019389377, Elapsed Time: 00:26:36
+Epoch 323/600, Loss: 0.0019377274, Elapsed Time: 00:26:41
+Epoch 324/600, Loss: 0.0019376329, Elapsed Time: 00:26:46
+Epoch 325/600, Loss: 0.0019375513, Elapsed Time: 00:26:51
+Epoch 326/600, Loss: 0.0019378050, Elapsed Time: 00:26:56
+Epoch 327/600, Loss: 0.0019388724, Elapsed Time: 00:27:01
+Epoch 328/600, Loss: 0.0019381305, Elapsed Time: 00:27:06
+Epoch 329/600, Loss: 0.0019381802, Elapsed Time: 00:27:11
+Epoch 330/600, Loss: 0.0019390283, Elapsed Time: 00:27:16
+Epoch 331/600, Loss: 0.0019386266, Elapsed Time: 00:27:21
+Epoch 332/600, Loss: 0.0019378613, Elapsed Time: 00:27:26
+Epoch 333/600, Loss: 0.0019376550, Elapsed Time: 00:27:31
+Epoch 334/600, Loss: 0.0019372340, Elapsed Time: 00:27:35
+Epoch 335/600, Loss: 0.0019374394, Elapsed Time: 00:27:40
+Epoch 336/600, Loss: 0.0019375985, Elapsed Time: 00:27:45
+Epoch 337/600, Loss: 0.0019379429, Elapsed Time: 00:27:50
+Epoch 338/600, Loss: 0.0019369848, Elapsed Time: 00:27:55
+Epoch 339/600, Loss: 0.0019369503, Elapsed Time: 00:28:00
+Epoch 340/600, Loss: 0.0019377354, Elapsed Time: 00:28:05
+Epoch 341/600, Loss: 0.0019370864, Elapsed Time: 00:28:10
+Epoch 342/600, Loss: 0.0019370476, Elapsed Time: 00:28:15
+Epoch 343/600, Loss: 0.0019361732, Elapsed Time: 00:28:20, CURRENT MODEL SAVED
+Epoch 344/600, Loss: 0.0019387318, Elapsed Time: 00:28:25
+Epoch 345/600, Loss: 0.0019355159, Elapsed Time: 00:28:30, CURRENT MODEL SAVED
+Epoch 346/600, Loss: 0.0019362863, Elapsed Time: 00:28:35
+Epoch 347/600, Loss: 0.0019366700, Elapsed Time: 00:28:40
+Epoch 348/600, Loss: 0.0019358991, Elapsed Time: 00:28:45
+Epoch 349/600, Loss: 0.0019367731, Elapsed Time: 00:28:50
+Epoch 350/600, Loss: 0.0019352430, Elapsed Time: 00:28:55, CURRENT MODEL SAVED
+Epoch 351/600, Loss: 0.0019361378, Elapsed Time: 00:29:00
+Epoch 352/600, Loss: 0.0019357624, Elapsed Time: 00:29:05
+Epoch 353/600, Loss: 0.0019362429, Elapsed Time: 00:29:10
+Epoch 354/600, Loss: 0.0019366711, Elapsed Time: 00:29:14
+Epoch 355/600, Loss: 0.0019367589, Elapsed Time: 00:29:19
+Epoch 356/600, Loss: 0.0019353737, Elapsed Time: 00:29:24
+Epoch 357/600, Loss: 0.0019369750, Elapsed Time: 00:29:29
+Epoch 358/600, Loss: 0.0019356871, Elapsed Time: 00:29:34
+Epoch 359/600, Loss: 0.0019362791, Elapsed Time: 00:29:39
+Epoch 360/600, Loss: 0.0019361274, Elapsed Time: 00:29:44
+Epoch 361/600, Loss: 0.0019362314, Elapsed Time: 00:29:49
+Epoch 362/600, Loss: 0.0019357183, Elapsed Time: 00:29:54
+Epoch 363/600, Loss: 0.0019363903, Elapsed Time: 00:29:59
+Epoch 364/600, Loss: 0.0019350148, Elapsed Time: 00:30:04, CURRENT MODEL SAVED
+Epoch 365/600, Loss: 0.0019363382, Elapsed Time: 00:30:09
+Epoch 366/600, Loss: 0.0019364625, Elapsed Time: 00:30:14
+Epoch 367/600, Loss: 0.0019356434, Elapsed Time: 00:30:19
+Epoch 368/600, Loss: 0.0019355371, Elapsed Time: 00:30:23
+Epoch 369/600, Loss: 0.0019353150, Elapsed Time: 00:30:28
+Epoch 370/600, Loss: 0.0019354483, Elapsed Time: 00:30:33
+Epoch 371/600, Loss: 0.0019357423, Elapsed Time: 00:30:38
+Epoch 372/600, Loss: 0.0019352279, Elapsed Time: 00:30:43
+Epoch 373/600, Loss: 0.0019350933, Elapsed Time: 00:30:48
+Epoch 374/600, Loss: 0.0019342183, Elapsed Time: 00:30:53, CURRENT MODEL SAVED
+Epoch 375/600, Loss: 0.0019339966, Elapsed Time: 00:30:58, CURRENT MODEL SAVED
+Epoch 376/600, Loss: 0.0019347047, Elapsed Time: 00:31:03
+Epoch 377/600, Loss: 0.0019360164, Elapsed Time: 00:31:08
+Epoch 378/600, Loss: 0.0019337327, Elapsed Time: 00:31:13, CURRENT MODEL SAVED
+Epoch 379/600, Loss: 0.0019346850, Elapsed Time: 00:31:18
+Epoch 380/600, Loss: 0.0019342527, Elapsed Time: 00:31:23
+Epoch 381/600, Loss: 0.0019346377, Elapsed Time: 00:31:28
+Epoch 382/600, Loss: 0.0019341429, Elapsed Time: 00:31:33
+Epoch 383/600, Loss: 0.0019342095, Elapsed Time: 00:31:38
+Epoch 384/600, Loss: 0.0019350580, Elapsed Time: 00:31:43
+Epoch 385/600, Loss: 0.0019351193, Elapsed Time: 00:31:48
+Epoch 386/600, Loss: 0.0019343033, Elapsed Time: 00:31:53
+Epoch 387/600, Loss: 0.0019347638, Elapsed Time: 00:31:58
+Epoch 388/600, Loss: 0.0019342973, Elapsed Time: 00:32:03
+Epoch 389/600, Loss: 0.0019345304, Elapsed Time: 00:32:08
+Epoch 390/600, Loss: 0.0019330519, Elapsed Time: 00:32:13, CURRENT MODEL SAVED
+Epoch 391/600, Loss: 0.0019344089, Elapsed Time: 00:32:18
+Epoch 392/600, Loss: 0.0019346292, Elapsed Time: 00:32:23
+Epoch 393/600, Loss: 0.0019328046, Elapsed Time: 00:32:28, CURRENT MODEL SAVED
+Epoch 394/600, Loss: 0.0019324211, Elapsed Time: 00:32:33, CURRENT MODEL SAVED
+Epoch 395/600, Loss: 0.0019336898, Elapsed Time: 00:32:38
+Epoch 396/600, Loss: 0.0019330738, Elapsed Time: 00:32:43
+Epoch 397/600, Loss: 0.0019337660, Elapsed Time: 00:32:47
+Epoch 398/600, Loss: 0.0019341094, Elapsed Time: 00:32:52
+Epoch 399/600, Loss: 0.0019320824, Elapsed Time: 00:32:57, CURRENT MODEL SAVED
+Epoch 400/600, Loss: 0.0019328094, Elapsed Time: 00:33:02
+Epoch 401/600, Loss: 0.0019336069, Elapsed Time: 00:33:07
+Epoch 402/600, Loss: 0.0019324386, Elapsed Time: 00:33:12
+Epoch 403/600, Loss: 0.0019327051, Elapsed Time: 00:33:17
+Epoch 404/600, Loss: 0.0019329240, Elapsed Time: 00:33:22
+Epoch 405/600, Loss: 0.0019318639, Elapsed Time: 00:33:27, CURRENT MODEL SAVED
+Epoch 406/600, Loss: 0.0019327762, Elapsed Time: 00:33:32
+Epoch 407/600, Loss: 0.0019333534, Elapsed Time: 00:33:37
+Epoch 408/600, Loss: 0.0019328814, Elapsed Time: 00:33:42
+Epoch 409/600, Loss: 0.0019332402, Elapsed Time: 00:33:47
+Epoch 410/600, Loss: 0.0019332899, Elapsed Time: 00:33:52
+Epoch 411/600, Loss: 0.0019326316, Elapsed Time: 00:33:57
+Epoch 412/600, Loss: 0.0019334723, Elapsed Time: 00:34:01
+Epoch 413/600, Loss: 0.0019333742, Elapsed Time: 00:34:06
+Epoch 414/600, Loss: 0.0019317106, Elapsed Time: 00:34:11, CURRENT MODEL SAVED
+Epoch 415/600, Loss: 0.0019325409, Elapsed Time: 00:34:16
+Epoch 416/600, Loss: 0.0019334293, Elapsed Time: 00:34:21
+Epoch 417/600, Loss: 0.0019320916, Elapsed Time: 00:34:26
+Epoch 418/600, Loss: 0.0019323372, Elapsed Time: 00:34:31
+Epoch 419/600, Loss: 0.0019315039, Elapsed Time: 00:34:36, CURRENT MODEL SAVED
+Epoch 420/600, Loss: 0.0019310810, Elapsed Time: 00:34:41, CURRENT MODEL SAVED
+Epoch 421/600, Loss: 0.0019309397, Elapsed Time: 00:34:46, CURRENT MODEL SAVED
+Epoch 422/600, Loss: 0.0019313227, Elapsed Time: 00:34:51
+Epoch 423/600, Loss: 0.0019303620, Elapsed Time: 00:34:57, CURRENT MODEL SAVED
+Epoch 424/600, Loss: 0.0019312316, Elapsed Time: 00:35:02
+Epoch 425/600, Loss: 0.0019323702, Elapsed Time: 00:35:07
+Epoch 426/600, Loss: 0.0019320675, Elapsed Time: 00:35:12
+Epoch 427/600, Loss: 0.0019326667, Elapsed Time: 00:35:17
+Epoch 428/600, Loss: 0.0019317720, Elapsed Time: 00:35:22
+Epoch 429/600, Loss: 0.0019323588, Elapsed Time: 00:35:27
+Epoch 430/600, Loss: 0.0019312133, Elapsed Time: 00:35:32
+Epoch 431/600, Loss: 0.0019306248, Elapsed Time: 00:35:37
+Epoch 432/600, Loss: 0.0019314031, Elapsed Time: 00:35:41
+Epoch 433/600, Loss: 0.0019311859, Elapsed Time: 00:35:46
+Epoch 434/600, Loss: 0.0019313118, Elapsed Time: 00:35:51
+Epoch 435/600, Loss: 0.0019317619, Elapsed Time: 00:35:56
+Epoch 436/600, Loss: 0.0019318194, Elapsed Time: 00:36:01
+Epoch 437/600, Loss: 0.0019307660, Elapsed Time: 00:36:06
+Epoch 438/600, Loss: 0.0019313952, Elapsed Time: 00:36:11
+Epoch 439/600, Loss: 0.0019309792, Elapsed Time: 00:36:16
+Epoch 440/600, Loss: 0.0019308042, Elapsed Time: 00:36:21
+Epoch 441/600, Loss: 0.0019311059, Elapsed Time: 00:36:26
+Epoch 442/600, Loss: 0.0019303958, Elapsed Time: 00:36:31
+Epoch 443/600, Loss: 0.0019302778, Elapsed Time: 00:36:36, CURRENT MODEL SAVED
+Epoch 444/600, Loss: 0.0019298097, Elapsed Time: 00:36:41, CURRENT MODEL SAVED
+Epoch 445/600, Loss: 0.0019311393, Elapsed Time: 00:36:46
+Epoch 446/600, Loss: 0.0019305246, Elapsed Time: 00:36:51
+Epoch 447/600, Loss: 0.0019306710, Elapsed Time: 00:36:56
+Epoch 448/600, Loss: 0.0019308345, Elapsed Time: 00:37:01
+Epoch 449/600, Loss: 0.0019311334, Elapsed Time: 00:37:06
+Epoch 450/600, Loss: 0.0019295010, Elapsed Time: 00:37:11, CURRENT MODEL SAVED
+Epoch 451/600, Loss: 0.0019303175, Elapsed Time: 00:37:16
+Epoch 452/600, Loss: 0.0019299628, Elapsed Time: 00:37:21
+Epoch 453/600, Loss: 0.0019305124, Elapsed Time: 00:37:26
+Epoch 454/600, Loss: 0.0019309583, Elapsed Time: 00:37:31
+Epoch 455/600, Loss: 0.0019309042, Elapsed Time: 00:37:36
+Epoch 456/600, Loss: 0.0019306337, Elapsed Time: 00:37:40
+Epoch 457/600, Loss: 0.0019302725, Elapsed Time: 00:37:45
+Epoch 458/600, Loss: 0.0019300595, Elapsed Time: 00:37:50
+Epoch 459/600, Loss: 0.0019295791, Elapsed Time: 00:37:55
+Epoch 460/600, Loss: 0.0019303548, Elapsed Time: 00:38:00
+Epoch 461/600, Loss: 0.0019290382, Elapsed Time: 00:38:05, CURRENT MODEL SAVED
+Epoch 462/600, Loss: 0.0019290585, Elapsed Time: 00:38:10
+Epoch 463/600, Loss: 0.0019299381, Elapsed Time: 00:38:15
+Epoch 464/600, Loss: 0.0019302744, Elapsed Time: 00:38:20
+Epoch 465/600, Loss: 0.0019297484, Elapsed Time: 00:38:25
+Epoch 466/600, Loss: 0.0019297933, Elapsed Time: 00:38:30
+Epoch 467/600, Loss: 0.0019290937, Elapsed Time: 00:38:35
+Epoch 468/600, Loss: 0.0019303200, Elapsed Time: 00:38:40
+Epoch 469/600, Loss: 0.0019288046, Elapsed Time: 00:38:45, CURRENT MODEL SAVED
+Epoch 470/600, Loss: 0.0019287931, Elapsed Time: 00:38:50, CURRENT MODEL SAVED
+Epoch 471/600, Loss: 0.0019296961, Elapsed Time: 00:38:55
+Epoch 472/600, Loss: 0.0019293607, Elapsed Time: 00:39:00
+Epoch 473/600, Loss: 0.0019295950, Elapsed Time: 00:39:05
+Epoch 474/600, Loss: 0.0019298476, Elapsed Time: 00:39:10
+Epoch 475/600, Loss: 0.0019274217, Elapsed Time: 00:39:15, CURRENT MODEL SAVED
+Epoch 476/600, Loss: 0.0019294419, Elapsed Time: 00:39:20
+Epoch 477/600, Loss: 0.0019295396, Elapsed Time: 00:39:25
+Epoch 478/600, Loss: 0.0019291933, Elapsed Time: 00:39:30
+Epoch 479/600, Loss: 0.0019294934, Elapsed Time: 00:39:35
+Epoch 480/600, Loss: 0.0019278831, Elapsed Time: 00:39:40
+Epoch 481/600, Loss: 0.0019289647, Elapsed Time: 00:39:45
+Epoch 482/600, Loss: 0.0019293425, Elapsed Time: 00:39:50
+Epoch 483/600, Loss: 0.0019281649, Elapsed Time: 00:39:55
+Epoch 484/600, Loss: 0.0019290719, Elapsed Time: 00:40:00
+Epoch 485/600, Loss: 0.0019281268, Elapsed Time: 00:40:05
+Epoch 486/600, Loss: 0.0019283032, Elapsed Time: 00:40:10
+Epoch 487/600, Loss: 0.0019282802, Elapsed Time: 00:40:15
+Epoch 488/600, Loss: 0.0019285277, Elapsed Time: 00:40:19
+Epoch 489/600, Loss: 0.0019294254, Elapsed Time: 00:40:24
+Epoch 490/600, Loss: 0.0019284959, Elapsed Time: 00:40:29
+Epoch 491/600, Loss: 0.0019285977, Elapsed Time: 00:40:34
+Epoch 492/600, Loss: 0.0019286588, Elapsed Time: 00:40:39
+Epoch 493/600, Loss: 0.0019279238, Elapsed Time: 00:40:44
+Epoch 494/600, Loss: 0.0019288711, Elapsed Time: 00:40:49
+Epoch 495/600, Loss: 0.0019283469, Elapsed Time: 00:40:54
+Epoch 496/600, Loss: 0.0019275290, Elapsed Time: 00:40:59
+Epoch 497/600, Loss: 0.0019288798, Elapsed Time: 00:41:04
+Epoch 498/600, Loss: 0.0019281104, Elapsed Time: 00:41:09
+Epoch 499/600, Loss: 0.0019281901, Elapsed Time: 00:41:14
+Epoch 500/600, Loss: 0.0019277587, Elapsed Time: 00:41:19
+Epoch 501/600, Loss: 0.0019283331, Elapsed Time: 00:41:24
+Epoch 502/600, Loss: 0.0019294212, Elapsed Time: 00:41:29
+Epoch 503/600, Loss: 0.0019267723, Elapsed Time: 00:41:34, CURRENT MODEL SAVED
+Epoch 504/600, Loss: 0.0019262511, Elapsed Time: 00:41:39, CURRENT MODEL SAVED
+Epoch 505/600, Loss: 0.0019271847, Elapsed Time: 00:41:43
+Epoch 506/600, Loss: 0.0019277430, Elapsed Time: 00:41:48
+Epoch 507/600, Loss: 0.0019280143, Elapsed Time: 00:41:53
+Epoch 508/600, Loss: 0.0019280480, Elapsed Time: 00:41:58
+Epoch 509/600, Loss: 0.0019267894, Elapsed Time: 00:42:03
+Epoch 510/600, Loss: 0.0019271044, Elapsed Time: 00:42:08
+Epoch 511/600, Loss: 0.0019260328, Elapsed Time: 00:42:13, CURRENT MODEL SAVED
+Epoch 512/600, Loss: 0.0019268185, Elapsed Time: 00:42:18
+Epoch 513/600, Loss: 0.0019267832, Elapsed Time: 00:42:23
+Epoch 514/600, Loss: 0.0019276184, Elapsed Time: 00:42:28
+Epoch 515/600, Loss: 0.0019271601, Elapsed Time: 00:42:33
+Epoch 516/600, Loss: 0.0019270006, Elapsed Time: 00:42:38
+Epoch 517/600, Loss: 0.0019267415, Elapsed Time: 00:42:43
+Epoch 518/600, Loss: 0.0019273329, Elapsed Time: 00:42:48
+Epoch 519/600, Loss: 0.0019263937, Elapsed Time: 00:42:53
+Epoch 520/600, Loss: 0.0019281788, Elapsed Time: 00:42:58
+Epoch 521/600, Loss: 0.0019262883, Elapsed Time: 00:43:03
+Epoch 522/600, Loss: 0.0019279133, Elapsed Time: 00:43:08
+Epoch 523/600, Loss: 0.0019271265, Elapsed Time: 00:43:13
+Epoch 524/600, Loss: 0.0019261124, Elapsed Time: 00:43:18
+Epoch 525/600, Loss: 0.0019263525, Elapsed Time: 00:43:23
+Epoch 526/600, Loss: 0.0019263654, Elapsed Time: 00:43:28
+Epoch 527/600, Loss: 0.0019276830, Elapsed Time: 00:43:33
+Epoch 528/600, Loss: 0.0019272095, Elapsed Time: 00:43:38
+Epoch 529/600, Loss: 0.0019281359, Elapsed Time: 00:43:43
+Epoch 530/600, Loss: 0.0019263202, Elapsed Time: 00:43:48
+Epoch 531/600, Loss: 0.0019257420, Elapsed Time: 00:43:53, CURRENT MODEL SAVED
+Epoch 532/600, Loss: 0.0019266484, Elapsed Time: 00:43:58
+Epoch 533/600, Loss: 0.0019260064, Elapsed Time: 00:44:04
+Epoch 534/600, Loss: 0.0019264562, Elapsed Time: 00:44:09
+Epoch 535/600, Loss: 0.0019266113, Elapsed Time: 00:44:14
+Epoch 536/600, Loss: 0.0019261125, Elapsed Time: 00:44:19
+Epoch 537/600, Loss: 0.0019265747, Elapsed Time: 00:44:24
+Epoch 538/600, Loss: 0.0019252666, Elapsed Time: 00:44:29, CURRENT MODEL SAVED
+Epoch 539/600, Loss: 0.0019263589, Elapsed Time: 00:44:34
+Epoch 540/600, Loss: 0.0019261625, Elapsed Time: 00:44:39
+Epoch 541/600, Loss: 0.0019266055, Elapsed Time: 00:44:44
+Epoch 542/600, Loss: 0.0019262148, Elapsed Time: 00:44:49
+Epoch 543/600, Loss: 0.0019256650, Elapsed Time: 00:44:54
+Epoch 544/600, Loss: 0.0019261081, Elapsed Time: 00:44:59
+Epoch 545/600, Loss: 0.0019254223, Elapsed Time: 00:45:04
+Epoch 546/600, Loss: 0.0019271555, Elapsed Time: 00:45:09
+Epoch 547/600, Loss: 0.0019252921, Elapsed Time: 00:45:14
+Epoch 548/600, Loss: 0.0019254607, Elapsed Time: 00:45:19
+Epoch 549/600, Loss: 0.0019260481, Elapsed Time: 00:45:24
+Epoch 550/600, Loss: 0.0019248664, Elapsed Time: 00:45:29, CURRENT MODEL SAVED
+Epoch 551/600, Loss: 0.0019251416, Elapsed Time: 00:45:34
+Epoch 552/600, Loss: 0.0019252456, Elapsed Time: 00:45:40
+Epoch 553/600, Loss: 0.0019258731, Elapsed Time: 00:45:45
+Epoch 554/600, Loss: 0.0019256711, Elapsed Time: 00:45:50
+Epoch 555/600, Loss: 0.0019246599, Elapsed Time: 00:45:55, CURRENT MODEL SAVED
+Epoch 556/600, Loss: 0.0019252246, Elapsed Time: 00:46:00
+Epoch 557/600, Loss: 0.0019246804, Elapsed Time: 00:46:05
+Epoch 558/600, Loss: 0.0019255230, Elapsed Time: 00:46:10
+Epoch 559/600, Loss: 0.0019246076, Elapsed Time: 00:46:15, CURRENT MODEL SAVED
+Epoch 560/600, Loss: 0.0019240451, Elapsed Time: 00:46:20, CURRENT MODEL SAVED
+Epoch 561/600, Loss: 0.0019256921, Elapsed Time: 00:46:25
+Epoch 562/600, Loss: 0.0019238874, Elapsed Time: 00:46:30, CURRENT MODEL SAVED
+Epoch 563/600, Loss: 0.0019251327, Elapsed Time: 00:46:35
+Epoch 564/600, Loss: 0.0019259451, Elapsed Time: 00:46:40
+Epoch 565/600, Loss: 0.0019235439, Elapsed Time: 00:46:45, CURRENT MODEL SAVED
+Epoch 566/600, Loss: 0.0019253835, Elapsed Time: 00:46:50
+Epoch 567/600, Loss: 0.0019239057, Elapsed Time: 00:46:55
+Epoch 568/600, Loss: 0.0019247009, Elapsed Time: 00:47:00
+Epoch 569/600, Loss: 0.0019232477, Elapsed Time: 00:47:05, CURRENT MODEL SAVED
+Epoch 570/600, Loss: 0.0019255842, Elapsed Time: 00:47:10
+Epoch 571/600, Loss: 0.0019263116, Elapsed Time: 00:47:15
+Epoch 572/600, Loss: 0.0019243176, Elapsed Time: 00:47:20
+Epoch 573/600, Loss: 0.0019254285, Elapsed Time: 00:47:25
+Epoch 574/600, Loss: 0.0019242242, Elapsed Time: 00:47:30
+Epoch 575/600, Loss: 0.0019246878, Elapsed Time: 00:47:36
+Epoch 576/600, Loss: 0.0019240308, Elapsed Time: 00:47:41
+Epoch 577/600, Loss: 0.0019251629, Elapsed Time: 00:47:46
+Epoch 578/600, Loss: 0.0019239434, Elapsed Time: 00:47:51
+Epoch 579/600, Loss: 0.0019244733, Elapsed Time: 00:47:56
+Epoch 580/600, Loss: 0.0019251185, Elapsed Time: 00:48:01
+Epoch 581/600, Loss: 0.0019244458, Elapsed Time: 00:48:06
+Epoch 582/600, Loss: 0.0019246533, Elapsed Time: 00:48:11
+Epoch 583/600, Loss: 0.0019235817, Elapsed Time: 00:48:16
+Epoch 584/600, Loss: 0.0019243576, Elapsed Time: 00:48:21
+Epoch 585/600, Loss: 0.0019240788, Elapsed Time: 00:48:26
+Epoch 586/600, Loss: 0.0019253828, Elapsed Time: 00:48:31
+Epoch 587/600, Loss: 0.0019241813, Elapsed Time: 00:48:36
+Epoch 588/600, Loss: 0.0019233952, Elapsed Time: 00:48:41
+Epoch 589/600, Loss: 0.0019233032, Elapsed Time: 00:48:46
+Epoch 590/600, Loss: 0.0019240673, Elapsed Time: 00:48:51
+Epoch 591/600, Loss: 0.0019223278, Elapsed Time: 00:48:56, CURRENT MODEL SAVED
+Epoch 592/600, Loss: 0.0019234794, Elapsed Time: 00:49:01
+Epoch 593/600, Loss: 0.0019241813, Elapsed Time: 00:49:06
+Epoch 594/600, Loss: 0.0019237668, Elapsed Time: 00:49:11
+Epoch 595/600, Loss: 0.0019244445, Elapsed Time: 00:49:16
+Epoch 596/600, Loss: 0.0019230173, Elapsed Time: 00:49:21
+Epoch 597/600, Loss: 0.0019234582, Elapsed Time: 00:49:26
+Epoch 598/600, Loss: 0.0019232540, Elapsed Time: 00:49:31
+Epoch 599/600, Loss: 0.0019240216, Elapsed Time: 00:49:36
+Epoch 600/600, Loss: 0.0019231637, Elapsed Time: 00:49:41

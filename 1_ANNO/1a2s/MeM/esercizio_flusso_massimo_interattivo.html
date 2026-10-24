@@ -1,0 +1,224 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1rem 0;font-family:var(--font-sans)}
+.section-label{font-size:12px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.1rem 1.25rem;margin-bottom:1rem}
+.graph-area{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.5rem;margin-bottom:1rem}
+.inputs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:1rem}
+.input-row{display:flex;flex-direction:column;gap:4px}
+.input-row label{font-size:12px;color:var(--color-text-secondary)}
+.input-row input{width:100%;padding:6px 10px;font-size:14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)}
+.btn-check{padding:8px 20px;font-size:14px;font-weight:500;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;color:var(--color-text-primary);cursor:pointer;margin-right:8px}
+.btn-check:hover{background:var(--color-background-secondary)}
+.feedback{margin-top:1rem;padding:.9rem 1.1rem;border-radius:var(--border-radius-md);font-size:13px;line-height:1.7;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:#E1F5EE;color:#085041;border-left:3px solid #1D9E75;border-radius:0}
+.feedback.err{background:#FAECE7;color:#712B13;border-left:3px solid #D85A30;border-radius:0}
+.feedback.sol{background:var(--color-background-secondary);color:var(--color-text-primary);border-left:3px solid #378ADD;border-radius:0}
+.step{margin-bottom:.4rem}
+.hint-box{font-size:13px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.6rem .9rem;margin-bottom:1rem;display:none}
+.hint-box.show{display:block}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Esercizio interattivo sul calcolo del flusso massimo</h2>
+
+<div class="card">
+  <div class="section-label">Grafo</div>
+  <p style="font-size:14px;color:var(--color-text-secondary);margin-bottom:.75rem">
+    Trova il flusso massimo da <strong>s</strong> a <strong>t</strong>. Su ogni arco è indicata la capacità h<sub>ij</sub>.
+  </p>
+  <div class="graph-area">
+    <svg viewBox="0 0 500 220" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ar" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L7,3 z" fill="#888780"/>
+        </marker>
+      </defs>
+      <!-- archi -->
+      <!-- s->A -->
+      <line x1="72" y1="110" x2="178" y2="60" stroke="#B4B2A9" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="112" y="74" font-size="12" fill="#5F5E5A" font-family="var(--font-sans)">h=10</text>
+      <!-- s->B -->
+      <line x1="72" y1="110" x2="178" y2="160" stroke="#B4B2A9" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="100" y="152" font-size="12" fill="#5F5E5A" font-family="var(--font-sans)">h=6</text>
+      <!-- A->C -->
+      <line x1="202" y1="60" x2="298" y2="60" stroke="#B4B2A9" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="232" y="52" font-size="12" fill="#5F5E5A" font-family="var(--font-sans)">h=8</text>
+      <!-- A->B -->
+      <line x1="193" y1="75" x2="193" y2="148" stroke="#B4B2A9" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="198" y="116" font-size="12" fill="#5F5E5A" font-family="var(--font-sans)">h=4</text>
+      <!-- B->C -->
+      <line x1="207" y1="155" x2="295" y2="75" stroke="#B4B2A9" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="238" y="128" font-size="12" fill="#5F5E5A" font-family="var(--font-sans)">h=5</text>
+      <!-- B->D -->
+      <line x1="202" y1="163" x2="298" y2="163" stroke="#B4B2A9" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="232" y="180" font-size="12" fill="#5F5E5A" font-family="var(--font-sans)">h=7</text>
+      <!-- C->t -->
+      <line x1="322" y1="60" x2="420" y2="110" stroke="#B4B2A9" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="358" y="72" font-size="12" fill="#5F5E5A" font-family="var(--font-sans)">h=9</text>
+      <!-- D->t -->
+      <line x1="322" y1="163" x2="420" y2="118" stroke="#B4B2A9" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="355" y="158" font-size="12" fill="#5F5E5A" font-family="var(--font-sans)">h=6</text>
+      <!-- nodi -->
+      <circle cx="60" cy="110" r="18" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
+      <text x="60" y="115" text-anchor="middle" font-size="14" font-weight="500" fill="#0C447C" font-family="var(--font-sans)">s</text>
+      <circle cx="192" cy="58" r="18" fill="#EEEDFE" stroke="#7F77DD" stroke-width="1"/>
+      <text x="192" y="63" text-anchor="middle" font-size="14" font-weight="500" fill="#3C3489" font-family="var(--font-sans)">A</text>
+      <circle cx="192" cy="163" r="18" fill="#EEEDFE" stroke="#7F77DD" stroke-width="1"/>
+      <text x="192" y="168" text-anchor="middle" font-size="14" font-weight="500" fill="#3C3489" font-family="var(--font-sans)">B</text>
+      <circle cx="310" cy="58" r="18" fill="#EEEDFE" stroke="#7F77DD" stroke-width="1"/>
+      <text x="310" y="63" text-anchor="middle" font-size="14" font-weight="500" fill="#3C3489" font-family="var(--font-sans)">C</text>
+      <circle cx="310" cy="163" r="18" fill="#EEEDFE" stroke="#7F77DD" stroke-width="1"/>
+      <text x="310" y="168" text-anchor="middle" font-size="14" font-weight="500" fill="#3C3489" font-family="var(--font-sans)">D</text>
+      <circle cx="432" cy="110" r="18" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+      <text x="432" y="115" text-anchor="middle" font-size="14" font-weight="500" fill="#712B13" font-family="var(--font-sans)">t</text>
+    </svg>
+  </div>
+
+  <div class="section-label">La tua risposta</div>
+  <div class="inputs-grid">
+    <div class="input-row">
+      <label>Flusso su s→A</label>
+      <input type="number" id="fsA" min="0" max="10" placeholder="0–10"/>
+    </div>
+    <div class="input-row">
+      <label>Flusso su s→B</label>
+      <input type="number" id="fsB" min="0" max="6" placeholder="0–6"/>
+    </div>
+    <div class="input-row">
+      <label>Flusso su A→C</label>
+      <input type="number" id="fAC" min="0" max="8" placeholder="0–8"/>
+    </div>
+    <div class="input-row">
+      <label>Flusso su A→B</label>
+      <input type="number" id="fAB" min="0" max="4" placeholder="0–4"/>
+    </div>
+    <div class="input-row">
+      <label>Flusso su B→C</label>
+      <input type="number" id="fBC" min="0" max="5" placeholder="0–5"/>
+    </div>
+    <div class="input-row">
+      <label>Flusso su B→D</label>
+      <input type="number" id="fBD" min="0" max="7" placeholder="0–7"/>
+    </div>
+    <div class="input-row">
+      <label>Flusso su C→t</label>
+      <input type="number" id="fCt" min="0" max="9" placeholder="0–9"/>
+    </div>
+    <div class="input-row">
+      <label>Flusso su D→t</label>
+      <input type="number" id="fDt" min="0" max="6" placeholder="0–6"/>
+    </div>
+  </div>
+
+  <div class="hint-box" id="hintbox">
+    <strong>Suggerimento:</strong> Parti dai cammini aumentanti da s a t:<br>
+    • s→A→C→t<br>
+    • s→B→D→t<br>
+    • s→A→B→D→t (o altri che riesci a trovare)<br>
+    Per ogni cammino, il flusso aggiuntivo è il <em>minimo</em> delle capacità residue sugli archi del cammino.
+  </div>
+
+  <div>
+    <button class="btn-check" onclick="toggleHint()"><i class="ti ti-bulb" aria-hidden="true"></i> Suggerimento</button>
+    <button class="btn-check" onclick="checkSol()"><i class="ti ti-check" aria-hidden="true"></i> Verifica</button>
+    <button class="btn-check" onclick="showSol()"><i class="ti ti-eye" aria-hidden="true"></i> Soluzione</button>
+  </div>
+
+  <div class="feedback" id="fb"></div>
+</div>
+</div>
+
+<script>
+function toggleHint(){
+  const h=document.getElementById('hintbox');
+  h.classList.toggle('show');
+}
+
+function getVals(){
+  return {
+    sA:+document.getElementById('fsA').value||0,
+    sB:+document.getElementById('fsB').value||0,
+    AC:+document.getElementById('fAC').value||0,
+    AB:+document.getElementById('fAB').value||0,
+    BC:+document.getElementById('fBC').value||0,
+    BD:+document.getElementById('fBD').value||0,
+    Ct:+document.getElementById('fCt').value||0,
+    Dt:+document.getElementById('fDt').value||0,
+  };
+}
+
+function checkSol(){
+  const v=getVals();
+  const fb=document.getElementById('fb');
+  const errs=[];
+
+  if(v.sA>10) errs.push('s→A supera la capacità massima (10)');
+  if(v.sB>6)  errs.push('s→B supera la capacità massima (6)');
+  if(v.AC>8)  errs.push('A→C supera la capacità massima (8)');
+  if(v.AB>4)  errs.push('A→B supera la capacità massima (4)');
+  if(v.BC>5)  errs.push('B→C supera la capacità massima (5)');
+  if(v.BD>7)  errs.push('B→D supera la capacità massima (7)');
+  if(v.Ct>9)  errs.push('C→t supera la capacità massima (9)');
+  if(v.Dt>6)  errs.push('D→t supera la capacità massima (6)');
+
+  const balA = v.sA - v.AC - v.AB;
+  const balB = v.sB + v.AB - v.BC - v.BD;
+  const balC = v.AC + v.BC - v.Ct;
+  const balD = v.BD - v.Dt;
+
+  if(Math.abs(balA)>0.001) errs.push('Nodo A non bilanciato: entrante='+v.sA+', uscente='+(v.AC+v.AB));
+  if(Math.abs(balB)>0.001) errs.push('Nodo B non bilanciato: entrante='+(v.sB+v.AB)+', uscente='+(v.BC+v.BD));
+  if(Math.abs(balC)>0.001) errs.push('Nodo C non bilanciato: entrante='+(v.AC+v.BC)+', uscente='+v.Ct);
+  if(Math.abs(balD)>0.001) errs.push('Nodo D non bilanciato: entrante='+v.BD+', uscente='+v.Dt);
+
+  const flusso = v.sA+v.sB;
+
+  if(errs.length>0){
+    fb.className='feedback err show';
+    fb.innerHTML='<strong>Ci sono degli errori:</strong><br>'+errs.map(e=>'• '+e).join('<br>');
+    return;
+  }
+
+  if(flusso===13){
+    fb.className='feedback ok show';
+    fb.innerHTML='<strong>Corretto! Flusso massimo = 13</strong><br><br>Il flusso è ammissibile e massimo. Hai trovato la soluzione ottima!';
+  } else if(flusso<13){
+    fb.className='feedback err show';
+    fb.innerHTML='<strong>Flusso ammissibile = '+flusso+', ma non è massimo.</strong><br>Il flusso è bilanciato e rispetta le capacità, ma esiste ancora un cammino aumentante nel grafo residuo. Prova ad aumentarlo!';
+  } else {
+    fb.className='feedback err show';
+    fb.innerHTML='Qualcosa non torna.';
+  }
+}
+
+function showSol(){
+  const fb=document.getElementById('fb');
+  fb.className='feedback sol show';
+  fb.innerHTML=`<strong>Soluzione ottima — flusso massimo = 13</strong><br><br>
+<strong>Cammini aumentanti trovati con Ford-Fulkerson:</strong><br>
+<div class="step">1. s→A→C→t &nbsp; bottleneck = min(10,8,9) = <strong>8</strong></div>
+<div class="step">2. s→B→D→t &nbsp; bottleneck = min(6,7,6) = <strong>5</strong></div>
+<div class="step">3. s→A→B→D→t: residua su s→A=2, A→B=4, D→t=1 → bottleneck = <strong>0</strong> (D→t esaurito)</div>
+Non esiste più nessun cammino aumentante nel grafo residuo.<br><br>
+<strong>Flussi finali:</strong><br>
+• s→A = 8, s→B = 5<br>
+• A→C = 8, A→B = 0<br>
+• B→C = 0, B→D = 5<br>
+• C→t = 8, D→t = 5<br><br>
+<strong>Taglio minimo:</strong> {s,A,B} | {C,D,t}<br>
+Capacità taglio = C→t(9)? No: archi del taglio = A→C(8) + B→D(5) = 13 ✓<br>
+Max-flow = Min-cut = <strong>13</strong>`;
+
+  document.getElementById('fsA').value=8;
+  document.getElementById('fsB').value=5;
+  document.getElementById('fAC').value=8;
+  document.getElementById('fAB').value=0;
+  document.getElementById('fBC').value=0;
+  document.getElementById('fBD').value=5;
+  document.getElementById('fCt').value=8;
+  document.getElementById('fDt').value=5;
+}
+</script>

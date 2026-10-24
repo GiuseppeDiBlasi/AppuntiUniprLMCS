@@ -1,0 +1,67 @@
+
+<style>
+  .ex-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+  .ex-tag { display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: var(--border-radius-md); margin-bottom: 10px; }
+  .tag-green { background: var(--color-background-success); color: var(--color-text-success); }
+  .tag-amber { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .tag-red { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .ex-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 8px; }
+  .ex-body { font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; margin: 0 0 12px; }
+  .hint-btn { font-size: 13px; padding: 6px 14px; cursor: pointer; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-primary); margin-right: 8px; }
+  .hint-btn:hover { background: var(--color-background-secondary); }
+  .solve-btn { font-size: 13px; padding: 6px 14px; cursor: pointer; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-primary); }
+  .solve-btn:hover { background: var(--color-background-secondary); }
+  .hint-box { display: none; font-size: 13px; color: var(--color-text-secondary); background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 14px; margin-top: 10px; line-height: 1.6; }
+</style>
+
+<h2 class="sr-only">Esercizi su dualità, TU e grafi bipartiti</h2>
+
+<div style="padding: 0.5rem 0 1rem;">
+
+  <div class="ex-card">
+    <span class="ex-tag tag-green">Livello 1 — base</span>
+    <p class="ex-title">Esercizio A — Dualità debole su un grafo specifico</p>
+    <p class="ex-body">Considera il grafo bipartito con V₁ = {a, b} e V₂ = {c, d, e}, e archi A = {(a,c), (a,d), (b,d), (b,e)}.<br>
+    (i) Trova un accoppiamento massimo M* e una copertura per nodi minima C*.<br>
+    (ii) Verifica esplicitamente che |M*| = |C*|, confermando la dualità forte.</p>
+    <button class="hint-btn" onclick="toggle('hA')">Suggerimento</button>
+    <button class="solve-btn" onclick="sendPrompt('Aiutami a risolvere passo dopo passo l\'esercizio A: grafo bipartito V1={a,b}, V2={c,d,e}, A={(a,c),(a,d),(b,d),(b,e)}. Trova accoppiamento massimo e copertura minima e verifica la dualità forte.')">Ragiona con me ↗</button>
+    <div class="hint-box" id="hA">Cerca un accoppiamento con 2 archi disgiunti. Poi per la copertura: quanti nodi ti bastano per toccare tutti gli archi? Ricorda che la dualità forte garantisce che i due valori coincidono!</div>
+  </div>
+
+  <div class="ex-card">
+    <span class="ex-tag tag-amber">Livello 2 — intermedio</span>
+    <p class="ex-title">Esercizio B — Dualità forte LP</p>
+    <p class="ex-body">Considera il seguente programma lineare intero (PI):<br>
+    max z = 2x₁ + 3x₂ + x₃<br>
+    x₁ + x₂ ≤ 1<br>
+    x₂ + x₃ ≤ 1<br>
+    x₁, x₂, x₃ ∈ {0,1}<br>
+    (i) Scrivi il suo duale (D).<br>
+    (ii) Rilassa a PL e verifica che z*_PL = w*_PL.<br>
+    (iii) La matrice A è TU? Giustifica.</p>
+    <button class="hint-btn" onclick="toggle('hB')">Suggerimento</button>
+    <button class="solve-btn" onclick="sendPrompt('Aiutami passo dopo passo con l\'esercizio B: max z = 2x1+3x2+x3, con x1+x2<=1, x2+x3<=1, x in {0,1}. Scrivi il duale, rilassa a PL, verifica dualità forte e controlla se A è TU.')">Ragiona con me ↗</button>
+    <div class="hint-box" id="hB">Per il duale: ogni vincolo del primale genera una variabile duale y_i ≥ 0. Per verificare TU, controlla le 3 condizioni: entries in {0,-1,1}, al più 2 coefficienti non nulli per colonna, e partizionabilità delle righe.</div>
+  </div>
+
+  <div class="ex-card">
+    <span class="ex-tag tag-red">Livello 3 — avanzato</span>
+    <p class="ex-title">Esercizio C — Perché serve la bipartitezza?</p>
+    <p class="ex-body">Considera il grafo a ciclo C₅ (pentagono) con nodi {1,2,3,4,5} e archi {(1,2),(2,3),(3,4),(4,5),(5,1)}.<br>
+    (i) Trova l'accoppiamento massimo z* e la copertura minima w*.<br>
+    (ii) Vale z* = w*? Cosa puoi concludere?<br>
+    (iii) C₅ è bipartito? Perché la dualità forte non vale?</p>
+    <button class="hint-btn" onclick="toggle('hC')">Suggerimento</button>
+    <button class="solve-btn" onclick="sendPrompt('Aiutami passo dopo passo con l\'esercizio C: grafo C5 (pentagono) con nodi {1,2,3,4,5} e archi {(1,2),(2,3),(3,4),(4,5),(5,1)}. Trova accoppiamento massimo e copertura minima, verifica se vale la dualità forte e spiega perché C5 non è bipartito.')">Ragiona con me ↗</button>
+    <div class="hint-box" id="hC">Un ciclo dispari non è bipartito. Prova a colorare i nodi con 2 colori alternati: riesci? L'accoppiamento massimo ha 2 archi, ma quanti nodi servono per la copertura? Il risultato viola z* = w*.</div>
+  </div>
+
+</div>
+
+<script>
+function toggle(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+</script>

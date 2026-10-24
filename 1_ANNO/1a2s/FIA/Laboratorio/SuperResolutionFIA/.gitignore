@@ -1,0 +1,11 @@
+/dataset/*
+!/dataset/README.md
+__pycache__/
+*.pt
+*.h5
+*.ckpt
+.env
+.ipynb_checkpoints/
+*.yaml
+*.yml.DS_Store
+.DS_Store

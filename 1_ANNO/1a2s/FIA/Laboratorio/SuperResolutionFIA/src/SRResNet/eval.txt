@@ -1,0 +1,4 @@
+SRResNet_20epochs_X2_L1 = 28.65
+SRResNet_20epochs_X2_MSE = 28.69
+SRResNet_20epochs_X4_L1 = 24.07
+SRResNet_20epochs_X4_MSE = 23.77

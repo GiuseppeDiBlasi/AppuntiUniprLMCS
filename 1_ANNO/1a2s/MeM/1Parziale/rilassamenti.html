@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riassunto · Programmazione Lineare Intera e Rilassamenti</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+  :root {
+    --paper:        #f6f1e7;
+    --paper-edge:   #ebe2cf;
+    --ink:          #1a1f2b;
+    --ink-soft:     #3a4252;
+    --ink-faded:    #6b7080;
+    --burgundy:     #8b2635;
+    --forest:       #3d5a3d;
+    --ochre:        #b8741a;
+    --indigo:       #2a3d6b;
+    --rule:         #cdc3ad;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(184,116,26,0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(42,61,107,0.03) 0%, transparent 40%);
+    color: var(--ink);
+    font-family: 'Crimson Pro', 'Iowan Old Style', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 80px 48px 120px;
+  }
+
+  /* ── Header ───────────────────────────────────────────── */
+  header.cover {
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 48px;
+    margin-bottom: 56px;
+  }
+  header.cover .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--burgundy);
+    margin-bottom: 24px;
+  }
+  header.cover h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1.1;
+    margin: 0 0 16px;
+    letter-spacing: -0.02em;
+  }
+  header.cover h1 em {
+    font-style: italic;
+    color: var(--burgundy);
+  }
+  header.cover .subtitle {
+    font-style: italic;
+    color: var(--ink-faded);
+    font-size: 1.05rem;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  header.cover .ornament {
+    margin: 32px auto 0;
+    width: 60px;
+    height: 1px;
+    background: var(--ink);
+    position: relative;
+  }
+  header.cover .ornament::before,
+  header.cover .ornament::after {
+    content: '◆';
+    position: absolute;
+    top: -10px;
+    color: var(--ochre);
+    font-size: 8px;
+  }
+  header.cover .ornament::before { left: -16px; }
+  header.cover .ornament::after  { right: -16px; }
+
+  /* ── Indice ───────────────────────────────────────────── */
+  nav.toc {
+    background: rgba(255,255,255,0.4);
+    border-left: 3px solid var(--ochre);
+    padding: 28px 32px;
+    margin-bottom: 64px;
+    border-radius: 2px;
+  }
+  nav.toc h3 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    margin: 0 0 16px;
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+  }
+  nav.toc ol {
+    margin: 0;
+    padding-left: 24px;
+    column-count: 2;
+    column-gap: 32px;
+  }
+  nav.toc li {
+    margin-bottom: 6px;
+    break-inside: avoid;
+  }
+  nav.toc a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px dotted transparent;
+    transition: border-color 0.2s;
+  }
+  nav.toc a:hover {
+    color: var(--burgundy);
+    border-bottom-color: var(--burgundy);
+  }
+
+  /* ── Tipografia di base ────────────────────────────────── */
+  h2.part {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 2.4rem;
+    margin: 80px 0 8px;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+  }
+  h2.part .num {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: var(--burgundy);
+    margin-bottom: 12px;
+  }
+  h2.part::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 2px;
+    background: var(--ink);
+    margin-top: 24px;
+  }
+
+  h3.section {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.55rem;
+    margin: 56px 0 16px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  h3.section .marker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--burgundy);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+  }
+
+  h4 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.2rem;
+    margin: 32px 0 8px;
+    color: var(--ink-soft);
+  }
+
+  p { margin: 0 0 16px; }
+
+  strong { font-weight: 600; color: var(--ink); }
+  em { color: var(--ink-soft); }
+
+  a.link {
+    color: var(--burgundy);
+    text-decoration: none;
+    border-bottom: 1px solid var(--burgundy);
+  }
+
+  /* Drop cap solo nel primo paragrafo della prima sezione */
+  .lead::first-letter {
+    font-family: 'Fraunces', serif;
+    float: left;
+    font-size: 4.2em;
+    line-height: 0.85;
+    padding: 8px 10px 0 0;
+    color: var(--burgundy);
+    font-weight: 400;
+  }
+
+  /* ── Box: definizioni, proprietà, esempi, osservazioni ── */
+  .box {
+    margin: 24px 0;
+    padding: 20px 24px;
+    border-radius: 3px;
+    position: relative;
+  }
+  .box .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .box .label .num {
+    opacity: 0.6;
+    margin-right: 6px;
+  }
+
+  .def {
+    background: rgba(42, 61, 107, 0.06);
+    border-left: 3px solid var(--indigo);
+  }
+  .def .label { color: var(--indigo); }
+
+  .prop {
+    background: rgba(61, 90, 61, 0.07);
+    border-left: 3px solid var(--forest);
+  }
+  .prop .label { color: var(--forest); }
+
+  .ex {
+    background: rgba(184, 116, 26, 0.07);
+    border-left: 3px solid var(--ochre);
+  }
+  .ex .label { color: var(--ochre); }
+
+  .oss {
+    background: rgba(139, 38, 53, 0.05);
+    border-left: 3px solid var(--burgundy);
+  }
+  .oss .label { color: var(--burgundy); }
+
+  .key {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 24px 28px;
+    margin: 28px 0;
+    border-radius: 3px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.08rem;
+    line-height: 1.5;
+    position: relative;
+  }
+  .key::before {
+    content: '"';
+    position: absolute;
+    top: -12px;
+    left: 16px;
+    font-size: 4rem;
+    color: var(--ochre);
+    line-height: 1;
+    font-family: 'Fraunces', serif;
+  }
+  .key strong { color: #f5d6a8; font-style: normal; }
+
+  /* ── Liste ────────────────────────────────────────────── */
+  ul.refined, ol.refined {
+    padding-left: 0;
+    list-style: none;
+    margin: 16px 0;
+  }
+  ul.refined li, ol.refined li {
+    padding-left: 28px;
+    position: relative;
+    margin-bottom: 12px;
+  }
+  ul.refined li::before {
+    content: '◇';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--ochre);
+    font-size: 0.9em;
+  }
+  ol.refined { counter-reset: refined; }
+  ol.refined li { counter-increment: refined; }
+  ol.refined li::before {
+    content: counter(refined, lower-roman) '.';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--burgundy);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    font-weight: 500;
+  }
+
+  /* ── Formula display speciale ─────────────────────────── */
+  .formula {
+    text-align: center;
+    margin: 24px 0;
+    font-size: 1.05em;
+  }
+
+  /* ── Quote / nota a margine ──────────────────────────── */
+  .marginalia {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink-faded);
+    font-size: 0.95rem;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 16px 0;
+    margin: 28px 0;
+    text-align: center;
+  }
+
+  /* ── Tabelle ──────────────────────────────────────────── */
+  table {
+    border-collapse: collapse;
+    margin: 24px auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+  }
+  table th, table td {
+    padding: 8px 14px;
+    border: 1px solid var(--rule);
+    text-align: center;
+  }
+  table th {
+    background: rgba(0,0,0,0.04);
+    font-weight: 500;
+    color: var(--burgundy);
+  }
+
+  /* ── SVG illustrations ────────────────────────────────── */
+  figure {
+    margin: 32px 0;
+    text-align: center;
+  }
+  figure svg {
+    max-width: 100%;
+    height: auto;
+  }
+  figcaption {
+    font-style: italic;
+    color: var(--ink-faded);
+    font-size: 0.9rem;
+    margin-top: 12px;
+  }
+
+  /* ── Footer ───────────────────────────────────────────── */
+  footer {
+    margin-top: 96px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-style: italic;
+    color: var(--ink-faded);
+    font-size: 0.95rem;
+  }
+  footer .ornament {
+    margin: 0 auto 16px;
+    width: 40px;
+    height: 1px;
+    background: var(--ink-faded);
+  }
+
+  /* ── Responsive ───────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .page { padding: 48px 24px 80px; }
+    nav.toc ol { column-count: 1; }
+    h2.part { font-size: 1.9rem; }
+    h3.section { font-size: 1.3rem; flex-direction: column; gap: 4px; align-items: flex-start; }
+    body { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- COPERTINA                                                    -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<header class="cover">
+  <div class="eyebrow">Ricerca Operativa · Riassunto Didattico</div>
+  <h1>Programmazione Lineare Intera<br><em>&amp;</em> Rilassamenti</h1>
+  <p class="subtitle">Poliedri, formulazioni, inviluppo convesso e tecniche per stimare il valore ottimo di problemi difficili.</p>
+  <div class="ornament"></div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- INDICE                                                       -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<nav class="toc">
+  <h3>Indice</h3>
+  <ol>
+    <li><a href="#intro">Premessa: di cosa stiamo parlando</a></li>
+    <li><a href="#poliedri">Poliedri</a></li>
+    <li><a href="#formulazioni">Formulazioni</a></li>
+    <li><a href="#migliore">Quando una formulazione è migliore</a></li>
+    <li><a href="#convessi">Insiemi convessi</a></li>
+    <li><a href="#combinazione">Combinazione convessa</a></li>
+    <li><a href="#inviluppo">Inviluppo convesso Conv(X)</a></li>
+    <li><a href="#proprieta">Proprietà di Conv(X)</a></li>
+    <li><a href="#ideale">La formulazione ideale</a></li>
+    <li><a href="#esempio-zaino">Esempio guida: lo zaino 0–1</a></li>
+    <li><a href="#rilassamenti-intro">Cos'è un rilassamento?</a></li>
+    <li><a href="#rilassamenti-lin">Rilassamenti lineari</a></li>
+    <li><a href="#rilassamenti-lagr">Rilassamenti lagrangiani</a></li>
+    <li><a href="#esempio-1albero">Esempio: 1-albero per il TSP</a></li>
+  </ol>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- PARTE 1                                                      -->
+<!-- ════════════════════════════════════════════════════════════ -->
+
+<h2 class="part" id="intro">
+  <span class="num">Parte I</span>
+  Programmazione Lineare Intera
+</h2>
+
+<p class="lead">In ricerca operativa molti problemi reali — assegnare lavori a persone, scegliere progetti rispettando un budget, trovare il percorso più breve — si possono modellare imponendo che le variabili decisionali siano <em>numeri interi</em> (o addirittura solo <em>0 e 1</em>). Questa scelta, naturale dal punto di vista pratico, rende però il problema molto più difficile da risolvere: non possiamo più applicare direttamente i metodi della programmazione lineare classica. La domanda allora diventa: <strong>come "avviciniamo" un problema intero a un problema lineare risolvibile?</strong> La risposta passa attraverso tre concetti chiave: <em>poliedri</em>, <em>formulazioni</em> e <em>inviluppo convesso</em>.</p>
+
+<div class="key">
+  Un problema di <strong>programmazione lineare intera (PI)</strong> ha la forma
+  $$\text{(PI)} \qquad z^*_{PI} \;=\; \max\, c^\top x \quad\text{con}\quad x \in X \subseteq \mathbb{Z}^n.$$
+  L'insieme ammissibile $X$ è fatto di <strong>punti a coordinate intere</strong>: è un insieme discreto, non continuo.
+</div>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<h3 class="section" id="poliedri"><span class="marker">§ 1</span> Poliedri</h3>
+
+<p>Un <strong>poliedro</strong> è semplicemente la regione di spazio descritta da un numero finito di disuguaglianze lineari. È l'oggetto geometrico naturale della programmazione lineare.</p>
+
+<div class="box def">
+  <div class="label">Definizione · Poliedro</div>
+  <p>Un <strong>poliedro</strong> $P$ di $\mathbb{R}^n$ è un sottoinsieme di $\mathbb{R}^n$ descritto da un insieme finito di vincoli lineari, cioè:</p>
+  <div class="formula">$$P = \{ x \in \mathbb{R}^n \mid Ax \le b \}$$</div>
+  <p>dove $A \in M_{m \times n}$ è una matrice di coefficienti e $b \in \mathbb{R}^m$ è un vettore di termini noti. In forma estesa, $P$ è l'insieme delle $x$ che soddisfano tutte le $m$ disuguaglianze:</p>
+  <div class="formula">$$\sum_{j=1}^n a_{ij}\, x_j \le b_i, \qquad i = 1, \dots, m.$$</div>
+</div>
+
+<p>Visivamente, in due dimensioni un poliedro è un'area delimitata da rette (un poligono, eventualmente illimitato); in tre dimensioni è un solido delimitato da piani.</p>
+
+<figure>
+  <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="diag" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="6" stroke="#8b2635" stroke-width="0.6" opacity="0.35"/>
+      </pattern>
+    </defs>
+    <!-- assi -->
+    <line x1="40" y1="170" x2="320" y2="170" stroke="#1a1f2b" stroke-width="1"/>
+    <line x1="40" y1="170" x2="40" y2="20" stroke="#1a1f2b" stroke-width="1"/>
+    <text x="325" y="174" font-family="JetBrains Mono" font-size="10" fill="#1a1f2b">x₁</text>
+    <text x="32" y="18" font-family="JetBrains Mono" font-size="10" fill="#1a1f2b">x₂</text>
+    <!-- poliedro: poligono -->
+    <polygon points="40,170 200,170 260,110 200,40 80,40" fill="url(#diag)" stroke="#8b2635" stroke-width="1.5"/>
+    <!-- vertici -->
+    <circle cx="40" cy="170" r="3" fill="#b8741a"/>
+    <circle cx="200" cy="170" r="3" fill="#b8741a"/>
+    <circle cx="260" cy="110" r="3" fill="#b8741a"/>
+    <circle cx="200" cy="40" r="3" fill="#b8741a"/>
+    <circle cx="80" cy="40" r="3" fill="#b8741a"/>
+    <text x="170" y="115" font-family="Fraunces" font-style="italic" font-size="14" fill="#1a1f2b">P</text>
+  </svg>
+  <figcaption>Un poliedro in $\mathbb{R}^2$: un poligono delimitato da semipiani. I pallini arancioni sono i <em>vertici</em>.</figcaption>
+</figure>
+
+<div class="box prop">
+  <div class="label">Proprietà fondamentali</div>
+  <ul class="refined">
+    <li>Un poliedro $P \subseteq \mathbb{R}^n$ è sempre un <strong>insieme convesso</strong>: presi due punti qualsiasi di $P$, il segmento che li unisce è tutto contenuto in $P$.</li>
+    <li>La <strong>regione ammissibile di un programma lineare</strong> è un poliedro convesso.</li>
+    <li>Un <strong>vertice</strong> di $P$ corrisponde a una <strong>SBA</strong> (Soluzione Basica Ammissibile) del sistema $Ax \le b$. Sono i punti "spigolosi" della frontiera, e — per il Teorema Fondamentale della PL — se esiste un ottimo, esiste un ottimo che è un vertice.</li>
+  </ul>
+</div>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<h3 class="section" id="formulazioni"><span class="marker">§ 2</span> Formulazioni</h3>
+
+<p>Qui sta il cuore della questione. Abbiamo un insieme discreto $X \subseteq \mathbb{Z}^n$ (i punti interi ammissibili del nostro problema). Vogliamo "racchiuderlo" dentro un poliedro continuo, in modo da poter usare gli strumenti della PL.</p>
+
+<div class="box def">
+  <div class="label">Definizione · Formulazione</div>
+  <p>Sia $X \subseteq \mathbb{Z}^n$. Un poliedro $P \subseteq \mathbb{R}^n$ si dice <strong>formulazione</strong> per $X$ se:</p>
+  <div class="formula">$$P \cap \mathbb{Z}^n = X.$$</div>
+  <p>In parole: i punti interi che cadono dentro $P$ sono <em>esattamente</em> i punti di $X$, né uno di più, né uno di meno.</p>
+</div>
+
+<p>L'idea è chiara: il poliedro $P$ può contenere anche tanti punti non interi (e tipicamente lo fa), ma <em>se andiamo a guardare solo i punti a coordinate intere dentro $P$</em>, ritroviamo esattamente l'insieme che ci interessa.</p>
+
+<div class="box ex">
+  <div class="label">Esempio · In $\mathbb{R}^2$</div>
+  <p>Consideriamo l'insieme di tre punti interi:</p>
+  <div class="formula">$$X = \{(0,0),\, (1,0),\, (0,1)\} \subseteq \{0,1\}^2 \subseteq \mathbb{R}^2.$$</div>
+  <p>I seguenti tre poliedri sono <strong>tutti formulazioni di $X$</strong>:</p>
+  <ul class="refined">
+    <li>$P_1 = \{ x \in \mathbb{R}^2 \mid x_1 + x_2 \le 1,\ x_1, x_2 \ge 0 \}$ — un piccolo triangolo "aderente" a $X$.</li>
+    <li>$P_2 = \{ x \in \mathbb{R}^2 \mid \tfrac{3}{2}x_1 + x_2 \le \tfrac{3}{2},\ x_1, x_2 \ge 0 \}$ — un triangolo più "largo".</li>
+    <li>$P_3$ = un altro poliedro più ampio.</li>
+  </ul>
+  <p>Tutti e tre, intersecati con $\mathbb{Z}^2$, restituiscono gli stessi tre punti $(0,0)$, $(1,0)$, $(0,1)$. <em>Sono diverse "fotografie continue" dello stesso insieme discreto.</em></p>
+</div>
+
+<figure>
+  <svg viewBox="0 0 380 240" xmlns="http://www.w3.org/2000/svg">
+    <!-- griglia -->
+    <g stroke="#cdc3ad" stroke-width="0.4">
+      <line x1="40"  y1="50"  x2="40"  y2="200"/>
+      <line x1="120" y1="50"  x2="120" y2="200"/>
+      <line x1="200" y1="50"  x2="200" y2="200"/>
+      <line x1="280" y1="50"  x2="280" y2="200"/>
+      <line x1="40"  y1="50"  x2="280" y2="50"/>
+      <line x1="40"  y1="125" x2="280" y2="125"/>
+      <line x1="40"  y1="200" x2="280" y2="200"/>
+    </g>
+    <!-- assi -->
+    <line x1="40" y1="200" x2="290" y2="200" stroke="#1a1f2b" stroke-width="1"/>
+    <line x1="40" y1="210" x2="40" y2="40" stroke="#1a1f2b" stroke-width="1"/>
+    <text x="295" y="204" font-family="JetBrains Mono" font-size="10">x₁</text>
+    <text x="32" y="36" font-family="JetBrains Mono" font-size="10">x₂</text>
+    <!-- P2 (largo, ochre) -->
+    <polygon points="40,200 200,200 40,80" fill="rgba(184,116,26,0.18)" stroke="#b8741a" stroke-width="1.3"/>
+    <!-- P1 (stretto, indigo) -->
+    <polygon points="40,200 120,200 40,125" fill="rgba(42,61,107,0.22)" stroke="#2a3d6b" stroke-width="1.3"/>
+    <!-- punti X -->
+    <circle cx="40"  cy="200" r="4" fill="#8b2635"/>
+    <circle cx="120" cy="200" r="4" fill="#8b2635"/>
+    <circle cx="40"  cy="125" r="4" fill="#8b2635"/>
+    <text x="46"  y="218" font-family="JetBrains Mono" font-size="9">(0,0)</text>
+    <text x="105" y="218" font-family="JetBrains Mono" font-size="9">(1,0)</text>
+    <text x="6"   y="128" font-family="JetBrains Mono" font-size="9">(0,1)</text>
+    <!-- legenda -->
+    <rect x="305" y="60" width="14" height="10" fill="rgba(42,61,107,0.22)" stroke="#2a3d6b"/>
+    <text x="324" y="69" font-family="Fraunces" font-style="italic" font-size="12">P₁</text>
+    <rect x="305" y="80" width="14" height="10" fill="rgba(184,116,26,0.18)" stroke="#b8741a"/>
+    <text x="324" y="89" font-family="Fraunces" font-style="italic" font-size="12">P₂</text>
+    <circle cx="312" cy="105" r="3" fill="#8b2635"/>
+    <text x="324" y="109" font-family="Fraunces" font-style="italic" font-size="12">X</text>
+  </svg>
+  <figcaption>Due formulazioni dello stesso $X$. Entrambe contengono esattamente gli stessi tre punti interi (in rosso), ma $P_1 \subseteq P_2$.</figcaption>
+</figure>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<h3 class="section" id="migliore"><span class="marker">§ 3</span> Quando una formulazione è migliore</h3>
+
+<p>Visto che lo stesso $X$ ammette tante formulazioni diverse, la domanda naturale è: <strong>quale conviene usare?</strong> La risposta è geometrica e intuitiva.</p>
+
+<div class="box def">
+  <div class="label">Definizione · Formulazione migliore</div>
+  <p>Siano $P_1$ e $P_2$ due formulazioni dello stesso insieme $X \subseteq \mathbb{Z}^n$. Si dice che <strong>$P_1$ è una formulazione migliore di $P_2$</strong> se:</p>
+  <div class="formula">$$P_1 \subseteq P_2.$$</div>
+</div>
+
+<p>In altre parole: <em>più una formulazione è "stretta" attorno a $X$, meglio è</em>. Una formulazione che lascia fuori più punti non interi superflui è più aderente alla forma vera del problema.</p>
+
+<div class="key">
+  Perché è importante? Perché <strong>quando rilassiamo l'integralità</strong> (cioè permettiamo $x \in \mathbb{R}^n$ invece di $x \in \mathbb{Z}^n$) e risolviamo il PL, una formulazione più stretta produce <strong>una stima più accurata</strong> del valore ottimo intero $z^*_{PI}$.
+</div>
+
+<div class="box prop">
+  <div class="label">Conseguenza · Migliori formulazioni → migliori stime</div>
+  <p>Per un problema di massimo con $P_1 \subseteq P_2$ (entrambe formulazioni di $X$):</p>
+  <div class="formula">$$z^*_{PI} \;\le\; z^*_{PL_1} \;\le\; z^*_{PL_2}.$$</div>
+  <p>Tutte e tre sono stime dall'alto del valore ottimo intero, ma $z^*_{PL_1}$ è <em>più vicina</em>, quindi più informativa.</p>
+</div>
+
+<p>Questa è una delle ragioni per cui in PI si studiano <em>diverse modellizzazioni dello stesso problema</em>: alcune possono produrre formulazioni equivalenti dal punto di vista della soluzione intera, ma con regioni ammissibili continue molto diverse — e quella più stretta è quella da preferire.</p>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<h3 class="section" id="convessi"><span class="marker">§ 4</span> Insiemi convessi</h3>
+
+<p>Per arrivare al concetto di <em>formulazione ideale</em> dobbiamo introdurre due strumenti geometrici fondamentali: gli <em>insiemi convessi</em> e l'<em>inviluppo convesso</em>.</p>
+
+<div class="box def">
+  <div class="label">Definizione · Insieme convesso</div>
+  <p>Un insieme $\mathcal{U} \subseteq \mathbb{R}^n$ si dice <strong>convesso</strong> se, per ogni coppia di punti $x, y \in \mathcal{U}$ e per ogni $\alpha \in [0,1]$, il vettore</p>
+  <div class="formula">$$\alpha x + (1-\alpha)y$$</div>
+  <p>appartiene ancora a $\mathcal{U}$.</p>
+</div>
+
+<p>Geometricamente: <strong>il segmento che congiunge due punti dell'insieme è interamente contenuto nell'insieme</strong>. Questa proprietà ha una conseguenza importantissima: gli insiemi convessi non hanno "rientranze" né "buchi".</p>
+
+<figure>
+  <svg viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg">
+    <!-- convesso -->
+    <ellipse cx="90" cy="80" rx="60" ry="50" fill="rgba(61,90,61,0.12)" stroke="#3d5a3d" stroke-width="1.4"/>
+    <circle cx="60" cy="65" r="3" fill="#1a1f2b"/>
+    <circle cx="120" cy="100" r="3" fill="#1a1f2b"/>
+    <line x1="60" y1="65" x2="120" y2="100" stroke="#1a1f2b" stroke-width="1.2" stroke-dasharray="3,2"/>
+    <text x="55" y="56" font-family="JetBrains Mono" font-size="10">x</text>
+    <text x="125" y="103" font-family="JetBrains Mono" font-size="10">y</text>
+    <text x="55" y="148" font-family="Fraunces" font-style="italic" font-size="13" fill="#3d5a3d">convesso ✓</text>
+
+    <!-- non convesso -->
+    <path d="M 200 130 Q 220 60 260 70 Q 280 80 280 100 Q 270 90 250 100 Q 230 110 230 130 Z" fill="rgba(139,38,53,0.10)" stroke="#8b2635" stroke-width="1.4"/>
+    <circle cx="220" cy="110" r="3" fill="#1a1f2b"/>
+    <circle cx="275" cy="85" r="3" fill="#1a1f2b"/>
+    <line x1="220" y1="110" x2="275" y2="85" stroke="#1a1f2b" stroke-width="1.2" stroke-dasharray="3,2"/>
+    <text x="215" y="105" font-family="JetBrains Mono" font-size="10">x</text>
+    <text x="280" y="83" font-family="JetBrains Mono" font-size="10">y</text>
+    <text x="210" y="148" font-family="Fraunces" font-style="italic" font-size="13" fill="#8b2635">non convesso ✗</text>
+  </svg>
+  <figcaption>A sinistra: un insieme convesso (ogni segmento è contenuto). A destra: un insieme non convesso (il segmento esce).</figcaption>
+</figure>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<h3 class="section" id="combinazione"><span class="marker">§ 5</span> Combinazione convessa</h3>
+
+<p>L'idea del segmento si generalizza a più punti.</p>
+
+<div class="box def">
+  <div class="label">Definizione · Combinazione convessa</div>
+  <p>Siano $x^1, x^2, \dots, x^k \in \mathbb{R}^n$. Una <strong>combinazione (lineare) convessa</strong> di questi punti è un vettore della forma</p>
+  <div class="formula">$$\alpha_1 x^1 + \alpha_2 x^2 + \dots + \alpha_k x^k$$</div>
+  <p>dove i coefficienti $\alpha_1, \dots, \alpha_k \in \mathbb{R}$ soddisfano:</p>
+  <ul class="refined">
+    <li>$\alpha_i \ge 0$ per ogni $i = 1, \dots, k$;</li>
+    <li>$\alpha_1 + \alpha_2 + \dots + \alpha_k = 1$.</li>
+  </ul>
+</div>
+
+<p>Una combinazione convessa è quindi una "media pesata" di punti, con pesi non negativi che sommano a 1. Per due punti ($k=2$) ritroviamo il segmento; per tre punti otteniamo il triangolo che li ha come vertici; e così via.</p>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<h3 class="section" id="inviluppo"><span class="marker">§ 6</span> Inviluppo convesso $\mathrm{Conv}(S)$</h3>
+
+<div class="box def">
+  <div class="label">Definizione · Inviluppo convesso</div>
+  <p>Sia $S \subseteq \mathbb{R}^n$. L'<strong>inviluppo convesso</strong> di $S$, denotato $\mathrm{Conv}(S)$, è l'insieme di <em>tutte</em> le combinazioni convesse di punti di $S$:</p>
+  <div class="formula">$$\mathrm{Conv}(S) = \left\{ \sum_{i=1}^k \alpha_i x^i \;\Big|\; k \ge 1,\, x^i \in S,\, \alpha_i \ge 0,\, \sum_i \alpha_i = 1 \right\}.$$</div>
+</div>
+
+<div class="marginalia">
+  $\mathrm{Conv}(S)$ è il più piccolo insieme convesso che contiene $S$.
+</div>
+
+<p>Intuitivamente: prendi $S$ (anche un insieme di punti sparsi), "tendi un elastico" attorno a tutti i suoi punti — la regione racchiusa è $\mathrm{Conv}(S)$. Se $S$ ha tre punti non allineati, $\mathrm{Conv}(S)$ è il triangolo che li ha come vertici. Se $S$ è una nuvola di punti, $\mathrm{Conv}(S)$ è il poligono "guscio" che li circonda.</p>
+
+<figure>
+  <svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
+    <!-- inviluppo -->
+    <polygon points="60,140 100,40 220,30 290,90 250,150 130,160" fill="rgba(184,116,26,0.10)" stroke="#b8741a" stroke-width="1.3" stroke-dasharray="4,3"/>
+    <!-- punti -->
+    <circle cx="60"  cy="140" r="3.5" fill="#1a1f2b"/>
+    <circle cx="100" cy="40"  r="3.5" fill="#1a1f2b"/>
+    <circle cx="220" cy="30"  r="3.5" fill="#1a1f2b"/>
+    <circle cx="290" cy="90"  r="3.5" fill="#1a1f2b"/>
+    <circle cx="250" cy="150" r="3.5" fill="#1a1f2b"/>
+    <circle cx="130" cy="160" r="3.5" fill="#1a1f2b"/>
+    <!-- punti interni -->
+    <circle cx="160" cy="80"  r="2.5" fill="#6b7080"/>
+    <circle cx="200" cy="100" r="2.5" fill="#6b7080"/>
+    <circle cx="180" cy="120" r="2.5" fill="#6b7080"/>
+    <text x="300" y="40" font-family="Fraunces" font-style="italic" font-size="13" fill="#b8741a">Conv(S)</text>
+  </svg>
+  <figcaption>I punti neri sono $S$. Il poligono tratteggiato è $\mathrm{Conv}(S)$. I punti grigi all'interno appartengono all'inviluppo perché sono combinazioni convesse di quelli neri.</figcaption>
+</figure>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<h3 class="section" id="proprieta"><span class="marker">§ 7</span> Le due proprietà fondamentali di $\mathrm{Conv}(X)$</h3>
+
+<p>Quando $X$ è la regione ammissibile di un PI (o di un PI misto), $\mathrm{Conv}(X)$ ha due proprietà che rendono possibile tutta la teoria.</p>
+
+<div class="box prop">
+  <div class="label"><span class="num">1.</span> Proprietà 1 (Da ricordare)</div>
+  <p>Se $S$ è un insieme finito, oppure se è la regione ammissibile di un PI o di un PIM, allora <strong>$\mathrm{Conv}(S)$ è un poliedro convesso</strong>. Cioè può essere descritto da un numero finito di disuguaglianze lineari.</p>
+</div>
+
+<div class="box prop">
+  <div class="label"><span class="num">2.</span> Proprietà 2</div>
+  <p>Se $X$ è la regione ammissibile di un PI o di un PIM, allora <strong>i vertici del poliedro $\mathrm{Conv}(X)$ sono elementi di $X$</strong> — cioè sono punti a coordinate intere.</p>
+</div>
+
+<p>La Proprietà 2 è cruciale: i vertici dell'inviluppo convesso non sono punti continui qualunque, sono <em>proprio</em> i punti interi del problema. Questo apre la strada a un risultato spettacolare.</p>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<h3 class="section" id="ideale"><span class="marker">§ 8</span> $\mathrm{Conv}(X)$ è la formulazione ideale</h3>
+
+<div class="key">
+  $\mathrm{Conv}(X)$ è la <strong>formulazione migliore in assoluto</strong> per $X$: è un poliedro (Proprietà 1) e per ogni altra formulazione $P$ di $X$ vale
+  $$X \subseteq \mathrm{Conv}(X) \subseteq P.$$
+</div>
+
+<p>Il motivo è semplice: dato un PI di massimo</p>
+<div class="formula">$$\text{(PI)} \qquad z^*_{PI} = \max c^\top x, \quad x \in X \subseteq \mathbb{Z}^n,$$</div>
+<p>se consideriamo il <em>rilassamento lineare relativo a $\mathrm{Conv}(X)$</em>, cioè</p>
+<div class="formula">$$\text{(PL)} \qquad z^*_{PL} = \max c^\top x, \quad x \in \mathrm{Conv}(X),$$</div>
+<p>per il <strong>Teorema Fondamentale della PL</strong> esiste un ottimo che è un vertice di $\mathrm{Conv}(X)$. Ma per la Proprietà 2 ogni vertice di $\mathrm{Conv}(X)$ appartiene a $X$, cioè è già intero! Quindi:</p>
+<div class="formula">$$z^*_{PI} = z^*_{PL}.$$</div>
+
+<p>In altre parole: <strong>se conoscessimo $\mathrm{Conv}(X)$ esplicitamente, risolveremmo il PI risolvendo un semplice PL</strong>. Il problema è che, in generale, descrivere $\mathrm{Conv}(X)$ richiede un numero <em>esponenziale</em> di disuguaglianze, quindi nella pratica ci accontentiamo di formulazioni che si avvicinano a $\mathrm{Conv}(X)$ il più possibile.</p>
+
+<div class="box oss">
+  <div class="label">Osservazione · Riassumendo la gerarchia</div>
+  <p>Per qualsiasi formulazione $P$ di $X$:</p>
+  <div class="formula">$$X \;\subseteq\; \mathrm{Conv}(X) \;\subseteq\; P \;\subseteq\; \mathbb{R}^n.$$</div>
+  <p>$\mathrm{Conv}(X)$ è dunque la "formulazione ideale" o "formulazione perfetta": tra tutti i poliedri che racchiudono $X$, è il più stretto.</p>
+</div>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<h3 class="section" id="esempio-zaino"><span class="marker">§ 9</span> Esempio guida: lo zaino 0–1</h3>
+
+<p>Per fissare le idee, vediamo come tre formulazioni diverse dello stesso problema possono essere confrontate. Consideriamo il problema dello zaino con 4 oggetti:</p>
+<div class="formula">$$X = \left\{ x \in \{0,1\}^4 \mid 83x_1 + 61x_2 + 49x_3 + 20x_4 \le 100 \right\}.$$</div>
+
+<p>Le seguenti tre formulazioni sono <em>tutte</em> formulazioni di $X$ (cioè $P_i \cap \{0,1\}^4 = X$ per $i=1,2,3$):</p>
+
+<div class="box ex">
+  <div class="label">Tre formulazioni dello zaino</div>
+  <ul class="refined">
+    <li><strong>$P_1$</strong>: $\{x \in \mathbb{R}^4 \mid 0 \le x \le e,\ 83x_1 + 61x_2 + 49x_3 + 20x_4 \le 100\}$ — la formulazione "naturale" con il vincolo originale.</li>
+    <li><strong>$P_2$</strong>: $\{x \in \mathbb{R}^4 \mid 0 \le x \le e,\ 4x_1 + 3x_2 + 2x_3 + x_4 \le 4\}$ — un vincolo "rinforzato".</li>
+    <li><strong>$P_3$</strong>: $\{x \in \mathbb{R}^4 \mid 0 \le x \le e,\ 4x_1 + 3x_2 + 2x_3 + x_4 \le 4,\ x_1 + x_2 + x_3 \le 1,\ x_1 + x_4 \le 1\}$ — con vincoli aggiuntivi.</li>
+  </ul>
+  <p>Si dimostra che <strong>$P_3 \subseteq P_2 \subseteq P_1$</strong>, quindi $P_3$ è la migliore delle tre, $P_1$ la peggiore. Risolvendo il rilassamento lineare con $P_3$ si ottiene una stima molto più accurata di $z^*_{PI}$ che con $P_1$.</p>
+</div>
+
+<div class="marginalia">
+  Morale: scrivere bene i vincoli — anche aggiungendone di "ridondanti" dal punto di vista intero — può migliorare drasticamente la stima del PL.
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- PARTE 2 - RILASSAMENTI                                       -->
+<!-- ════════════════════════════════════════════════════════════ -->
+
+<h2 class="part" id="rilassamenti-intro">
+  <span class="num">Parte II</span>
+  Rilassamenti
+</h2>
+
+<p>Un <em>rilassamento</em> è un problema "più facile" del problema originale, costruito apposta per <strong>fornire una stima del valore ottimo</strong>. È uno strumento essenziale: se non sappiamo risolvere $z^*_{PI}$ direttamente, possiamo almeno calcolare un valore $\bar z$ che sappiamo essere vicino a $z^*_{PI}$ in un senso preciso.</p>
+
+<div class="box def">
+  <div class="label">Definizione · Rilassamento (problema di max)</div>
+  <p>Sia (P) un problema di ottimizzazione $z^* = \max\, c(x),\ x \in X$. Un altro problema $\text{(R)}\ z^*_R = \max\, f(x),\ x \in T$ si dice <strong>rilassamento</strong> di (P) se:</p>
+  <ol class="refined">
+    <li>$X \subseteq T$ &nbsp; <em>(la regione ammissibile è almeno grande quanto quella di P)</em>;</li>
+    <li>$f(x) \ge c(x)$ per ogni $x \in X$ &nbsp; <em>(la funzione obiettivo non peggiora su $X$)</em>.</li>
+  </ol>
+</div>
+
+<div class="box prop">
+  <div class="label">Le tre proprietà chiave dei rilassamenti</div>
+  <ol class="refined">
+    <li><strong>Stima dall'alto:</strong> $z^* \le z^*_R$. Il rilassamento dà sempre un <em>upper bound</em> per il problema di max.</li>
+    <li><strong>Inammissibilità ereditata:</strong> se (R) è inammissibile ($T = \emptyset$), allora anche (P) lo è ($X = \emptyset$).</li>
+    <li><strong>Test di ottimalità:</strong> se la soluzione ottima $x^*$ di (R) è ammissibile per (P) <em>e</em> $f(x^*) = c(x^*)$, allora $x^*$ è anche ottima per (P).</li>
+  </ol>
+</div>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<h3 class="section" id="rilassamenti-lin"><span class="marker">§ 10</span> Rilassamenti lineari</h3>
+
+<p>È il rilassamento più immediato e più usato: <strong>si parte da un PI e si "buttano via" i vincoli di interezza</strong>, lasciando solo i vincoli lineari della formulazione.</p>
+
+<div class="box def">
+  <div class="label">Definizione · Rilassamento lineare</div>
+  <p>Sia $(PI)$ un programma intero con regione $X = P \cap \mathbb{Z}^n$, dove $P \subseteq \mathbb{R}^n$ è una formulazione (poliedro). Il <strong>rilassamento lineare di $(PI)$ relativo a $P$</strong> è il programma lineare:</p>
+  <div class="formula">$$\text{(PL)} \qquad z^*_{PL} = \max c^\top x, \quad x \in P \subseteq \mathbb{R}^n.$$</div>
+</div>
+
+<div class="box oss">
+  <div class="label">Perché è davvero un rilassamento</div>
+  <p>Dobbiamo verificare le due condizioni della definizione generale:</p>
+  <ol class="refined">
+    <li>$X = P \cap \mathbb{Z}^n \subseteq P$ — la regione di $(PI)$ è contenuta in quella di $(PL)$. ✓</li>
+    <li>Sull'insieme $X$, le funzioni obiettivo coincidono: per ogni $x \in X$, $z_{PI}(x) = c^\top x = z_{PL}(x)$. ✓</li>
+  </ol>
+  <p>Conseguenza immediata: $z^*_{PI} \le z^*_{PL}$.</p>
+</div>
+
+<p>Il PL si risolve con il simplesso (o con metodi di interno) in tempo polinomiale: è "facile". Risolvendolo otteniamo una stima dall'alto del valore ottimo intero. <strong>Tanto più la formulazione $P$ è stretta (vicina a $\mathrm{Conv}(X)$), tanto più la stima è accurata.</strong></p>
+
+<div class="box ex">
+  <div class="label">Esempio · Lo zaino 0–1, di nuovo</div>
+  <p>Riprendiamo lo zaino con $X = \{x \in \{0,1\}^4 \mid 83x_1 + 61x_2 + 49x_3 + 20x_4 \le 100\}$ e funzione obiettivo qualsiasi $\max c^\top x$.</p>
+  <p>Il <strong>rilassamento lineare</strong> consiste nel sostituire i vincoli $x_j \in \{0,1\}$ con $0 \le x_j \le 1$:</p>
+  <div class="formula">$$\max c^\top x \quad \text{s.t.}\quad 83x_1 + 61x_2 + 49x_3 + 20x_4 \le 100,\ \ 0 \le x \le 1.$$</div>
+  <p>Le variabili possono ora assumere valori frazionari (es. $x_1 = 0{,}5$, ovvero "metà oggetto 1"), ma il problema diventa risolvibile efficientemente. Il valore ottimo che si ottiene è $z^*_{PL} \ge z^*_{PI}$ e, in molti casi, già vicino al vero ottimo.</p>
+</div>
+
+<div class="box prop">
+  <div class="label">Proposizione · Confronto tra formulazioni</div>
+  <p>Siano $P_1, P_2$ due formulazioni di $X$ con $P_1 \subseteq P_2$ (cioè $P_1$ migliore di $P_2$). Allora:</p>
+  <div class="formula">$$z^*_{PI} \;\le\; z^*_{PL_1} \;\le\; z^*_{PL_2}.$$</div>
+  <p>Inoltre, se $P = \mathrm{Conv}(X)$, ogni soluzione basica ammissibile (vertice) ottima di (PL) è anche soluzione di (PI), e quindi:</p>
+  <div class="formula">$$z^*_{PI} = z^*_{PL}.$$</div>
+</div>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<h3 class="section" id="rilassamenti-lagr"><span class="marker">§ 11</span> Rilassamenti lagrangiani</h3>
+
+<p>Spesso un PI ha alcuni vincoli "facili" (per esempio: $x \in X$ con $X = \{x \in \mathbb{Z}^n_+ \mid Ax \le b\}$ una struttura semplice) e altri vincoli "difficili" che rendono il problema intrattabile. L'idea del <strong>rilassamento lagrangiano</strong> è geniale: invece di buttare via l'interezza, <strong>buttiamo via i vincoli difficili</strong>... ma li reintegriamo nella funzione obiettivo come <em>penalità</em>.</p>
+
+<div class="box def">
+  <div class="label">Definizione · Funzione lagrangiana</div>
+  <p>Consideriamo un PI con vincoli difficili evidenziati:</p>
+  <div class="formula">$$\text{(PI)} \qquad \max\, c^\top x \quad \text{s.t.} \quad \underbrace{Dx \le d}_{\text{vincoli difficili}}, \quad x \in X.$$</div>
+  <p>Per ogni vettore $u = (u_1, \dots, u_m)^\top \in \mathbb{R}^m$ con $u \ge 0$, si definisce la <strong>funzione lagrangiana</strong> $L_u : X \to \mathbb{R}$:</p>
+  <div class="formula">$$L_u(x) \;=\; c^\top x \;+\; u^\top (d - Dx).$$</div>
+  <p>Le componenti $u_1, \dots, u_m$ si chiamano <strong>moltiplicatori di Lagrange</strong> (o <em>variabili duali</em>).</p>
+</div>
+
+<div class="box def">
+  <div class="label">Definizione · Rilassamento lagrangiano</div>
+  <p>Per $u \ge 0$ fissato, il problema</p>
+  <div class="formula">$$\text{(PI(u))} \qquad L^*_u = \max\, L_u(x) = c^\top x + u^\top(d - Dx) \quad \text{s.t.} \quad x \in X$$</div>
+  <p>si chiama <strong>rilassamento lagrangiano</strong> di (PI) relativo ai vincoli $Dx \le d$ e al vettore di moltiplicatori $u$.</p>
+</div>
+
+<p>L'idea intuitiva: <strong>se $x$ viola un vincolo difficile</strong> ($Dx > d$), il termine $u^\top(d - Dx)$ è <em>negativo</em>, e quindi penalizza la funzione obiettivo. Più $u$ è grande, più dura è la penalità. Se invece $x$ rispetta il vincolo, il termine è $\ge 0$ e la funzione obiettivo non peggiora.</p>
+
+<div class="box oss">
+  <div class="label">Perché è un rilassamento</div>
+  <ol class="refined">
+    <li>La regione ammissibile di (PI) è contenuta in quella di $(PI(u))$: in (PI) imponiamo $Dx \le d$ <em>e</em> $x \in X$; in $(PI(u))$ chiediamo solo $x \in X$.</li>
+    <li>Per ogni $x$ ammissibile per (PI), cioè $x \in X$ con $Dx \le d$, abbiamo $d - Dx \ge 0$ e $u \ge 0$, quindi $u^\top(d - Dx) \ge 0$, da cui:
+      <div class="formula">$$L_u(x) = c^\top x + u^\top(d - Dx) \;\ge\; c^\top x.$$</div>
+    </li>
+  </ol>
+  <p>Sono entrambe le condizioni della definizione di rilassamento. Quindi, dalla Proprietà 1 dei rilassamenti:</p>
+  <div class="formula">$$\boxed{\,\forall u \ge 0, \quad L^*_u \ge z^*_{PI}.\,}$$</div>
+</div>
+
+<div class="key">
+  Ogni scelta di $u \ge 0$ produce <strong>una stima dall'alto</strong> $L^*_u$ di $z^*_{PI}$. Per ottenere la <em>migliore</em> stima possibile dobbiamo cercare il moltiplicatore che la rende più stretta.
+</div>
+
+<div class="box prop">
+  <div class="label">Il duale lagrangiano</div>
+  <p>La migliore stima duale fornita dal rilassamento lagrangiano si ottiene risolvendo il problema:</p>
+  <div class="formula">$$\min_{u \ge 0} \; L^*_u.$$</div>
+  <p>Questo è il cosiddetto <strong>duale lagrangiano</strong>: tra tutti gli upper bound $L^*_u$ ottenibili al variare di $u \ge 0$, sceglie quello più piccolo (e quindi più informativo).</p>
+</div>
+
+<div class="box ex">
+  <div class="label">Esempio · Zaino con vincolo extra</div>
+  <p>Supponiamo di avere un problema di zaino con un vincolo aggiuntivo "scomodo":</p>
+  <div class="formula">$$\max \sum_j c_j x_j \;\;\text{s.t.}\;\; \sum_j a_j x_j \le b,\;\; \underbrace{\sum_j d_j x_j \le D}_{\text{vincolo difficile}},\;\; x_j \in \{0,1\}.$$</div>
+  <p>Senza il secondo vincolo sapremmo risolvere lo zaino con metodi efficienti. Allora portiamo il vincolo difficile nella funzione obiettivo:</p>
+  <div class="formula">$$L_u(x) = \sum_j c_j x_j + u\Big(D - \sum_j d_j x_j\Big) = uD + \sum_j (c_j - u\, d_j)\, x_j.$$</div>
+  <p>Per ogni $u \ge 0$ fissato, $(PI(u))$ è ancora un problema di zaino (con coefficienti modificati e una costante additiva), che sappiamo risolvere. Cercando il $u^*$ che minimizza $L^*_u$ otteniamo la migliore stima.</p>
+</div>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<h3 class="section" id="esempio-1albero"><span class="marker">§ 12</span> Esempio combinatorio: 1-albero per il TSP</h3>
+
+<p>Un esempio classico di rilassamento (combinatorio, non lineare) è quello che si usa per il problema del <strong>commesso viaggiatore simmetrico (STSP)</strong>: cerchiamo il tour di costo minimo che visita tutti i nodi di un grafo esattamente una volta.</p>
+
+<div class="box def">
+  <div class="label">Definizione · 1-albero</div>
+  <p>Dato un grafo su $n$ nodi $\{1, 2, \dots, n\}$, un <strong>1-albero</strong> è un grafo formato da:</p>
+  <ul class="refined">
+    <li>due archi incidenti sul nodo 1;</li>
+    <li>un albero ricoprente sui rimanenti nodi $\{2, 3, \dots, n\}$ (un MST sui nodi $2,\dots,n$).</li>
+  </ul>
+</div>
+
+<div class="box oss">
+  <div class="label">Osservazione chiave</div>
+  <p><strong>Ogni tour è un 1-albero, ma non vale il viceversa.</strong> Quindi l'insieme dei tour è un sottoinsieme dell'insieme degli 1-alberi. Calcolare l'1-albero di costo minimo è facile (basta MST + due archi più corti incidenti sul nodo 1); calcolare il tour minimo è difficile.</p>
+  <p>Allora:</p>
+  <div class="formula">$$\min\Big\{\sum_{(i,j) \in T} c_{ij} \,\Big|\, T \text{ è un tour}\Big\} \;\ge\; \min\Big\{\sum_{(i,j) \in T} c_{ij} \,\Big|\, T \text{ è un 1-albero}\Big\} = z^*_{1\text{-ALB}}.$$</div>
+  <p>$z^*_{1\text{-ALB}}$ è una <strong>stima dal basso</strong> di $z^*_{TSP}$ (problema di minimo).</p>
+</div>
+
+<div class="box ex">
+  <div class="label">Esempio numerico · STSP su 6 nodi</div>
+  <p>Si consideri il problema STSP definito dalla seguente matrice dei costi (estratta dagli appunti):</p>
+  <table>
+    <tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>
+    <tr><th>1</th><td>—</td><td>50</td><td>26</td><td>30</td><td>40</td><td>31</td></tr>
+    <tr><th>2</th><td>50</td><td>—</td><td>24</td><td>40</td><td>50</td><td>21</td></tr>
+    <tr><th>3</th><td>26</td><td>24</td><td>—</td><td>24</td><td>26</td><td>41</td></tr>
+    <tr><th>4</th><td>30</td><td>40</td><td>24</td><td>—</td><td>30</td><td>20</td></tr>
+    <tr><th>5</th><td>40</td><td>50</td><td>26</td><td>30</td><td>—</td><td>30</td></tr>
+    <tr><th>6</th><td>31</td><td>21</td><td>41</td><td>20</td><td>30</td><td>—</td></tr>
+  </table>
+  <p>Calcolando l'1-albero di costo minimo si ottiene $z^*_{1\text{-ALB}} = 56 + 91 = 147$ (i due archi più corti incidenti sul nodo 1 hanno costo totale 56; il MST sui restanti 5 nodi ha costo 91). Si trova così la doppia stima:</p>
+  <div class="formula">$$147 \;\le\; z^*_{STSP} \;\le\; 181$$</div>
+  <p>(dove 181 è il costo di un qualunque tour ammissibile, che fornisce automaticamente una stima dall'alto). Inoltre, l'1-albero ottimo trovato <strong>non è un tour</strong>, quindi non possiamo concludere che sia anche ottimo per STSP.</p>
+</div>
+
+<div class="marginalia">
+  Quando l'1-albero ottimo risulta essere anche un tour, allora — per la Proprietà 3 dei rilassamenti — è <em>automaticamente</em> ottimo per STSP.
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- CHIUSURA                                                     -->
+<!-- ════════════════════════════════════════════════════════════ -->
+
+<h3 class="section"><span class="marker">In sintesi</span> I concetti da portarsi a casa</h3>
+
+<ul class="refined">
+  <li>Un <strong>poliedro</strong> è una regione delimitata da vincoli lineari; è sempre convesso.</li>
+  <li>Una <strong>formulazione</strong> di $X$ è un poliedro $P$ tale che $P \cap \mathbb{Z}^n = X$.</li>
+  <li>$P_1$ è una <strong>formulazione migliore</strong> di $P_2$ se $P_1 \subseteq P_2$: più stretta = stime migliori.</li>
+  <li>Un <strong>insieme convesso</strong> contiene tutti i segmenti tra i suoi punti.</li>
+  <li>Una <strong>combinazione convessa</strong> è una media pesata con pesi non negativi che sommano a 1.</li>
+  <li>L'<strong>inviluppo convesso</strong> $\mathrm{Conv}(X)$ è il più piccolo insieme convesso che contiene $X$.</li>
+  <li>Per la regione ammissibile di un PI/PIM, $\mathrm{Conv}(X)$ è un poliedro e i suoi vertici stanno in $X$ — è la <strong>formulazione ideale</strong>.</li>
+  <li>Un <strong>rilassamento</strong> è un problema più facile che fornisce una stima sul valore ottimo.</li>
+  <li>Il <strong>rilassamento lineare</strong> elimina l'interezza; produce $z^*_{PL} \ge z^*_{PI}$ (per max).</li>
+  <li>Il <strong>rilassamento lagrangiano</strong> sposta i vincoli difficili nella funzione obiettivo come penalità $u^\top(d - Dx)$, con $u \ge 0$. Per ogni $u \ge 0$: $L^*_u \ge z^*_{PI}$. La migliore stima si ottiene risolvendo $\min_{u \ge 0} L^*_u$.</li>
+</ul>
+
+<footer>
+  <div class="ornament"></div>
+  <p>Riassunto basato sugli appunti<br><em>«Programmazione lineare intera e ottimizzazione combinatoria»</em> e <em>«Stime: rilassamenti»</em>.</p>
+</footer>
+
+</div>
+</body>
+</html>

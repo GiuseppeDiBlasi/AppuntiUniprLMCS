@@ -1,0 +1,88 @@
+Simple Symmetric Stream Cipher
+___________________________________________
+Luca Veltri 27/2/2025 (luca.veltri@unipr.it)
+
+
+
+Overview
+---------------------------------------------------------------
+1) PRNG-based stream cipher
+2) Brute force attack
+
+
+
+1) PRNG-based stream cipher
+---------------------------------------------------------------
+
+1.1. Consider a simple stream cipher that uses a PRNG (pseudo-random number generator) for generating a key stream, with the PRNG seed used as secret key. The keystream is XORed with the plaintext for generating the ciphertext, and XORed with the ciphertext for decrypting it and obtaining the original plaintext.
+Write a program that implements this stream cipher and uses it for encrypting a plaintext message and for decrypting the corresponding ciphertext.
+
+For the PRNG function:
+
+In Python you can use the standard 'random' module that implements the Mersenne Twister PRNG:
+	random.seed(secret_seed)
+	keystream= bytes(random.getrandbits(8) for _ in range(num))
+	# for Python >= 3.9:
+	keystream= random.randbytes(len)
+	
+Note that in 'random.seed(secret_seed)' secret_seed can be either an int or bytes, however the result is different. In this exercise uses bytes as secret_seed.
+
+In Java you can use SecureRandom that implements the SHA1PRNG algorithm.
+For initializing the SHA1PRNG with a byte array 'secret_seed', you can use:
+	SecureRandom rand=SecureRandom.getInstance("SHA1PRNG");
+	rand.setSeed(secret_seed);
+	byte[] keystream= new byte[len];
+	rand.nextBytes(keystream);
+
+In C/C++ you can use the standard rand()/srand() C functions, using a given seed; the same seed should produce the same result (random sequence) on the same system.
+
+
+For converting a byte array 'buf' into a hexadecimal string 'str' and vice-versa:
+
+In Python:
+You can use 'hex()' and 'fromhex(string)' of the built-in 'bytes' class.
+
+In Java:
+	static String toHex(byte[] buf) {
+		StringBuffer sb=new StringBuffer();
+		for (int i=0; i<buf.length; i++) sb.append(Integer.toHexString((buf[i]>>4)&0x0f)).append(Integer.toHexString(buf[i]&0x0f));
+		return sb.toString();
+	}
+	
+	static byte[] fromHex(String str) {
+		byte[] buf=new byte[str.length()/2];
+		for (int i=0; i<buf.length; i++) buf[i]=(byte)Integer.parseInt(str.substring(i*2,i*2+2),16);
+		return buf;
+	}
+
+In C/C++:
+void toHex(const unsigned char* buf, int len, char* str) {
+	const unsigned char* end= buf+len;
+	for (; buf<end; buf++,str+=2) sprintf(str,"%02x",*buf);
+	*(str+2)= '\0';
+}
+
+void fromHex(const char* str, unsigned char* buf) {
+	for (; *str!='\0'; str+=2,buf++) sscanf(str,"%02x",(int*)buf);
+}	
+	
+	
+
+2) Brute force attack
+---------------------------------------------------------------
+
+2.1. Using the cipher described above, try to encrypt a text using a 24bit key (the PRNG seed) and mount a brute force attack against the ciphertext, i.e. a brute force search of the key.
+How can you verify if you've obtained the correct key?
+Do you always succeed?
+
+
+2.2. Someone encrypted a text message, containing ONLY lower-case characters and spaces, using the above cipher with a 24bit key (the PRNG seed).
+Try to mount a brute force attack on the following ciphertext (represented in hexadecimal):
+525680c7ab4b7a91261607ba1054fddedf57a0 (in case of SHA1PRNG)
+OR
+be16fe0e4113d5f117f336ae2b68dd30098576 (in case of Mersenne Twister PRNG, using Python random.randbytes())
+OR
+08f3b93b24333aacbf9674bdf2465ff750aaf0 (in case of Mersenne Twister PRNG, using Python random.getrandbits(8))
+
+
+2.3. Try to brute force a smaller ciphertext (e.g. 6 bytes) and see whether there are different results (i.e. different keys that decrypt the ciphertext into possible ASCII plaintexts).

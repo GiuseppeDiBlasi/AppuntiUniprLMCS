@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Piano di Studi IoT – 5 Giorni</title>
+<style>
+  :root {
+    --blu: #1a3c5e; --blu-chiaro: #2d6da8; --azzurro: #e8f4fd;
+    --verde: #1e7e34; --verde-chiaro: #d4f0dd;
+    --arancione: #d4700f; --arancione-chiaro: #fff0dc;
+    --viola: #6a1fa3; --viola-chiaro: #f0e4fc;
+    --rosso: #b02020; --rosso-chiaro: #fde8e8;
+    --grigio: #f4f6f8; --testo: #222; --bordo: #dde3ea;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--testo); background: #f0f3f7; font-size: 15px; line-height: 1.65; }
+
+  .header { background: linear-gradient(135deg, #0f2a44 0%, #1e5c9a 100%); color: #fff; padding: 40px 48px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header p { opacity: 0.85; font-size: 15px; }
+  .badges { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge { background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 13px; }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 36px 24px 60px; }
+
+  /* RIEPILOGO RAPIDO */
+  .overview-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 24px 0; }
+  .day-chip { border-radius: 10px; padding: 14px 10px; text-align: center; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; border: 2px solid transparent; }
+  .day-chip:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+  .day-chip .num { font-size: 26px; font-weight: 800; }
+  .day-chip .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; opacity: 0.75; }
+  .day-chip .topic { font-size: 12px; font-weight: 600; margin-top: 5px; }
+  .d1 { background: #dceefb; border-color: #2d6da8; color: #1a3c5e; }
+  .d2 { background: #d4f0dd; border-color: #1e7e34; color: #1a4d28; }
+  .d3 { background: #fff0dc; border-color: #d4700f; color: #7a3d00; }
+  .d4 { background: #f0e4fc; border-color: #6a1fa3; color: #3d0f6a; }
+  .d5 { background: #fde8e8; border-color: #b02020; color: #6a0f0f; }
+
+  /* GIORNI */
+  .day-card { background: #fff; border-radius: 14px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); margin: 28px 0; overflow: hidden; }
+  .day-header { padding: 22px 28px; display: flex; align-items: center; gap: 18px; }
+  .day-number { font-size: 44px; font-weight: 900; line-height: 1; opacity: 0.25; }
+  .day-info h2 { font-size: 20px; margin-bottom: 3px; }
+  .day-info .subtitle { font-size: 13.5px; opacity: 0.75; }
+  .day-info .hours { display: inline-block; background: rgba(255,255,255,0.4); padding: 2px 10px; border-radius: 12px; font-size: 12.5px; font-weight: 600; margin-top: 5px; }
+
+  .d1 .day-header { background: linear-gradient(120deg, #dceefb, #b8daf7); color: #1a3c5e; }
+  .d2 .day-header { background: linear-gradient(120deg, #d4f0dd, #aadfc0); color: #1a4d28; }
+  .d3 .day-header { background: linear-gradient(120deg, #fff0dc, #ffd8a0); color: #7a3d00; }
+  .d4 .day-header { background: linear-gradient(120deg, #f0e4fc, #d9bcf8); color: #3d0f6a; }
+  .d5 .day-header { background: linear-gradient(120deg, #fde8e8, #f8c0c0); color: #6a0f0f; }
+
+  .day-body { padding: 24px 28px; }
+
+  /* SESSIONI */
+  .session { display: flex; gap: 16px; margin: 14px 0; padding: 16px; background: var(--grigio); border-radius: 10px; }
+  .session-time { min-width: 90px; font-weight: 700; font-size: 13px; color: var(--blu-chiaro); padding-top: 1px; }
+  .session-content h4 { font-size: 15px; color: var(--testo); margin-bottom: 4px; }
+  .session-content ul { padding-left: 18px; font-size: 13.5px; }
+  .session-content ul li { margin-bottom: 3px; }
+
+  /* PAUSA */
+  .break-bar { background: #f4f6f8; border: 1px dashed #bbb; border-radius: 8px; padding: 8px 16px; margin: 10px 0; font-size: 13px; color: #888; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+  /* BOX OBIETTIVI */
+  .goals-box { background: var(--azzurro); border-left: 4px solid var(--blu-chiaro); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 16px 0; }
+  .goals-box strong { display: block; margin-bottom: 6px; color: var(--blu); }
+  .goals-box ul { padding-left: 18px; font-size: 13.5px; }
+
+  /* SLIDE DI RIFERIMENTO */
+  .slides-ref { display: inline-block; background: var(--blu); color: #fff; font-size: 12px; padding: 3px 10px; border-radius: 4px; margin: 2px; }
+
+  /* TECNICHE DI STUDIO */
+  .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 16px 0; }
+  .method-card { background: #fff; border-radius: 8px; padding: 14px 16px; border: 1px solid var(--bordo); }
+  .method-card .icon { font-size: 22px; margin-bottom: 6px; }
+  .method-card h4 { font-size: 13px; margin-bottom: 4px; color: var(--blu); }
+  .method-card p { font-size: 12px; color: #555; margin: 0; }
+
+  /* TIPS */
+  .tip { background: #fffbea; border-left: 4px solid #f5c518; border-radius: 0 8px 8px 0; padding: 10px 14px; margin: 10px 0; font-size: 13.5px; }
+  .tip strong { color: #a07000; }
+
+  /* PROGRESSO */
+  .progress-section { background: #fff; border-radius: 14px; padding: 24px 28px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); margin: 28px 0; }
+  .progress-section h2 { font-size: 18px; color: var(--blu); margin-bottom: 18px; }
+  .checklist { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .checklist li { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; padding: 8px 10px; background: var(--grigio); border-radius: 6px; }
+  .checklist li .cb { width: 18px; height: 18px; border: 2px solid #999; border-radius: 4px; flex-shrink: 0; margin-top: 1px; }
+
+  @media (max-width: 640px) {
+    .overview-grid { grid-template-columns: repeat(3, 1fr); }
+    .header { padding: 24px; }
+    .container { padding: 20px 14px; }
+    .day-header, .day-body { padding: 16px; }
+    .checklist { grid-template-columns: 1fr; }
+  }
+
+  h3 { font-size: 15px; color: var(--blu-chiaro); margin: 20px 0 8px; font-weight: 700; }
+  p { margin-bottom: 8px; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📅 Piano di Studi IoT – 5 Giorni</h1>
+  <p>Corso: Internet of Things – Prof. Gianluigi Ferrari, Università di Parma<br>
+  Basato sulle slide (1–345) e sul libro <em>Interconnecting Smart Objects with IP</em></p>
+  <div class="badges">
+    <span class="badge">⏱ ~6–7 ore/giorno</span>
+    <span class="badge">📖 12 argomenti coperti</span>
+    <span class="badge">🎯 Ottimizzato per esame</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- PANORAMICA -->
+  <div class="overview-grid">
+    <div class="day-chip d1"><div class="num">1</div><div class="label">Giorno</div><div class="topic">Fondamenti IoT + UDP/TCP</div></div>
+    <div class="day-chip d2"><div class="num">2</div><div class="label">Giorno</div><div class="topic">IPv6 + 802.15.4 + MAC</div></div>
+    <div class="day-chip d3"><div class="num">3</div><div class="label">Giorno</div><div class="topic">6LoWPAN + RPL</div></div>
+    <div class="day-chip d4"><div class="num">4</div><div class="label">Giorno</div><div class="topic">CoAP + OS + Sicurezza</div></div>
+    <div class="day-chip d5"><div class="num">5</div><div class="label">Giorno</div><div class="topic">LoRa + Revisione + Domande</div></div>
+  </div>
+
+  <!-- TECNICHE DI STUDIO -->
+  <div class="progress-section">
+    <h2>🧠 Come studiare efficacemente</h2>
+    <div class="method-grid">
+      <div class="method-card"><div class="icon">📖</div><h4>Leggi le slide</h4><p>Le slide sono il punto di partenza. Studia le definizioni, i diagrammi e gli esempi numerici.</p></div>
+      <div class="method-card"><div class="icon">📝</div><h4>Prendi appunti</h4><p>Riscrivi i concetti con parole tue. Disegna gli schemi (stack, DODAG, frame formats) a mano.</p></div>
+      <div class="method-card"><div class="icon">🔁</div><h4>Tecnica Pomodoro</h4><p>25 min di studio intenso + 5 min di pausa. Ogni 4 cicli: pausa lunga (20 min).</p></div>
+      <div class="method-card"><div class="icon">❓</div><h4>Autoverifica</h4><p>Usa le domande di verifica per testare la comprensione alla fine di ogni argomento.</p></div>
+      <div class="method-card"><div class="icon">📚</div><h4>Libro per dubbi</h4><p>Usa il libro <em>Interconnecting Smart Objects with IP</em> solo per approfondire i punti poco chiari.</p></div>
+      <div class="method-card"><div class="icon">🔗</div><h4>Collega i concetti</h4><p>IoT è uno stack: ogni layer dipende dai precedenti. Cerca sempre le connessioni tra gli argomenti.</p></div>
+    </div>
+  </div>
+
+  <!-- ======================== GIORNO 1 ======================== -->
+  <div class="day-card d1" id="giorno1">
+    <div class="day-header">
+      <div class="day-number">1</div>
+      <div class="day-info">
+        <h2>🌐 Fondamenti IoT e Protocolli di Trasporto</h2>
+        <div class="subtitle">Introduzione, hardware, stack TCP/IP, UDP, TCP</div>
+        <div class="hours">⏱ ~6,5 ore</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="goals-box">
+        <strong>🎯 Obiettivi del giorno</strong>
+        <ul>
+          <li>Capire cosa è l'IoT, le sue definizioni e differenze rispetto a WSN, M2M, sistemi embedded.</li>
+          <li>Comprendere i componenti hardware di uno smart object (radio, microcontroller, sensori, batteria).</li>
+          <li>Conoscere lo stack TCP/IP e il ruolo di ogni livello.</li>
+          <li>Padroneggiare UDP e TCP: differenze, vantaggi, svantaggi, uso in IoT.</li>
+        </ul>
+      </div>
+
+      <div class="session">
+        <div class="session-time">09:00 – 10:30</div>
+        <div class="session-content">
+          <h4>📌 Sessione 1 – Introduzione all'IoT</h4>
+          <ul>
+            <li>Definizioni di IoT (Wikipedia, WSIS, IoT2008, IoT2020).</li>
+            <li>Breve storia (RFID, Auto-ID Center, IoT orientato a Internet).</li>
+            <li>Come stanno cambiando le reti: estensioni, espansioni, miglioramenti.</li>
+            <li>Contesto M2M e vertical fragmentation.</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="slides-ref">Slide 1–43</span></p>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">10:45 – 12:15</div>
+        <div class="session-content">
+          <h4>📌 Sessione 2 – Sfide e Hardware dello Smart Object</h4>
+          <ul>
+            <li>Sfide a livello nodo: consumo energetico, dimensione fisica, costo.</li>
+            <li>Sfide di rete: dimensione, lossy communications, indirizzamento, standardizzazione.</li>
+            <li>Componenti hardware: radio (più energivoro!), microcontroller, sensori/attuatori, batteria.</li>
+            <li>Differenze embedded system vs. smart object; ubiquitous computing; WSN.</li>
+            <li>OS per IoT: Contiki, TinyOS, FreeRTOS.</li>
+            <li>Piattaforme: Telos B, OpenMote, Arduino, Raspberry Pi.</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="slides-ref">Slide 44–82</span></p>
+        </div>
+      </div>
+
+      <div class="break-bar">🍽 Pausa pranzo 60 minuti</div>
+
+      <div class="session">
+        <div class="session-time">13:15 – 15:00</div>
+        <div class="session-content">
+          <h4>📌 Sessione 3 – Stack TCP/IP e UDP</h4>
+          <ul>
+            <li>Obiettivi originali TCP/IP e scalabilità.</li>
+            <li>I 4 livelli: Link Layer, Network/IP, Transport, Application.</li>
+            <li>UDP: header da 8 byte, connectionless, porte, checksum opzionale.</li>
+            <li>Perché UDP è ideale per IoT: overhead minimo, nessuna connessione, molti client.</li>
+            <li>Applicazioni UDP: streaming, DNS, SNMP, RIP, monitoraggio sensori.</li>
+            <li>Svantaggi UDP per IoT: no recovery, no frammentazione.</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="slides-ref">Slide 83–97</span></p>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">15:15 – 17:00</div>
+        <div class="session-content">
+          <h4>📌 Sessione 4 – TCP in dettaglio</h4>
+          <ul>
+            <li>TCP: byte stream affidabile con ACK, numeri di sequenza, sliding window.</li>
+            <li>Three-way handshake: SYN, SYN-ACK, ACK. ISN e sua importanza.</li>
+            <li>Timeout e stima RTT: EstimatedRTT = α×RTT_stim + (1-α)×RTT_camp.</li>
+            <li>ARQ: stop-and-wait, fast retransmit (3 ACK duplicati).</li>
+            <li>Header TCP (20 byte): porte, sequence/ack number, flags, window, checksum.</li>
+            <li>TCP per smart object: vantaggi (affidabilità, interop.), svantaggi (throughput ridotto).</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="slides-ref">Slide 98–136</span></p>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">17:15 – 18:15</div>
+        <div class="session-content">
+          <h4>🔁 Revisione + Domande di Verifica Giorno 1</h4>
+          <ul>
+            <li>Rileggi i tuoi appunti scritti durante il giorno.</li>
+            <li>Fai le domande di verifica sull'Introduzione IoT e su UDP/TCP.</li>
+            <li>Segna i concetti che non ti sono chiari e rileggi quella parte del libro (Cap. 1, 2).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>💡 Consiglio:</strong> Disegna a mano lo stack protocollare IoT con tutti i layer. È una domanda quasi certa all'esame. Visualizza come UDP/TCP si inserisce nello stack.
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== GIORNO 2 ======================== -->
+  <div class="day-card d2" id="giorno2">
+    <div class="day-header">
+      <div class="day-number">2</div>
+      <div class="day-info">
+        <h2>🔢 IPv6, Comunicazione Fisica e MAC Energy-Efficient</h2>
+        <div class="subtitle">IPv6, IEEE 802.15.4, IEEE 802.11, PLC, protocolli MAC</div>
+        <div class="hours">⏱ ~7 ore</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="goals-box">
+        <strong>🎯 Obiettivi del giorno</strong>
+        <ul>
+          <li>Comprendere perché IPv4 non basta e come IPv6 risolve i problemi.</li>
+          <li>Conoscere l'header IPv6, i tipi di indirizzi e i meccanismi NDP.</li>
+          <li>Capire IEEE 802.15.4 (PHY e MAC): il pilastro della comunicazione IoT.</li>
+          <li>Capire i problemi energetici del MAC e le soluzioni principali (B-MAC, X-MAC, S-MAC, ContikiMAC).</li>
+        </ul>
+      </div>
+
+      <div class="session">
+        <div class="session-time">09:00 – 10:45</div>
+        <div class="session-content">
+          <h4>📌 Sessione 1 – IPv6: motivazioni e header</h4>
+          <ul>
+            <li>Problemi IPv4: esaurimento indirizzi (32 bit), NAT e suoi limiti, routing table crescenti.</li>
+            <li>IPv6 (RFC 2460): indirizzi 128 bit, autoconfiguration, sicurezza nativa, header semplificato.</li>
+            <li>Header base IPv6 (40 byte): 8 campi, nessun checksum, no frammentazione in transit.</li>
+            <li>Extension headers: Hop-by-hop, Routing, Fragment, ESP, AH – catena via "Next Header".</li>
+            <li>Differenza header IPv4 vs IPv6 (tabella comparativa).</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="slides-ref">Slide 137–155</span> <span class="slides-ref">Libro Cap. 6, 15</span></p>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">11:00 – 12:30</div>
+        <div class="session-content">
+          <h4>📌 Sessione 2 – Indirizzi IPv6, ICMPv6 e Autoconfiguration</h4>
+          <ul>
+            <li>Tipi di indirizzi: unicast link-local (FE80::/10), unicast global, multicast (FF00::/8).</li>
+            <li>Modified EUI-64: come derivare l'Interface ID dal MAC address.</li>
+            <li>ICMPv6: messaggi di errore (0–127) e informativi (128–255).</li>
+            <li>NDP: Router Discovery, Prefix Discovery, Address Resolution, DAD, Redirect.</li>
+            <li>Autoconfiguration: SLAAC (stateless) vs DHCPv6 (stateful).</li>
+            <li>Transizione IPv4→IPv6: Dual Stack, Tunneling, Translation.</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="slides-ref">Slide 156–184</span></p>
+        </div>
+      </div>
+
+      <div class="break-bar">🍽 Pausa pranzo 60 minuti</div>
+
+      <div class="session">
+        <div class="session-time">13:30 – 15:00</div>
+        <div class="session-content">
+          <h4>📌 Sessione 3 – Pattern di comunicazione e IEEE 802.15.4</h4>
+          <ul>
+            <li>Pattern: One-to-one, One-to-many (flooding, trickle), Many-to-one (ETX, CTP).</li>
+            <li>Standard fisici: 802.15.4 vs 802.11 vs PLC (range, consumo, topologia, routing).</li>
+            <li>IEEE 802.15.4: max 250 kb/s, MTU 127 byte, potenza TX max 1 mW.</li>
+            <li>PHY 802.15.4: canali (0=868MHz, 1-10=915MHz, 11-26=2.4GHz), BPSK/QPSK, CCA.</li>
+            <li>MAC 802.15.4: CSMA/CA, CRC 16-bit, tipi nodi (FFD/RFD), topologie (star, mesh, cluster tree).</li>
+            <li>Indirizzi 64-bit (EUI) e 16-bit (PAN, assegnati a runtime). Frame format PHY e MAC.</li>
+            <li>Problema: consumo in ascolto ≈ consumo in trasmissione → duty cycling!</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="slides-ref">Slide 185–212</span> <span class="slides-ref">Libro Cap. 12</span></p>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">15:15 – 17:00</div>
+        <div class="session-content">
+          <h4>📌 Sessione 4 – Protocolli MAC Energy-Efficient</h4>
+          <ul>
+            <li>Sorgenti di spreco: idle listening, overhearing, collisioni, overhead di controllo.</li>
+            <li>Problemi classici: hidden terminal, exposed terminal, near-far (+ soluzioni).</li>
+            <li>Protocolli non schedulati: MACA (RTS/CTS), PAMAS (2 radio), STEM (2 canali).</li>
+            <li>B-MAC: Low Power Listening, preambolo lungo, CCA on/off. Problema: overhearing.</li>
+            <li>X-MAC: preambolo corto a strobe con destinatario, duty cycle dinamico.</li>
+            <li>WiseMAC: apprende il wake-up schedule dei vicini dagli ACK.</li>
+            <li>S-MAC: schedule TDMA, RTS/CTS, message passing, costi: latenza aumentata.</li>
+            <li>ContikiMAC: phase lock, timing preciso CCA, broadcast/unicast strategies.</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="slides-ref">Slide 213–249</span></p>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">17:15 – 18:00</div>
+        <div class="session-content">
+          <h4>🔁 Revisione + Domande di Verifica Giorno 2</h4>
+          <ul>
+            <li>Disegna l'header IPv6 a memoria (8 campi, dimensioni, significati).</li>
+            <li>Confronta B-MAC e X-MAC su carta: vantaggi e svantaggi.</li>
+            <li>Fai le domande di verifica su IPv6 e MAC protocols.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>💡 Consiglio:</strong> Memorizza i numeri chiave: IPv6 = 128 bit, header = 40 byte; 802.15.4 = MTU 127 byte, 250 kb/s, 2.4 GHz. Questi appaiono spesso nelle domande d'esame.
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== GIORNO 3 ======================== -->
+  <div class="day-card d3" id="giorno3">
+    <div class="day-header">
+      <div class="day-number">3</div>
+      <div class="day-info">
+        <h2>🗜️ 6LoWPAN e Routing in LLN / RPL</h2>
+        <div class="subtitle">Frammentazione, compressione header, DODAG, metriche, DIO/DAO</div>
+        <div class="hours">⏱ ~7 ore</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="goals-box">
+        <strong>🎯 Obiettivi del giorno</strong>
+        <ul>
+          <li>Capire perché è necessario lo strato di adattamento 6LoWPAN tra IPv6 e 802.15.4.</li>
+          <li>Comprendere frammentazione, mesh header e compressione HC1/IPHC.</li>
+          <li>Conoscere le caratteristiche delle LLN e i requisiti di routing.</li>
+          <li>Padroneggiare RPL: DODAG, DIO, DAO, metriche (ETX), Objective Function, Trickle Timer.</li>
+        </ul>
+      </div>
+
+      <div class="session">
+        <div class="session-time">09:00 – 10:30</div>
+        <div class="session-content">
+          <h4>📌 Sessione 1 – 6LoWPAN: motivazioni e architettura</h4>
+          <ul>
+            <li>Il problema: IPv6 richiede MTU ≥ 1280 byte, 802.15.4 supporta solo 127 byte.</li>
+            <li>Calcolo dei byte disponibili dopo header MAC 802.15.4 (86–116 byte per il payload).</li>
+            <li>Stack protocollare 6LoWPAN: PHY → MAC → Adattamento → IPv6 → UDP → App.</li>
+            <li>Caratteristiche LoWPAN: link lossy, MTU ridotta, nodi sleeping, mobilità.</li>
+            <li>Tipi architettura: Simple (1 Edge Router), Extended (più ER), Ad-hoc.</li>
+            <li>Dispatch Byte: come il primo byte identifica il tipo di header 6LoWPAN.</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="slides-ref">Slide 250–261</span> <span class="slides-ref">Libro Cap. 16</span></p>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">10:45 – 12:30</div>
+        <div class="session-content">
+          <h4>📌 Sessione 2 – 6LoWPAN: Mesh, Fragment, Compressione</h4>
+          <ul>
+            <li>Mesh Header: originator/final destination, Hops Left. Mesh-under routing (solo FFD).</li>
+            <li>Fragment Header: Datagram_size (8-byte units), Datagram_tag, Datagram_offset.</li>
+            <li>HC1: compressione per link-local – 40 byte IPv6 → 2–3 byte! Principi: versione nota, IID dal MAC, TC/FL=0.</li>
+            <li>HC2/HC_UDP: compressione UDP con porte 0xF0B0+x.</li>
+            <li>IPHC: gestisce anche indirizzi globali e multicast. Shared context (CID 4 bit, 16 contesti).</li>
+            <li>NHC: Next Header Coding per UDP, IPHC esteso.</li>
+            <li>Best case: 40 byte IPv6 → 4 byte (global) o 2 byte (link-local); UDP: 8 byte → 2 byte.</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="slides-ref">Slide 262–282</span></p>
+        </div>
+      </div>
+
+      <div class="break-bar">🍽 Pausa pranzo 60 minuti</div>
+
+      <div class="session">
+        <div class="session-time">13:30 – 15:15</div>
+        <div class="session-content">
+          <h4>📌 Sessione 3 – LLN, ETX e Introduzione a RPL</h4>
+          <ul>
+            <li>Caratteristiche LLN: nodi vincolati, link lossy, traffic MP2P/P2MP/P2P, fino a migliaia di nodi.</li>
+            <li>Applicazioni: Urban LLN (RFC5548), Industrial (RFC5673), Home Auto (RFC5826), Building Auto (RFC5867).</li>
+            <li>ETX: numero atteso di trasmissioni. ETX=1 (canale perfetto). Molto meglio dell'hop count.</li>
+            <li>Distance Vector vs Link State: RPL usa DV (meno stato, più traffico di controllo, loop detection).</li>
+            <li>DODAG: grafo aciclico diretto orientato alla destinazione. Radice = DODAG root (LBR).</li>
+            <li>Rank: posizione relativa nel DODAG (non è una metrica, è per loop avoidance).</li>
+            <li>Metriche: NSA, Node Energy, hop-count, ETX, latenza, throughput, link colors.</li>
+            <li>Objective Function (OF): criterio di ottimizzazione del percorso.</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="slides-ref">Slide 283–301</span> <span class="slides-ref">Libro Cap. 17</span></p>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">15:30 – 17:15</div>
+        <div class="session-content">
+          <h4>📌 Sessione 4 – RPL: Operazioni, DIO, DAO, Trickle, Repair</h4>
+          <ul>
+            <li>DIO (DODAG Information Object): pubblicizza DODAG. Contiene DODAGID, OF, rank, seq#, metriche. Flag G, T, S, A.</li>
+            <li>DAO (Destination Advertisement Object): informazioni raggiungibilità in direzione UP. Prefix, lifetime, RRS.</li>
+            <li>Costruzione DODAG passo per passo (esempi con nodi A, B, C, D, E, F, G, H, I).</li>
+            <li>Traffico MP2P (up), P2MP (down con routing state), P2P (up fino a ancestor comune, poi down).</li>
+            <li>Trickle Timer: T_min/T_max, suppression threshold k. Più trasmissioni in DODAG instabile.</li>
+            <li>Repair: local (trova alternativa senza riottimizzare) e global (DODAG root incrementa seq#).</li>
+            <li>Loop avoidance: floating DODAG quando un nodo perde tutti i parent.</li>
+            <li>Multiple DODAG instances: RPLInstanceID diverso per OF diverse.</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="slides-ref">Slide 302–345</span></p>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">17:30 – 18:15</div>
+        <div class="session-content">
+          <h4>🔁 Revisione + Domande di Verifica Giorno 3</h4>
+          <ul>
+            <li>Disegna a memoria un DODAG con almeno 8 nodi, frecce, rank e ETX sui link.</li>
+            <li>Calcola la compressione HC1: quanti byte rimangono per i dati utili con frame 802.15.4?</li>
+            <li>Fai le domande di verifica su 6LoWPAN e RPL.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>💡 Consiglio:</strong> Il giorno 3 è il più denso. Se sei stanca, concentrati sul capire RPL bene (DIO/DAO/DODAG) piuttosto che memorizzare tutti i dettagli di 6LoWPAN. RPL è spesso al centro delle domande d'esame.
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== GIORNO 4 ======================== -->
+  <div class="day-card d4" id="giorno4">
+    <div class="day-header">
+      <div class="day-number">4</div>
+      <div class="day-info">
+        <h2>🔗 CoAP, Sistemi Operativi e Sicurezza IoT</h2>
+        <div class="subtitle">Protocollo applicativo, Contiki/TinyOS, minacce e contromisure</div>
+        <div class="hours">⏱ ~6 ore</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="goals-box">
+        <strong>🎯 Obiettivi del giorno</strong>
+        <ul>
+          <li>Capire CoAP: perché è preferito a HTTP per IoT, metodi REST, tipi di messaggi, sicurezza con DTLS.</li>
+          <li>Conoscere i principali OS per IoT e le loro caratteristiche distintive.</li>
+          <li>Comprendere le minacce alla sicurezza nelle reti IoT e le contromisure a ogni livello.</li>
+        </ul>
+      </div>
+
+      <div class="session">
+        <div class="session-time">09:00 – 10:30</div>
+        <div class="session-content">
+          <h4>📌 Sessione 1 – CoAP: Constrained Application Protocol</h4>
+          <ul>
+            <li>Motivazione: HTTP su TCP è troppo pesante per IoT; serve un equivalente su UDP.</li>
+            <li>Modello RESTful: GET, POST, PUT, DELETE sulle risorse del dispositivo.</li>
+            <li>Header minimo 4 byte; funziona su UDP (con meccanismo interno di affidabilità).</li>
+            <li>Tipi di messaggi: CON (con ACK), NON (best-effort), ACK, RST.</li>
+            <li>Funzionalità avanzate: Observe (notifiche push), multicast, Block-wise transfer.</li>
+            <li>Sicurezza: DTLS (modalità PSK, RPK, Certificati).</li>
+            <li>Interoperabilità HTTP↔CoAP tramite proxy/gateway (stessi metodi CRUD).</li>
+            <li>Discovery: /.well-known/core con Link Format. Adottato da ETSI M2M.</li>
+            <li>Confronto CoAP vs HTTP vs MQTT: quando usare cosa.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">10:45 – 12:00</div>
+        <div class="session-content">
+          <h4>📌 Sessione 2 – OS e Hardware per IoT (approfondimento)</h4>
+          <ul>
+            <li>Contiki: protothreads, uIP/uIPv6, simulatore Cooja, ContikiMAC integrato.</li>
+            <li>TinyOS: nesC, event-driven, focus accademia/WSN.</li>
+            <li>FreeRTOS: real-time, multi-thread preemptivo, controllo industriale.</li>
+            <li>Classificazione dispositivi ARM Cortex: da Class 2 (Linux/Full IP) a Ultra-Low (proprietario).</li>
+            <li>Scelta dell'OS in base ai vincoli: memoria, throughput, real-time, stack IP richiesto.</li>
+            <li>BSN (Body Sensor Networks): applicazioni, hardware (Shimmer, Xsens, LPMS-B2).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="break-bar">🍽 Pausa pranzo 60 minuti</div>
+
+      <div class="session">
+        <div class="session-time">13:00 – 14:45</div>
+        <div class="session-content">
+          <h4>📌 Sessione 3 – Sicurezza IoT: minacce</h4>
+          <ul>
+            <li>Sfide specifiche: risorse limitate, wireless intercettabile, nodi fisicamente accessibili.</li>
+            <li>Attacchi a livello rete: Sinkhole, Blackhole, Wormhole, Sybil, Selective Forwarding.</li>
+            <li>Attacchi a livello trasporto: replay, eavesdropping, DoS/DDoS.</li>
+            <li>Attacchi RPL: DIO/DAO spoofing, rank manipulation, version number attack.</li>
+            <li>Vulnerabilità fisiche: estrazione chiavi da dispositivo fisico.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">15:00 – 16:30</div>
+        <div class="session-content">
+          <h4>📌 Sessione 4 – Sicurezza IoT: contromisure per livello</h4>
+          <ul>
+            <li>Livello Link (802.15.4): AES-128 cifratura+MIC, security header (21/13/9 byte).</li>
+            <li>Livello Rete: IPSec/AH/ESP, IKE per gestione chiavi.</li>
+            <li>Livello Trasporto: DTLS per UDP (usato con CoAP). Modalità PSK, RPK, X.509.</li>
+            <li>RPL secure: DIO/DAO cifrati e autenticati. Routing security.</li>
+            <li>Trust management: meccanismi di reputazione tra nodi.</li>
+            <li>Aggiornamenti firmware sicuri: SUIT (Software Update for Internet of Things).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">16:45 – 17:30</div>
+        <div class="session-content">
+          <h4>🔁 Revisione + Domande di Verifica Giorno 4</h4>
+          <ul>
+            <li>Disegna il confronto CoAP vs HTTP su una tabella.</li>
+            <li>Elenca 5 tipi di attacco IoT e la relativa contromisura per ognuno.</li>
+            <li>Fai le domande di verifica su CoAP, OS e Sicurezza.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>💡 Consiglio:</strong> Per la sicurezza, studia sempre in coppia "attacco → contromisura". È il modo in cui vengono fatte le domande d'esame. Non basta solo conoscere gli attacchi.
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== GIORNO 5 ======================== -->
+  <div class="day-card d5" id="giorno5">
+    <div class="day-header">
+      <div class="day-number">5</div>
+      <div class="day-info">
+        <h2>📻 LoRa/LoRaWAN + Revisione Generale</h2>
+        <div class="subtitle">LPWAN, modulazione CSS, architettura LoRaWAN, ripasso completo</div>
+        <div class="hours">⏱ ~6,5 ore</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="goals-box">
+        <strong>🎯 Obiettivi del giorno</strong>
+        <ul>
+          <li>Comprendere LoRa (modulazione CSS) e LoRaWAN (MAC/rete): architettura, classi dispositivi, sicurezza, ADR.</li>
+          <li>Consolidare tutti gli argomenti con una revisione generale completa.</li>
+          <li>Simulare domande d'esame e identificare i punti ancora deboli.</li>
+        </ul>
+      </div>
+
+      <div class="session">
+        <div class="session-time">09:00 – 10:30</div>
+        <div class="session-content">
+          <h4>📌 Sessione 1 – LoRa e LoRaWAN</h4>
+          <ul>
+            <li>Contesto LPWAN: perché serve? Scenari con lungo range e bassissimo consumo.</li>
+            <li>Confronto tecnologie: 802.15.4, WiFi, LoRa, NB-IoT, Sigfox (range, data rate, consumo).</li>
+            <li>Modulazione LoRa: CSS (Chirp Spread Spectrum) – chirp lineare in frequenza, robusto al rumore.</li>
+            <li>Parametri chiave: SF (7–12), BW (125/250/500 kHz), CR (4/5–4/8).</li>
+            <li>Bande: 868 MHz (EU), 915 MHz (USA), 433 MHz (Asia). Duty cycle max 1% (EU).</li>
+            <li>Architettura LoRaWAN: End Node → Gateway → Network Server → Application Server.</li>
+            <li>Classi dispositivi: A (2 finestre RX dopo TX), B (finestre schedulate), C (ricezione continua).</li>
+            <li>Sicurezza: NwkSKey + AppSKey (AES-128), OTAA vs ABP, DevEUI/AppEUI/AppKey.</li>
+            <li>ADR (Adaptive Data Rate): NS adatta SF e potenza in base alla qualità del link.</li>
+            <li>Limiti: duty cycle, payload limitato (51–222 byte), prevalentemente uplink.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 20 minuti</div>
+
+      <div class="session">
+        <div class="session-time">10:50 – 12:30</div>
+        <div class="session-content">
+          <h4>📌 Sessione 2 – Revisione: Argomenti 1–6 (Fondamenti → MAC)</h4>
+          <ul>
+            <li>IoT: definizione, sfide node-level e network-level, standardizzazione.</li>
+            <li>Hardware: 4 componenti, confronto OS (Contiki, TinyOS, FreeRTOS).</li>
+            <li>UDP vs TCP: header, pro/contro per IoT, three-way handshake, ARQ.</li>
+            <li>IPv6: motivazioni, header 40 byte, tipi indirizzi, NDP, ICMPv6, SLAAC.</li>
+            <li>802.15.4: MTU 127 byte, PHY (canali, modulazioni), MAC (CSMA/CA, FFD/RFD).</li>
+            <li>MAC energy-efficient: B-MAC, X-MAC, S-MAC, ContikiMAC – principi e differenze.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="break-bar">🍽 Pausa pranzo 60 minuti</div>
+
+      <div class="session">
+        <div class="session-time">13:30 – 15:00</div>
+        <div class="session-content">
+          <h4>📌 Sessione 3 – Revisione: Argomenti 7–12 (6LoWPAN → LoRa)</h4>
+          <ul>
+            <li>6LoWPAN: dispatch byte, mesh header, fragment header, HC1 vs IPHC, best compression.</li>
+            <li>RPL: DODAG, rank, DIO/DAO, ETX, OF, Trickle Timer, repair, loop avoidance.</li>
+            <li>CoAP: REST, tipi messaggi (CON/NON/ACK/RST), Observe, DTLS, vs HTTP.</li>
+            <li>OS IoT: Contiki (protothreads, Cooja), TinyOS (nesC), FreeRTOS (real-time).</li>
+            <li>Sicurezza: attacchi (Sinkhole, Sybil, Wormhole…) e contromisure per livello.</li>
+            <li>LoRa/LoRaWAN: CSS, SF, classi A/B/C, ADR, sicurezza doppio livello.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">15:15 – 16:45</div>
+        <div class="session-content">
+          <h4>📌 Sessione 4 – Simulazione Esame</h4>
+          <ul>
+            <li>Fai tutte le domande di verifica (file <code>domande_verifica.html</code>) in modalità "esame" (niente appunti).</li>
+            <li>Segna le domande dove non sei sicura e dedica 15 minuti di ripasso mirato per ognuna.</li>
+            <li>Prova a spiegare ad alta voce RPL e 6LoWPAN come se stessi all'esame (tecnica Feynman).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="break-bar">☕ Pausa 15 minuti</div>
+
+      <div class="session">
+        <div class="session-time">17:00 – 18:00</div>
+        <div class="session-content">
+          <h4>✅ Sessione 5 – Punti deboli e ripasso finale</h4>
+          <ul>
+            <li>Torna agli argomenti dove hai avuto più difficoltà durante la simulazione.</li>
+            <li>Per dubbi specifici: consulta i capitoli del libro corrispondenti.</li>
+            <li>Scrivi un "foglio riepilogativo" con numeri, formule e termini chiave da memorizzare.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>💡 Consiglio finale:</strong> Il giorno prima dell'esame riposa bene. La notte del giorno 4 rileggi solo il foglio riepilogativo con i numeri chiave. La comprensione profonda vale più della memorizzazione.
+      </div>
+    </div>
+  </div>
+
+  <!-- NUMERI CHIAVE DA RICORDARE -->
+  <div class="progress-section">
+    <h2>🔢 Numeri chiave da memorizzare</h2>
+    <div class="method-grid">
+      <div class="method-card"><div class="icon">📶</div><h4>IEEE 802.15.4</h4><p>MTU: 127 byte · Max data rate: 250 kb/s · TX power: 1 mW · Frequenza principale: 2.4 GHz</p></div>
+      <div class="method-card"><div class="icon">🔢</div><h4>IPv6</h4><p>Indirizzi: 128 bit · Header base: 40 byte · MTU minimo: 1280 byte · Link-local: FE80::/10</p></div>
+      <div class="method-card"><div class="icon">📡</div><h4>UDP</h4><p>Header: 8 byte · Porta max: 65.535 · Msg max: 65.535 byte · Checksum: obbligatorio in IPv6</p></div>
+      <div class="method-card"><div class="icon">🔗</div><h4>TCP</h4><p>Header: 20 byte · 3-way handshake · Timeout = 2×EstimatedRTT · Fast retransmit: 3 ACK dup.</p></div>
+      <div class="method-card"><div class="icon">🗜️</div><h4>6LoWPAN</h4><p>HC1 link-local: IPv6 40B → 2B · IPHC global: 40B → 4B · UDP con NHC: 8B → 2B</p></div>
+      <div class="method-card"><div class="icon">📻</div><h4>LoRa</h4><p>SF: 7–12 · BW: 125/250/500 kHz · Duty cycle EU: max 1% · Payload max SF7: 222 byte</p></div>
+    </div>
+  </div>
+
+  <!-- CHECKLIST FINALE -->
+  <div class="progress-section">
+    <h2>✅ Checklist di preparazione all'esame</h2>
+    <ul class="checklist">
+      <li><div class="cb"></div>So definire l'IoT e le differenze con WSN, M2M, sistemi embedded</li>
+      <li><div class="cb"></div>Conosco i 4 componenti hardware di uno smart object</li>
+      <li><div class="cb"></div>Distinguo UDP da TCP e so quando usarli in IoT</li>
+      <li><div class="cb"></div>So disegnare e spiegare l'header IPv6 (8 campi)</li>
+      <li><div class="cb"></div>Conosco i tipi di indirizzi IPv6 (link-local, global, multicast)</li>
+      <li><div class="cb"></div>Spiego NDP: Router Discovery, SLAAC, Address Resolution, DAD</li>
+      <li><div class="cb"></div>Conosco IEEE 802.15.4 (PHY: canali, modulazioni; MAC: CSMA/CA, FFD/RFD)</li>
+      <li><div class="cb"></div>Confronto B-MAC, X-MAC, S-MAC e ContikiMAC su pro/contro</li>
+      <li><div class="cb"></div>Spiego 6LoWPAN: dispatch byte, mesh header, fragment header, HC1, IPHC</li>
+      <li><div class="cb"></div>Disegno e spiego un DODAG RPL: root, parent, sibling, rank</li>
+      <li><div class="cb"></div>Distinguo DIO da DAO e ne conosco il contenuto principale</li>
+      <li><div class="cb"></div>Spiego il Trickle Timer e l'Objective Function in RPL</li>
+      <li><div class="cb"></div>Confronto CoAP con HTTP e conosco i 4 tipi di messaggi CoAP</li>
+      <li><div class="cb"></div>Distinguo Contiki, TinyOS e FreeRTOS per caratteristiche principali</li>
+      <li><div class="cb"></div>Elenca 5 attacchi IoT e la relativa contromisura per ognuno</li>
+      <li><div class="cb"></div>Spiego l'architettura LoRaWAN (4 componenti) e le 3 classi dispositivi</li>
+    </ul>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+  // Navigazione rapida cliccando le chip del giorno
+  document.querySelectorAll('.day-chip').forEach((chip, i) => {
+    chip.addEventListener('click', () => {
+      const target = document.getElementById('giorno' + (i + 1));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+\beamer@sectionintoc {1}{Cos'è Clang-Tidy}{2}{0}{1}
+\beamer@sectionintoc {2}{Esempi di trasformazione}{5}{0}{2}

@@ -1,0 +1,224 @@
+\documentclass[aspectratio=169]{beamer}
+% Theme and colors
+\usetheme{SimplePlus}
+\usecolortheme{default}
+
+% Useful packages
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\newcommand{\quotes}[1]{``#1''}
+
+% Monospace style for short code snippets
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  columns=fullflexible,
+  backgroundcolor=\color{black!5},
+  frame=single,
+  rulecolor=\color{black!20},
+  xleftmargin=4pt,
+  xrightmargin=4pt,
+  aboveskip=4pt,
+  belowskip=4pt
+}
+
+% Presentation information
+\title{Smart Ambulance IoT}
+\subtitle{Internet of Things}
+\author{Giuseppe Di Blasi}
+\institute{Università di Parma}
+\date{}
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+% ======================================================
+\section{Introduction}
+% ======================================================
+
+% \begin{frame}{The Smart Ambulance Scenario}
+% \begin{itemize}
+% \item An ambulance $\mathcal{A}$ with two operating environments: \textbf{Cockpit} ($\mathcal{A}_C$) and \textbf{Rear Cabin} ($\mathcal{A}_R$)
+% \item Two first-aid workers acting as CoAP clients: \textbf{Driver} and \textbf{Reliever}
+% \item A \textbf{GPS} receiver, also modeled as a CoAP client
+% \item Each environment is a CoAP server hosting three resources: temperature sensor, air-conditioning controller, HMI
+% \end{itemize}
+% \begin{alertblock}{Focus of this talk}
+% Not the CoAP theory itself, but the concrete \textbf{implementation choices} made to satisfy the project requirements.
+% \end{alertblock}
+% \end{frame}
+
+% ======================================================
+\section{Architecture}
+% ======================================================
+
+\begin{frame}{Two CoAP Servers, Three CoAP Clients}
+\begin{columns}
+\column{0.5\textwidth}
+\textbf{Servers}
+\begin{itemize}
+\item \texttt{Cockpit} $\rightarrow$ port 5684
+\item \texttt{RearCabin} $\rightarrow$ port 5683
+\item Both host the same three resources: \texttt{TemperatureSensor}, \texttt{AirConditioningController}, \texttt{HMI}
+\end{itemize}
+\column{0.5\textwidth}
+\textbf{Clients}
+\begin{itemize}
+\item \texttt{Driver}, \texttt{Reliever}, \texttt{GPS}
+\item All extend a common abstract class \texttt{SmartAmbulanceClient}
+\item Shared reusable GET/PUT operations toward HMI, sensor and controller
+\end{itemize}
+\end{columns}
+\vspace{0.4cm}
+\begin{block}{Design choice}
+Two independent \texttt{CoapServer} instances instead of one server with parametrized resources — keeps the two environments fully separated.
+\end{block}
+\end{frame}
+
+% \begin{frame}{Resources as POJO Classes}
+% \begin{itemize}
+% \item Each resource extends \texttt{CoapResource} and keeps its state in \textbf{private fields}
+% \item State is exposed only via \texttt{handleGET} / \texttt{handlePUT} overrides — as requested in the project's ``General Suggestions''
+% \item No module ever touches another class's internal variables directly
+% \end{itemize}
+% \vspace{0.3cm}
+% \begin{exampleblock}{Resources implemented}
+% \begin{itemize}
+% \item \texttt{TemperatureSensor} — GET current temperature; observable
+% \item \texttt{AirConditioningController} — GET target temp, PUT with permission check
+% \item \texttt{HMI} — GET emergency state, PUT with cross-environment propagation
+% \end{itemize}
+% \end{exampleblock}
+% \end{frame}
+
+% ======================================================
+\section{Implementation Choices}
+% ======================================================
+
+\begin{frame}[fragile]{Message Format: Hand-Built JSON}
+\begin{columns}
+\column{0.48\textwidth}
+\begin{itemize}
+\item Payloads built with \texttt{String.format}
+\item Parsed with a small helper: \texttt{extractJsonValue(json, key)}
+\item Every payload carries a \texttt{"Client"} field identifying the sender
+\end{itemize}
+\column{0.52\textwidth}
+\begin{lstlisting}
+{
+  "Client": "DRIVER",
+  "temp_target": 21
+}
+\end{lstlisting}
+\begin{lstlisting}
+extractJsonValue(
+  payload, "temp_target")
+\end{lstlisting}
+\end{columns}
+\begin{block}{Why it matters}
+The \texttt{Client} field is what the server uses to route authorization logic (next slide).
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Authorization Rules on the AC Controller}
+\begin{columns}
+\column{0.5\textwidth}
+\textbf{Driver}
+\begin{itemize}
+\item Cockpit $\rightarrow$ \textcolor{green!50!black}{allowed}
+\item Rear Cabin $\rightarrow$ \textcolor{green!50!black}{allowed}
+\end{itemize}
+\column{0.5\textwidth}
+\textbf{Reliever}
+\begin{itemize}
+\item Cockpit $\rightarrow$ \textcolor{red}{FORBIDDEN}
+\item Rear Cabin $\rightarrow$ \textcolor{green!50!black}{allowed}
+\end{itemize}
+\end{columns}
+\vspace{0.3cm}
+\begin{lstlisting}
+if (client.equals("RELIEVER") && port == COCKPIT_PORT) {
+    exchange.respond(ResponseCode.FORBIDDEN);
+    return;
+}
+\end{lstlisting}
+\begin{alertblock}{Note}
+The check is done inside \texttt{handlePUT}, comparing the \texttt{Client} field with the server's own port.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Dynamic Temperature + Observe Pattern}
+\begin{columns}
+\column{0.5\textwidth}
+\textbf{Gradual convergence}
+\begin{itemize}
+\item \texttt{TimerTask} with \texttt{scheduleAtFixedRate}
+\item Current temperature moves $\pm1^\circ$C every 1.5s toward the target
+\item Triggered by \texttt{setTargetTemperature()}
+\end{itemize}
+\column{0.5\textwidth}
+\textbf{CoAP Observe}
+\begin{itemize}
+\item A client can observe the temperature sensor
+\item The subscribed client is updated at every change
+\item Unsubscribes with \texttt{stopObservingTemperature()}
+\end{itemize}
+\end{columns}
+\vspace{0.4cm}
+\begin{block}{Design choice}
+Simulating a realistic air-conditioning response instead of an instantaneous jump to the target temperature.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{HMI Synchronization Between Environments}
+\begin{itemize}
+\item When Driver or Reliever update emergency level / location,  the \texttt{HMI} resource itself opens an internal \texttt{CoapClient}
+\item Same thing applies for the GPS when it sends new coordinates
+\item It sends a PUT to the twin HMI on the other server — a \textbf{server-to-server} propagation, not client-to-client
+\end{itemize}
+\vspace{1cm}
+\begin{lstlisting}
+updateOtherHMI(): PUT to twin port, payload marked "HMI_UP"
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{End-to-End Simulation}
+\texttt{SmartAmbulanceSimulation.main} orchestrates a scripted scenario, with \texttt{Thread.sleep} pauses between steps:
+\begin{enumerate}
+\item Driver sets the temperature in Rear Cabin
+\item GPS sends coordinates to the HMI
+\item Driver updates emergency/location (propagated to the other HMI)
+\item Reliever attempts the same PUT in Cockpit $\rightarrow$ FORBIDDEN
+\item Driver switches server and repeats GET/PUT in Cockpit
+\item Reliever observes the temperature sensor, then cancels
+\end{enumerate}
+\end{frame}
+
+% ======================================================
+\section{Conclusions}
+% ======================================================
+
+
+\begin{frame}{Questions \& Contacts}
+  \vfill
+  \begin{center}
+    {\Huge Any questions?}
+
+    \vspace{1.5cm}
+    {\small E-mail: giuseppe.diblasi@studenti.unipr.it}
+  \end{center}
+  \vfill
+\end{frame}
+
+\end{document}

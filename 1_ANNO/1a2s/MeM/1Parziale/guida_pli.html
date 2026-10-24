@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guida alla Programmazione Lineare Intera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  :root {
+    --bg: #f6f1e7;
+    --bg-paper: #fdfaf3;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4742;
+    --ink-muted: #7a7670;
+    --accent: #8b2a1f;        /* terracotta scuro */
+    --accent-soft: #c9614f;
+    --gold: #b88a3d;
+    --blue: #2c4a6b;
+    --green: #4a6b3a;
+    --rule: #d9cdb5;
+    --paper-line: #e8dcc4;
+    --shadow: 0 1px 0 rgba(26,26,26,.04), 0 8px 24px rgba(26,26,26,.06);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 20px; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Layout principale con sidebar */
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 0;
+  }
+
+  /* Sidebar */
+  aside.toc {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 40px 24px 40px 32px;
+    border-right: 1px solid var(--rule);
+    background: var(--bg);
+  }
+  aside.toc h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 22px;
+    margin: 0 0 8px;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+  }
+  aside.toc .sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-muted);
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 18px;
+  }
+  aside.toc nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  aside.toc nav > ul > li { margin-bottom: 10px; }
+  aside.toc nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    padding: 4px 8px;
+    border-left: 2px solid transparent;
+    transition: all .15s ease;
+  }
+  aside.toc nav a:hover {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(139,42,31,.04);
+  }
+  aside.toc nav .group {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--gold);
+    margin: 22px 0 8px 8px;
+    display: block;
+  }
+  aside.toc nav ul ul {
+    margin: 4px 0 8px 0;
+  }
+  aside.toc nav ul ul a {
+    font-size: 13px;
+    padding-left: 16px;
+  }
+
+  /* Main */
+  main {
+    padding: 48px 64px 120px;
+    max-width: 920px;
+  }
+
+  /* Titoli */
+  .hero {
+    margin-bottom: 64px;
+    padding-bottom: 32px;
+    border-bottom: 3px double var(--rule);
+  }
+  .eyebrow {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 15px;
+    letter-spacing: .04em;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -.02em;
+    margin: 0 0 16px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .lede {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 65ch;
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: -.015em;
+    margin: 72px 0 8px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+  h2::before {
+    content: attr(data-num);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    font-size: 18px;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.2;
+    margin: 36px 0 10px;
+    color: var(--ink);
+  }
+
+  h4 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: var(--gold);
+    margin: 22px 0 8px;
+  }
+
+  p { margin: 0 0 14px; max-width: 70ch; }
+
+  strong { color: var(--accent); font-weight: 600; }
+
+  em.term { font-style: italic; color: var(--blue); font-weight: 500; }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .92em;
+    background: rgba(139,42,31,.06);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--accent);
+  }
+
+  /* Box per i diversi tipi di contenuto */
+  .problem-card {
+    background: var(--bg-paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 32px 36px;
+    margin: 24px 0 40px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .problem-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px 0 0 4px;
+  }
+
+  .block {
+    margin: 18px 0;
+    padding: 16px 20px;
+    border-radius: 3px;
+    font-size: 15px;
+  }
+  .block .label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .block.vars       { background: #eaf0e3; border-left: 4px solid var(--green); }
+  .block.vars .label { color: var(--green); }
+  .block.obj        { background: #fbeede; border-left: 4px solid var(--gold); }
+  .block.obj .label  { color: var(--gold); }
+  .block.constr     { background: #e3ecf3; border-left: 4px solid var(--blue); }
+  .block.constr .label { color: var(--blue); }
+  .block.example    { background: #fbf3d8; border-left: 4px solid #b88a3d; }
+  .block.example .label { color: #8a6520; }
+
+  .block ul, .block ol { margin: 6px 0; padding-left: 22px; }
+  .block li { margin-bottom: 4px; }
+
+  /* Callout */
+  .callout {
+    background: linear-gradient(0deg, rgba(139,42,31,.04), rgba(139,42,31,.04)), var(--bg-paper);
+    border: 1px dashed var(--accent-soft);
+    padding: 20px 24px;
+    border-radius: 4px;
+    margin: 20px 0;
+    position: relative;
+  }
+  .callout .tag {
+    position: absolute;
+    top: -10px; left: 16px;
+    background: var(--accent);
+    color: var(--bg-paper);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 13px;
+    padding: 2px 12px;
+    border-radius: 3px;
+  }
+
+  .recognize {
+    background: var(--bg-paper);
+    border: 1px solid var(--rule);
+    padding: 18px 24px;
+    border-radius: 4px;
+    margin: 16px 0 24px;
+  }
+  .recognize h4 {
+    margin-top: 0;
+    color: var(--accent);
+  }
+
+  /* Tabella vincoli logici */
+  .logic-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 15px;
+    background: var(--bg-paper);
+    box-shadow: var(--shadow);
+  }
+  .logic-table th {
+    background: var(--ink);
+    color: var(--bg-paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    text-align: left;
+    padding: 14px 18px;
+    font-size: 14px;
+    letter-spacing: .02em;
+  }
+  .logic-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .logic-table tr:last-child td { border-bottom: none; }
+  .logic-table tr:nth-child(even) td { background: rgba(217,205,181,.15); }
+  .logic-table td:first-child {
+    font-weight: 500;
+    color: var(--accent);
+    width: 38%;
+  }
+
+  /* Math display */
+  .math-display {
+    margin: 12px 0;
+    padding: 12px 16px;
+    background: rgba(255,255,255,.5);
+    border-left: 2px solid var(--rule);
+    border-radius: 0 3px 3px 0;
+    overflow-x: auto;
+  }
+
+  /* Steps numerati per esempi */
+  .steps {
+    counter-reset: step;
+    padding: 0;
+    list-style: none;
+    margin: 18px 0;
+  }
+  .steps > li {
+    counter-increment: step;
+    position: relative;
+    padding: 10px 0 10px 50px;
+    margin-bottom: 8px;
+  }
+  .steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0; top: 8px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--bg-paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  /* Pill */
+  .pill {
+    display: inline-block;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 2px 4px 2px 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Note finale */
+  .note {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--rule);
+    font-size: 14px;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  /* Hr ornamentale */
+  hr.fancy {
+    border: none;
+    text-align: center;
+    margin: 48px 0;
+  }
+  hr.fancy::before {
+    content: '❦';
+    color: var(--accent);
+    font-size: 22px;
+  }
+
+  /* Quick-reference griglia inizio guida */
+  .quick-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 20px 0 32px;
+  }
+  .quick-grid a {
+    background: var(--bg-paper);
+    border: 1px solid var(--rule);
+    padding: 14px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all .15s ease;
+    display: block;
+  }
+  .quick-grid a:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+  }
+  .quick-grid .qg-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 17px;
+    margin-bottom: 2px;
+  }
+  .quick-grid .qg-hint {
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  /* Responsive */
+  @media (max-width: 1000px) {
+    .layout { grid-template-columns: 1fr; }
+    aside.toc {
+      position: static;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--rule);
+    }
+    main { padding: 32px 24px 80px; }
+    h1 { font-size: 38px; }
+    h2 { font-size: 28px; }
+    .quick-grid { grid-template-columns: 1fr; }
+  }
+
+  @media print {
+    aside.toc { display: none; }
+    .layout { display: block; }
+    main { padding: 20px; max-width: 100%; }
+    .problem-card { break-inside: avoid; box-shadow: none; }
+    h2 { break-before: page; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- ============== SIDEBAR ============== -->
+<aside class="toc">
+  <h2>Programmazione Lineare Intera</h2>
+  <div class="sub">guida didattica con esempi</div>
+  <nav>
+    <ul>
+      <li><a href="#intro">Introduzione</a></li>
+      <li><a href="#concetti">1. Concetti base</a></li>
+      <li><a href="#riconoscere">2. Come riconoscere il problema</a></li>
+      <li><a href="#vincoli-logici">3. Schema dei vincoli logici</a></li>
+
+      <span class="group">I problemi</span>
+      <li><a href="#zaino">4. Problema dello Zaino</a></li>
+      <li><a href="#poc">5. Ottimizzazione combinatoria</a></li>
+      <li><a href="#assegnazione">6. Assegnazione</a></li>
+      <li><a href="#copertura">7. Copertura</a></li>
+      <li><a href="#copertura-astratta">8. Copertura astratta</a></li>
+      <li><a href="#impaccamento">9. Impaccamento</a></li>
+      <li><a href="#partizione">10. Partizione</a></li>
+      <li><a href="#tsp">11. TSP (Commesso viaggiatore)</a></li>
+      <li><a href="#ufl">12. UFL (Facility location)</a></li>
+
+      <span class="group">Strategia</span>
+      <li><a href="#consigli">13. Consigli per la risoluzione</a></li>
+      <li><a href="#formulazioni">14. Formulazioni e rilassamenti</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- ============== MAIN ============== -->
+<main>
+
+<section class="hero" id="intro">
+  <div class="eyebrow">Guida allo studio · Ricerca Operativa</div>
+  <h1>Programmazione lineare <em>intera</em> & ottimizzazione combinatoria</h1>
+  <p class="lede">
+    Una guida ragionata per riconoscere, modellare e risolvere i problemi classici della PLI:
+    dal problema dello zaino al commesso viaggiatore. Pensata per chi <em>parte da zero</em>
+    e vuole costruire schemi mentali solidi, con esempi numerici svolti passo per passo.
+  </p>
+
+  <div class="quick-grid">
+    <a href="#zaino"><div class="qg-name">Zaino (Knapsack)</div><div class="qg-hint">Scegliere oggetti con un budget</div></a>
+    <a href="#assegnazione"><div class="qg-name">Assegnazione</div><div class="qg-hint">Persone ↔ lavori 1-a-1</div></a>
+    <a href="#copertura"><div class="qg-name">Copertura</div><div class="qg-hint">Coprire tutti gli elementi</div></a>
+    <a href="#impaccamento"><div class="qg-name">Impaccamento</div><div class="qg-hint">Senza sovrapposizioni</div></a>
+    <a href="#partizione"><div class="qg-name">Partizione</div><div class="qg-hint">Copri esattamente una volta</div></a>
+    <a href="#tsp"><div class="qg-name">TSP</div><div class="qg-hint">Tour minimo su grafo</div></a>
+    <a href="#ufl"><div class="qg-name">UFL</div><div class="qg-hint">Aprire impianti per servire clienti</div></a>
+    <a href="#vincoli-logici"><div class="qg-name">Vincoli logici</div><div class="qg-hint">Tabella di traduzione</div></a>
+  </div>
+</section>
+
+<!-- ============== CONCETTI BASE ============== -->
+<h2 id="concetti" data-num="§ 1">I tre tipi di programmazione lineare</h2>
+
+<p>Ogni problema in questa guida è una variante di <em class="term">programma lineare</em>. La differenza sta nel <strong>tipo di valori</strong> che le variabili possono assumere.</p>
+
+<h3>Programma Lineare (PL)</h3>
+<p>Tutte le variabili sono <strong>numeri reali</strong> (es. quantità di un prodotto). Si scrive in forma compatta come:</p>
+<div class="math-display">
+$$ (\text{PL}) \quad \max\; z(x) = c^T x \quad \text{s.t.} \quad Ax \le b,\; x \ge 0 $$
+</div>
+
+<h3>Programma Intero (PI)</h3>
+<p>Tutte le variabili devono essere <strong>numeri interi</strong> ($x \in \mathbb{Z}^n$). Tipicamente quando si contano oggetti che non si possono spezzare (persone, macchine, container).</p>
+<div class="math-display">
+$$ (\text{PI}) \quad \max\; c^T x \quad \text{s.t.} \quad Ax \le b,\; x \ge 0,\; x \in \mathbb{Z}^n $$
+</div>
+
+<h3>Programma Intero Binario (PIB)</h3>
+<p>Le variabili possono assumere <strong>solo 0 o 1</strong>. È il tipo più comune nei problemi di questa guida: $x_j = 1$ significa "scelgo l'oggetto $j$", $x_j = 0$ significa "non lo scelgo".</p>
+<div class="math-display">
+$$ (\text{PIB}) \quad \max\; c^T x \quad \text{s.t.} \quad Ax \le b,\; x \in \{0,1\}^n $$
+</div>
+
+<h3>Programma Intero Misto (PIM)</h3>
+<p>Una parte delle variabili è continua ($x \in \mathbb{R}^n$), un'altra è intera ($y \in \mathbb{Z}^p$). Si usa quando alcune decisioni sono "quantità" (continua) e altre sono "scelte sì/no" (binaria).</p>
+<div class="math-display">
+$$ (\text{PIM}) \quad \max\; c^T x + h^T y \quad \text{s.t.} \quad Ax + Gy \le b,\; x \ge 0,\; y \ge 0,\; y \in \mathbb{Z}^p $$
+</div>
+
+<div class="callout">
+  <span class="tag">ricorda</span>
+  <p style="margin:0">In un problema di <em class="term">ottimizzazione combinatoria</em> (POC) si cerca <strong>il miglior sottoinsieme</strong> $S$ di un insieme $N=\{1,\dots,n\}$. Ogni POC si può sempre tradurre in un programma binario usando il <em class="term">vettore caratteristico</em>: $x_j = 1$ se $j \in S$, $x_j = 0$ altrimenti.</p>
+</div>
+
+<!-- ============== RICONOSCERE ============== -->
+<h2 id="riconoscere" data-num="§ 2">Come riconoscere il tipo di problema</h2>
+
+<p>Quando leggi un esercizio, prova a rispondere a queste domande in ordine. La risposta ti porta dritto al modello giusto.</p>
+
+<div class="recognize">
+  <h4>① Cosa devo decidere?</h4>
+  <p style="margin:0">Se devo scegliere <strong>un sottoinsieme</strong> di oggetti (chi prendere, dove aprire, cosa finanziare) → variabili <strong>binarie</strong> $x_j \in \{0,1\}$.<br>
+  Se devo scegliere <strong>una quantità</strong> (quante unità produrre, quanto trasportare) → variabili <strong>continue o intere</strong>.<br>
+  Se devo decidere <strong>un accoppiamento</strong> (chi fa cosa, da dove a dove) → variabili a <strong>doppio indice</strong> $x_{ij}$.</p>
+</div>
+
+<div class="recognize">
+  <h4>② Massimizzare o minimizzare?</h4>
+  <p style="margin:0"><strong>Max</strong> = guadagno, profitto, valore (es. zaino, finanziamento progetti, impaccamento).<br>
+  <strong>Min</strong> = costo, distanza, numero di oggetti (es. assegnazione, copertura, TSP, UFL).</p>
+</div>
+
+<div class="recognize">
+  <h4>③ Che parole-chiave compaiono nei vincoli?</h4>
+  <p style="margin:0">
+  <span class="pill">"non superare"</span> → vincolo $\le$ (es. budget zaino: $\sum a_j x_j \le b$)<br>
+  <span class="pill">"esattamente uno"</span> → uguaglianza $= 1$ (es. assegnazione, partizione)<br>
+  <span class="pill">"almeno uno"</span> → $\ge 1$ (es. copertura)<br>
+  <span class="pill">"al massimo uno"</span> → $\le 1$ (es. impaccamento)<br>
+  <span class="pill">"se A allora B"</span> → vincoli logici (vedi prossima sezione)
+  </p>
+</div>
+
+<div class="recognize">
+  <h4>④ La struttura ricorda qualcosa?</h4>
+  <ul style="margin:8px 0 0 0;">
+    <li><strong>Un solo vincolo di "capacità"</strong> + scelta sì/no → <em>Zaino</em></li>
+    <li><strong>Matrice persone×lavori</strong> con somme di riga e colonna = 1 → <em>Assegnazione</em></li>
+    <li><strong>Matrice di incidenza</strong> dove "almeno uno" deve coprire ogni riga → <em>Copertura</em></li>
+    <li><strong>Grafo + tour che passa una sola volta</strong> per ogni nodo → <em>TSP</em></li>
+    <li><strong>Costi fissi</strong> (apertura) + <strong>costi variabili</strong> (servizio) → <em>UFL</em></li>
+  </ul>
+</div>
+
+<!-- ============== VINCOLI LOGICI ============== -->
+<h2 id="vincoli-logici" data-num="§ 3">Schema dei vincoli logici binari</h2>
+
+<p>Spesso un problema contiene <strong>condizioni logiche</strong> ("almeno uno deve essere scelto", "se prendo A devo prendere anche B"). La PLIB le traduce in disuguaglianze lineari sulle variabili binarie. Questa è la <strong>tabella di conversione fondamentale</strong>: tienila sempre a portata di mano.</p>
+
+<table class="logic-table">
+  <thead>
+    <tr><th>Condizione logica</th><th>Vincolo lineare equivalente</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Non tutti scelti</td>
+      <td>$\displaystyle \sum_{i=1}^{n} x_i \le n - 1$</td>
+    </tr>
+    <tr>
+      <td>Almeno uno scelto</td>
+      <td>$\displaystyle \sum_{i=1}^{n} x_i \ge 1$</td>
+    </tr>
+    <tr>
+      <td>Al massimo uno scelto (si escludono)</td>
+      <td>$x_A + x_B \le 1$</td>
+    </tr>
+    <tr>
+      <td>$A$ implica $B$ &nbsp; ($A$ solo se $B$)</td>
+      <td>$x_A \le x_B$</td>
+    </tr>
+    <tr>
+      <td>Entrambi o nessuno</td>
+      <td>$x_A = x_B$</td>
+    </tr>
+    <tr>
+      <td>OR tra due condizioni<br><span style="font-size:13px;color:var(--ink-muted)">(usa variabile ausiliaria $y \in \{0,1\}$)</span></td>
+      <td>$x_1 + x_2 + x_3 \ge 1 - y$<br>$x_2 + x_4 + x_5 + x_6 \ge 2y$</td>
+    </tr>
+    <tr>
+      <td>$A$ oppure $B$ (almeno uno dei due)</td>
+      <td>$x_A + x_B \ge 1$</td>
+    </tr>
+    <tr>
+      <td>Se $A$, allora $B$ e $C$</td>
+      <td>$x_A \le x_B$ &nbsp;e&nbsp; $x_A \le x_C$</td>
+    </tr>
+    <tr>
+      <td>Se $A$ e $B$, allora $C$</td>
+      <td>$x_A + x_B - 1 \le x_C$</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <span class="tag">come si usa</span>
+  <p style="margin:0"><strong>Esempio.</strong> "Se finanzio il progetto 3, devo finanziare anche il progetto 5." → questa è "$A$ implica $B$" con $A=3, B=5$, quindi: $x_3 \le x_5$. Provando $x_3=1$: ottengo $1 \le x_5$, cioè $x_5=1$. ✓<br><br>
+  <strong>Esempio.</strong> "I progetti 1 e 2 si escludono." → vincolo: $x_1 + x_2 \le 1$. Se metto $x_1=1$ e $x_2=1$ ottengo $2 \le 1$, falso. ✓</p>
+</div>
+
+
+<hr class="fancy">
+
+<!-- ============== ZAINO ============== -->
+<h2 id="zaino" data-num="§ 4">Problema dello Zaino (Knapsack 0-1)</h2>
+
+<p>È il problema più semplice e il "mattoncino" da cui partire. Ne esistono mille varianti (finanziamento progetti, scelta investimenti, riempire un bagaglio…) ma la struttura è sempre la stessa.</p>
+
+<div class="recognize">
+  <h4>Come riconoscerlo</h4>
+  <p style="margin:0">Hai <strong>una sola risorsa limitata</strong> (budget, peso, capienza, tempo) da distribuire su $n$ oggetti, ciascuno con un proprio "costo" $a_j$ e un proprio "guadagno" $c_j$. Devi scegliere quali oggetti prendere (<strong>sì o no</strong>) per massimizzare il guadagno totale senza sforare la risorsa.</p>
+</div>
+
+<div class="problem-card">
+  <h3>Formulazione standard</h3>
+  <p><strong>Dati:</strong> $n$ oggetti (o progetti), un budget $b$, per ogni oggetto $j$ un costo $a_j$ e un guadagno $c_j$.</p>
+
+  <div class="block vars">
+    <span class="label">Variabili decisionali</span>
+    $$ x_j = \begin{cases} 1 & \text{se l'oggetto } j \text{ è scelto} \\ 0 & \text{altrimenti} \end{cases} \qquad j = 1,\dots,n $$
+  </div>
+
+  <div class="block obj">
+    <span class="label">Funzione obiettivo</span>
+    $$ \max\; z = \sum_{j=1}^{n} c_j\, x_j \qquad \text{(massimizzare il guadagno totale)} $$
+  </div>
+
+  <div class="block constr">
+    <span class="label">Vincoli</span>
+    $$ \sum_{j=1}^{n} a_j\, x_j \le b \qquad \text{(non superare il budget)} $$
+    $$ x_j \in \{0,1\} \qquad j = 1,\dots,n $$
+  </div>
+</div>
+
+<div class="block example">
+  <span class="label">Esempio svolto</span>
+  <p style="margin:0 0 8px"><strong>Testo.</strong> Ho un budget di 100€ e 4 progetti possibili:</p>
+  <ul style="margin:6px 0 12px">
+    <li>Progetto 1: costa 83, rende 19</li>
+    <li>Progetto 2: costa 61, rende 12</li>
+    <li>Progetto 3: costa 49, rende 10</li>
+    <li>Progetto 4: costa 20, rende  6</li>
+  </ul>
+  <p style="margin:0 0 6px"><strong>Modello.</strong></p>
+  <p style="margin:0">$\max\; 19 x_1 + 12 x_2 + 10 x_3 + 6 x_4$<br>
+  s.t. $83 x_1 + 61 x_2 + 49 x_3 + 20 x_4 \le 100$<br>
+  $x_1, x_2, x_3, x_4 \in \{0,1\}$</p>
+  <p style="margin:10px 0 0"><strong>Soluzione.</strong> Provando le combinazioni ammissibili (basta enumerare con $n=4$): la migliore è $x = (0, 1, 0, 1)$ con costo $61+20=81 \le 100$ e guadagno $12+6=18$. Si potrebbero verificare altre combinazioni, ma questo è un esempio che mostra il <strong>metodo</strong>.</p>
+</div>
+
+<!-- ============== POC ============== -->
+<h2 id="poc" data-num="§ 5">Problemi di ottimizzazione combinatoria (POC)</h2>
+
+<p>Lo zaino è un caso particolare di una famiglia più grande: i POC. È utile averne lo schema generale, perché tutti gli altri problemi della guida (assegnazione, copertura, TSP…) sono POC.</p>
+
+<div class="problem-card">
+  <h3>Schema generale POC</h3>
+  <p>Dati di un POC:</p>
+  <ul>
+    <li>$N = \{1, 2, \dots, n\}$ — un <strong>insieme finito</strong> di "elementi" (progetti, archi, persone…)</li>
+    <li>$c_j \in \mathbb{R}$ — il <strong>peso</strong> (costo o guadagno) di ogni elemento $j \in N$</li>
+    <li>$\mathcal{U} = \mathcal{P}(N)$ — l'<strong>insieme ambiente</strong>: tutti i possibili sottoinsiemi di $N$ (sono $2^n$)</li>
+    <li>$X \subseteq \mathcal{U}$ — l'<strong>insieme ammissibile</strong>: solo i sottoinsiemi $S$ che rispettano i vincoli</li>
+  </ul>
+  <p>Il problema è:</p>
+  $$ (\text{POC}) \quad \min_{S \subseteq N}\; \Big\{ z(S) = \sum_{j \in S} c_j \;\Big|\; S \in X \Big\} \qquad \text{(o max)} $$
+
+  <p>Si può sempre tradurre in PLIB usando il <em class="term">vettore caratteristico</em>:</p>
+  $$ x^{S}_j = 1 \text{ se } j \in S, \qquad x^{S}_j = 0 \text{ se } j \notin S $$
+</div>
+
+<div class="callout">
+  <span class="tag">attenzione</span>
+  <p style="margin:0"><strong>Perché non risolvere per enumerazione?</strong> Perché $|\mathcal{U}| = 2^n$ esplode. Anche con soli 70 elementi e un computer da un milione di operazioni al secondo, $2^{70}$ richiederebbe più tempo dell'età dell'universo. È per questo che servono modelli intelligenti e tecniche come il rilassamento lineare (vedi § 14).</p>
+</div>
+
+
+<!-- ============== ASSEGNAZIONE ============== -->
+<h2 id="assegnazione" data-num="§ 6">Problema di Assegnazione</h2>
+
+<div class="recognize">
+  <h4>Come riconoscerlo</h4>
+  <p style="margin:0">Hai <strong>$n$ persone</strong> e <strong>$n$ lavori</strong> (oppure $n$ macchine e $n$ compiti, $n$ studenti e $n$ progetti…). Ogni persona deve fare <strong>esattamente un lavoro</strong> e ogni lavoro deve essere svolto da <strong>esattamente una persona</strong>. Conosci il costo $C_{ij}$ di assegnare la persona $i$ al lavoro $j$ e vuoi minimizzare il costo totale.<br><br>
+  <strong>Parola-chiave:</strong> "abbinare" / "accoppiare" / "uno a uno".</p>
+</div>
+
+<div class="problem-card">
+  <h3>Formulazione</h3>
+  <p><strong>Dati:</strong> $n$ persone, $n$ lavori, matrice dei costi $C_{ij}$.</p>
+
+  <div class="block vars">
+    <span class="label">Variabili</span>
+    $$ x_{ij} = \begin{cases} 1 & \text{se la persona } i \text{ svolge il lavoro } j \\ 0 & \text{altrimenti} \end{cases} $$
+    <p style="margin:6px 0 0; font-size:14px;">Ci sono $n \times n = n^2$ variabili in totale.</p>
+  </div>
+
+  <div class="block obj">
+    <span class="label">Funzione obiettivo</span>
+    $$ \min\; z = \sum_{i=1}^{n} \sum_{j=1}^{n} C_{ij}\, x_{ij} $$
+  </div>
+
+  <div class="block constr">
+    <span class="label">Vincoli</span>
+    $$ \sum_{j=1}^{n} x_{ij} = 1, \quad i = 1,\dots,n \qquad \text{(ogni persona svolge un solo lavoro)} $$
+    $$ \sum_{i=1}^{n} x_{ij} = 1, \quad j = 1,\dots,n \qquad \text{(ogni lavoro è svolto da una sola persona)} $$
+    $$ x_{ij} \in \{0,1\} $$
+  </div>
+</div>
+
+<div class="block example">
+  <span class="label">Esempio svolto</span>
+  <p style="margin:0 0 8px"><strong>Testo.</strong> 3 persone, 3 lavori. Matrice dei costi:</p>
+  <table style="margin:8px 0 12px; border-collapse:collapse; font-size:14px;">
+    <tr><th style="border:1px solid var(--rule); padding:6px 12px;"></th><th style="border:1px solid var(--rule); padding:6px 12px;">L1</th><th style="border:1px solid var(--rule); padding:6px 12px;">L2</th><th style="border:1px solid var(--rule); padding:6px 12px;">L3</th></tr>
+    <tr><td style="border:1px solid var(--rule); padding:6px 12px;"><b>P1</b></td><td style="border:1px solid var(--rule); padding:6px 12px;">9</td><td style="border:1px solid var(--rule); padding:6px 12px;">2</td><td style="border:1px solid var(--rule); padding:6px 12px;">7</td></tr>
+    <tr><td style="border:1px solid var(--rule); padding:6px 12px;"><b>P2</b></td><td style="border:1px solid var(--rule); padding:6px 12px;">6</td><td style="border:1px solid var(--rule); padding:6px 12px;">4</td><td style="border:1px solid var(--rule); padding:6px 12px;">3</td></tr>
+    <tr><td style="border:1px solid var(--rule); padding:6px 12px;"><b>P3</b></td><td style="border:1px solid var(--rule); padding:6px 12px;">5</td><td style="border:1px solid var(--rule); padding:6px 12px;">8</td><td style="border:1px solid var(--rule); padding:6px 12px;">1</td></tr>
+  </table>
+  <p style="margin:0 0 6px"><strong>Modello.</strong> 9 variabili $x_{11}, x_{12}, \dots, x_{33}$.</p>
+  <p style="margin:0 0 6px">$\min\; 9 x_{11} + 2 x_{12} + 7 x_{13} + 6 x_{21} + 4 x_{22} + 3 x_{23} + 5 x_{31} + 8 x_{32} + x_{33}$</p>
+  <p style="margin:0 0 6px">Vincoli di riga (ogni persona 1 solo lavoro): $x_{11}+x_{12}+x_{13}=1$, idem per le altre due.<br>
+  Vincoli di colonna (ogni lavoro 1 sola persona): $x_{11}+x_{21}+x_{31}=1$, idem per le altre.</p>
+  <p style="margin:10px 0 0"><strong>Soluzione ottima.</strong> P1→L2 (costo 2), P2→L1 (costo 6), P3→L3 (costo 1). Costo totale = $2+6+1=9$. In notazione: $x_{12}=x_{21}=x_{33}=1$, tutti gli altri = 0.</p>
+</div>
+
+<!-- ============== COPERTURA ============== -->
+<h2 id="copertura" data-num="§ 7">Problema di Copertura (Set Covering)</h2>
+
+<div class="recognize">
+  <h4>Come riconoscerlo</h4>
+  <p style="margin:0">Hai un insieme di <strong>cose da coprire</strong> (interventi, sale di un museo, clienti, segnali) e un insieme di <strong>"strumenti"</strong> (medici, telecamere, antenne…) ognuno dei quali copre solo <em>alcune</em> di queste cose. Vuoi sceglierne il <strong>minimo numero</strong> (o costo minimo) in modo che <strong>ogni</strong> cosa sia coperta da <strong>almeno uno</strong> strumento.<br><br>
+  <strong>Parole-chiave:</strong> "almeno uno", "tutti devono essere coperti", "minimo costo per garantire che…".</p>
+</div>
+
+<div class="problem-card">
+  <h3>Formulazione (esempio: ospedale-pronto soccorso)</h3>
+  <p><strong>Dati:</strong> $n$ medici, $m$ tipi di interventi possibili. Per ogni medico $j$ il salario aggiuntivo $c_j$. Matrice di incidenza $A = (a_{ij})$ con $a_{ij}=1$ se il medico $j$ sa effettuare l'intervento $i$, 0 altrimenti.</p>
+
+  <div class="block vars">
+    <span class="label">Variabili</span>
+    $$ x_j = \begin{cases} 1 & \text{se il medico } j \text{ è scelto} \\ 0 & \text{altrimenti} \end{cases} $$
+  </div>
+
+  <div class="block obj">
+    <span class="label">Funzione obiettivo</span>
+    $$ \min\; z = \sum_{j=1}^{n} c_j\, x_j $$
+  </div>
+
+  <div class="block constr">
+    <span class="label">Vincoli</span>
+    $$ \sum_{j=1}^{n} a_{ij}\, x_j \ge 1, \quad i = 1,\dots,m \qquad \text{(per ogni intervento, almeno un medico capace)} $$
+    $$ x_j \in \{0,1\} $$
+  </div>
+  <p class="note">In forma matriciale: $\min\; c^T x$ s.t. $Ax \ge e$, $x \in \{0,1\}^n$, dove $e = (1, \dots, 1)^T$.</p>
+</div>
+
+<div class="block example">
+  <span class="label">Esempio svolto · custodi del museo</span>
+  <p style="margin:0 0 8px"><strong>Testo.</strong> Un museo ha 4 sale e 5 passaggi tra sale adiacenti. Un custode posizionato in un passaggio sorveglia entrambe le sale collegate. Vogliamo il minimo numero di custodi che sorvegli tutte le sale.</p>
+  <p style="margin:0 0 8px"><strong>Dati:</strong> 5 passaggi (= variabili) e 4 sale (= vincoli).<br>
+  Sala 1 ↔ passaggi 1, 2;&nbsp;&nbsp; Sala 2 ↔ passaggi 1, 3, 4;&nbsp;&nbsp; Sala 3 ↔ passaggi 4, 5;&nbsp;&nbsp; Sala 4 ↔ passaggi 2, 3, 5.</p>
+  <p style="margin:0 0 6px"><strong>Modello.</strong></p>
+  <p style="margin:0">$\min\; z = x_1 + x_2 + x_3 + x_4 + x_5$<br>
+  s.t.<br>
+  &nbsp;&nbsp;$x_1 + x_2 \ge 1$ (sala 1)<br>
+  &nbsp;&nbsp;$x_1 + x_3 + x_4 \ge 1$ (sala 2)<br>
+  &nbsp;&nbsp;$x_4 + x_5 \ge 1$ (sala 3)<br>
+  &nbsp;&nbsp;$x_2 + x_3 + x_5 \ge 1$ (sala 4)<br>
+  &nbsp;&nbsp;$x_j \in \{0,1\}$</p>
+  <p style="margin:10px 0 0"><strong>Soluzione ottima.</strong> $x_1 = 1, x_5 = 1$ (gli altri 0). Verifica: sala 1 ($x_1=1$ ✓), sala 2 ($x_1=1$ ✓), sala 3 ($x_5=1$ ✓), sala 4 ($x_5=1$ ✓). Numero di custodi = 2.</p>
+</div>
+
+<!-- ============== COPERTURA ASTRATTA ============== -->
+<h2 id="copertura-astratta" data-num="§ 8">Copertura astratta (Set Covering Problem)</h2>
+
+<p>È esattamente lo stesso modello del paragrafo precedente, ma scritto in forma <strong>generica e insiemistica</strong>. Serve a riconoscere il problema "dietro" le mille declinazioni concrete che possono apparire negli esercizi.</p>
+
+<div class="problem-card">
+  <h3>Formulazione astratta</h3>
+  <p><strong>Dati:</strong></p>
+  <ul>
+    <li>$N = \{1, \dots, n\}$ — insieme degli "strumenti" (es. medici, antenne)</li>
+    <li>$M = \{1, \dots, m\}$ — insieme delle "cose da coprire" (es. interventi, zone)</li>
+    <li>Per ogni $j \in N$, un sottoinsieme $M_j \subseteq M$ — cosa copre lo strumento $j$</li>
+    <li>Per ogni $j \in N$, un peso $c_j \in \mathbb{R}$</li>
+  </ul>
+
+  <p><strong>Definizione.</strong> Una <em class="term">copertura</em> di $M$ tramite $N$ è un sottoinsieme $T \subseteq N$ tale che $\bigcup_{j \in T} M_j = M$.</p>
+
+  <p><strong>Problema.</strong> $\displaystyle \min_T\; \Big\{ \sum_{j \in T} c_j \;\Big|\; T \text{ è copertura} \Big\}$</p>
+
+  <div class="block vars">
+    <span class="label">Variabili</span>
+    $$ x_j = \begin{cases} 1 & \text{se } j \in T \\ 0 & \text{altrimenti} \end{cases}, \quad \forall j \in N $$
+  </div>
+
+  <div class="block obj">
+    <span class="label">Funzione obiettivo</span>
+    $$ \min\; z = \sum_{j \in N} c_j\, x_j $$
+  </div>
+
+  <div class="block constr">
+    <span class="label">Vincoli</span>
+    $$ \sum_{j=1}^{n} a_{ij}\, x_j \ge 1, \quad \forall i \in M $$
+    $$ x_j \in \{0,1\} $$
+    <p style="font-size:14px; margin:6px 0 0;">dove $a_{ij} = 1$ se $i \in M_j$ (cioè se lo strumento $j$ copre la cosa $i$).</p>
+  </div>
+</div>
+
+<!-- ============== IMPACCAMENTO ============== -->
+<h2 id="impaccamento" data-num="§ 9">Problema di Impaccamento (Set Packing)</h2>
+
+<div class="recognize">
+  <h4>Come riconoscerlo</h4>
+  <p style="margin:0">È il <strong>"gemello negativo"</strong> della copertura. Stessi dati, ma ora vuoi <strong>massimizzare il valore</strong> degli strumenti scelti, con la regola che <strong>nessuna cosa può essere coperta più di una volta</strong> (gli insiemi $M_j$ scelti devono essere disgiunti).<br><br>
+  <strong>Parole-chiave:</strong> "non sovrapposti", "al massimo uno", "compatibili tra loro".</p>
+</div>
+
+<div class="problem-card">
+  <h3>Formulazione</h3>
+  <p><strong>Definizione.</strong> Un <em class="term">impaccamento</em> di $M$ tramite $N$ è un $T \subseteq N$ tale che $M_j \cap M_k = \emptyset$ per ogni $j \neq k$ in $T$.</p>
+
+  <div class="block vars">
+    <span class="label">Variabili</span>
+    $$ x_j \in \{0, 1\}, \quad \forall j \in N $$
+  </div>
+
+  <div class="block obj">
+    <span class="label">Funzione obiettivo</span>
+    $$ \max\; z = \sum_{j \in N} c_j\, x_j $$
+  </div>
+
+  <div class="block constr">
+    <span class="label">Vincoli</span>
+    $$ \sum_{j=1}^{n} a_{ij}\, x_j \le 1, \quad \forall i \in M \qquad \text{(ogni elemento al più una volta)} $$
+    $$ x_j \in \{0,1\} $$
+    <p class="note">In forma matriciale: $\max\; c^T x$ s.t. $Ax \le e$, $x \in \{0,1\}^n$.</p>
+  </div>
+</div>
+
+<div class="callout">
+  <span class="tag">copertura vs impaccamento</span>
+  <p style="margin:0">Stessa matrice $A$, stessa struttura, ma:<br>
+  &nbsp;&nbsp;• <strong>Copertura:</strong> $\min$, vincolo $\ge 1$ (ogni cosa coperta <em>almeno</em> una volta)<br>
+  &nbsp;&nbsp;• <strong>Impaccamento:</strong> $\max$, vincolo $\le 1$ (ogni cosa coperta <em>al più</em> una volta)<br>
+  &nbsp;&nbsp;• <strong>Partizione:</strong> obiettivo qualsiasi, vincolo $= 1$ (esattamente una volta)</p>
+</div>
+
+<!-- ============== PARTIZIONE ============== -->
+<h2 id="partizione" data-num="§ 10">Problema di Partizione (Set Partitioning)</h2>
+
+<div class="recognize">
+  <h4>Come riconoscerlo</h4>
+  <p style="margin:0">È contemporaneamente <strong>copertura e impaccamento</strong>: ogni elemento di $M$ deve essere coperto <strong>esattamente una volta</strong>. Tipico in problemi di "scheduling" (assegnare turni a equipaggi senza buchi né sovrapposizioni) o di clustering perfetto.</p>
+</div>
+
+<div class="problem-card">
+  <h3>Formulazione</h3>
+  <p><strong>Definizione.</strong> Una <em class="term">partizione</em> di $M$ tramite $N$ è un $T \subseteq N$ che è <em>contemporaneamente</em> copertura e impaccamento, cioè:
+  $\bigcup_{j \in T} M_j = M$ e $M_j \cap M_k = \emptyset$ per $j \neq k$.</p>
+
+  <div class="block vars">
+    <span class="label">Variabili</span>
+    $$ x_j \in \{0, 1\}, \quad \forall j \in N $$
+  </div>
+
+  <div class="block obj">
+    <span class="label">Funzione obiettivo</span>
+    $$ \min\; \text{oppure} \;\max\; z = \sum_{j \in N} c_j\, x_j $$
+  </div>
+
+  <div class="block constr">
+    <span class="label">Vincoli</span>
+    $$ \sum_{j=1}^{n} a_{ij}\, x_j = 1, \quad \forall i \in M $$
+    $$ x_j \in \{0,1\} $$
+  </div>
+</div>
+
+
+<!-- ============== TSP ============== -->
+<h2 id="tsp" data-num="§ 11">Problema del Commesso Viaggiatore (TSP)</h2>
+
+<div class="recognize">
+  <h4>Come riconoscerlo</h4>
+  <p style="margin:0">Hai un <strong>grafo orientato completo</strong> $G=(V,A)$ con $n$ nodi (città) e un costo $c_{ij}$ per ogni arco. Devi trovare un <strong>tour</strong> (ciclo hamiltoniano): un percorso che parte da un nodo, passa per <strong>ogni altro nodo esattamente una volta</strong>, e torna al punto di partenza, minimizzando il costo totale.<br><br>
+  <strong>Parole-chiave:</strong> "tour", "circuito", "percorso che tocca tutti", "passaggio una sola volta".</p>
+</div>
+
+<p>Il TSP è un POC con $X$ = insieme di tutti i tour, di cardinalità $|X| = (n-1)!$ (permutazioni circolari). Già con $n=20$ il numero esplode: serve davvero un modello PLIB.</p>
+
+<div class="problem-card">
+  <h3>Modello base (con vincoli 1, 2, 3)</h3>
+
+  <div class="block vars">
+    <span class="label">Variabili</span>
+    $$ x_{ij} = \begin{cases} 1 & \text{se l'arco } (i,j) \text{ è scelto} \\ 0 & \text{altrimenti} \end{cases}, \quad \forall (i,j) \in A $$
+  </div>
+
+  <div class="block obj">
+    <span class="label">Funzione obiettivo</span>
+    $$ \min\; z = \sum_{i=1}^{n} \sum_{j=1, j\neq i}^{n} c_{ij}\, x_{ij} $$
+  </div>
+
+  <div class="block constr">
+    <span class="label">Vincoli base</span>
+    $$ \text{(1)}\;\; x_{ij} \in \{0,1\}, \quad i \neq j $$
+    $$ \text{(2)}\;\; \sum_{j: j \neq i} x_{ij} = 1, \quad \forall i \qquad \text{(da ogni città si esce una volta)} $$
+    $$ \text{(3)}\;\; \sum_{i: i \neq j} x_{ij} = 1, \quad \forall j \qquad \text{(in ogni città si entra una volta)} $$
+  </div>
+</div>
+
+<div class="callout">
+  <span class="tag">attenzione: i sotto-tour</span>
+  <p style="margin:0">I vincoli (1), (2), (3) <strong>non bastano</strong>! Possono produrre soluzioni formate da più cicli separati (sotto-tour) invece di un unico tour. Per esempio con 7 città, una soluzione "1→2→3→1" + "4→5→6→7→4" rispetta tutti i vincoli ma non è un tour valido. Servono vincoli aggiuntivi.</p>
+</div>
+
+<h3>Eliminazione dei sotto-tour: due varianti</h3>
+
+<p>Esistono <strong>due modi</strong> per aggiungere il vincolo che impedisce i sotto-tour. Entrambi funzionano, ma producono formulazioni con caratteristiche diverse:</p>
+
+<div class="block constr">
+  <span class="label">Variante 1 — Cut Set Formulation</span>
+  $$ \text{(4)}\;\; \sum_{i \in S} \sum_{j \notin S} x_{ij} \ge 1, \quad \forall S \subseteq V,\; S \neq \emptyset,\; S \neq V $$
+  <p style="margin:6px 0 0; font-size:14px;">Per ogni "taglio" $S$ del grafo, almeno un arco deve uscire da $S$ verso il suo complemento.</p>
+</div>
+
+<div class="block constr">
+  <span class="label">Variante 2 — Subtour Elimination Formulation</span>
+  $$ \text{(5)}\;\; \sum_{i \in S} \sum_{j \in S} x_{ij} \le |S| - 1, \quad \forall S \subseteq V,\; 2 \le |S| \le n-1 $$
+  <p style="margin:6px 0 0; font-size:14px;">In ogni sottoinsieme $S$ di nodi (tranne tutti), il numero di archi interni a $S$ è strettamente minore di $|S|$, in modo che non possa formarsi un ciclo chiuso interno.</p>
+</div>
+
+<div class="block example">
+  <span class="label">Esempio (n=4)</span>
+  <p style="margin:0 0 6px"><strong>Testo.</strong> 4 città, costi $c_{ij}$ dati su un grafo completo orientato.</p>
+  <p style="margin:0 0 6px"><strong>Variabili:</strong> 12 variabili $x_{ij}$ ($4 \cdot 3 = 12$, una per ogni coppia ordinata $i \neq j$).</p>
+  <p style="margin:0 0 6px"><strong>Vincoli di uscita (per ogni $i$):</strong><br>
+  $x_{12}+x_{13}+x_{14}=1$, idem per $i=2,3,4$.</p>
+  <p style="margin:0 0 6px"><strong>Vincoli di entrata (per ogni $j$):</strong><br>
+  $x_{21}+x_{31}+x_{41}=1$, idem per $j=2,3,4$.</p>
+  <p style="margin:0 0 6px"><strong>Eliminazione sotto-tour</strong> (variante 2, per $|S|=2$):<br>
+  Per $S=\{1,2\}$: $x_{12}+x_{21} \le 1$. Idem per gli altri 5 sottoinsiemi di cardinalità 2.<br>
+  Per $|S|=3$: $x_{12}+x_{21}+x_{13}+x_{31}+x_{23}+x_{32} \le 2$, ecc.</p>
+  <p style="margin:8px 0 0"><strong>Soluzione tipo:</strong> un tour come $1 \to 2 \to 4 \to 3 \to 1$ corrisponde a $x_{12}=x_{24}=x_{43}=x_{31}=1$ (gli altri 0).</p>
+</div>
+
+<div class="callout">
+  <span class="tag">consiglio pratico</span>
+  <p style="margin:0">Negli esercizi d'esame ti viene di solito chiesto di scrivere il modello con uno dei due tipi di vincoli. Il vincolo (5) – Subtour Elimination – è il più usato in didattica perché è più <em>intuitivo</em>. Il vincolo (4) – Cut Set – è teoricamente equivalente ma più sottile.<br>
+  <strong>STSP</strong> = TSP <em>simmetrico</em>: il grafo è non orientato e $c_{ij} = c_{ji}$. Si usa una sola variabile $x_e$ per arco (non più una per ogni direzione).</p>
+</div>
+
+<!-- ============== UFL ============== -->
+<h2 id="ufl" data-num="§ 12">UFL — Localizzazione di impianti senza capacità</h2>
+
+<div class="recognize">
+  <h4>Come riconoscerlo</h4>
+  <p style="margin:0">Hai un insieme di <strong>siti candidati</strong> dove aprire un impianto (magazzini, fabbriche, antenne) e un insieme di <strong>clienti</strong> con domande. Aprire un impianto in un sito ha un <strong>costo fisso</strong>; servire un cliente da un impianto ha un <strong>costo variabile</strong> proporzionale alla domanda. Vuoi decidere <strong>dove aprire</strong> e <strong>quanto trasportare</strong> per minimizzare il costo totale.<br><br>
+  <strong>Parole-chiave:</strong> "costo fisso di apertura", "costo unitario di servizio", "decidere dove aprire impianti".</p>
+</div>
+
+<div class="problem-card">
+  <h3>Dati</h3>
+  <ul>
+    <li>$N = \{1,\dots,n\}$ — siti candidati per gli impianti</li>
+    <li>$M = \{1,\dots,m\}$ — clienti</li>
+    <li>$d_i$ — domanda del cliente $i$</li>
+    <li>$F_j$ — costo fisso di apertura dell'impianto in $j$</li>
+    <li>$C_{ij}$ — costo unitario per servire il cliente $i$ dall'impianto $j$</li>
+  </ul>
+</div>
+
+<h3>Modellizzazione I (UFL1) — variabili $z_{ij}$ per le quantità</h3>
+
+<div class="problem-card">
+  <div class="block vars">
+    <span class="label">Variabili</span>
+    $$ z_{ij} \ge 0 \qquad \text{unità di merce servite al cliente } i \text{ dall'impianto } j $$
+    $$ y_j = \begin{cases} 1 & \text{se l'impianto in } j \text{ è aperto} \\ 0 & \text{altrimenti} \end{cases} $$
+  </div>
+
+  <div class="block obj">
+    <span class="label">Funzione obiettivo</span>
+    $$ \min\; z = \sum_{i \in M} \sum_{j \in N} C_{ij}\, z_{ij} + \sum_{j \in N} F_j\, y_j $$
+  </div>
+
+  <div class="block constr">
+    <span class="label">Vincoli</span>
+    $$ \sum_{j \in N} z_{ij} = d_i, \quad \forall i \in M \qquad \text{(domanda del cliente } i \text{ soddisfatta)} $$
+    $$ \sum_{i \in M} z_{ij} \le K\, y_j, \quad \forall j \in N \qquad \text{(serve solo se l'impianto è aperto)} $$
+    $$ z_{ij} \ge 0; \quad y_j \in \{0,1\} $$
+    <p class="note">$K$ è una costante grande, scelta maggiore della capacità totale di ogni impianto. Questo è un <strong>programma intero misto</strong>: $z_{ij}$ continue, $y_j$ binarie.</p>
+  </div>
+</div>
+
+<h3>Modellizzazione III (UFL3) — riscrittura "frazionaria" più stretta</h3>
+
+<p>Ponendo $x_{ij} := z_{ij}/d_i$ (la frazione della domanda del cliente $i$ servita da $j$) si ottiene una formulazione equivalente ma con <strong>vincoli più forti</strong> — quindi un rilassamento lineare migliore (vedi § 14).</p>
+
+<div class="problem-card">
+  <div class="block vars">
+    <span class="label">Variabili</span>
+    $$ 0 \le x_{ij} \le 1 \qquad \text{frazione della domanda di } i \text{ servita da } j $$
+    $$ y_j \in \{0,1\} $$
+  </div>
+
+  <div class="block obj">
+    <span class="label">Funzione obiettivo</span>
+    $$ \min\; z = \sum_{i \in M} \sum_{j \in N} h_{ij}\, x_{ij} + \sum_{j \in N} F_j\, y_j $$
+    <p style="margin:6px 0 0; font-size:14px;">dove $h_{ij} = C_{ij} \cdot d_i$ è il costo totale di servire interamente $i$ da $j$.</p>
+  </div>
+
+  <div class="block constr">
+    <span class="label">Vincoli</span>
+    $$ \sum_{j \in N} x_{ij} = 1, \quad \forall i \in M \qquad \text{(la domanda di } i \text{ è coperta al 100\%)} $$
+    $$ x_{ij} \le y_j, \quad \forall i \in M, \forall j \in N \qquad \text{(servo da } j \text{ solo se aperto)} $$
+    $$ 0 \le x_{ij} \le 1; \quad y_j \in \{0,1\} $$
+  </div>
+</div>
+
+<div class="callout">
+  <span class="tag">perché due formulazioni?</span>
+  <p style="margin:0">Entrambe descrivono lo <strong>stesso</strong> insieme di soluzioni intere ammissibili. Però la regione ammissibile <em>continua</em> di UFL3 è strettamente <strong>contenuta</strong> in quella di UFL1: $P_3 \subseteq P_2$. Tradotto: UFL3 è una <strong>formulazione migliore</strong> (più stretta) e dà bound più forti quando si rilassa il vincolo binario. Vedi § 14 per il principio generale.</p>
+</div>
+
+
+<hr class="fancy">
+
+<!-- ============== CONSIGLI ============== -->
+<h2 id="consigli" data-num="§ 13">Consigli pratici per la risoluzione</h2>
+
+<p>Una procedura affidabile per affrontare un problema mai visto.</p>
+
+<ol class="steps">
+  <li>
+    <strong>Leggi due volte il testo</strong> e sottolinea con colori diversi: <span style="color:var(--green)">decisioni da prendere</span> (variabili), <span style="color:var(--gold)">obiettivo</span> (max o min, di cosa?), <span style="color:var(--blue)">vincoli</span> (parole come "deve", "almeno", "non più di", "se… allora").
+  </li>
+  <li>
+    <strong>Identifica la struttura.</strong> Confronta con le 9 famiglie viste in questa guida. Spesso il problema è una variante o una combinazione di queste.
+  </li>
+  <li>
+    <strong>Scegli le variabili.</strong> Una scelta sbagliata di variabili rende il modello difficile o impossibile. Regole d'oro:
+    <ul>
+      <li>"Sì o no" su un singolo oggetto → $x_j \in \{0,1\}$</li>
+      <li>"Accoppiamento" tra due insiemi → $x_{ij} \in \{0,1\}$</li>
+      <li>"Quantità" trasportata o prodotta → $x_{ij} \ge 0$ continua</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Scrivi prima la funzione obiettivo</strong>, in italiano, e poi traducila in formula. Esempio: "minimizzare il costo totale di assegnazione" → $\min \sum_i \sum_j C_{ij} x_{ij}$.
+  </li>
+  <li>
+    <strong>Scrivi i vincoli uno alla volta</strong>, ciascuno con un commento in italiano. Per i vincoli logici, usa la <a href="#vincoli-logici">tabella della § 3</a>.
+  </li>
+  <li>
+    <strong>Verifica ogni vincolo</strong> sostituendo una soluzione "ovvia" (tutti 0, tutti 1, una soluzione di buon senso) e controlla che il vincolo dia il risultato previsto.
+  </li>
+  <li>
+    <strong>Aggiungi sempre il dominio</strong> delle variabili in fondo: $x_j \in \{0,1\}$ oppure $x_j \ge 0$ ecc. È l'errore più comune da non dimenticare.
+  </li>
+  <li>
+    <strong>Per problemi piccoli</strong> ($n \le 4$ o $5$) puoi enumerare tutte le soluzioni ammissibili e trovare l'ottimo a mano. Per problemi più grandi servono solver.
+  </li>
+</ol>
+
+<div class="callout">
+  <span class="tag">errori comuni</span>
+  <ul style="margin:0; padding-left:20px;">
+    <li>Confondere <strong>copertura</strong> ($\ge 1$) con <strong>impaccamento</strong> ($\le 1$): controlla sempre il <em>verso</em> del vincolo.</li>
+    <li>Dimenticare i vincoli di <strong>integralità</strong> ($x_j \in \{0,1\}$): senza, il modello diventa il rilassamento lineare e si possono ottenere soluzioni frazionarie.</li>
+    <li>Nei problemi di <strong>tour</strong> dimenticare i vincoli anti-sotto-tour.</li>
+    <li>Usare lo <strong>stesso simbolo</strong> per cose diverse (es. $x_j$ e $x_{ij}$ nello stesso modello). Sii pignola/o sulla notazione.</li>
+    <li>Confondere <strong>dati</strong> e <strong>variabili</strong>. I costi $c_j$ sono dati, non si decidono. Le $x_j$ sono variabili, si decidono.</li>
+  </ul>
+</div>
+
+<!-- ============== FORMULAZIONI ============== -->
+<h2 id="formulazioni" data-num="§ 14">Formulazioni e rilassamento lineare</h2>
+
+<p>Un concetto teorico fondamentale che ricorre spesso negli esercizi (es. UFL1 vs UFL3, formulazioni del TSP).</p>
+
+<h3>Definizione di formulazione</h3>
+<p>Sia $X \subseteq \mathbb{Z}^n$ l'insieme delle soluzioni ammissibili intere di un problema. Un <strong>poliedro</strong> $P \subseteq \mathbb{R}^n$ (cioè un insieme descritto da un sistema $Ax \le b$) è una <em class="term">formulazione</em> per $X$ se:
+$$ P \cap \mathbb{Z}^n = X $$
+Ovvero: i punti interi del poliedro sono esattamente le soluzioni ammissibili.</p>
+
+<h3>Formulazione migliore</h3>
+<p>Date due formulazioni $P_1$ e $P_2$ dello stesso $X$, $P_1$ è <strong>migliore</strong> di $P_2$ se $P_1 \subseteq P_2$. Una formulazione più stretta dà un <strong>rilassamento lineare più informativo</strong>:
+$$ z^*_{PI} \le z^*_{PL_1} \le z^*_{PL_2} $$
+(per problemi di max). Più piccolo è il "gap" tra il rilassamento e il valore intero ottimo, più velocemente i solver convergono.</p>
+
+<div class="block example">
+  <span class="label">Esempio · zaino</span>
+  <p style="margin:0 0 6px">Si consideri lo zaino: $X = \{x \in \{0,1\}^4 \mid 83 x_1 + 61 x_2 + 49 x_3 + 20 x_4 \le 100\}$.</p>
+  <p style="margin:0 0 6px">Tre formulazioni alternative:</p>
+  <p style="margin:0 0 4px">$P_1 = \{0 \le x \le 1,\; 83 x_1 + 61 x_2 + 49 x_3 + 20 x_4 \le 100\}$ (originale)</p>
+  <p style="margin:0 0 4px">$P_2 = \{0 \le x \le 1,\; 4 x_1 + 3 x_2 + 2 x_3 + x_4 \le 4\}$ (vincolo equivalente "scalato")</p>
+  <p style="margin:0 0 4px">$P_3 = P_2$ + vincoli aggiuntivi $x_1 + x_2 + x_3 \le 1$ e $x_1 + x_4 \le 1$</p>
+  <p style="margin:8px 0 0">Tutti e tre danno lo stesso $X$ se intersecati con $\{0,1\}^4$, ma $P_3 \subseteq P_2 \subseteq P_1$. Quindi $P_3$ è la formulazione migliore.</p>
+</div>
+
+<h3>La formulazione "ideale": l'inviluppo convesso</h3>
+<p>La formulazione <strong>migliore in assoluto</strong> è $P^* = \text{Conv}(X)$, l'<em class="term">inviluppo convesso</em> di $X$. Si dimostra che è un poliedro, e i suoi vertici sono tutti elementi di $X$. <strong>Conseguenza:</strong> il rilassamento lineare di $P^*$ ha automaticamente una soluzione ottima intera, quindi risolverebbe il PI come se fosse un PL.<br><br>
+Purtroppo $\text{Conv}(X)$ è generalmente <strong>impossibile da scrivere esplicitamente</strong>. Buona parte della Ricerca Operativa consiste nel costruire formulazioni che si avvicinino il più possibile a $\text{Conv}(X)$.</p>
+
+<hr class="fancy">
+
+<p style="text-align:center; color:var(--ink-muted); font-style:italic; font-family: 'Fraunces', serif;">
+fine della guida — buono studio
+</p>
+
+</main>
+</div>
+
+</body>
+</html>

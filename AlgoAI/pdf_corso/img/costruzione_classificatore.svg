@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 400" width="750" height="400" style="background-color: #ffffff; font-family: Arial, Helvetica, sans-serif;">
+
+  <style>
+    .box-fill { fill: #bce0e6; stroke: #000000; stroke-width: 1.8; stroke-linejoin: round; }
+    .text-box { font-size: 16px; font-weight: normal; fill: #000000; text-anchor: middle; }
+    .text-arrow { font-size: 14px; font-weight: normal; fill: #000000; text-anchor: middle; }
+    .arrow-line { stroke: #000000; stroke-width: 1.8; marker-end: url(#arrowhead); }
+  </style>
+
+  <defs>
+    <!-- Freccia -->
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#000000"/>
+    </marker>
+
+    <!-- Icona documento con angolo in basso a destra piegato -->
+    <g id="doc-icon">
+      <path d="M 0,0 L 120,0 L 120,122 L 102,140 L 0,140 Z" class="box-fill"/>
+      <path d="M 102,122 L 120,122 L 102,140 Z" fill="#ffffff" stroke="#000000" stroke-width="1.8" stroke-linejoin="round"/>
+    </g>
+
+    <!-- Box Algoritmo -->
+    <g id="algorithm-box">
+      <rect x="0" y="0" width="130" height="130" class="box-fill"/>
+    </g>
+
+    <!-- Box Modello con barre laterali -->
+    <g id="model-box">
+      <rect x="0" y="0" width="120" height="130" class="box-fill"/>
+      <line x1="16" y1="0" x2="16" y2="130" stroke="#000000" stroke-width="1.8"/>
+      <line x1="104" y1="0" x2="104" y2="130" stroke="#000000" stroke-width="1.8"/>
+    </g>
+  </defs>
+
+  <!-- 1. IN ALTO A SINISTRA: Example Labeled Data -->
+  <g transform="translate(50, 20)">
+    <use href="#doc-icon" x="0" y="0"/>
+    <text x="60" y="42" class="text-box">Example</text>
+    <text x="60" y="72" class="text-box">Labeled</text>
+    <text x="60" y="102" class="text-box">Data</text>
+  </g>
+
+  <!-- FRECCIA 1: Training DataSet -->
+  <line x1="170" y1="85" x2="330" y2="85" class="arrow-line"/>
+  <text x="250" y="68" class="text-arrow">Training</text>
+  <text x="250" y="102" class="text-arrow">DataSet</text>
+
+  <!-- 2. IN ALTO AL CENTRO: Learning Algorithm -->
+  <g transform="translate(335, 20)">
+    <use href="#algorithm-box" x="0" y="0"/>
+    <text x="65" y="58" class="text-box">Learning</text>
+    <text x="65" y="88" class="text-box">Algorithm</text>
+  </g>
+
+  <!-- FRECCIA 2: Creates -->
+  <line x1="400" y1="150" x2="400" y2="200" class="arrow-line"/>
+  <text x="445" y="180" class="text-arrow">Creates</text>
+
+  <!-- 3. IN BASSO A SINISTRA: Online Unlabeled Data -->
+  <g transform="translate(50, 205)">
+    <use href="#doc-icon" x="0" y="0"/>
+    <text x="60" y="42" class="text-box">Online</text>
+    <text x="60" y="72" class="text-box">Unlabeled</text>
+    <text x="60" y="102" class="text-box">Data</text>
+  </g>
+
+  <!-- FRECCIA 3: Data to Predict -->
+  <line x1="170" y1="270" x2="335" y2="270" class="arrow-line"/>
+  <text x="252" y="252" class="text-arrow">Data to</text>
+  <text x="252" y="288" class="text-arrow">Predict</text>
+
+  <!-- 4. IN BASSO AL CENTRO: Model -->
+  <g transform="translate(340, 205)">
+    <use href="#model-box" x="0" y="0"/>
+    <text x="60" y="70" class="text-box">Model</text>
+  </g>
+
+  <!-- FRECCIA 4: Predicted Data -->
+  <line x1="460" y1="270" x2="620" y2="270" class="arrow-line"/>
+  <text x="540" y="252" class="text-arrow">Predicted</text>
+  <text x="540" y="288" class="text-arrow">Data</text>
+
+  <!-- 5. IN BASSO A DESTRA: Labeled Data -->
+  <g transform="translate(625, 205)">
+    <use href="#doc-icon" x="0" y="0"/>
+    <text x="60" y="58" class="text-box">Labeled</text>
+    <text x="60" y="88" class="text-box">Data</text>
+  </g>
+
+</svg>

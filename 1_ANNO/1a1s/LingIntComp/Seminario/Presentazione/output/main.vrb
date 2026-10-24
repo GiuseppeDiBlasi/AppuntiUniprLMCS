@@ -1,0 +1,16 @@
+\frametitle{modernize-use-equals-default}
+\vspace{-1em}
+  \begin{block}{Codice legacy}
+  \begin{lstlisting}
+     XMLComment::~XMLComment() { }
+     XMLUnknown::~XMLUnknown() { }
+  \end{lstlisting}
+ \end{block}
+
+ \begin{block}{Codice moderno}
+    \begin{lstlisting}
+    XMLComment::~XMLComment() = default;
+    XMLUnknown::~XMLUnknown() = default;
+    \end{lstlisting}
+  \end{block}
+

@@ -1,0 +1,51 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Image Super-Resolution}
+
+\author{
+
+\IEEEauthorblockN{Giuseppe Di Blasi}
+\IEEEauthorblockA{
+\textit{University of Parma}\\
+giuseppe.diblasi@studenti.unipr.it}
+
+}
+\maketitle
+
+\begin{abstract}
+La super-resolution è una tecnica di computer vision che mira a ricostruire immagini ad alta
+risoluzione a partire da immagini a bassa risoluzione.
+In questo progetto sono state implementate e valutate diverse
+architetture di reti neurali convoluzionali ispirate ai modelli SRCNN e VDSR.
+I modelli sono stati addestrati sul dataset DIV2K e valutati sul benchmark Set5
+utilizzando il PSNR come metrica principale. Sono state inoltre analizzate diverse
+modifiche architetturali, tra cui l'aumento della profondità della rete, il residual learning,
+la batch normalization e l'utilizzo di differenti funzioni di loss. I risultati ottenuti mostrano
+che la loss L1 ha fornito le migliori prestazioni, consentendo in alcuni casi di superare
+l'interpolazione bicubica e di ottenere un miglioramento percettivo della qualità delle immagini
+ricostruite.
+\end{abstract}
+
+
+\input{sections/01_Introduction}
+\input{sections/02_01_Approccio_CNN.tex}
+\input{sections/02_02_Architettura_Rete.tex}
+\input{sections/02_03_Architettura_Alternativa.tex}
+\input{sections/03_01_Conclusioni.tex}
+%\input{sections/03_Prepare_Your_Paper_Before_Styling}
+%\input{sections/04_Acknowledgment}
+
+\bibliographystyle{IEEEtran}
+\bibliography{Riferimenti}
+\end{document}

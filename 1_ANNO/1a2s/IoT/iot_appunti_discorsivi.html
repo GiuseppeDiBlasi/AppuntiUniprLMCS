@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internet of Things – Appunti Discorsivi e Dettagliati</title>
+<style>
+  :root {
+    --bg: #f9f8f5;
+    --surface: #ffffff;
+    --surface2: #f4f3ef;
+    --accent: #2d6a4f;
+    --accent2: #40916c;
+    --accent3: #74c69d;
+    --accent-light: #d8f3dc;
+    --text: #1a1a1a;
+    --text2: #444;
+    --text3: #666;
+    --border: #ddd;
+    --sidebar-w: 280px;
+    --highlight: #fff3cd;
+    --highlight2: #d1ecf1;
+    --highlight3: #f8d7da;
+    --code-bg: #f0f0f0;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 16px;
+  }
+  a { color: var(--accent2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* LAYOUT */
+  #sidebar {
+    position: fixed; top: 0; left: 0; width: var(--sidebar-w);
+    height: 100vh; background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto; padding: 1rem 0;
+    z-index: 100; box-shadow: var(--shadow);
+  }
+  #sidebar h2 {
+    font-family: sans-serif; font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text3); padding: 0.5rem 1.2rem 0.3rem;
+  }
+  #sidebar ul { list-style: none; }
+  #sidebar ul li a {
+    display: block; padding: 0.45rem 1.2rem;
+    font-family: sans-serif; font-size: 0.82rem;
+    color: var(--text2); border-left: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  #sidebar ul li a:hover, #sidebar ul li a.active {
+    background: var(--accent-light); color: var(--accent);
+    border-left-color: var(--accent); text-decoration: none;
+  }
+  #sidebar .num {
+    display: inline-block; width: 18px; height: 18px;
+    background: var(--accent); color: #fff; border-radius: 50%;
+    font-size: 0.65rem; font-weight: 700; text-align: center;
+    line-height: 18px; margin-right: 6px; font-family: sans-serif;
+  }
+
+  /* HEADER TOP BAR */
+  #topbar {
+    position: fixed; top: 0; left: var(--sidebar-w);
+    right: 0; height: 52px;
+    background: var(--accent); color: #fff;
+    display: flex; align-items: center; padding: 0 2rem;
+    z-index: 99; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  #topbar h1 { font-family: sans-serif; font-size: 1rem; font-weight: 600; }
+  #topbar span { margin-left: auto; font-family: sans-serif; font-size: 0.78rem; opacity: 0.85; }
+
+  /* MAIN CONTENT */
+  #main {
+    margin-left: var(--sidebar-w);
+    margin-top: 52px;
+    padding: 2.5rem 3rem 5rem 3rem;
+    max-width: 920px;
+  }
+
+  /* SECTIONS */
+  section { margin-bottom: 5rem; }
+  section:first-child { margin-top: 1rem; }
+
+  /* HEADINGS */
+  h1.section-title {
+    font-family: sans-serif; font-size: 1.8rem; font-weight: 700;
+    color: var(--accent); border-bottom: 3px solid var(--accent3);
+    padding-bottom: 0.4rem; margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  h1.section-title .icon { font-size: 1.6rem; }
+  h2.subsection {
+    font-family: sans-serif; font-size: 1.2rem; font-weight: 700;
+    color: var(--accent2); margin: 2rem 0 0.8rem;
+    border-left: 4px solid var(--accent3); padding-left: 0.8rem;
+  }
+  h3.sub3 {
+    font-family: sans-serif; font-size: 1rem; font-weight: 700;
+    color: var(--text); margin: 1.5rem 0 0.5rem;
+  }
+
+  /* PARAGRAPHS */
+  p { margin-bottom: 1.1rem; color: var(--text2); }
+  p strong { color: var(--text); }
+
+  /* CALLOUT BOXES */
+  .box {
+    border-radius: 8px; padding: 1.2rem 1.4rem;
+    margin: 1.5rem 0; font-family: sans-serif; font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .box-key {
+    background: var(--accent-light); border-left: 5px solid var(--accent2);
+    color: #1b4332;
+  }
+  .box-info {
+    background: var(--highlight2); border-left: 5px solid #17a2b8;
+    color: #0c5460;
+  }
+  .box-warn {
+    background: var(--highlight3); border-left: 5px solid #dc3545;
+    color: #721c24;
+  }
+  .box-note {
+    background: var(--highlight); border-left: 5px solid #ffc107;
+    color: #856404;
+  }
+  .box-book {
+    background: #f3e8ff; border-left: 5px solid #9c27b0;
+    color: #4a148c;
+  }
+  .box .box-title {
+    font-weight: 700; margin-bottom: 0.4rem;
+    font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  /* TABLE */
+  table {
+    width: 100%; border-collapse: collapse;
+    margin: 1.5rem 0; font-family: sans-serif; font-size: 0.875rem;
+    box-shadow: var(--shadow); border-radius: 8px; overflow: hidden;
+  }
+  th {
+    background: var(--accent); color: #fff;
+    padding: 0.75rem 1rem; text-align: left; font-weight: 600;
+  }
+  td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: var(--surface2); }
+
+  /* CODE / NUMBERS */
+  code {
+    background: var(--code-bg); border-radius: 3px;
+    padding: 0.1em 0.35em; font-size: 0.85em;
+    font-family: 'Consolas', 'Courier New', monospace; color: #c7254e;
+  }
+  pre {
+    background: #1e1e1e; color: #d4d4d4; border-radius: 8px;
+    padding: 1.2rem; overflow-x: auto; margin: 1.2rem 0;
+    font-family: 'Consolas', monospace; font-size: 0.82rem; line-height: 1.6;
+  }
+
+  /* STACK DIAGRAM */
+  .stack {
+    display: inline-flex; flex-direction: column; align-items: stretch;
+    margin: 1.2rem 0; border-radius: 8px; overflow: hidden;
+    box-shadow: var(--shadow); font-family: sans-serif;
+    font-size: 0.85rem; min-width: 280px;
+  }
+  .stack-layer {
+    padding: 0.6rem 1.2rem; text-align: center; font-weight: 600;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+  }
+  .stack-layer:last-child { border-bottom: none; }
+  .sl-app { background: #2d6a4f; color: #fff; }
+  .sl-transport { background: #40916c; color: #fff; }
+  .sl-network { background: #52b788; color: #fff; }
+  .sl-adaptation { background: #74c69d; color: #1a1a1a; }
+  .sl-mac { background: #95d5b2; color: #1a1a1a; }
+  .sl-phy { background: #b7e4c7; color: #1a1a1a; }
+
+  /* PROTOCOL HEADER DIAGRAM */
+  .hdr {
+    display: flex; margin: 1rem 0; border-radius: 6px;
+    overflow: hidden; box-shadow: var(--shadow);
+    font-family: sans-serif; font-size: 0.8rem;
+  }
+  .hdr-field {
+    padding: 0.6rem 0.4rem; text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.3);
+    font-weight: 600;
+  }
+  .hdr-field:last-child { border-right: none; }
+
+  /* PROGRESS DOT */
+  .dot { display: inline-block; width: 8px; height: 8px;
+    border-radius: 50%; margin-right: 5px; }
+  .dot-green { background: #40916c; }
+  .dot-yellow { background: #ffc107; }
+  .dot-red { background: #dc3545; }
+  .dot-blue { background: #17a2b8; }
+
+  /* BACK TO TOP */
+  #backtop {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--accent2); color: #fff;
+    border: none; border-radius: 50%; width: 42px; height: 42px;
+    font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200; transition: background 0.2s;
+  }
+  #backtop:hover { background: var(--accent); }
+
+  /* INTRO CARD */
+  .intro-card {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    color: #fff; border-radius: 12px; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: var(--shadow);
+    font-family: sans-serif;
+  }
+  .intro-card h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .intro-card p { color: rgba(255,255,255,0.9); margin-bottom: 0; font-size: 0.95rem; }
+
+  /* TOC chips */
+  .toc-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0; }
+  .chip {
+    padding: 0.3rem 0.8rem; border-radius: 20px;
+    font-family: sans-serif; font-size: 0.78rem; font-weight: 600;
+    background: var(--accent-light); color: var(--accent);
+    text-decoration: none; transition: all 0.2s;
+  }
+  .chip:hover { background: var(--accent); color: #fff; text-decoration: none; }
+
+  /* FIGURE/CAPTION */
+  figure { margin: 1.5rem 0; }
+  figcaption {
+    font-family: sans-serif; font-size: 0.78rem; color: var(--text3);
+    text-align: center; margin-top: 0.4rem; font-style: italic;
+  }
+
+  /* HORIZONTAL RULE */
+  hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+  /* FORMULA */
+  .formula {
+    font-family: 'Consolas', monospace; background: var(--surface2);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.8rem 1.2rem; margin: 1rem 0; text-align: center;
+    font-size: 1rem; color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    #sidebar { width: 220px; }
+    #main { margin-left: 220px; padding: 1.5rem; }
+    #topbar { left: 220px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR NAVIGATION -->
+<nav id="sidebar">
+  <h2>📡 IoT – Indice</h2>
+  <ul>
+    <li><a href="#intro"><span class="num">1</span>Introduzione all'IoT</a></li>
+    <li><a href="#hardware"><span class="num">2</span>Hardware degli Smart Objects</a></li>
+    <li><a href="#udp"><span class="num">3</span>Protocollo UDP</a></li>
+    <li><a href="#tcp"><span class="num">4</span>Protocollo TCP</a></li>
+    <li><a href="#ipv6"><span class="num">5</span>IPv6</a></li>
+    <li><a href="#802154"><span class="num">6</span>IEEE 802.15.4</a></li>
+    <li><a href="#mac"><span class="num">7</span>MAC Energy-Efficient</a></li>
+    <li><a href="#6lowpan"><span class="num">8</span>6LoWPAN</a></li>
+    <li><a href="#rpl"><span class="num">9</span>RPL</a></li>
+    <li><a href="#coap"><span class="num">10</span>CoAP</a></li>
+    <li><a href="#os"><span class="num">11</span>OS per IoT</a></li>
+    <li><a href="#security"><span class="num">12</span>Sicurezza IoT</a></li>
+    <li><a href="#lora"><span class="num">13</span>LoRa e LoRaWAN</a></li>
+  </ul>
+</nav>
+
+<!-- TOP BAR -->
+<header id="topbar">
+  <h1>Internet of Things – Appunti Discorsivi | Prof. G. Ferrari – UniPR</h1>
+  <span>Corso IoT 2025/2026</span>
+</header>
+
+<!-- MAIN CONTENT -->
+<main id="main">
+
+  <div class="intro-card">
+    <h2>Guida Discorsiva all'Internet of Things</h2>
+    <p>Questo documento presenta in modo narrativo e approfondito tutti gli argomenti del corso IoT del Prof. Gianluigi Ferrari (Università di Parma). L'obiettivo è capire non solo <em>cosa</em> fanno i protocolli e le tecnologie, ma soprattutto <em>perché</em> esistono, quali problemi risolvono e come si incastrano tra loro in un sistema IoT reale.</p>
+  </div>
+
+  <div class="toc-chips">
+    <a href="#intro" class="chip">1. Intro IoT</a>
+    <a href="#hardware" class="chip">2. Hardware</a>
+    <a href="#udp" class="chip">3. UDP</a>
+    <a href="#tcp" class="chip">4. TCP</a>
+    <a href="#ipv6" class="chip">5. IPv6</a>
+    <a href="#802154" class="chip">6. 802.15.4</a>
+    <a href="#mac" class="chip">7. MAC</a>
+    <a href="#6lowpan" class="chip">8. 6LoWPAN</a>
+    <a href="#rpl" class="chip">9. RPL</a>
+    <a href="#coap" class="chip">10. CoAP</a>
+    <a href="#os" class="chip">11. OS</a>
+    <a href="#security" class="chip">12. Security</a>
+    <a href="#lora" class="chip">13. LoRa</a>
+  </div>
+
+  <!-- ===== SEZIONE 1: INTRODUZIONE ===== -->
+  <section id="intro">
+    <h1 class="section-title"><span class="icon">🌐</span>1. Introduzione all'Internet of Things</h1>
+
+    <h2 class="subsection">Cos'è l'IoT e perché è nato</h2>
+    <p>L'Internet of Things — letteralmente "Internet delle Cose" — rappresenta una delle evoluzioni più profonde nella storia delle reti digitali. Se l'Internet tradizionale collegava persone a persone, o persone a risorse informative come siti web, l'IoT ha come obiettivo quello di estendere la connettività a oggetti fisici del mondo reale: sensori ambientali, elettrodomestici, veicoli, macchinari industriali, dispositivi medici e molto altro. In altre parole, si tratta di dare una "voce digitale" a tutto ciò che ci circonda, facendolo diventare parte attiva della rete.</p>
+
+    <p>Il termine ha origini relativamente recenti ma si appoggia su una visione che risale alla fine degli anni Novanta. Nel 1997, l'ITU (International Telecommunication Union) pubblica il rapporto "The Internet of Things", che per la prima volta inquadra la sfida tecnologica di portare oggetti fisici — inizialmente tramite tecnologia RFID — sulla rete Internet. Nel 1999 viene fondato il centro Auto-ID al MIT, che sviluppa le prime tecnologie di identificazione automatica per la supply chain. Solo nel 2008 si tiene la prima conferenza internazionale dedicata all'IoT (IoT 2008, Zurigo), segnando la maturazione accademica e industriale del settore.</p>
+
+    <div class="box box-key">
+      <div class="box-title">🔑 Definizione fondamentale</div>
+      Le tecnologie e le soluzioni che permettono l'integrazione di dati e servizi del mondo reale nelle attuali reti informatiche sono spesso descritte con il termine ombrello di <strong>Internet of Things</strong>. L'IoT non è solo la connessione di dispositivi, ma la creazione di un ecosistema in cui oggetti fisici acquisiscono identità digitale e capacità di interazione autonoma.
+    </div>
+
+    <h2 class="subsection">Dal M2M all'IoT: una distinzione importante</h2>
+    <p>Prima di parlare di IoT nel senso moderno, vale la pena capire il concetto di <strong>Machine-to-Machine (M2M)</strong>, che ne è il precursore diretto. La telemetria — ovvero la trasmissione remota di misure — è esistita per decenni: si pensi alle stazioni meteorologiche remote che inviano dati di temperatura e umidità via satellite, oppure ai pacemaker che trasmettono informazioni cardiache tramite apposite bobine di telemetria a bassa potenza. L'M2M generalizza questo concetto: è la comunicazione autonoma tra macchine, senza intervento umano, verso un centro di raccolta o elaborazione dati.</p>
+
+    <p>L'IoT rappresenta un salto qualitativo rispetto all'M2M: mentre l'M2M tende ad essere verticale (ogni industria sviluppa la propria soluzione proprietaria, con hardware, software e API dedicati), l'IoT punta all'interoperabilità tramite protocolli standard aperti, in particolare quelli della famiglia IP. Questo è cruciale: un mondo M2M frammentato in silos verticali impedisce economie di scala, rende difficile l'integrazione tra sistemi e aumenta enormemente i costi di sviluppo e manutenzione.</p>
+
+    <div class="box box-note">
+      <div class="box-title">📌 Frammentazione verticale dell'M2M</div>
+      Il problema principale dell'M2M tradizionale è la cosiddetta <em>vertical fragmentation</em>: ogni settore (sicurezza, trasporti, sanità, utilities, manifattura, supply chain) sviluppa le proprie soluzioni proprietarie, reinventando ogni volta la ruota. L'IoT, attraverso la standardizzazione basata su IP, punta a fornire uno <em>Service Capability Layer</em> comune che tutte le applicazioni possano condividere tramite API aperte.
+    </div>
+
+    <h2 class="subsection">La scala dell'IoT: un cambiamento quantitativo e qualitativo</h2>
+    <p>Uno degli aspetti più impressionanti dell'IoT è la scala. Secondo le stime di Ericsson e altri analisti, entro il 2020 si prevedevano circa 50 miliardi di oggetti connessi alla rete globale — un numero che supera di gran lunga il numero di esseri umani sul pianeta. Questa crescita non è semplicemente quantitativa: porta con sé sfide architetturali e tecnologiche che l'Internet tradizionale non ha mai dovuto affrontare.</p>
+
+    <p>Per comprendere la portata della sfida, basti considerare un singolo esempio fornito nelle slide del corso: una rete di smart object che misura la temperatura all'interno di un edificio, campionando due volte al minuto, produce <strong>737.280 letture per anno per nodo</strong>. Se il sistema è progettato per funzionare per dieci anni, si parla di oltre sette milioni di letture per singolo nodo. Moltiplicato per migliaia di nodi, si capisce perché il design di un routing protocol per LLN (Low-power and Lossy Networks) debba essere radicalmente diverso da quelli progettati per l'Internet tradizionale.</p>
+
+    <h2 class="subsection">Sfide node-level e network-level</h2>
+    <p>Il Prof. Ferrari distingue due categorie principali di sfide nell'IoT. Le <strong>sfide a livello di nodo</strong> riguardano i vincoli fisici e computazionali del singolo dispositivo: consumo energetico e dimensioni fisiche. Le <strong>sfide a livello di rete</strong> emergono dall'ensemble di tutti i nodi e riguardano la gestione del routing, l'indirizzamento, l'inaffidabilità dei link e la scala.</p>
+
+    <p>Queste due categorie sono profondamente interconnesse. Il consumo energetico di un nodo è determinato in larga parte dal suo comportamento di comunicazione: un protocollo di routing mal progettato che obbliga i nodi a stare costantemente in ascolto può decimare la vita della batteria. Viceversa, un protocollo di routing che tiene conto degli stati energetici dei nodi (come RPL fa con il Node Energy Object) può prolungare significativamente la vita dell'intera rete.</p>
+
+    <div class="box box-info">
+      <div class="box-title">ℹ️ Node-level challenges</div>
+      <strong>Consumo energetico:</strong> La batteria è spesso l'unica fonte di energia disponibile. Il hardware designer minimizza le correnti di leakage e progetta modalità di sleep efficienti. Il software designer sfrutta al massimo le funzionalità hardware. I protocolli di rete devono natively supportare low-power operation. Vale la regola d'oro: <em>idle listening costa tanto quanto trasmettere</em>.
+      <br><br>
+      <strong>Dimensioni fisiche e costo:</strong> Microprocessori più piccoli implicano meno velocità computazionale e meno memoria. Ogni linea di codice di un protocollo deve essere giustificata. La memoria tipica di uno smart object è dell'ordine di pochi kByte di RAM e poche decine di kByte di Flash.
+    </div>
+
+    <h2 class="subsection">Il ruolo della standardizzazione: IETF, IEEE e gli altri SDO</h2>
+    <p>Un aspetto che il corso sottolinea con forza è l'importanza della standardizzazione aperta. In un ecosistema IoT, dispositivi di produttori diversi devono interoperare a tutti i livelli dello stack: fisico, di link, di rete, di trasporto e applicativo. Senza standard condivisi, ogni produttore crea una soluzione incompatibile con quella degli altri, annullando i benefici economici di scala.</p>
+
+    <p>L'<strong>IETF</strong> (Internet Engineering Task Force) ha svolto un ruolo fondamentale attraverso tre Working Group particolarmente rilevanti per l'IoT: il WG <strong>6LoWPAN</strong> (che ha sviluppato l'adaptation layer per IPv6 su IEEE 802.15.4), il WG <strong>ROLL</strong> (che ha prodotto RPL, il protocollo di routing per LLN) e il WG <strong>CoRE</strong> (che ha definito CoAP, il protocollo applicativo RESTful per dispositivi vincolati). Parallelamente, l'<strong>IEEE</strong> ha standardizzato le tecnologie di accesso al mezzo (PHY e MAC) tramite IEEE 802.15.4 per le WPAN a bassa potenza e IEEE 802.11 per le WLAN.</p>
+
+    <div class="box box-book">
+      <div class="box-title">📖 Approfondimento (libro)</div>
+      Il libro "Interconnecting Smart Objects with IP" di Vasseur e Dunkels (Morgan Kaufmann, 2010) è il testo di riferimento principale del corso. Il Capitolo 1 fornisce un'eccellente panoramica sulla storia e le motivazioni dell'IoT, mentre i capitoli successivi approfondiscono ogni singolo strato dello stack protocollare. Si consiglia di leggere le introduzioni di ogni capitolo per capire il "perché" prima di approfondire il "come".
+    </div>
+  </section>
+
+  <!-- ===== SEZIONE 2: HARDWARE ===== -->
+  <section id="hardware">
+    <h1 class="section-title"><span class="icon">⚙️</span>2. Hardware degli Smart Objects</h1>
+
+    <h2 class="subsection">I quattro componenti fondamentali</h2>
+    <p>Ogni smart object, indipendentemente dalla sua applicazione specifica, è composto da quattro componenti hardware fondamentali. È utile ricordarseli con un'analogia con il corpo umano: la <strong>radio/transceiver</strong> funge da bocca e orecchie (comunicazione), il <strong>microcontrollore</strong> è il cervello (elaborazione), i <strong>sensori e attuatori</strong> sono le mani (interazione con il mondo fisico), e la <strong>fonte di energia</strong> è il cibo (alimentazione). Questa struttura elementare, combinata con software opportuno, è sufficiente per costruire sistemi IoT di grande complessità.</p>
+
+    <h3 class="sub3">Il transceiver radio: la componente più energivora</h3>
+    <p>Il transceiver radio è la componente più critica dal punto di vista del consumo energetico: consuma tipicamente <strong>circa 10 volte più energia del microcontrollore o dei sensori</strong>. Questo vale sia in trasmissione (modulazione del segnale) sia in ricezione (demodulazione), ma — e questo è il punto cruciale — vale anche in <strong>idle listening</strong>, ovvero quando il transceiver è acceso e in ascolto ma non sta effettivamente ricevendo nessun pacchetto utile. Questa osservazione è alla base di tutte le tecniche MAC per il risparmio energetico che vedremo più avanti.</p>
+
+    <p>I transceiver moderni variano enormemente in termini di capacità: da quelli semplici che gestiscono solo bit individuali, a quelli più sofisticati (SoC — System-on-Chip) che pacchettizzano i dati, costruiscono header e persino cifrano il payload usando metodi come AES-128. In un'ottica IoT, la scelta del transceiver influenza tutta l'architettura del sistema: un SoC più potente costa di più ma semplifica il software; un transceiver minimale richiede più elaborazione al microcontrollore ma riduce la dimensione e il costo del chip.</p>
+
+    <h3 class="sub3">Il microcontrollore: il cervello vincolato</h3>
+    <p>Il microcontrollore connette la radio con i sensori/attuatori ed esegue il software dello smart object. A differenza dei processori dei PC, i microcontrollori usati nell'IoT hanno dimensioni e prestazioni radicalmente ridotte: tipicamente pochi kByte di RAM e qualche decina-centinaia di kByte di Flash, con clock nell'ordine dei MHz (contro i GHz dei PC moderni). La memoria è divisa tra ROM (che contiene il comportamento permanente, ovvero il codice compilato) e RAM (che contiene i dati temporanei durante l'esecuzione).</p>
+
+    <p>Un punto fondamentale: i microcontrollori usati nell'IoT (con costi tipicamente inferiori a 10 dollari) hanno memoria sufficiente per stack protocollari ridotti ma non per implementazioni complete di tutto lo stack TCP/IP tradizionale. Questa è la ragione per cui esistono implementazioni compatte come <strong>uIP</strong> (micro-IP, solo 5 kB per TCP/IP completo) e <strong>uIPv6</strong> (11 kB), sviluppate nel contesto di Contiki OS.</p>
+
+    <h3 class="sub3">Sensori, attuatori e fonti di energia</h3>
+    <p>I sensori captano informazioni dal mondo fisico (temperatura, umidità, accelerazione, luce, pressione, segnali EMG, ecc.) e li convertono in segnali elettrici che il microcontrollore può leggere. Gli attuatori fanno il contrario: convertono segnali elettrici in azioni fisiche (apertura di valvole, attivazione di motori, emissione di suoni). La gamma va da sensori semplicissimi (un termistore) a sensori molto complessi (telecamere, accelerometri 9-DOF per IMU).</p>
+
+    <p>Per quanto riguarda l'alimentazione, la fonte più comune è una batteria al litio non ricaricabile, che con un'elettronica a basso consumo e software appropriato può garantire <strong>anni di vita</strong> anche con una singola batteria AA standard. Un'alternativa emergente è il <strong>power scavenging</strong> (energy harvesting): raccogliere energia dall'ambiente tramite celle solari, piezoelettricità (vibrazioni meccaniche) o induzione elettromagnetica (come negli RFID passivi). Quest'ultima tecnica è particolarmente interessante perché elimina completamente la necessità di batterie.</p>
+
+    <h2 class="subsection">Lo spettro delle classi di microcontrollori: ARM Cortex</h2>
+    <p>Un quadro molto utile per capire la varietà di dispositivi IoT è fornito dallo spettro dei microcontrollori basati su architettura ARM Cortex. Questa architettura è la più diffusa nell'IoT grazie alla sua efficienza energetica, alla disponibilità di tool di sviluppo e alla scalabilità. Il prof. Ferrari presenta una tabella di riferimento che vale la pena comprendere in profondità:</p>
+
+    <table>
+      <thead>
+        <tr><th>Classe MCU</th><th>Core ARM</th><th>RAM tipica</th><th>Flash tipica</th><th>Costo (IC)</th><th>OS / Stack</th><th>Applicazioni tipiche</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Ultra low</td><td>Cortex-M0+</td><td>&lt;4 kB</td><td>—</td><td>&lt;1$</td><td>Nessuno</td><td>Sensore temperatura single-use</td></tr>
+        <tr><td>Low</td><td>M0, low M3</td><td>10 kB</td><td>64 kB</td><td>~2$</td><td>Embedded OS / nessuno</td><td>Sensore luce, motion sensor</td></tr>
+        <tr><td>Med</td><td>M3, M4</td><td>48 kB</td><td>256 kB</td><td>~5$</td><td>RTOS / Embedded OS</td><td>Lampadina smart, motion sensor avanzato</td></tr>
+        <tr><td>Med-High</td><td>M4</td><td>1 MB</td><td>1 MB</td><td>~8$</td><td>Embedded OS completo</td><td>Smartwatch, controller lavatrice</td></tr>
+        <tr><td>High</td><td>Cortex-A</td><td>&gt;16 MB</td><td>&gt;64 MB</td><td>~12$</td><td>Linux, Android</td><td>Gateway IoT, hub locale, smart pen</td></tr>
+      </tbody>
+    </table>
+
+    <p>La tabella mostra chiaramente che non esiste un'unica risposta alla domanda "quale microcontrollore usare per IoT": dipende dal caso d'uso. Un sensore di temperatura che trasmette raramente e ha requisiti minimi può usare un Cortex-M0+ senza nessun OS; un gateway IoT che gestisce connessioni multiple e interfacce verso Internet richiede un Cortex-A con Linux.</p>
+
+    <div class="box box-key">
+      <div class="box-title">🔑 Concetto chiave: ARM Business Model</div>
+      ARM (ora Arm Holdings) non produce chip direttamente: vende <em>licenze</em> dell'architettura dei core a produttori di semiconduttori (STMicroelectronics, NXP, Nordic, Texas Instruments, ecc.) che costruiscono i propri SoC. Questo modello ha permesso una standardizzazione de-facto dell'architettura IoT, con l'ecosistema software (tool, librerie, OS) condiviso tra centinaia di chip diversi.
+    </div>
+
+    <h2 class="subsection">I sistemi operativi per smart objects</h2>
+    <p>Anche i sistemi operativi per smart objects sono radicalmente diversi da quelli per PC o smartphone. Non c'è interfaccia grafica, la memoria è minima, e i pattern di esecuzione sono profondamente diversi. Esistono tre OS principali che il corso analizza in dettaglio (e che approfondiremo nella sezione 11):</p>
+
+    <p><strong>Contiki</strong> (2003, SICS-Thingsquare) è stato il primo OS per smart objects a garantire la comunicazione IP tramite lo stack uIP (5 kB per TCP/IP, 11 kB per uIPv6). Usa il modello di programmazione dei <em>protothreads</em> — una forma di cooperative multitasking molto efficiente in termini di memoria. Include il simulatore <strong>Cooja</strong>, indispensabile per testare reti di centinaia di nodi virtuali prima del deployment reale.</p>
+
+    <p><strong>TinyOS</strong> (2000, Berkeley-Stanford) nasce con un focus sulle wireless sensor network e sull'ambito accademico. È scritto in <em>nesC</em>, un dialetto del C ottimizzato per il modello event-driven. I programmi TinyOS reagiscono a eventi (ricezione di un pacchetto, scadenza di un timer) piuttosto che eseguire loop continui, il che li rende naturalmente efficienti ma più complessi da scrivere.</p>
+
+    <p><strong>FreeRTOS</strong> è progettato per sistemi embedded con garanzie real-time, tipicamente applicazioni di controllo industriale. Usa un modello di programmazione preemptivo e multithreaded, che richiede più memoria ma offre maggiore flessibilità. È portato su oltre 50 microcontrollori/controllori ed è ampiamente usato nell'industria.</p>
+  </section>
+
+  <!-- ===== SEZIONE 3: UDP ===== -->
+  <section id="udp">
+    <h1 class="section-title"><span class="icon">📦</span>3. Il Protocollo UDP</h1>
+
+    <h2 class="subsection">UDP nel contesto del TCP/IP stack</h2>
+    <p>Prima di parlare di UDP specificamente, vale la pena ricordare il contesto architetturale in cui si colloca. Il modello TCP/IP suddivide la comunicazione di rete in livelli, ciascuno con responsabilità ben definite. Il <strong>livello di rete</strong> (IP) si occupa di instradare i pacchetti da sorgente a destinazione attraverso la rete, identificando i dispositivi tramite indirizzi IP a 32 o 128 bit. Il <strong>livello di trasporto</strong> (TCP o UDP) fornisce comunicazione end-to-end tra <em>processi applicativi</em> che girano su dispositivi diversi — e qui sta il punto cruciale: mentre IP identifica un dispositivo, i protocolli di trasporto identificano un'applicazione specifica su quel dispositivo tramite i <em>numeri di porta</em>.</p>
+
+    <p>UDP è il protocollo di trasporto più semplice possibile: si può pensare a UDP come a IP con l'aggiunta di due sole funzionalità — il <strong>multiplexing/demultiplexing</strong> tramite numeri di porta (per distinguere tra le varie applicazioni sullo stesso host) e un <strong>checksum opzionale</strong> per la rilevazione degli errori sul payload. Nient'altro. Non c'è connessione, non c'è garanzia di consegna, non c'è ordinamento, non c'è controllo di flusso.</p>
+
+    <h2 class="subsection">La struttura del datagram UDP</h2>
+    <p>L'header UDP è sorprendentemente compatto: soli <strong>8 byte totali</strong>, composti da quattro campi da 2 byte ciascuno. Il <em>Source Port</em> identifica il processo mittente (da 0 a 65.535, ovvero 2<sup>16</sup>-1); il <em>Destination Port</em> identifica il processo destinatario; il <em>Length</em> specifica la lunghezza totale del datagram UDP (header + dati), con un minimo di 8 byte (datagram vuoto) e un massimo di 65.535 byte; infine il <em>Checksum</em> copre l'header UDP e parte dell'header IP (il cosiddetto pseudo-header). In IPv4 il checksum è opzionale; in IPv6 è obbligatorio.</p>
+
+    <div class="hdr">
+      <div class="hdr-field" style="flex:2;background:#2d6a4f;color:#fff">Source Port (16 bit)</div>
+      <div class="hdr-field" style="flex:2;background:#40916c;color:#fff">Destination Port (16 bit)</div>
+      <div class="hdr-field" style="flex:1;background:#52b788;color:#fff">Length (16 bit)</div>
+      <div class="hdr-field" style="flex:1;background:#74c69d;color:#1a1a1a">Checksum (16 bit)</div>
+    </div>
+    <p style="font-family:sans-serif;font-size:0.8rem;color:var(--text3);margin-top:-0.5rem;margin-bottom:1rem">Header UDP: 8 byte totali (4 campi × 2 byte)</p>
+
+    <h2 class="subsection">Perché qualcuno dovrebbe usare UDP invece di TCP?</h2>
+    <p>A prima vista, UDP sembra il "protocollo scadente": non garantisce la consegna, non riordina i pacchetti, non recupera le perdite. Ma questa semplicità è esattamente il suo punto di forza in molti scenari. Le motivazioni principali per scegliere UDP sono quattro, e tutte particolarmente rilevanti per l'IoT:</p>
+
+    <p><strong>1. Controllo fine-grained su quando inviare:</strong> Con UDP, non appena un'applicazione scrive nel socket, UDP impacchetta i dati e invia subito. Con TCP invece si deve attendere la negoziazione della connessione, il controllo di congestione e altri meccanismi che introducono latenza. Per applicazioni IoT che devono inviare singole misure in modo rapido e sporadico, questa latenza è inaccettabile.</p>
+
+    <p><strong>2. Nessun overhead di connessione:</strong> TCP richiede il <em>three-way handshake</em> prima di poter inviare il primo byte di dati (3 round-trip time!). UDP "spara" subito. In una rete IoT con link lenti (ad esempio 250 kb/s su IEEE 802.15.4), questi round-trip possono essere significativi, e il costo energetico di mantenere una connessione aperta è rilevante.</p>
+
+    <p><strong>3. Nessuno stato di connessione:</strong> TCP mantiene buffer, numeri di sequenza, timer e altri parametri per ogni connessione attiva. UDP è completamente stateless: nessuna allocazione di risorse, nessun timeout da gestire, nessuna complessità. Per un server che deve gestire migliaia di client (ad es. un gateway IoT con molti sensori), questa assenza di stato è un vantaggio enorme in termini di scalabilità e memoria.</p>
+
+    <p><strong>4. Header piccolo:</strong> 8 byte contro i 20 byte minimi di TCP (spesso di più con opzioni). Su un frame IEEE 802.15.4 da 127 byte massimi, ogni byte risparmiato nell'header è un byte in più per il payload applicativo. UDP usa il 6,3% del frame; TCP usa il 15,7%, e spesso di più.</p>
+
+    <div class="box box-warn">
+      <div class="box-title">⚠️ UDP per IoT: vantaggi e svantaggi</div>
+      <strong>Vantaggi IoT:</strong> Bassissimo overhead (header 8B), semplicità adatta a molte applicazioni (monitoraggio temperatura: perdere una lettura non è critico), buona compatibilità con multicast sottostante.<br><br>
+      <strong>Svantaggi IoT:</strong> Nessun meccanismo di recovery dalla perdita di pacchetti → l'applicazione deve gestire essa stessa la ritrasmissione se necessario. Le reti smart object hanno frame piccoli e UDP non fornisce meccanismi di frammentazione → l'applicazione deve scegliere dimensioni appropriate dei pacchetti.
+    </div>
+
+    <h2 class="subsection">Applicazioni che usano UDP e rilevanza nell'IoT</h2>
+    <p>UDP è la scelta naturale per applicazioni di <strong>streaming multimediale</strong> (audio/video conferencing, gaming online) dove un pacchetto perso è preferibile a un ritardo causato dalla ritrasmissione. Per una videochiamata, un frame corrotto viene semplicemente ignorato; un frame ritardato di 300ms è invece inaccettabile. Allo stesso modo, per protocolli di query semplici come <strong>DNS</strong> (Domain Name System), la semplicità di UDP si adatta perfettamente: si invia la query e si attende la risposta; se arriva un errore o il timeout scade, si ritrasmette a livello applicativo.</p>
+
+    <p>Nel contesto IoT, UDP è il protocollo di trasporto su cui è costruito <strong>CoAP</strong> (Constrained Application Protocol), il protocollo applicativo standard per IoT. Questo non è un caso: CoAP implementa su di sé i meccanismi di affidabilità opzionale (messaggi CON con ACK) che servono, ma solo quando l'applicazione li richiede esplicitamente, evitando l'overhead di TCP nelle situazioni in cui non sono necessari.</p>
+  </section>
+
+  <!-- ===== SEZIONE 4: TCP ===== -->
+  <section id="tcp">
+    <h1 class="section-title"><span class="icon">🔗</span>4. Il Protocollo TCP</h1>
+
+    <h2 class="subsection">La filosofia di TCP: affidabilità su un canale inaffidabile</h2>
+    <p>TCP (Transmission Control Protocol) è il protocollo di trasporto orientato alla connessione e affidabile di Internet. Nasce dalla necessità di fornire un servizio di <em>byte stream</em> affidabile su un livello di rete (IP) che offre solo un servizio <em>best-effort</em> — ovvero IP fa del suo meglio per consegnare i pacchetti, ma non garantisce né la consegna né l'ordine. TCP si costruisce sopra questo servizio inaffidabile e fornisce tre garanzie fondamentali: <strong>rilevazione e correzione degli errori</strong>, <strong>riordinamento dei segmenti</strong> e <strong>controllo di flusso</strong>.</p>
+
+    <p>Per realizzare queste garanzie, TCP usa tre meccanismi chiave che è importante capire in profondità: gli <strong>acknowledgment e le ritrasmissioni</strong>, i <strong>numeri di sequenza</strong> e la <strong>sliding window</strong>.</p>
+
+    <h2 class="subsection">Il Three-Way Handshake: come nasce una connessione TCP</h2>
+    <p>Prima che i dati possano fluire, TCP richiede l'apertura esplicita di una connessione. Questo avviene tramite il famoso <strong>three-way handshake</strong>, una sequenza di tre messaggi che permette ai due host di sincronizzarsi sui numeri di sequenza iniziali (ISN — Initial Sequence Numbers) e di confermare che entrambi sono pronti a comunicare.</p>
+
+    <p>L'host A invia un segmento <strong>SYN</strong> (synchronize) con il proprio ISN, diciamo X. L'host B risponde con un segmento <strong>SYN-ACK</strong>, che contiene sia il proprio ISN (diciamo Y) sia un ACK per l'ISN di A (X+1, ovvero "ho ricevuto il byte X, mi aspetto il byte X+1"). Infine, A invia un <strong>ACK</strong> per l'ISN di B (Y+1), completando la sincronizzazione. Dopo questo scambio, entrambi gli host conoscono i numeri di sequenza dell'altro e la connessione è pronta per il trasferimento dati.</p>
+
+    <div class="box box-info">
+      <div class="box-title">ℹ️ Perché l'ISN non parte da zero?</div>
+      Il numero di sequenza iniziale non viene fissato a zero per motivi pratici: gli indirizzi IP e i numeri di porta vengono riutilizzati nel tempo, e un vecchio pacchetto ancora in transito nella rete potrebbe essere erroneamente associato a una nuova connessione. Per evitare questo problema, l'ISN viene derivato da un orologio a 32 bit che scorre ogni 4 microsecondi, garantendo che lo stesso ISN non venga riutilizzato per almeno 4,55 ore.
+    </div>
+
+    <h2 class="subsection">Numeri di sequenza e acknowledgment</h2>
+    <p>Ogni byte trasmesso da TCP ha un numero di sequenza univoco. Il <em>sequence number</em> nel header TCP indica il numero del primo byte nel segmento corrente; l'<em>acknowledgment number</em> indica il numero del prossimo byte atteso dal ricevente. Questa semantica di <em>cumulative acknowledgment</em> significa che un ACK con valore N conferma la ricezione di tutti i byte da 0 a N-1.</p>
+
+    <p>L'header TCP è composto da 20 byte minimi e include: i numeri di porta sorgente e destinazione (4 byte), il numero di sequenza (4 byte), il numero di acknowledgment (4 byte), la lunghezza dell'header e i flag (2 byte — dove i flag includono SYN, FIN, RST, PSH, URG, ACK), la finestra pubblicizzata (2 byte), il checksum (2 byte) e il urgent pointer (2 byte).</p>
+
+    <h2 class="subsection">Il problema del timeout: stimare l'RTT</h2>
+    <p>TCP deve scegliere quanto tempo attendere prima di considerare un pacchetto perso e ritrasmettere. Questo timeout è critico: se è troppo breve, si ritrasmette inutilmente consumando banda e energia; se è troppo lungo, si perdono secondi preziosi ogni volta che un pacchetto va perso. La soluzione di TCP è <strong>stimare dinamicamente l'RTT</strong> (Round-Trip Time) osservando i tempi di risposta degli ACK.</p>
+
+    <p>TCP mantiene uno <em>Smoothed RTT</em> usando una media esponenzialmente ponderata:</p>
+
+    <div class="formula">EstimatedRTT = α × EstimatedRTT + (1 – α) × SampleRTT</div>
+
+    <p>dove α tipicamente vale 0.875 (ovvero si dà peso 7/8 alla stima corrente e 1/8 alla nuova misura). Il timeout viene poi fissato a <code>TimeOut = 2 × EstimatedRTT</code> per aggiungere un margine di sicurezza. Questa stima adattiva è fondamentale: un nodo IoT su una rete wireless può avere RTT molto variabile a causa delle perdite, e un timeout fisso porterebbe a comportamenti sub-ottimali.</p>
+
+    <h2 class="subsection">La Sliding Window: perché stop-and-wait è inefficiente</h2>
+    <p>Il meccanismo più semplice di controllo del flusso è il <strong>stop-and-wait</strong>: il mittente invia un segmento, poi si ferma e attende l'ACK prima di inviare il successivo. Questo funziona ma è terribilmente inefficiente: in un link da 1,5 Mbps con RTT di 45 ms, il prodotto banda-ritardo è 67,5 kbit = 8 kByte. Con segmenti da 1 kB e stop-and-wait, si utilizza solo 8 kbit / 45 ms ≈ 182 kbps su 1,5 Mbps disponibili — appena il 12% della capacità del link!</p>
+
+    <p>La soluzione è la <strong>sliding window</strong>: si consente al mittente di avere più segmenti "in volo" contemporaneamente, senza aspettare l'ACK di ognuno. Il ricevente pubblica una <em>advertised window</em> nell'header TCP, indicando quanti byte è in grado di ricevere e bufferizzare in questo momento. Il mittente non può inviare più dati di quanto la finestra consenta. Man mano che il ricevente svuota il buffer (consegnando i dati all'applicazione), può pubblicare una finestra più grande, permettendo al mittente di inviare altri dati.</p>
+
+    <h2 class="subsection">Fast Retransmit: ritrasmissione rapida senza aspettare il timeout</h2>
+    <p>Il timeout è un meccanismo di sicurezza, ma può introdurre latenze significative: se un pacchetto va perso, il mittente aspetta che scada il timeout (che può essere di diversi secondi) prima di ritrasmettere. La <strong>fast retransmission</strong> è un'ottimizzazione che sfrutta il meccanismo di sliding window per rilevare le perdite più rapidamente.</p>
+
+    <p>Ecco il ragionamento: se il pacchetto N è perso ma i pacchetti N+1, N+2, N+3 arrivano correttamente, il ricevente continua ad inviare ACK per N (il "cumulative ACK" può solo confermare i byte in ordine). Il mittente riceve quindi <strong>tre ACK duplicati</strong> per N — che è un segnale forte che N è andato perso. Non serve aspettare il timeout: il mittente ritrasmette N immediatamente. Questa tecnica si chiama <em>triple duplicate ACK fast retransmit</em> ed è più efficace quanto più la finestra è grande e quanto più il flusso è continuo.</p>
+
+    <div class="box box-warn">
+      <div class="box-title">⚠️ TCP per IoT: vantaggi e svantaggi</div>
+      <strong>Vantaggi:</strong> Le reti IoT sono tipicamente lossy (link wireless, interferenze) → il trasporto affidabile di TCP è utile. TCP può essere compresso (header compression in 6LoWPAN). L'opzione MSS (Maximum Segment Size) permette di adattare la dimensione dei segmenti ai frame piccoli di 802.15.4.<br><br>
+      <strong>Svantaggi:</strong> Le implementazioni ridotte di TCP per smart objects non implementano la sliding window completa (solo un pacchetto attivo alla volta) né gli ACK ritardati. Il three-way handshake introduce 3 RTT di latenza prima di poter trasmettere dati.
+    </div>
+  </section>
+
+  <!-- ===== SEZIONE 5: IPv6 ===== -->
+  <section id="ipv6">
+    <h1 class="section-title"><span class="icon">🌍</span>5. IPv6</h1>
+
+    <h2 class="subsection">Perché IPv4 non basta: il problema dell'esaurimento degli indirizzi</h2>
+    <p>IPv4 (RFC 791, 1981) funziona sostanzialmente invariato da oltre quarant'anni, il che è un tributo alla brillantezza dei suoi progettisti. Tuttavia, la sua limitazione fondamentale — gli indirizzi a 32 bit — ha creato problemi crescenti con l'esplosione di Internet e, in misura ancora maggiore, con l'avvento dell'IoT. Con 2<sup>32</sup> ≈ 4,3 miliardi di indirizzi teorici (molti meno in pratica, data la struttura gerarchica), si è iniziato presto a correre ai ripari con tecniche come il CIDR (Classless Inter-Domain Routing) e soprattutto il NAT (Network Address Translation).</p>
+
+    <p>Il NAT permette a molti dispositivi con indirizzi privati di condividere un unico indirizzo pubblico, risolvendo il problema dell'esaurimento nel breve termine ma creando nuovi problemi: introduce stato nella rete (violando il principio end-to-end di Internet), non funziona con alcuni protocolli applicativi che incorporano indirizzi IP nel payload (FTP, SIP, DNS), ed è incompatibile con IPSec in alcune configurazioni. Per l'IoT, il NAT è particolarmente problematico: un dispositivo IoT dietro NAT non è direttamente raggiungibile dall'esterno, il che complica enormemente le architetture di comunicazione.</p>
+
+    <p>La soluzione definitiva è <strong>IPv6</strong> (RFC 2460), che porta gli indirizzi a 128 bit, fornendo 2<sup>128</sup> ≈ 3,4 × 10<sup>38</sup> indirizzi unici — un numero sufficientemente grande da assegnare un indirizzo globalmente unico a ogni granello di sabbia sul pianeta, senza bisogno di NAT.</p>
+
+    <h2 class="subsection">L'header IPv6: più semplice ma più grande</h2>
+    <p>L'header di base IPv6 è di <strong>40 byte fissi</strong> — il doppio dei 20 byte minimi di IPv4 — ma è strutturato in modo più pulito e efficiente. Contiene solo 8 campi (contro i 13 di IPv4), ed è allineato a 64 bit per ottimizzare l'elaborazione sui processori moderni. I campi rimossi rispetto a IPv4 includono il checksum dell'header (eliminato perché TCP e UDP calcolano già il proprio checksum, incluso uno pseudo-header), il campo di frammentazione (in IPv6 la frammentazione avviene solo alla sorgente, non nei router intermedi) e le opzioni (sostituite dagli Extension Headers).</p>
+
+    <p>I campi dell'header base IPv6 sono: <em>Version</em> (4 bit, sempre "6"), <em>Traffic Class</em> (8 bit, per la qualità del servizio, analogo al DSCP di IPv4), <em>Flow Label</em> (20 bit, per identificare flussi che richiedono gestione speciale), <em>Payload Length</em> (16 bit, lunghezza del payload escludendo l'header base), <em>Next Header</em> (8 bit, identifica il header successivo — extension header o protocollo di trasporto), <em>Hop Limit</em> (8 bit, analogo al TTL di IPv4), e i due indirizzi da 128 bit ciascuno.</p>
+
+    <h2 class="subsection">Extension Headers: la flessibilità di IPv6</h2>
+    <p>Una delle idee più eleganti di IPv6 è il sistema di <strong>Extension Headers</strong>: invece di gonfiare l'header base con opzioni raramente usate, IPv6 permette di concatenare header opzionali tra l'header base e il payload. Ogni extension header è identificato dal campo <em>Next Header</em> dell'header precedente, creando una catena che termina con il protocollo di trasporto (TCP=6, UDP=17) o con "nessun header successivo" (59).</p>
+
+    <p>Gli extension header standard includono: <em>Hop-by-Hop Options</em> (tipo 0, processato da ogni router lungo il percorso — include l'opzione Jumbo Payload per frame &gt;65.535 byte), <em>Routing Header</em> (tipo 43, specifica una lista di router da attraversare), <em>Fragment Header</em> (tipo 44, usato per la frammentazione eseguita solo dalla sorgente), <em>Authentication Header</em> (tipo 51, per IPSec AH), <em>ESP Header</em> (tipo 50, per IPSec ESP), e <em>Destination Options</em> (tipo 60, processato solo dalla destinazione). Questa struttura permette di aggiungere nuove funzionalità a IPv6 senza modificare l'header base.</p>
+
+    <h2 class="subsection">Indirizzi IPv6: gerarchie, tipi e rappresentazione</h2>
+    <p>Gli indirizzi IPv6 a 128 bit si rappresentano come 8 gruppi da 16 bit (4 cifre esadecimali ciascuno), separati da ":", per esempio <code>2080:0000:0000:0040:0200:A00B:0000:1234</code>. Alcune regole di semplificazione permettono di omettere gli zeri iniziali in ogni gruppo e di sostituire una sequenza di gruppi tutti zero con "::" (che può apparire una sola volta per indirizzo).</p>
+
+    <p>IPv6 distingue tre tipi di indirizzi: <strong>unicast</strong> (uno-a-uno), <strong>anycast</strong> (uno al più vicino, allocati dallo spazio unicast) e <strong>multicast</strong> (uno-a-molti, con prefisso FF00::/8). Non esiste il broadcast in IPv6, sostituito da specifici indirizzi multicast. Gli indirizzi unicast si dividono a loro volta in <em>global unicast</em> (instradabili su Internet, prefisso 2000::/3), <em>link-local</em> (validi solo sul link locale, prefisso FE80::/10, obbligatori per ogni interfaccia) e <em>site-local</em> (deprecated).</p>
+
+    <div class="box box-key">
+      <div class="box-title">🔑 Link-local e SLAAC: autoconfigurazione stateless</div>
+      Ogni interfaccia IPv6 si assegna automaticamente un indirizzo link-local con prefisso FE80::/10. L'Interface ID (64 bit bassi) viene derivato dall'indirizzo MAC a 64 bit (EUI-64) o da 48 bit modificati. Questa capacità di auto-configurazione — SLAAC (Stateless Address Autoconfiguration) — è fondamentale per l'IoT: i dispositivi si connettono e si configurano da soli, senza bisogno di un server DHCP.
+    </div>
+
+    <h2 class="subsection">ICMPv6 e Neighbor Discovery Protocol</h2>
+    <p>ICMPv6 non è semplicemente la versione per IPv6 dell'ICMP di IPv4: è un protocollo molto più ricco che incorpora le funzionalità di ARP (Address Resolution Protocol) e IGMP (Internet Group Management Protocol) di IPv4, più molte funzionalità nuove. ICMPv6 è essenziale per il funzionamento di IPv6 e viene usato per: segnalazione di errori (Destination Unreachable, Packet Too Big, Time Exceeded), diagnostica (Echo Request/Reply, il "ping"), e il fondamentale <strong>Neighbor Discovery Protocol (NDP)</strong>.</p>
+
+    <p>NDP risolve una serie di problemi critici nella gestione di IPv6 su un link. Il <strong>Neighbor Solicitation/Advertisement</strong> sostituisce l'ARP di IPv4: quando un nodo deve inviare un pacchetto a un vicino ma non conosce il suo indirizzo MAC, invia un Neighbor Solicitation in multicast; il vicino risponde con un Neighbor Advertisement contenendo il suo MAC. Il <strong>Router Solicitation/Advertisement</strong> permette agli host di scoprire i router sul link e ottenere il prefisso di rete, fondamentale per SLAAC. La <strong>Duplicate Address Detection (DAD)</strong> verifica che l'indirizzo che un nodo vuole usare non sia già usato da altri sul link.</p>
+
+    <h2 class="subsection">Meccanismi di transizione da IPv4 a IPv6</h2>
+    <p>Il passaggio da IPv4 a IPv6 non può avvenire dall'oggi al domani: richiede meccanismi di coesistenza. I tre approcci principali sono il <strong>dual stack</strong> (un dispositivo implementa entrambe le versioni di IP e usa quella appropriata in base al destinatario), il <strong>tunneling</strong> (i pacchetti IPv6 vengono incapsulati in pacchetti IPv4 per attraversare reti IPv4-only) e la <strong>translation</strong> (un gateway traduce tra IPv4 e IPv6, necessario quando dispositivi che supportano solo una versione devono comunicare con dispositivi che supportano solo l'altra).</p>
+
+    <div class="box box-note">
+      <div class="box-title">📌 IPv6 e IoT: un binomio essenziale</div>
+      Per l'IoT, IPv6 non è un'opzione ma una necessità. Con decine di miliardi di dispositivi connessi, IPv4 semplicemente non ha abbastanza indirizzi. Ma IPv6 porta molto di più: SLAAC permette ai dispositivi IoT di auto-configurarsi senza infrastruttura DHCP; gli indirizzi link-local permettono la comunicazione locale senza router; le multicast consentono routing protocol efficienti come RPL. L'IETF ha sviluppato 6LoWPAN proprio per adattare IPv6 alle reti IEEE 802.15.4 con i loro vincoli estremi.
+    </div>
+  </section>
+
+  <!-- ===== SEZIONE 6: IEEE 802.15.4 ===== -->
+  <section id="802154">
+    <h1 class="section-title"><span class="icon">📡</span>6. Standard IEEE 802.15.4</h1>
+
+    <h2 class="subsection">Perché 802.15.4 e non WiFi?</h2>
+    <p>Una domanda legittima quando si studia l'IoT è: perché non usare semplicemente il WiFi (IEEE 802.11) per connettere gli smart object? Dopotutto è uno standard ampiamente diffuso, con miliardi di dispositivi compatibili. La risposta sta in tre parole: <strong>consumo energetico, costo e dimensioni</strong>. Un modulo WiFi consuma tipicamente 10-100 volte più energia di un modulo IEEE 802.15.4; un chip 802.15.4 può costare pochi centesimi contro qualche euro del WiFi; e le dimensioni fisiche sono corrispondentemente diverse.</p>
+
+    <p>IEEE 802.15.4, sviluppato dal gruppo di lavoro 802.15 dell'IEEE con focus sulle Personal Area Network (PAN) a bassa potenza, è progettato proprio per dispositivi con severi vincoli energetici e di costo. Il suo profilo tecnico riflette queste priorità: <strong>data rate massimo di 250 kb/s</strong> (contro i Mbps o Gbps del WiFi), <strong>potenza di trasmissione massima 1 mW</strong>, <strong>range nominale di poche decine di metri</strong>, e crucialmente un <strong>MTU (Maximum Transmission Unit) di soli 127 byte</strong>. Quest'ultimo dato è forse il più impattante sull'intera architettura IoT: tutti i protocolli superiori devono adattarsi a questi 127 byte.</p>
+
+    <h2 class="subsection">Il layer fisico (PHY): canali e modulazione</h2>
+    <p>IEEE 802.15.4 definisce tre bande di frequenza operative. In <strong>Europa</strong> è disponibile un canale nella banda 868 MHz (canale 0); negli <strong>Stati Uniti</strong> sono disponibili 10 canali nella banda 915 MHz (canali 1-10); in tutto il <strong>mondo</strong> (inclusa l'Europa) sono disponibili 16 canali nella banda 2,4 GHz (canali 11-26). I canali nella banda 2,4 GHz sono i più usati in pratica, con velocità di 250 kb/s e modulazione <strong>O-QPSK</strong> (Offset-QPSK). I canali 0-10 a frequenze inferiori usano BPSK, con velocità inferiori (20-40 kb/s) ma migliore penetrazione degli ostacoli.</p>
+
+    <p>Un problema rilevante è l'interferenza di IEEE 802.11 (WiFi) nella banda 2,4 GHz. Poiché i canali dei due standard si sovrappongono parzialmente, un nodo 802.15.4 vicino a un punto di accesso WiFi attivo può sperimentare interferenze significative, aumentando la lossiness del link. Questo è uno dei motivi per cui i protocolli IoT devono essere progettati per reti <em>lossy by design</em>.</p>
+
+    <p>Il layer fisico fornisce anche il meccanismo di <strong>CCA (Clear Channel Assessment)</strong>, ovvero la valutazione se il canale è libero o occupato prima di trasmettere. CCA può operare in tre modalità: misura dell'energia del segnale (Energy Detection), demodulazione del segnale per verificare se è un frame 802.15.4 valido, o combinazione delle due.</p>
+
+    <h2 class="subsection">Il layer MAC: accesso al canale e tipi di nodi</h2>
+    <p>Il layer MAC di IEEE 802.15.4 usa <strong>CSMA/CA</strong> (Carrier Sense Multiple Access with Collision Avoidance) come meccanismo base di accesso al canale: prima di trasmettere, un nodo esegue CCA; se il canale è occupato, esegue un backoff casuale e riprova. Le collisioni non possono essere rilevate in wireless (il segnale trasmesso maschera quello ricevuto), quindi si usa la <em>collision avoidance</em> piuttosto che la collision detection di Ethernet.</p>
+
+    <p>Lo standard definisce due tipi di dispositivi: i <strong>FFD (Full Function Devices)</strong>, che implementano il MAC completo e possono fungere da PAN coordinator o router, e i <strong>RFD (Reduced Function Devices)</strong>, con funzionalità MAC ridotta (non possono essere PAN coordinator). La rete è identificata da un <strong>PAN ID a 16 bit</strong> e supporta tre topologie: <em>star</em>, <em>mesh</em> e <em>cluster tree</em>.</p>
+
+    <p>L'indirizzamento è su due livelli: ogni dispositivo ha un <strong>indirizzo a 64 bit</strong> globalmente unico (assegnato dal produttore, con 24 bit OUI dell'IEEE e 40 bit manufacturer-specific) e può ricevere un <strong>indirizzo corto a 16 bit</strong> assegnato dal PAN coordinator al momento dell'associazione alla rete. L'indirizzo lungo garantisce l'unicità globale; quello corto riduce l'overhead degli header sui frame limitati a 127 byte.</p>
+
+    <h2 class="subsection">Il formato dei frame 802.15.4</h2>
+    <p>Il frame fisico (PHY) è strutturato in tre parti: un <strong>preambolo</strong> (per la sincronizzazione del ricevitore), un <strong>SFD</strong> (Start of Frame Delimiter, che indica la fine del preambolo) e un campo <strong>Length</strong> (7 bit, da 0 a 127, che indica la lunghezza del PSDU — PHY Service Data Unit). Il PSDU contiene il frame MAC.</p>
+
+    <p>Il frame MAC comprende: un <strong>Frame Control</strong> (con flag per indicare il tipo di frame, la richiesta di ACK, la versione del frame, ecc.), un <strong>Sequence Number</strong> (per il matching con gli ACK), i campi di <strong>indirizzamento</strong> (variabili, con PAN ID sorgente/destinazione e indirizzi), il <strong>payload</strong> e un <strong>FCS</strong> (Frame Check Sequence, CRC-16 di tutto il frame). È importante notare che il payload effettivamente disponibile per i layer superiori dipende dall'overhead MAC: nel caso peggiore (indirizzi lunghi a 64 bit e header di sicurezza AES) rimangono solo 21-41 byte per i dati dell'applicazione.</p>
+
+    <div class="box box-info">
+      <div class="box-title">ℹ️ Il budget energetico di 802.15.4</div>
+      Un dato sorprendente: su IEEE 802.15.4, il consumo in ricezione è <em>superiore</em> a quello in trasmissione. Questo perché la ricezione richiede l'attivazione completa dei circuiti di demodulazione anche quando non arriva nessun segnale utile. Conseguenza diretta: mantenere la radio accesa in modalità "ascolto" consuma tanta energia quanto trasmettere, rendendo l'<em>idle listening</em> il nemico principale dell'efficienza energetica nelle reti IoT.
+    </div>
+
+    <h2 class="subsection">IEEE 802.11 e PLC: confronto per IoT</h2>
+    <p>Oltre a 802.15.4, il corso analizza brevemente altri due standard di comunicazione rilevanti per l'IoT. IEEE 802.11 (WiFi) ha il vantaggio dell'ubiquità (miliardi di dispositivi, infrastruttura già presente) e data rate elevati, ma soffre di consumo energetico molto superiore a 802.15.4. Le nuove generazioni a bassa potenza di 802.11 stanno migliorando, ma il gap energetico rimane significativo per applicazioni battery-powered.</p>
+
+    <p>Le <strong>Power Line Communications (PLC)</strong> usano le linee elettriche esistenti come canale di trasmissione dati, eliminando la necessità di batterie (i dispositivi si alimentano direttamente dalla rete elettrica). Il payload dati viene sovrapposto al segnale a 50/60 Hz tramite modulazione. Il vantaggio principale è la disponibilità pervasiva della rete elettrica; lo svantaggio è il rumore elevato introdotto dai carichi elettrici connessi. Le PLC usano CSMA/CA e non richiedono routing (tutti i nodi sullo stesso segmento di rete elettrica sono sulla stessa LAN).</p>
+  </section>
+
+  <!-- ===== SEZIONE 7: MAC ENERGY EFFICIENT ===== -->
+  <section id="mac">
+    <h1 class="section-title"><span class="icon">⚡</span>7. Protocolli MAC Energy-Efficient</h1>
+
+    <h2 class="subsection">Il problema dell'idle listening: il nemico nascosto</h2>
+    <p>Come abbiamo visto, il consumo energetico del transceiver radio è la principale causa di scarsa vita della batteria negli smart object. Ma qual è la fonte principale di questo consumo? Non è, come si potrebbe pensare, la trasmissione — dopotutto un nodo trasmette solo quando ha dati da mandare. La fonte principale è l'<strong>idle listening</strong>: mantenere il transceiver acceso in ricezione in attesa di possibili trasmissioni in arrivo, anche quando la rete è silenziosa.</p>
+
+    <p>Sperimentalmente si è dimostrato che il consumo in idle listening è comparabile a quello in ricezione attiva (e spesso superiore a quello in trasmissione). Un nodo che "ascolta" continuamente consuma la batteria quasi quanto uno che trasmette continuamente. La soluzione ovvia è spegnere il transceiver il più possibile — ma come fa il nodo a sapere quando è opportuno accendersi per ricevere dati destinati a lui?</p>
+
+    <p>Questo è il problema fondamentale che i protocolli MAC energy-efficient cercano di risolvere. Le altre fonti di consumo "sprecato" includono: le <strong>collisioni</strong> (due nodi trasmettono contemporaneamente, costringendo a ritrasmissioni), l'<strong>overhearing</strong> (un nodo riceve ed elabora pacchetti destinati ad altri), e l'overhead dei messaggi di controllo.</p>
+
+    <h2 class="subsection">B-MAC: la semplicità del Low Power Listening</h2>
+    <p><strong>B-MAC</strong> (Berkeley MAC, 2004) affronta il problema dell'idle listening con un'idea elegante nella sua semplicità: <strong>Low Power Listening (LPL)</strong>. Anziché tenere la radio sempre accesa, ogni nodo si sveglia periodicamente per breve tempo, esegue un CCA per rilevare attività sul canale, e se non c'è nulla torna a dormire. Se rileva un segnale, rimane sveglio per ricevere il pacchetto.</p>
+
+    <p>Il problema è: come fa il mittente a sincronizzarsi con il ciclo di sleep del ricevente, che non conosce? La soluzione di B-MAC è inviare un <strong>preambolo molto lungo</strong> — abbastanza lungo da coprire l'intero intervallo di sleep del ricevente. In questo modo, indipendentemente da quando il ricevente si sveglia durante il suo ciclo, troverà il preambolo in corso e rimarrà sveglio per ricevere il pacchetto successivo. La durata del preambolo deve essere almeno uguale all'intervallo di sleep del nodo.</p>
+
+    <p>B-MAC è robusto (non richiede sincronizzazione) e semplice da implementare, ma ha un difetto significativo: tutti i nodi nel range del mittente si svegliano e rimangono svegli per tutta la durata del preambolo, anche quelli a cui il pacchetto non è destinato (<strong>overhearing</strong>). In reti dense questo causa un notevole spreco energetico.</p>
+
+    <h2 class="subsection">X-MAC: il preambolo strobed con l'indirizzo del destinatario</h2>
+    <p><strong>X-MAC</strong> (2006) risolve elegantemente il problema dell'overhearing di B-MAC con due modifiche principali. Prima: il preambolo non è lungo e continuo, ma è sostituito da una serie di <strong>brevi pacchetti di preambolo strobed</strong> (lampeggianti), tra cui il mittente inserisce brevi pause. Seconda: ogni pacchetto di preambolo contiene <strong>l'indirizzo del destinatario</strong>. In questo modo, i nodi che si svegliano e sentono il preambolo ma vedono che non sono il destinatario possono tornare immediatamente a dormire anziché aspettare l'intero ciclo.</p>
+
+    <p>Un ulteriore vantaggio: se il destinatario si sveglia durante il preambolo e lo riceve, può inviare un <strong>early ACK</strong> al mittente, che smette subito di trasmettere preambolo e invia direttamente il dato. Questo riduce la latenza nei casi in cui il destinatario è già sveglio. X-MAC combina quindi l'approccio asincrono di B-MAC con un'ottimizzazione significativa per la densità di rete.</p>
+
+    <h2 class="subsection">WiseMAC: imparare il ritmo del vicino</h2>
+    <p>Un'altra idea interessante è quella di <strong>WiseMAC</strong>: anziché usare un preambolo lungo per coprire l'intero intervallo di sleep, il mittente <em>impara</em> il ciclo di sveglia del destinatario osservando i tempi degli ACK. Il destinatario codifica il proprio schema di sveglia nell'ACK (il campo "wake-up pattern"), e il mittente usa questa informazione per iniziare a trasmettere il preambolo appena <em>prima</em> che il destinatario si svegli. Questo riduce drasticamente la lunghezza del preambolo necessario e, di conseguenza, il consumo energetico del mittente.</p>
+
+    <h2 class="subsection">S-MAC: il protocollo schedulato con listen/sleep periodico</h2>
+    <p><strong>S-MAC</strong> (Sensor MAC, 2002) adotta un approccio diverso: invece di essere reattivo (come B-MAC/X-MAC), è <strong>schedulato</strong>. Ogni nodo annuncia il proprio schedule di listen/sleep ai vicini, e i vicini cercano di sincronizzarsi su schedule compatibili. Un frame temporale è diviso in un periodo di listen (durante il quale i nodi sono svegli e possono comunicare) e un periodo di sleep (durante il quale tutti dormono). La comunicazione avviene solo nei periodi di listen, usando RTS/CTS per la collision avoidance.</p>
+
+    <p>S-MAC riduce l'idle listening perché i nodi dormono la maggior parte del tempo. Ma introduce un problema: se due nodi adiacenti hanno schedule diversi, devono rimanere svegli durante entrambi gli schedule per poter comunicare con entrambi, riducendo l'efficienza. Inoltre, lo schedule fisso non si adatta bene a traffico variabile.</p>
+
+    <h2 class="subsection">ContikiMAC: il protocollo adattivo di Contiki</h2>
+    <p><strong>ContikiMAC</strong> (2011) è il protocollo MAC utilizzato di default nell'OS Contiki. Combina le idee di LPL di B-MAC con ottimizzazioni significative. Il suo meccanismo chiave è il <strong>phase lock</strong>: il mittente osserva quando il destinatario si sveglia (imparando la sua fase di duty cycling) e sincronizza le proprie trasmissioni per arrivare appena il destinatario si sveglia. Questo riduce il preambolo necessario a quasi zero una volta che la fase è appresa.</p>
+
+    <p>ContikiMAC ottimizza anche il comportamento in broadcast: per i pacchetti broadcast, non potendo aspettare un ACK specifico, il mittente trasmette il pacchetto ripetutamente per un intero ciclo di sleep, assicurandosi che tutti i vicini lo ricevano indipendentemente dalla loro fase di sleep. I timestamp inseriti nelle trasmissioni permettono ai ricevitori di dedurre la fase del mittente.</p>
+
+    <div class="box box-key">
+      <div class="box-title">🔑 Riassunto protocolli MAC energy-efficient</div>
+      <strong>B-MAC:</strong> LPL con preambolo lungo, semplice, problema di overhearing.<br>
+      <strong>X-MAC:</strong> Preambolo strobed con indirizzo destinatario, early ACK, risolve overhearing.<br>
+      <strong>WiseMAC:</strong> Impara lo schedule del vicino dall'ACK, preambolo adattivo.<br>
+      <strong>S-MAC:</strong> Schedule fisso listen/sleep, basso idle listening, latenza aumentata.<br>
+      <strong>ContikiMAC:</strong> Phase lock adattivo, efficiente, usato in Contiki OS.
+    </div>
+  </section>
+
+  <!-- ===== SEZIONE 8: 6LoWPAN ===== -->
+  <section id="6lowpan">
+    <h1 class="section-title"><span class="icon">🔌</span>8. 6LoWPAN</h1>
+
+    <h2 class="subsection">Il problema fondamentale: IPv6 su 802.15.4</h2>
+    <p>A questo punto del corso, abbiamo due pezzi del puzzle: IPv6 (con i suoi header da 40 byte fissi) e IEEE 802.15.4 (con i suoi frame da 127 byte massimi). Il problema è evidente: IPv6 richiede un MTU <em>minimo</em> di 1280 byte, mentre 802.15.4 ha un MTU <em>massimo</em> di 127 byte. C'è uno scarto di quasi due ordini di grandezza. Senza un livello di adattamento, IPv6 su 802.15.4 semplicemente non funzionerebbe.</p>
+
+    <p>Il gruppo di lavoro IETF 6LoWPAN (avviato nel 2004) ha sviluppato l'<strong>adaptation layer 6LoWPAN</strong>, che si inserisce tra il layer IPv6 e il layer 802.15.4 e fornisce tre servizi fondamentali: <strong>frammentazione e riassemblaggio</strong> (per gestire l'MTU mismatch), <strong>compressione degli header</strong> (per ridurre l'overhead di IPv6 e UDP), e <strong>supporto al routing multi-hop a livello link</strong> (mesh-under forwarding).</p>
+
+    <p>Per capire quanto sia stringente il vincolo, consideriamo il caso peggiore: un frame 802.15.4 da 127 byte totali, con header MAC che include gli indirizzi lunghi (64 bit) sia per sorgente che destinatario, i PAN ID, e l'header di sicurezza AES-128. In questo caso, rimangono solo 81 byte per il payload. Se sottraiamo 40 byte per l'header IPv6 e 8 byte per l'header UDP, restano soli 33 byte per i dati applicativi. Con la compressione 6LoWPAN, si possono recuperare decine di byte, rendendo il sistema molto più pratico.</p>
+
+    <h2 class="subsection">Il dispatch byte: il segnale d'ingresso di 6LoWPAN</h2>
+    <p>Ogni frame 6LoWPAN inizia con un <strong>dispatch byte</strong> (o dispatch field), che identifica il tipo di header 6LoWPAN che segue. Questo permette a 6LoWPAN di essere extensible: nuovi tipi di header possono essere aggiunti in futuro semplicemente definendo nuovi valori del dispatch byte. I valori principali includono: "Not a 6LoWPAN frame" (00xxxxxx), "IPv6 header completamente inline" (01000001, per frame che non possono essere compressi), "LOWPAN_IPHC" (011xxxxx, per header compresso con IPHC), "LOWPAN_MESH" (10xxxxxx, per frame con mesh header), e "LOWPAN_FRAG" (11xxxxxx, per frame frammentati).</p>
+
+    <h2 class="subsection">Frammentazione: l'adattamento all'MTU</h2>
+    <p>Quando un pacchetto IPv6 supera la dimensione di un frame 802.15.4, il layer 6LoWPAN lo frammenta in pezzi. Ogni frammento include un <strong>Fragment Header</strong> con tre informazioni: il <em>datagram_size</em> (dimensione totale del datagramma originale), il <em>datagram_tag</em> (un identificatore che accomuna tutti i frammenti dello stesso datagramma) e il <em>datagram_offset</em> (posizione di questo frammento nel datagramma originale, in unità da 8 byte). Il ricevente usa queste informazioni per riassemblare il datagramma originale una volta ricevuti tutti i frammenti.</p>
+
+    <p>Il primo frammento include anche il <em>datagram_size</em> ma non il <em>datagram_offset</em>; tutti i frammenti successivi includono entrambi. Un aspetto critico è che la frammentazione introduce latenza e rischio di inefficienza: se un singolo frammento va perso, l'intero datagramma deve essere ritrasmesso. Per questo motivo, la compressione dell'header è fondamentale: più l'header viene compresso, meno spesso è necessario frammentare.</p>
+
+    <h2 class="subsection">Compressione HC1 e IPHC: ridurre l'overhead IPv6 a pochi byte</h2>
+    <p>La compressione degli header IPv6 in 6LoWPAN sfrutta una serie di osservazioni sul contesto tipico di una rete LoWPAN: gli indirizzi IPv6 link-local possono essere derivati dagli indirizzi MAC (EUI-64), il prefisso di rete è condiviso da tutti i nodi della stessa LoWPAN (shared context), e molti campi dell'header hanno valori comuni (Traffic Class e Flow Label spesso sono 0, la versione è sempre 6).</p>
+
+    <p><strong>HC1</strong> è la prima tecnica di compressione, ottimizzata per gli indirizzi link-local. L'idea è: se gli indirizzi IPv6 sorgente e destinazione possono essere interamente derivati dagli indirizzi MAC presenti nel frame 802.15.4, non c'è bisogno di ripeterli nel header IPv6. Questo può comprimere un header IPv6 da 40 byte a soli 2-3 byte (dispatch byte + HC1 byte + hop limit). Quando si aggiunge la compressione dell'header UDP (HC2), si risparmiano altri 4-6 byte.</p>
+
+    <p><strong>IPHC</strong> (Improved Header Compression) è la versione migliorata, che funziona anche per indirizzi global unicast e multicast. IPHC usa il concetto di <strong>shared context</strong>: mittente e ricevente condividono uno o più prefissi di rete comuni (identificati da un Context ID a 4 bit), e gli indirizzi possono essere compressi omettendo il prefisso noto. Con IPHC e indirizzi globali e Context 0, l'header IPv6 può essere ridotto a soli 4 byte. Aggiungendo la compressione NHC per UDP, si arriva a un overhead totale di soli 6 byte contro i 48 byte di IPv6+UDP non compressi.</p>
+
+    <h2 class="subsection">Il Mesh Header e il routing mesh-under</h2>
+    <p>6LoWPAN supporta anche il <strong>routing mesh-under</strong>, ovvero il forwarding di pacchetti multi-hop a livello link (layer 2) piuttosto che a livello IP (layer 3). Quando viene usato il mesh-under, un frame 802.15.4 può essere inoltrato da nodo a nodo usando gli indirizzi MAC, senza che ogni nodo intermedio riscriva gli indirizzi IP del pacchetto. Il <strong>Mesh Header</strong> di 6LoWPAN contiene l'indirizzo originator (il vero mittente del pacchetto), il final destination (il vero destinatario) e un campo Hops Left (decrementato ad ogni hop, come il TTL di IP). Ogni router intermediario legge il Mesh Header per determinare dove inoltrare il frame, ma gli indirizzi IP nel header IPv6 rimangono quelli di sorgente e destinazione finali.</p>
+
+    <div class="box box-book">
+      <div class="box-title">📖 Approfondimento (libro)</div>
+      Il capitolo 16 del libro di Vasseur e Dunkels fornisce una descrizione dettagliata di tutti i meccanismi 6LoWPAN con esempi numerici del risparmio in byte. Il libro di Shelby e Bormann "6LoWPAN: The Wireless Embedded Internet" è la trattazione di riferimento completa sulla specifica.
+    </div>
+  </section>
+
+  <!-- ===== SEZIONE 9: RPL ===== -->
+  <section id="rpl">
+    <h1 class="section-title"><span class="icon">🗺️</span>9. RPL – Routing Protocol for Low-Power and Lossy Networks</h1>
+
+    <h2 class="subsection">Perché serviva un nuovo protocollo di routing per LLN</h2>
+    <p>I protocolli di routing tradizionali di Internet (come OSPF o RIP) sono stati progettati per reti stabili con link affidabili ad alta banda. Le LLN (Low-power and Lossy Networks) IoT sono fondamentalmente diverse: link instabili con perdita di pacchetti elevata e variabile, nodi con risorse computazionali e memoria limitate, topologie potenzialmente di migliaia di nodi, pattern di traffico dominati dalla comunicazione many-to-one (raccolta dati verso un sink), nodi che dormono periodicamente. Adattare OSPF o RIP a questo contesto sarebbe come cercare di navigare in un labirinto stretto con un autobus da 50 posti.</p>
+
+    <p>Il Working Group ROLL dell'IETF ha sviluppato <strong>RPL</strong> (Routing Protocol for Low-power and Lossy Networks, pronunciato "ripple") come risposta specifica a questi requisiti. RPL è un protocollo di routing proactive a vettore distanza che costruisce una struttura logica chiamata <strong>DODAG</strong> (Destination-Oriented Directed Acyclic Graph).</p>
+
+    <h2 class="subsection">Il DODAG: la struttura di routing di RPL</h2>
+    <p>Un DODAG è un grafo orientato aciclico con una singola radice. Ogni nodo nella rete ha un percorso verso la radice (che tipicamente è l'LBR — LoWPAN Border Router, il gateway verso Internet), e il grafo è costruito in modo che non ci siano cicli di routing. La "destinazione" del DODAG è la radice stessa, e per questo si dice <em>destination-oriented</em>.</p>
+
+    <p>Ogni nodo in un DODAG ha un <strong>Rank</strong>, che rappresenta la sua distanza dalla radice in termini di qualità del percorso (non necessariamente hop count). Il Rank è calcolato usando una metrica definita dall'<strong>Objective Function (OF)</strong> del DODAG. Regola fondamentale: il Rank di un nodo deve essere strettamente maggiore del Rank del suo parent — questa regola garantisce l'assenza di cicli.</p>
+
+    <p>Il DODAG supporta naturalmente la comunicazione <strong>many-to-one (MP2P)</strong> — ogni nodo invia dati verso la radice seguendo i link verso i parent — che è il pattern dominante nelle reti di raccolta dati IoT. Con i messaggi DAO (che vedremo tra poco), RPL costruisce anche il percorso inverso (<strong>one-to-many, P2MP</strong>) dalla radice verso i nodi foglia, necessario per inviare comandi o aggiornamenti. La comunicazione <strong>punto-a-punto (P2P)</strong> avviene percorrendo il DODAG verso l'alto fino al common ancestor, poi scendendo verso il destinatario.</p>
+
+    <h2 class="subsection">La metrica ETX: misurare la qualità dei link wireless</h2>
+    <p>Uno degli insight più importanti di RPL è l'uso dell'<strong>ETX (Expected Transmission Count)</strong> come metrica di routing invece del semplice hop count. ETX misura il numero medio di trasmissioni (incluse le ritrasmissioni) necessarie per inviare con successo un pacchetto su un link. Su un link perfetto ETX = 1; su un link con perdita del 50% dei pacchetti ETX ≈ 2; su un link molto lossy ETX può essere molto alto. La metrica ETX cattura in modo molto più preciso la qualità reale di un link wireless rispetto al semplice hop count.</p>
+
+    <p>L'ETX viene calcolato empiricamente osservando la percentuale di successo delle trasmissioni. Non è specificato dall'IETF come va calcolato (può essere con link-layer acknowledgment, con trasmissioni di probe, ecc.) — questo è deliberato per permettere flessibilità implementativa. L'ETX è una quantità locale a ogni link e si propaga attraverso i messaggi DIO per permettere a ogni nodo di calcolare il costo del percorso verso la radice.</p>
+
+    <h2 class="subsection">L'Objective Function: la mente di RPL</h2>
+    <p>L'<strong>Objective Function (OF)</strong> è il componente di RPL che definisce l'obiettivo dell'ottimizzazione: quale metrica usare, come calcolare il Rank dai valori della metrica, come scegliere il parent migliore. RPL è progettato per supportare multiple OF per lo stesso DODAG, permettendo a diverse applicazioni di ottimizzare per obiettivi diversi. Per esempio:</p>
+
+    <p>Una OF può specificare "trova il percorso con il minimo ETX aggregato". Un'altra può specificare "trova il percorso con minima latenza che non attraversa nodi battery-operated". Una terza può cercare "il percorso con il massimo link quality minimo lungo tutto il percorso". RPL permette di costruire molteplici DODAG instances (identificate da un RPLInstanceID) con OF diverse, e i nodi possono partecipare a più istanze contemporaneamente, instradando traffico diverso su DODAG diversi.</p>
+
+    <h2 class="subsection">I messaggi DIO e DAO: costruire e mantenere il DODAG</h2>
+    <p>RPL usa due tipi principali di messaggi ICMPv6 per costruire e mantenere il DODAG. I messaggi <strong>DIO (DODAG Information Object)</strong> fluiscono "verso il basso" (dalla radice verso le foglie) e contengono informazioni sul DODAG: il DODAGID (identificatore univoco della radice), l'RPLInstanceID, il Rank del nodo che invia il DIO, il DODAGSequenceNumber (versione del DODAG), e i parametri dell'OF. Un nodo che riceve DIO da un vicino può valutare se quel vicino è un buon candidato come parent, usando l'OF per confrontare i costi dei percorsi disponibili.</p>
+
+    <p>I messaggi <strong>DAO (Destination Advertisement Object)</strong> fluiscono "verso l'alto" (dalle foglie verso la radice) e portano informazioni sui prefissi raggiungibili verso il basso. Grazie ai DAO, i parent possono costruire tabelle di routing che permettono di instradare traffico in direzione discendente (P2MP). I DAO includono anche il meccanismo del <strong>Reverse Route Stack</strong>: quando un nodo intermedio non può memorizzare lo stato di routing (nodi con poca memoria), aggiunge il proprio indirizzo al RRS, permettendo il source routing in discesa.</p>
+
+    <h2 class="subsection">Il Trickle Timer: comunicare solo quando necessario</h2>
+    <p>Uno dei problemi di qualsiasi protocollo di routing per reti dense è la generazione di traffico di controllo ridondante: se mille nodi sono in una stessa rete stabile, non c'è bisogno che ognuno invii continuamente DIO. Il <strong>Trickle Timer</strong> risolve questo problema con un meccanismo adattivo elegante.</p>
+
+    <p>L'algoritmo Trickle mantiene un periodo I (inizialmente I_min) che raddoppia fino a I_max ogni volta che la rete è stabile. Quando il timer scade, il nodo invia un DIO solo se il numero di DIO "consistenti" sentiti dagli altri nodi (il contatore c) è inferiore a una soglia k. Se c ≥ k, la trasmissione viene soppressa perché ci sono già abbastanza nodi che stanno propagando la stessa informazione. Quando viene rilevata un'inconsistenza nel DODAG (ad esempio, un nodo vede un DIO con informazioni diverse dalle proprie), il timer viene resettato a I_min, causando una rapida diffusione delle nuove informazioni.</p>
+
+    <h2 class="subsection">Loop avoidance e repair del DODAG</h2>
+    <p>RPL implementa meccanismi specifici per evitare i loop di routing, che in una rete IoT lossy sarebbero particolarmente dannosi. La regola del Rank garantisce che i pacchetti fluiscano sempre "verso l'alto" (verso rank minori) in direzione MP2P, ma è necessario prevenire che un nodo scelga come parent un nodo con Rank uguale o superiore al proprio.</p>
+
+    <p>Quando un link fallisce, RPL usa due meccanismi di repair. Il <strong>local repair</strong> cerca rapidamente un nuovo parent tra i vicini conosciuti, senza necessità di ricostruire l'intero DODAG. Il <strong>global repair</strong> è guidato dalla radice che incrementa il DODAGSequenceNumber: questo scatena una ricostruzione completa del DODAG da zero, partendo dalla radice. Il global repair è più lento ma garantisce la convergenza verso uno stato ottimale.</p>
+
+    <div class="box box-key">
+      <div class="box-title">🔑 RPL in sintesi: i punti chiave da ricordare</div>
+      <strong>DODAG:</strong> Grafo diretto aciclico con radice (LBR), percorsi da ogni nodo alla radice.<br>
+      <strong>Rank:</strong> Indica la distanza relativa dalla radice secondo l'OF; non può diminuire allontanandosi dalla radice.<br>
+      <strong>DIO:</strong> Messaggi verso il basso per costruire il DODAG (dal root ai nodi).<br>
+      <strong>DAO:</strong> Messaggi verso l'alto per popolare il routing table discendente.<br>
+      <strong>ETX:</strong> Metrica chiave che misura la qualità del link (trasmissioni medie necessarie).<br>
+      <strong>Trickle Timer:</strong> Riduce il traffico di controllo nelle reti stabili; si resetta sulle inconsistenze.<br>
+      <strong>OF:</strong> Definisce l'obiettivo di ottimizzazione (es. min ETX, min latenza, ecc.).
+    </div>
+  </section>
+
+  <!-- ===== SEZIONE 10: CoAP ===== -->
+  <section id="coap">
+    <h1 class="section-title"><span class="icon">🌐</span>10. CoAP – Constrained Application Protocol</h1>
+
+    <h2 class="subsection">Perché non usare HTTP direttamente?</h2>
+    <p>HTTP (HyperText Transfer Protocol) è il protocollo applicativo su cui è costruito il Web, e il suo modello RESTful (GET, POST, PUT, DELETE su risorse identificate da URI) è estremamente intuitivo e potente. Perché non usarlo direttamente nei dispositivi IoT? La risposta è semplice: HTTP è progettato per macchine potenti con connessioni affidabili e ad alta banda. Un singolo header HTTP può facilmente superare i 500 byte, e HTTP richiede TCP come trasporto — con tutto il suo overhead di three-way handshake, sliding window e gestione delle connessioni.</p>
+
+    <p>Su una rete IoT con frame da 127 byte e processori da pochi MHz, HTTP è semplicemente troppo pesante. <strong>CoAP</strong> (Constrained Application Protocol, RFC 7252) risolve questo problema: è un protocollo applicativo RESTful ottimizzato per dispositivi vincolati, che usa UDP come trasporto e ha header di soli 4 byte fissi. CoAP è essenzialmente un HTTP leggero specificamente progettato per l'IoT, con meccanismi aggiuntivi per gestire l'inaffidabilità intrinseca di UDP.</p>
+
+    <h2 class="subsection">I quattro tipi di messaggi CoAP</h2>
+    <p>CoAP definisce quattro tipi di messaggi, identificati da un campo Type (T) a 2 bit nell'header. Un messaggio <strong>CON (Confirmable)</strong> richiede un ACK da parte del ricevente: se l'ACK non arriva entro un timeout, il mittente ritrasmette (esponential backoff). Un messaggio <strong>NON (Non-confirmable)</strong> viene inviato senza aspettare ACK, adatto per dati periodici di bassa importanza (ad esempio letture di temperatura ogni secondo). Un messaggio <strong>ACK</strong> conferma la ricezione di un CON. Un messaggio <strong>RST (Reset)</strong> indica che il ricevente non può elaborare il messaggio (ad esempio, il contesto della transazione è stato perso).</p>
+
+    <p>Le richieste CoAP usano metodi analoghi a HTTP: <strong>GET</strong> (recupera la rappresentazione di una risorsa), <strong>POST</strong> (crea o processa una risorsa), <strong>PUT</strong> (aggiorna o crea una risorsa con un URI specifico) e <strong>DELETE</strong> (cancella una risorsa). Le risposte hanno codici di risposta con struttura simile a HTTP: 2.xx per successo, 4.xx per errori client, 5.xx per errori server.</p>
+
+    <h2 class="subsection">Il meccanismo Observe: subscription push-model</h2>
+    <p>Un'estensione fondamentale di CoAP è il meccanismo <strong>Observe</strong> (RFC 7641). Il modello request-response standard è appropriato per richieste occasionali, ma per monitorare continuamente il valore di una risorsa (ad esempio la temperatura letta ogni secondo da un sensore), un client che invia GET ripetutamente sarebbe molto inefficiente. Observe introduce un modello publish-subscribe: il client invia una GET con l'opzione Observe, e il server lo registra come "osservatore". D'ora in poi, ogni volta che il valore della risorsa cambia significativamente, il server invia autonomamente una notifica al client, senza che questo debba richiederla.</p>
+
+    <p>Il client può annullare la subscription inviando una GET senza l'opzione Observe, oppure il server può terminare la notifica se il client non risponde per troppo tempo. Questo meccanismo è molto più efficiente del polling continuo e si adatta naturalmente ai pattern di comunicazione IoT.</p>
+
+    <h2 class="subsection">Scoperta delle risorse: Link Format e /.well-known/core</h2>
+    <p>Come fa un client IoT a sapere quali risorse sono disponibili su un dispositivo CoAP? La risposta è il meccanismo di <strong>resource discovery</strong> basato sul Link Format (RFC 6690). Ogni dispositivo CoAP espone un URI speciale <code>/.well-known/core</code> che, quando interrogato con GET, restituisce una lista delle risorse disponibili nel formato Link Format. Ogni risorsa è descritta da un URI, attributi opzionali (tipo di risorsa, tipo di contenuto, dimensione massima) e relazioni tra risorse. Questo permette la scoperta automatica senza configurazione manuale.</p>
+
+    <h2 class="subsection">Sicurezza in CoAP: DTLS</h2>
+    <p>Poiché CoAP usa UDP, non può usare TLS (che richiede TCP). La soluzione è <strong>DTLS</strong> (Datagram TLS, RFC 6347), la versione di TLS adattata per protocolli datagram. DTLS fornisce le stesse garanzie di sicurezza di TLS — autenticazione, confidenzialità, integrità — ma gestisce la natura stateless di UDP (ogni pacchetto può arrivare fuori ordine o non arrivare). DTLS aggiunge un overhead significativo (tipicamente 13-29 byte per record), ma è necessario per applicazioni che richiedono sicurezza end-to-end.</p>
+
+    <p>CoAP definisce quattro modalità di sicurezza: <em>NoSec</em> (nessuna sicurezza, solo per reti chiuse e fidate), <em>PreSharedKey</em> (chiave condivisa pre-configurata), <em>RawPublicKey</em> (chiavi asimmetriche senza certificato), e <em>Certificate</em> (PKI completa con certificati X.509). Per dispositivi molto vincolati, PreSharedKey è la scelta più comune per il suo basso overhead computazionale.</p>
+
+    <div class="box box-key">
+      <div class="box-title">🔑 CoAP vs HTTP: confronto chiave</div>
+      <table style="margin:0;box-shadow:none">
+        <thead><tr><th>Caratteristica</th><th>HTTP</th><th>CoAP</th></tr></thead>
+        <tbody>
+          <tr><td>Trasporto</td><td>TCP</td><td>UDP</td></tr>
+          <tr><td>Header minimo</td><td>~500 byte</td><td>4 byte</td></tr>
+          <tr><td>Sicurezza</td><td>TLS</td><td>DTLS</td></tr>
+          <tr><td>Modello</td><td>Request-Response</td><td>Request-Response + Observe</td></tr>
+          <tr><td>Multicast</td><td>No</td><td>Sì (UDP multicast)</td></tr>
+          <tr><td>Target</td><td>PC, server</td><td>Dispositivi IoT vincolati</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== SEZIONE 11: OS PER IoT ===== -->
+  <section id="os">
+    <h1 class="section-title"><span class="icon">💻</span>11. Sistemi Operativi per IoT</h1>
+
+    <h2 class="subsection">Perché servono OS specializzati per l'IoT</h2>
+    <p>Un sistema operativo general-purpose come Linux o Windows richiede decine di megabyte di RAM e qualche gigabyte di storage. Un microcontrollore IoT tipico ha pochi kByte di RAM e poche decine di kByte di Flash. La necessità di OS specializzati per l'IoT non è solo quantitativa ma qualitativa: un OS IoT deve gestire la comunicazione wireless come funzionalità di prima classe, supportare natively i pattern di duty-cycling per il risparmio energetico, e funzionare in modo affidabile con stack protocollari ridotti.</p>
+
+    <h2 class="subsection">Contiki OS: il sistema delle protothreads</h2>
+    <p>Contiki (2003, SICS — Swedish Institute of Computer Science, oggi Thingsquare) è stato il primo OS per smart objects a garantire la comunicazione IP completa. Il suo contributo più importante è probabilmente lo stack <strong>uIP</strong> (micro-IP): un'implementazione completa di TCP/IP che occupa solo 5 kByte (e uIPv6 solo 11 kByte), rendendo possibile l'uso di IP su microcontrollori con pochissima memoria.</p>
+
+    <p>Il modello di programmazione di Contiki si basa sui <strong>protothreads</strong>, una forma di cooperative multitasking estremamente efficiente in termini di memoria. Un protothread è una coroutine leggera che può "dormire" in attesa di un evento (timer scaduto, pacchetto ricevuto) senza occupare uno stack completo come un thread tradizionale. Grazie ai protothreads, un nodo Contiki può eseguire più processi concorrenti con un overhead di memoria minimo.</p>
+
+    <p>Un altro elemento cruciale del toolchain Contiki è il simulatore <strong>Cooja</strong>: permette di simulare reti di centinaia di nodi virtuali sul proprio PC, con la stessa base di codice che verrà eseguita sui nodi reali. Questo è fondamentale per lo sviluppo e il debugging di protocolli IoT prima del deployment su hardware reale.</p>
+
+    <h2 class="subsection">TinyOS: event-driven per le WSN</h2>
+    <p>TinyOS (2000, Berkeley-Stanford) è il sistema operativo più usato in ambito accademico per le wireless sensor network. È scritto in <strong>nesC</strong>, un dialetto del C che introduce il concetto di "componenti" collegati tra loro tramite interfacce. Il modello di esecuzione è puramente <em>event-driven</em>: non ci sono thread né loop periodici nel codice applicativo; invece, ogni funzionalità è implementata come gestione di eventi (interrupt, timer, ricezione di pacchetti). Questo modello è naturalmente efficiente perché il processore va in sleep automaticamente quando non ci sono eventi da processare.</p>
+
+    <p>TinyOS ha introdotto molte idee fondamentali per l'IoT, incluso il concetto di "split-phase operation": quando un'operazione può richiedere tempo (ad esempio inviare un pacchetto), TinyOS restituisce immediatamente il controllo al chiamante e notifica il completamento tramite un evento separato. Questo evita i blocchi e permette al sistema di rimanere reattivo.</p>
+
+    <h2 class="subsection">FreeRTOS: il real-time per l'industria</h2>
+    <p>FreeRTOS è l'OS di riferimento per applicazioni IoT industriali che richiedono garanzie di timing real-time. A differenza di Contiki e TinyOS, FreeRTOS usa un modello di programmazione <strong>preemptivo e multithreaded</strong>: i task vengono schedulati da un kernel real-time in base a priorità configurabili, e il task a priorità più alta viene sempre eseguito per primo. Questo garantisce latenze di risposta predeterminate, essenziali in applicazioni di controllo industriale.</p>
+
+    <p>FreeRTOS è portato su oltre 50 microprocessori/controllori ed è supportato da un ecosistema enorme di driver e librerie. Amazon ha acquisito FreeRTOS nel 2017 e lo ha integrato con AWS IoT, diventando uno standard de-facto per l'IoT industriale. Il suo svantaggio principale per applicazioni battery-powered è il maggiore overhead di memoria rispetto a Contiki o TinyOS.</p>
+
+    <div class="box box-info">
+      <div class="box-title">ℹ️ Confronto OS per IoT</div>
+      <table style="margin:0;box-shadow:none">
+        <thead><tr><th>OS</th><th>Anno</th><th>Modello</th><th>Linguaggio</th><th>Stack IP</th><th>Punto di forza</th></tr></thead>
+        <tbody>
+          <tr><td>Contiki</td><td>2003</td><td>Protothreads (cooperative)</td><td>C</td><td>uIP (5kB)</td><td>Leggerezza, Cooja simulator</td></tr>
+          <tr><td>TinyOS</td><td>2000</td><td>Event-driven</td><td>nesC</td><td>uIP</td><td>Efficienza WSN, academia</td></tr>
+          <tr><td>FreeRTOS</td><td>~2003</td><td>Preemptivo multithreaded</td><td>C</td><td>uIP/lwIP</td><td>Real-time garantito, industria</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== SEZIONE 12: SICUREZZA IoT ===== -->
+  <section id="security">
+    <h1 class="section-title"><span class="icon">🔒</span>12. Sicurezza nell'IoT</h1>
+
+    <h2 class="subsection">Perché la sicurezza IoT è particolarmente difficile</h2>
+    <p>La sicurezza informatica è una sfida ovunque, ma nell'IoT assume dimensioni particolari. I dispositivi IoT spesso non possono permettersi le operazioni crittografiche computazionalmente costose tipiche dei sistemi tradizionali. Hanno memoria insufficiente per certificati X.509 complessi. Sono spesso fisicamente accessibili agli attaccanti (si pensi a un sensore outdoor). Una volta distribuiti, possono rimanere non aggiornabili per anni. E soprattutto, un attacco a una rete IoT non è solo un problema di dati: può avere conseguenze nel mondo fisico reale (disattivare un sistema di monitoraggio medico, manomettere un sistema di controllo industriale).</p>
+
+    <h2 class="subsection">Le principali categorie di attacchi alle reti IoT</h2>
+    <p>Il corso analizza le principali tipologie di attacchi specifici per le reti IoT, che si differenziano dagli attacchi tradizionali per la loro natura distribuita e fisica. Un <strong>attacco Sinkhole</strong> avviene quando un nodo malicioso annuncia falsamente di avere un percorso eccellente verso la radice (basso ETX, alta qualità), attirandosi il traffico di routing di altri nodi — che poi vengono "inghiottiti" nel sinkhole. Questo può disrumpere l'intera rete e permettere all'attaccante di intercettare o modificare dati.</p>
+
+    <p>L'attacco <strong>Wormhole</strong> è particolarmente insidioso: due nodi maliciosi fisicamente lontani nella rete sono collegati da un tunnel privato (il "wormhole"). Uno riceve pacchetti e li trasmette istantaneamente all'altro tramite il tunnel, facendo sembrare i due nodi vicini tra loro. Questo crea percorsi di routing fittizi che non rispettano la topologia reale e possono essere usati per manipolare il routing del protocollo RPL.</p>
+
+    <p>Il <strong>Sybil attack</strong> prevede che un singolo nodo malicioso si presenti alla rete con molteplici identità false, amplificando la propria influenza sui meccanismi di routing e sicurezza. L'attacco <strong>Selective Forwarding</strong> è più sottile: un nodo compromesso si comporta correttamente la maggior parte del tempo, ma occasionalmente "dimentica" di forwarding certi pacchetti, degradando le prestazioni senza essere ovviamente malicioso. Gli attacchi <strong>Denial of Service (DoS)</strong> e <strong>Replay</strong> completano il quadro: il primo consiste nel generare traffico eccessivo per esaurire le risorse dei nodi; il secondo nel registrare e ritrasmettere pacchetti legittimi per causare azioni non autorizzate.</p>
+
+    <h2 class="subsection">Le contromisure: sicurezza a più livelli dello stack</h2>
+    <p>La difesa nelle reti IoT deve essere multi-livello, perché nessun singolo meccanismo è sufficiente. Al <strong>livello MAC (IEEE 802.15.4)</strong>, lo standard supporta cifratura AES-128 e autenticazione dei frame tramite Message Authentication Code (MAC/MIC). Questo protegge la comunicazione tra nodi adiacenti ma non su percorsi multi-hop (ogni hop decifra e ricifra). Al <strong>livello di rete</strong>, IPSec fornisce autenticazione (AH — Authentication Header) e/o cifratura+autenticazione (ESP — Encapsulating Security Payload) end-to-end. RPL stesso supporta messaggi sicuri con cifratura e autenticazione dei DIO e DAO. Al <strong>livello di trasporto</strong>, DTLS protegge le comunicazioni CoAP con autenticazione, integrità e cifratura end-to-end.</p>
+
+    <p>Una stratificazione completa protezione-per-livello è lo standard raccomandato per applicazioni critiche, anche se introduce overhead computazionale e di memoria che può essere problematico per i dispositivi più vincolati. La scelta del livello di sicurezza appropriato dipende dall'applicazione: un sensore di temperatura in un ufficio ha requisiti molto diversi da un sensore in un impianto industriale critico o in un pacemaker.</p>
+
+    <div class="box box-warn">
+      <div class="box-title">⚠️ Sicurezza IoT: sfide aperte</div>
+      <strong>Aggiornamenti firmware:</strong> Come aggiornare in modo sicuro il software di migliaia di dispositivi distribuiti? Un meccanismo di OTA (Over-The-Air) update è essenziale ma complicato da implementare sicuramente su reti lossy.<br><br>
+      <strong>Gestione delle chiavi:</strong> Come distribuire e aggiornare le chiavi crittografiche su dispositivi con poca memoria e capacità computazionale limitata?<br><br>
+      <strong>Autenticazione dei dispositivi:</strong> Come verificare che un nodo che si unisce alla rete IoT sia effettivamente un dispositivo legittimo e non un intruso?
+    </div>
+  </section>
+
+  <!-- ===== SEZIONE 13: LoRa e LoRaWAN ===== -->
+  <section id="lora">
+    <h1 class="section-title"><span class="icon">📶</span>13. LoRa e LoRaWAN</h1>
+
+    <h2 class="subsection">Il contesto: reti LPWAN per IoT geograficamente distribuito</h2>
+    <p>IEEE 802.15.4 è eccellente per reti IoT di piccole-medie dimensioni all'interno di un edificio o di un campus. Ma cosa succede quando si devono connettere sensori distribuiti su aree geografiche estese — una smart city, un'intera area agricola, una rete di contatori intelligenti su scala urbana? La soluzione tradizionale è usare reti cellulari (2G/3G/4G), ma queste comportano costi di abbonamento significativi e consumi energetici incompatibili con batterie di lunga durata.</p>
+
+    <p>Le reti <strong>LPWAN (Low-Power Wide Area Network)</strong> sono nate per rispondere a questa esigenza: devono coprire distanze dell'ordine di chilometri (invece dei decine di metri di 802.15.4), con consumi energetici bassissimi e costi ridotti, accettando come trade-off data rate molto bassi (da qualche byte a qualche centinaio di byte al secondo). Tra le varie tecnologie LPWAN — NB-IoT, Sigfox, LTE-M — <strong>LoRa/LoRaWAN</strong> è quella che il corso analizza in dettaglio, per la sua diffusione e il suo approccio tecnico interessante.</p>
+
+    <h2 class="subsection">LoRa: la modulazione CSS che permette il lungo range</h2>
+    <p><strong>LoRa</strong> (Long Range) è una tecnologia di modulazione radio proprietaria sviluppata da Semtech. La caratteristica distintiva è l'uso della <strong>CSS (Chirp Spread Spectrum)</strong> modulazione, che rappresenta i dati come chirp — segnali la cui frequenza varia linearmente nel tempo (un chirp "up" ha frequenza crescente, un chirp "down" ha frequenza decrescente). La CSS offre eccellente robustezza contro le interferenze, la multipath propagation e il rumore — caratteristiche essenziali per comunicazioni a lungo raggio in ambienti urbani e rurali.</p>
+
+    <p>Il parametro più importante di LoRa è lo <strong>Spreading Factor (SF)</strong>, che può variare da SF7 a SF12. Un SF più alto significa: più simboli per bit inviato (spreading più aggressivo), quindi maggiore robustezza contro il rumore (migliore link budget), ma anche data rate più basso e tempo di trasmissione più lungo (Time on Air). SF7 offre ~5,5 kbps con range di qualche km; SF12 offre solo ~250 bps ma con range fino a 15-20 km in condizioni ottimali. La scelta dello SF è fondamentale per bilanciare range e data rate.</p>
+
+    <table>
+      <thead><tr><th>Spreading Factor</th><th>Data Rate approssimativo</th><th>Range tipico</th><th>Sensibilità</th></tr></thead>
+      <tbody>
+        <tr><td>SF7</td><td>~5,5 kbps</td><td>~2 km urbano</td><td>-123 dBm</td></tr>
+        <tr><td>SF9</td><td>~1,8 kbps</td><td>~5 km</td><td>-129 dBm</td></tr>
+        <tr><td>SF12</td><td>~250 bps</td><td>~15 km rurale</td><td>-137 dBm</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="subsection">LoRaWAN: l'architettura di rete</h2>
+    <p><strong>LoRaWAN</strong> (LoRa Wide Area Network) è il protocollo di livello MAC e di rete costruito sopra la modulazione LoRa. Definisce l'architettura della rete e le regole di accesso al canale. L'architettura di LoRaWAN è una <strong>stella di stelle</strong>: gli End Node (dispositivi IoT) comunicano con i Gateway tramite link radio LoRa; i Gateway sono connessi a un Network Server tramite backhaul IP (Ethernet, cellular); il Network Server gestisce la deduplicazione, il routing e il controllo della rete e si interfaccia con gli Application Server che elaborano i dati applicativi.</p>
+
+    <p>Un aspetto importante è che in LoRaWAN i gateway sono semplici forwarder: non fanno routing, inviano semplicemente al Network Server tutti i pacchetti che ricevono. Il Network Server si occupa della logica di rete. Questo significa che lo stesso pacchetto può essere ricevuto da più gateway (in overlapping coverage areas) e il Network Server deduplica: una semplificazione architetturale significativa che elimina la necessità di coordinazione tra gateway.</p>
+
+    <h2 class="subsection">Le tre classi di dispositivi LoRaWAN</h2>
+    <p>LoRaWAN definisce tre classi di dispositivi che bilanciano diversamente tra consumo energetico e latenza di ricezione. I dispositivi <strong>Class A</strong> (tutti i dispositivi LoRaWAN devono supportare almeno questa classe) aprano due brevi "finestre di ricezione" (RX1 e RX2) solo subito dopo ogni trasmissione. Il resto del tempo il ricevitore è spento. Questo è il profilo energetico più efficiente, ma significa che il server può inviare dati a un dispositivo Class A solo immediatamente dopo che il dispositivo ha trasmesso — latenza potenzialmente alta.</p>
+
+    <p>I dispositivi <strong>Class B</strong> aggiungono finestre di ricezione pianificate (beacon), permettendo al server di inviare dati in momenti predefiniti, riducendo la latenza a scapito di un maggiore consumo. I dispositivi <strong>Class C</strong> mantengono il ricevitore quasi sempre acceso (tranne durante le trasmissioni), garantendo latenza minima ma con consumo energetico significativamente superiore, quindi tipicamente adatti a dispositivi collegati alla rete elettrica.</p>
+
+    <h2 class="subsection">Attivazione e sicurezza in LoRaWAN</h2>
+    <p>LoRaWAN usa due chiavi AES-128 per la sicurezza: la <strong>NwkSKey</strong> (Network Session Key) per l'autenticazione a livello di rete e l'integrità dei messaggi (Message Integrity Code), e la <strong>AppSKey</strong> (Application Session Key) per la cifratura end-to-end dei payload applicativi. Questa separazione garantisce che il Network Server possa verificare l'autenticità dei messaggi ma non accedere ai dati applicativi cifrati — i dati applicativi sono accessibili solo all'Application Server.</p>
+
+    <p>L'attivazione dei dispositivi (ovvero la negoziazione delle chiavi) avviene in due modalità. Con <strong>OTAA (Over-The-Air Activation)</strong>, il dispositivo e il Network Server si autenticano tramite una chiave radice (AppKey) e derivano dinamicamente NwkSKey e AppSKey durante il join procedure — questo è il metodo più sicuro perché le chiavi di sessione cambiano ad ogni join. Con <strong>ABP (Activation By Personalization)</strong>, NwkSKey e AppSKey vengono pre-programmate nel dispositivo in fabbrica — più semplice ma meno sicuro.</p>
+
+    <p>Il meccanismo di <strong>ADR (Adaptive Data Rate)</strong> permette al Network Server di ottimizzare lo SF di ogni dispositivo in base alla qualità del link osservata: dispositivi vicini ai gateway vengono impostati su SF più bassi (data rate più alto, tempo on air inferiore) mentre quelli lontani usano SF alti. Questo ottimizza sia il throughput della rete sia la durata della batteria dei dispositivi.</p>
+
+    <div class="box box-book">
+      <div class="box-title">📖 LoRa vs IEEE 802.15.4: quando usare quale?</div>
+      <strong>IEEE 802.15.4 + 6LoWPAN + RPL:</strong> Reti mesh all'interno di edifici o campus, dove i nodi fungono anche da router e si necessita di bassa latenza e IP nativo.<br><br>
+      <strong>LoRaWAN:</strong> Sensori sparsi su aree geografiche estese (città, campi agricoli), dove la comunicazione è prevalentemente uplink (sensore → server), le trasmissioni sono rare (pochi pacchetti al giorno) e la durata della batteria si misura in anni.
+    </div>
+  </section>
+
+  <!-- CHIUSURA DOCUMENTO -->
+  <section style="margin-top:4rem;padding-top:2rem;border-top:2px solid var(--border)">
+    <div class="box box-key">
+      <div class="box-title">✅ Stack Protocollare IoT Completo</div>
+      Di seguito lo stack protocollare completo del corso, dal livello fisico all'applicazione:<br><br>
+      <div style="display:flex;gap:2rem;flex-wrap:wrap">
+        <div>
+          <div class="stack">
+            <div class="stack-layer sl-app">CoAP (Applicazione)</div>
+            <div class="stack-layer sl-transport">UDP / DTLS (Trasporto)</div>
+            <div class="stack-layer sl-network">IPv6 + RPL (Rete)</div>
+            <div class="stack-layer sl-adaptation">6LoWPAN (Adattamento)</div>
+            <div class="stack-layer sl-mac">IEEE 802.15.4 MAC + Energy-efficient protocols</div>
+            <div class="stack-layer sl-phy">IEEE 802.15.4 PHY (Fisico)</div>
+          </div>
+          <figcaption>Stack IoT su IEEE 802.15.4</figcaption>
+        </div>
+        <div>
+          <div class="stack">
+            <div class="stack-layer sl-app">Applicazione LoRaWAN</div>
+            <div class="stack-layer sl-transport">LoRaWAN MAC (Class A/B/C)</div>
+            <div class="stack-layer sl-network">Network Server</div>
+            <div class="stack-layer sl-mac">LoRa (CSS modulation)</div>
+            <div class="stack-layer sl-phy">Sub-GHz PHY</div>
+          </div>
+          <figcaption>Stack LoRaWAN</figcaption>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- BACK TO TOP -->
+<button id="backtop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Torna su">↑</button>
+
+<script>
+// Scroll spy per la sidebar
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('#sidebar a');
+
+function updateActiveLink() {
+  let current = '';
+  sections.forEach(section => {
+    const sTop = section.offsetTop - 120;
+    if (window.scrollY >= sTop) current = section.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+}
+window.addEventListener('scroll', updateActiveLink, { passive: true });
+updateActiveLink();
+</script>
+</body>
+</html>

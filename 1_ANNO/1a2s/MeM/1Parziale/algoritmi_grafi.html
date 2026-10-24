@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algoritmi su Grafi – Guida Completa</title>
+<style>
+  :root {
+    --primary: #2c3e50;
+    --accent: #2980b9;
+    --accent2: #27ae60;
+    --accent3: #e67e22;
+    --accent4: #8e44ad;
+    --accent5: #c0392b;
+    --light: #ecf0f1;
+    --lighter: #f8f9fa;
+    --border: #bdc3c7;
+    --code-bg: #1e2d3d;
+    --code-fg: #a8d8ea;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #2c3e50; background: #f4f6f8; line-height: 1.7; }
+
+  /* NAV */
+  #toc { position: sticky; top: 0; background: var(--primary); color: #fff; padding: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+  #toc summary { cursor: pointer; padding: 10px 20px; font-weight: 700; font-size: .95rem; letter-spacing: .5px; user-select: none; }
+  #toc summary:hover { background: rgba(255,255,255,.1); }
+  #toc-list { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 16px 12px; background: #34495e; }
+  #toc-list a { color: #ecf0f1; text-decoration: none; font-size: .82rem; background: rgba(255,255,255,.1); padding: 3px 10px; border-radius: 12px; transition: background .2s; }
+  #toc-list a:hover { background: var(--accent); }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 18px 60px; }
+  h1 { font-size: 2rem; color: var(--primary); border-bottom: 4px solid var(--accent); padding-bottom: 10px; margin-bottom: 6px; }
+  .subtitle { color: #7f8c8d; margin-bottom: 30px; font-size: .95rem; }
+
+  /* SECTIONS */
+  .section { background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.07); margin-bottom: 36px; overflow: hidden; }
+  .section-header { padding: 18px 24px 14px; border-bottom: 1px solid var(--border); }
+  .section-header h2 { font-size: 1.45rem; display: flex; align-items: center; gap: 10px; }
+  .section-body { padding: 22px 24px; }
+  .badge { display: inline-block; width: 32px; height: 32px; border-radius: 50%; color: #fff; font-weight: 700; text-align: center; line-height: 32px; font-size: .95rem; flex-shrink: 0; }
+  .b1{background:var(--accent);} .b2{background:var(--accent2);} .b3{background:var(--accent3);} .b4{background:var(--accent4);} .b5{background:var(--accent5);} .b6{background:#16a085;} .b7{background:#d35400;} .b8{background:#2980b9;} .b9{background:#6c3483;}
+
+  /* SUBSECTIONS */
+  h3 { color: var(--primary); font-size: 1.1rem; margin: 22px 0 8px; border-left: 4px solid var(--accent); padding-left: 10px; }
+  h4 { color: #555; font-size: .98rem; margin: 14px 0 6px; font-weight: 600; }
+  p { margin-bottom: 10px; }
+
+  /* DEF BOX */
+  .def { background: #eaf4fb; border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 10px 0 14px; }
+  .def strong { color: var(--accent); }
+  .thm { background: #eafaf1; border-left: 4px solid var(--accent2); border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 10px 0 14px; }
+  .thm strong { color: var(--accent2); }
+  .warn { background: #fef9e7; border-left: 4px solid var(--accent3); border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 10px 0 14px; }
+  .warn strong { color: var(--accent3); }
+
+  /* ALGO BOX */
+  .algo { background: var(--code-bg); color: #e0e0e0; border-radius: 8px; padding: 16px 18px; font-family: 'Consolas','Courier New',monospace; font-size: .87rem; line-height: 1.8; margin: 12px 0 18px; overflow-x: auto; }
+  .algo .kw { color: #7ec8e3; font-weight: 700; }
+  .algo .cmt { color: #6a9955; font-style: italic; }
+  .algo .num { color: #b5cea8; }
+  .algo .fn { color: #dcdcaa; }
+
+  /* EXERCISE */
+  .exercise { border: 2px solid var(--accent3); border-radius: 10px; margin: 18px 0; overflow: hidden; }
+  .exercise-header { background: var(--accent3); color: #fff; padding: 9px 16px; font-weight: 700; font-size: .95rem; }
+  .exercise-body { padding: 14px 16px; background: #fef9f0; }
+  .solution { border: 2px solid var(--accent2); border-radius: 10px; margin: 12px 0 0; overflow: hidden; }
+  .solution-header { background: var(--accent2); color: #fff; padding: 8px 16px; font-weight: 700; font-size: .9rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .solution-body { padding: 14px 16px; background: #f0faf4; }
+
+  /* TABLES */
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 16px; font-size: .88rem; }
+  th { background: var(--primary); color: #fff; padding: 8px 10px; text-align: center; }
+  td { border: 1px solid var(--border); padding: 6px 10px; text-align: center; }
+  tr:nth-child(even) td { background: var(--lighter); }
+  .perm { background: #d5f5e3 !important; font-weight: 700; }
+  .temp { background: #fef9e7 !important; }
+  .inf { color: #aaa; }
+  .highlight { background: #fdebd0 !important; font-weight: 700; }
+
+  /* GRAPH SVG */
+  .graph-container { text-align: center; margin: 14px 0; }
+  .graph-container svg { max-width: 100%; }
+
+  /* FORMULA */
+  .formula { font-family: 'Consolas','Courier New',monospace; background: var(--light); display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: .9rem; }
+  .formula-block { text-align: center; margin: 8px 0; }
+  .formula-block .formula { font-size: 1rem; padding: 6px 16px; }
+
+  /* STEP LIST */
+  .steps { counter-reset: step; list-style: none; padding: 0; }
+  .steps li { counter-increment: step; display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+  .steps li::before { content: counter(step); background: var(--accent); color: #fff; font-weight: 700; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .85rem; margin-top: 1px; }
+
+  /* GRID */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:650px){ .grid2{grid-template-columns:1fr;} }
+
+  hr { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+</style>
+</head>
+<body>
+
+<details id="toc">
+  <summary>📚 Indice degli Argomenti (clicca per espandere)</summary>
+  <div id="toc-list">
+    <a href="#s1">1. Teoria dei Grafi</a>
+    <a href="#s2">2. Cicli Hamiltoniani &amp; Euleriani</a>
+    <a href="#s3">3. Alberi</a>
+    <a href="#s4">4. BFS</a>
+    <a href="#s5">5. DFS</a>
+    <a href="#s6">6. Equazioni di Bellman</a>
+    <a href="#s7">7. Algoritmo di Dijkstra</a>
+    <a href="#s8">8. Floyd-Warshall</a>
+    <a href="#s9">9. Albero Ricoprente Minimo (MST)</a>
+  </div>
+</details>
+
+<div class="container">
+<h1>🔗 Algoritmi su Grafi</h1>
+<p class="subtitle">Metodi e Modelli per le Decisioni – Laurea Magistrale in Ingegneria Gestionale | Guida completa con teoria, algoritmi ed esercizi svolti</p>
+
+<!-- ===================== SEZIONE 1 ===================== -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <h2><span class="badge b1">1</span> Elementi di Teoria dei Grafi</h2>
+  </div>
+  <div class="section-body">
+
+    <h3>Definizione di Grafo</h3>
+    <div class="def">
+      <strong>Definizione.</strong> Un <strong>grafo</strong> G = (V, A) è definito da una coppia di insiemi finiti:
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li><strong>V</strong> = insieme dei <em>nodi</em> (o vertici)</li>
+        <li><strong>A</strong> = insieme degli <em>archi</em>, dove ogni arco è una coppia di nodi</li>
+      </ul>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <h4>Grafo non orientato</h4>
+        <p>Ogni arco è una coppia <strong>non ordinata</strong> di nodi: <span class="formula">{u, v}</span>. L'arco <span class="formula">{u,v}</span> e l'arco <span class="formula">{v,u}</span> sono lo stesso arco.</p>
+      </div>
+      <div>
+        <h4>Grafo orientato (digrafo)</h4>
+        <p>Ogni arco è una coppia <strong>ordinata</strong> di nodi: <span class="formula">(u, v)</span>. Si dice che l'arco <em>parte</em> da u e <em>arriva</em> a v. In generale <span class="formula">(u,v) ≠ (v,u)</span>.</p>
+      </div>
+    </div>
+
+    <h3>Terminologia fondamentale</h3>
+
+    <div class="def"><strong>Nodi adiacenti:</strong> Due nodi u e v sono <em>adiacenti</em> se esiste un arco che li collega.</div>
+    <div class="def"><strong>Arco incidente:</strong> Un arco è <em>incidente</em> a un nodo se quel nodo è uno dei suoi estremi.</div>
+    <div class="def"><strong>Grado di un nodo (grafo non orientato):</strong> Il numero di archi incidenti al nodo. Notazione: <span class="formula">deg(v)</span>.</div>
+    <div class="def"><strong>Grado entrante / uscente (grafo orientato):</strong>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li><em>Grado entrante</em> di v = numero di archi (u,v) ∈ A (archi entranti in v)</li>
+        <li><em>Grado uscente</em> di v = numero di archi (v,w) ∈ A (archi uscenti da v)</li>
+      </ul>
+    </div>
+
+    <h3>Cammini e Cicli</h3>
+    <div class="def">
+      <strong>Cammino</strong> da v₁ a v_k: una sequenza di archi <span class="formula">(v₁,v₂), (v₂,v₃), …, (v_{k-1},v_k)</span> tale che ogni coppia consecutiva è collegata da un arco. Si dice anche che il cammino è la sequenza di nodi <span class="formula">v₁, v₂, …, v_k</span>.
+    </div>
+    <div class="def">
+      <strong>Ciclo:</strong> Un cammino in cui il nodo di partenza coincide con il nodo di arrivo: <span class="formula">v₁ = v_k</span>. In un grafo non orientato si chiede che abbia almeno 3 archi distinti.
+    </div>
+    <div class="def">
+      <strong>Circuito (grafo orientato):</strong> Un cammino orientato in cui <span class="formula">v₁ = v_k</span>.
+    </div>
+
+    <h3>Connessione</h3>
+    <div class="def"><strong>Grafo non orientato connesso:</strong> Per ogni coppia di nodi u, v ∈ V esiste un cammino da u a v.</div>
+    <div class="def"><strong>Grafo orientato fortemente connesso:</strong> Per ogni coppia (u,v) esiste un cammino orientato da u a v e uno da v a u.</div>
+
+    <h3>Grafo Bipartito</h3>
+    <div class="def">
+      Un grafo non orientato G = (V, A) si dice <strong>bipartito</strong> se V può essere partizionato in due sottoinsiemi V₁ e V₂ tali che ogni arco ha un estremo in V₁ e l'altro in V₂.
+    </div>
+
+    <h3>Notazione</h3>
+    <p><span class="formula">|V| = n</span> = numero di nodi, &nbsp; <span class="formula">|A| = m</span> = numero di archi.</p>
+
+    <div class="graph-container">
+      <svg width="400" height="200" viewBox="0 0 400 200">
+        <defs><marker id="arr" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2980b9"/></marker></defs>
+        <!-- Non orientato -->
+        <text x="90" y="20" text-anchor="middle" font-size="13" fill="#555" font-weight="bold">Non orientato</text>
+        <line x1="60" y1="80" x2="120" y2="80" stroke="#2980b9" stroke-width="2"/>
+        <line x1="60" y1="80" x2="90" y2="140" stroke="#2980b9" stroke-width="2"/>
+        <line x1="120" y1="80" x2="90" y2="140" stroke="#2980b9" stroke-width="2"/>
+        <line x1="120" y1="80" x2="150" y2="60" stroke="#2980b9" stroke-width="2"/>
+        <circle cx="60" cy="80" r="14" fill="#2980b9"/><text x="60" y="85" text-anchor="middle" fill="white" font-weight="bold" font-size="13">1</text>
+        <circle cx="120" cy="80" r="14" fill="#2980b9"/><text x="120" y="85" text-anchor="middle" fill="white" font-weight="bold" font-size="13">2</text>
+        <circle cx="90" cy="140" r="14" fill="#2980b9"/><text x="90" y="145" text-anchor="middle" fill="white" font-weight="bold" font-size="13">3</text>
+        <circle cx="150" cy="60" r="14" fill="#2980b9"/><text x="150" y="65" text-anchor="middle" fill="white" font-weight="bold" font-size="13">4</text>
+        <!-- Orientato -->
+        <text x="300" y="20" text-anchor="middle" font-size="13" fill="#555" font-weight="bold">Orientato</text>
+        <line x1="240" y1="80" x2="295" y2="80" stroke="#27ae60" stroke-width="2" marker-end="url(#arr)"/>
+        <line x1="310" y1="80" x2="355" y2="55" stroke="#27ae60" stroke-width="2" marker-end="url(#arr)"/>
+        <line x1="355" y1="65" x2="315" y2="90" stroke="#27ae60" stroke-width="2" marker-end="url(#arr)"/>
+        <line x1="240" y1="90" x2="265" y2="135" stroke="#27ae60" stroke-width="2" marker-end="url(#arr)"/>
+        <circle cx="240" cy="80" r="14" fill="#27ae60"/><text x="240" y="85" text-anchor="middle" fill="white" font-weight="bold" font-size="13">A</text>
+        <circle cx="310" cy="80" r="14" fill="#27ae60"/><text x="310" y="85" text-anchor="middle" fill="white" font-weight="bold" font-size="13">B</text>
+        <circle cx="360" cy="60" r="14" fill="#27ae60"/><text x="360" y="65" text-anchor="middle" fill="white" font-weight="bold" font-size="13">C</text>
+        <circle cx="275" cy="145" r="14" fill="#27ae60"/><text x="275" y="150" text-anchor="middle" fill="white" font-weight="bold" font-size="13">D</text>
+      </svg>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== SEZIONE 2 ===================== -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <h2><span class="badge b2">2</span> Cicli Hamiltoniani ed Euleriani</h2>
+  </div>
+  <div class="section-body">
+
+    <h3>Ciclo Hamiltoniano</h3>
+    <div class="def">
+      <strong>Definizione.</strong> Dato G = (V, A) non orientato, un <strong>ciclo hamiltoniano</strong> è un ciclo che passa <em>una e una sola volta</em> per ogni nodo del grafo.
+    </div>
+
+    <h3>Ciclo Euleriano</h3>
+    <div class="def">
+      <strong>Definizione.</strong> Dato G = (V, A) non orientato, un <strong>ciclo euleriano</strong> è un ciclo che passa <em>una e una sola volta</em> per ogni <em>arco</em> del grafo.
+    </div>
+
+    <div class="thm">
+      <strong>Teorema di Eulero (1736).</strong> Un grafo non orientato G = (V, A) possiede un ciclo euleriano <strong>se e solo se</strong>:
+      <ol style="margin-top:6px;margin-left:18px;">
+        <li>G è <strong>connesso</strong></li>
+        <li>Ogni nodo ha <strong>grado pari</strong></li>
+      </ol>
+    </div>
+
+    <h4>Conseguenza pratica</h4>
+    <p>Se un grafo ha esattamente 2 nodi di grado dispari, esiste un <em>cammino euleriano</em> (non ciclo) che collega quei due nodi attraversando ogni arco esattamente una volta.</p>
+
+    <div class="warn">
+      <strong>Nota:</strong> Il problema del ciclo euleriano è risolvibile in tempo polinomiale. Il problema del ciclo hamiltoniano è invece NP-completo (nessun algoritmo efficiente è noto in generale).
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== SEZIONE 3 ===================== -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <h2><span class="badge b3">3</span> Alberi</h2>
+  </div>
+  <div class="section-body">
+
+    <div class="def">
+      <strong>Definizione.</strong> Un grafo non orientato G = (V, A) si dice <strong>albero</strong> se è <em>connesso</em> e <em>privo di cicli</em>.
+    </div>
+
+    <h3>Proprietà equivalenti</h3>
+    <p>Le seguenti condizioni sono tutte equivalenti (ognuna caratterizza un albero su n nodi):</p>
+    <ol style="margin-left:20px;margin-top:6px;">
+      <li>G è connesso e privo di cicli</li>
+      <li>G è connesso e <span class="formula">|A| = |V| − 1</span></li>
+      <li>G è privo di cicli e <span class="formula">|A| = |V| − 1</span></li>
+      <li>Ogni coppia di nodi è connessa da un <em>unico</em> cammino</li>
+      <li>G è privo di cicli, e connettendo due nodi non adiacenti si ottiene esattamente un ciclo</li>
+    </ol>
+
+    <div class="def">
+      <strong>Foglie:</strong> I nodi di un albero che hanno grado 1 si chiamano <em>foglie</em>.
+    </div>
+    <div class="def">
+      <strong>Albero ricoprente (spanning tree):</strong> Dato G = (V, A) connesso, un albero T = (V, A') con A' ⊆ A è un albero ricoprente di G se contiene tutti i nodi di G. Si ha <span class="formula">|A'| = n − 1</span>.
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== SEZIONE 4 ===================== -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <h2><span class="badge b4">4</span> BFS – Esplorazione in Ampiezza (Breadth-First Search)</h2>
+  </div>
+  <div class="section-body">
+
+    <h3>Idea dell'algoritmo</h3>
+    <p>La BFS esplora il grafo per <em>livelli</em>: partendo da un nodo sorgente <strong>s</strong>, prima visita tutti i nodi a distanza 1, poi quelli a distanza 2, e così via. Usa una struttura di tipo <strong>coda</strong> (FIFO): il primo nodo accodato è il primo ad essere elaborato.</p>
+
+    <h3>Pseudocodice</h3>
+    <div class="algo">
+<span class="cmt">// INPUT: G=(V,A), nodo sorgente s</span>
+<span class="cmt">// OUTPUT: etichette d[v] = distanza minima da s a v (numero di archi)</span>
+
+<span class="kw">BFS</span>(G, s):
+  <span class="kw">for</span> ogni v ∈ V:
+    d[v] = ∞  <span class="cmt">// non ancora visitato</span>
+  d[s] = <span class="num">0</span>
+  Q = coda vuota
+  Q.enqueue(s)
+
+  <span class="kw">while</span> Q non è vuota:
+    u = Q.dequeue()
+    <span class="kw">for</span> ogni v adiacente ad u:
+      <span class="kw">if</span> d[v] == ∞:
+        d[v] = d[u] + <span class="num">1</span>
+        pred[v] = u  <span class="cmt">// per ricostruire il cammino</span>
+        Q.enqueue(v)
+    </div>
+
+    <h3>Procedura di etichettatura BFS (versione del corso)</h3>
+    <ol class="steps">
+      <li>Etichettare il nodo iniziale <strong>s</strong> con etichetta <strong>0</strong>.</li>
+      <li>Sia L_k l'insieme dei nodi con etichetta k. Se L_k ≠ ∅ e ci sono nodi non ancora etichettati adiacenti a nodi in L_k, inserirli in L_{k+1} con etichetta <strong>k+1</strong>.</li>
+      <li>Ripetere dal passo 2 finché non ci sono più nodi non etichettati adiacenti.</li>
+      <li>Al termine, d(s,v) = etichetta di v = numero minimo di archi nel cammino da s a v.</li>
+    </ol>
+
+    <div class="thm">
+      <strong>Lemma.</strong> Al termine della BFS, per ogni nodo v ∈ L_k (con k≥1), la distanza minima d(s,v) = k.
+    </div>
+
+    <h3>Complessità</h3>
+    <p>La BFS visita ogni nodo e ogni arco al più una volta: <span class="formula">O(|V| + |A|)</span>.</p>
+
+    <h3>Applicazione al Problema del Labirinto</h3>
+    <div class="def">
+      <strong>Problema:</strong> Dati due nodi s e t di un grafo G, stabilire se esiste un cammino da s a t, e in caso affermativo trovarlo.
+    </div>
+    <p><strong>Soluzione:</strong> Si esegue la BFS partendo da s. Se t viene etichettato, il cammino esiste. Il cammino si ricostruisce a ritroso usando i predecessori: partendo da t, si risale tramite pred[] fino a s.</p>
+
+    <hr>
+
+    <!-- ESERCIZI BFS -->
+    <h3 style="border-left-color: var(--accent3);">Esercizi (Ese 1)</h3>
+
+    <div class="exercise">
+      <div class="exercise-header">📝 Esercizio 1.1 – Problema dei Recipienti</div>
+      <div class="exercise-body">
+        <p>Sono dati due recipienti non graduati di capacità <strong>3 litri</strong> e <strong>5 litri</strong>. Partendo dalla situazione in cui entrambi sono vuoti, si vuole ottenere esattamente <strong>4 litri</strong> nel recipiente da 5 litri, usando le operazioni:</p>
+        <ol style="margin:8px 0 0 18px;">
+          <li>Riempire/svuotare completamente uno dei due recipienti</li>
+          <li>Travasare il contenuto di un recipiente nell'altro (fino a riempire o svuotare)</li>
+        </ol>
+        <p style="margin-top:8px;">Trovare la <strong>sequenza minima</strong> di operazioni. Ricondurre il problema a un'esplorazione BFS su grafo.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-header">✅ Soluzione</div>
+        <div class="solution-body">
+          <h4>Modellazione come grafo</h4>
+          <p>Ogni <strong>stato</strong> è una coppia (a, b) dove:</p>
+          <ul style="margin-left:18px;">
+            <li>a = litri nel recipiente da 3L (con 0 ≤ a ≤ 3)</li>
+            <li>b = litri nel recipiente da 5L (con 0 ≤ b ≤ 5)</li>
+          </ul>
+          <p>Gli stati sono i nodi del grafo. I nodi sono collegati da archi se è possibile passare da uno stato all'altro con un'operazione. Il nodo sorgente è <strong>(0,0)</strong>, il nodo destinazione è <strong>(·, 4)</strong>.</p>
+
+          <h4>Operazioni possibili da uno stato (a, b)</h4>
+          <ol style="margin-left:18px;">
+            <li>Riempi 3L: (3, b)</li>
+            <li>Riempi 5L: (a, 5)</li>
+            <li>Svuota 3L: (0, b)</li>
+            <li>Svuota 5L: (a, 0)</li>
+            <li>Travasa 3L→5L: sposta min(a, 5−b) litri da 3L a 5L</li>
+            <li>Travasa 5L→3L: sposta min(b, 3−a) litri da 5L a 3L</li>
+          </ol>
+
+          <h4>Cammino minimo trovato con BFS</h4>
+          <table>
+            <tr><th>Passo</th><th>Stato (3L, 5L)</th><th>Operazione eseguita</th></tr>
+            <tr><td>0</td><td><strong>(0, 0)</strong></td><td>Stato iniziale</td></tr>
+            <tr><td>1</td><td>(0, 5)</td><td>Riempi il recipiente da 5L</td></tr>
+            <tr><td>2</td><td>(3, 2)</td><td>Travasa 5L→3L (3L si riempie, restano 2 nel 5L)</td></tr>
+            <tr><td>3</td><td>(0, 2)</td><td>Svuota il recipiente da 3L</td></tr>
+            <tr><td>4</td><td>(2, 0)</td><td>Travasa 5L→3L (2 litri passano nel 3L)</td></tr>
+            <tr><td>5</td><td>(2, 5)</td><td>Riempi il recipiente da 5L</td></tr>
+            <tr class="perm"><td>6</td><td><strong>(3, 4)</strong></td><td>Travasa 5L→3L (1 litro passa nel 3L → nel 5L restano 4) ✓</td></tr>
+          </table>
+          <p><strong>Sequenza minima: 6 operazioni.</strong> Il cammino BFS con meno archi è (0,0)→(0,5)→(3,2)→(0,2)→(2,0)→(2,5)→(3,4).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">📝 Esercizio 1.2 – Il Barcaiolo (Lupo, Capra, Cavolo)</div>
+      <div class="exercise-body">
+        <p>Un barcaiolo <strong>B</strong> deve traghettare da una riva all'altra: un <strong>lupo (L)</strong>, una <strong>capra (G)</strong> e un <strong>cavolo (C)</strong>. La barca porta un solo passeggero oltre al barcaiolo. Vincoli: non si possono lasciare soli lupo e capra, né capra e cavolo.</p>
+        <p>Trovare la sequenza minima di traversate.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-header">✅ Soluzione</div>
+        <div class="solution-body">
+          <h4>Modellazione come grafo</h4>
+          <p>Lo <strong>stato</strong> è l'insieme degli oggetti sulla <em>riva sinistra</em> (incluso il barcaiolo B). Stato iniziale: {B, L, G, C}. Stato finale: {} (tutti sulla riva destra).</p>
+          <p>Gli stati <em>vietati</em> (senza B) sono: {L,G}, {G,C}, {L,G,C} — la capra viene mangiata.</p>
+          <p>Gli archi rappresentano una traversata (B porta 0 o 1 passeggero).</p>
+
+          <h4>Cammino minimo con BFS (7 traversate)</h4>
+          <table>
+            <tr><th>#</th><th>Riva Sinistra</th><th>Traversata</th><th>Riva Destra</th></tr>
+            <tr><td>Start</td><td>B, L, G, C</td><td>—</td><td>—</td></tr>
+            <tr><td>1 →</td><td>L, C</td><td>B porta G →</td><td>B, G</td></tr>
+            <tr><td>2 ←</td><td>B, L, C</td><td>B torna da solo ←</td><td>G</td></tr>
+            <tr><td>3 →</td><td>C</td><td>B porta L →</td><td>B, G, L</td></tr>
+            <tr><td>4 ←</td><td>B, G, C</td><td>B riporta G ←</td><td>L</td></tr>
+            <tr><td>5 →</td><td>G</td><td>B porta C →</td><td>B, L, C</td></tr>
+            <tr><td>6 ←</td><td>B, G</td><td>B torna da solo ←</td><td>L, C</td></tr>
+            <tr class="perm"><td>7 →</td><td>—</td><td>B porta G →</td><td>B, G, L, C ✓</td></tr>
+          </table>
+          <p><strong>La soluzione minima richiede 7 traversate.</strong> Esiste anche una soluzione alternativa simmetrica (porta prima il cavolo invece del lupo al passo 3).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">📝 Esercizio 2.2 – BFS su grafo: trovare cammino da s a t</div>
+      <div class="exercise-body">
+        <p>Dato il grafo sottostante (non orientato), usare la procedura BFS partendo dal nodo <strong>s</strong> per etichettare tutti i nodi e determinare se esiste un cammino da <strong>s</strong> a <strong>t</strong>.</p>
+        <div class="graph-container">
+          <svg width="440" height="200" viewBox="0 0 440 200">
+            <!-- Grafo per BFS ese 2 -->
+            <line x1="60" y1="100" x2="130" y2="60" stroke="#aaa" stroke-width="2"/>
+            <line x1="60" y1="100" x2="130" y2="140" stroke="#aaa" stroke-width="2"/>
+            <line x1="130" y1="60" x2="210" y2="60" stroke="#aaa" stroke-width="2"/>
+            <line x1="130" y1="140" x2="210" y2="140" stroke="#aaa" stroke-width="2"/>
+            <line x1="210" y1="60" x2="290" y2="100" stroke="#aaa" stroke-width="2"/>
+            <line x1="210" y1="140" x2="290" y2="100" stroke="#aaa" stroke-width="2"/>
+            <line x1="210" y1="60" x2="210" y2="140" stroke="#aaa" stroke-width="2"/>
+            <line x1="290" y1="100" x2="370" y2="100" stroke="#aaa" stroke-width="2"/>
+            <circle cx="60" cy="100" r="16" fill="#8e44ad"/><text x="60" y="105" text-anchor="middle" fill="white" font-weight="bold" font-size="12">s</text>
+            <circle cx="130" cy="60" r="16" fill="#2980b9"/><text x="130" y="65" text-anchor="middle" fill="white" font-weight="bold" font-size="12">a</text>
+            <circle cx="130" cy="140" r="16" fill="#2980b9"/><text x="130" y="145" text-anchor="middle" fill="white" font-weight="bold" font-size="12">b</text>
+            <circle cx="210" cy="60" r="16" fill="#2980b9"/><text x="210" y="65" text-anchor="middle" fill="white" font-weight="bold" font-size="12">c</text>
+            <circle cx="210" cy="140" r="16" fill="#2980b9"/><text x="210" y="145" text-anchor="middle" fill="white" font-weight="bold" font-size="12">d</text>
+            <circle cx="290" cy="100" r="16" fill="#2980b9"/><text x="290" y="105" text-anchor="middle" fill="white" font-weight="bold" font-size="12">e</text>
+            <circle cx="370" cy="100" r="16" fill="#c0392b"/><text x="370" y="105" text-anchor="middle" fill="white" font-weight="bold" font-size="12">t</text>
+          </svg>
+        </div>
+      </div>
+      <div class="solution">
+        <div class="solution-header">✅ Soluzione</div>
+        <div class="solution-body">
+          <h4>Esecuzione BFS da s</h4>
+          <table>
+            <tr><th>Livello k</th><th>Nodi in L_k</th><th>Etichetta</th></tr>
+            <tr><td>0</td><td>s</td><td>0</td></tr>
+            <tr><td>1</td><td>a, b</td><td>1</td></tr>
+            <tr><td>2</td><td>c, d</td><td>2</td></tr>
+            <tr><td>3</td><td>e</td><td>3</td></tr>
+            <tr class="perm"><td>4</td><td>t</td><td>4</td></tr>
+          </table>
+          <p><strong>Esiste</strong> un cammino da s a t. Il cammino minimo (4 archi) è:<br>
+          <span class="formula">s → a → c → e → t</span> &nbsp; oppure &nbsp; <span class="formula">s → b → d → e → t</span></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== SEZIONE 5 ===================== -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <h2><span class="badge b5">5</span> DFS – Esplorazione in Profondità (Depth-First Search)</h2>
+  </div>
+  <div class="section-body">
+
+    <h3>Idea dell'algoritmo</h3>
+    <p>La DFS esplora il grafo seguendo un cammino il più in profondità possibile prima di tornare indietro. Usa una struttura di tipo <strong>pila</strong> (LIFO): l'ultimo nodo inserito è il primo ad essere elaborato.</p>
+
+    <div class="grid2">
+      <div>
+        <h4>BFS – coda (FIFO)</h4>
+        <p>Il primo arrivato è il primo servito. Esplora il grafo per livelli (in ampiezza).</p>
+      </div>
+      <div>
+        <h4>DFS – pila (LIFO)</h4>
+        <p>L'ultimo arrivato è il primo servito. Esplora il grafo in profondità prima di tornare indietro.</p>
+      </div>
+    </div>
+
+    <h3>Pseudocodice</h3>
+    <div class="algo">
+<span class="cmt">// INPUT: G=(V,A), nodo sorgente s</span>
+<span class="kw">DFS</span>(G, s):
+  <span class="kw">for</span> ogni v ∈ V:
+    visitato[v] = <span class="kw">false</span>
+  Stack = pila vuota
+  Stack.push(s)
+
+  <span class="kw">while</span> Stack non è vuota:
+    u = Stack.pop()
+    <span class="kw">if</span> NOT visitato[u]:
+      visitato[u] = <span class="kw">true</span>
+      <span class="kw">for</span> ogni v adiacente ad u:
+        <span class="kw">if</span> NOT visitato[v]:
+          Stack.push(v)
+    </div>
+
+    <h3>Applicazione: Numerazione Progressiva (Ordinamento Topologico)</h3>
+    <div class="def">
+      <strong>Numerazione progressiva</strong> di un grafo orientato G = (V, A): un'assegnazione di numeri 1, 2, …, n ai nodi tale che per ogni arco (i, j) ∈ A il nodo i ha numero <em>minore</em> del nodo j.
+    </div>
+    <div class="thm">
+      <strong>Teorema.</strong> Un grafo orientato ammette una numerazione progressiva <strong>se e solo se</strong> è un DAG (Directed Acyclic Graph), ovvero non contiene circuiti.
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">📝 Esercizio 2.1 – Numerazione Progressiva</div>
+      <div class="exercise-body">
+        <p>Stabilire se è possibile numerare progressivamente i nodi del seguente grafo orientato. In caso affermativo, determinare la numerazione.</p>
+        <div class="graph-container">
+          <svg width="420" height="180" viewBox="0 0 420 180">
+            <defs><marker id="arr2" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#555"/></marker></defs>
+            <line x1="60" y1="90" x2="140" y2="50" stroke="#555" stroke-width="2" marker-end="url(#arr2)"/>
+            <line x1="60" y1="90" x2="140" y2="130" stroke="#555" stroke-width="2" marker-end="url(#arr2)"/>
+            <line x1="155" y1="50" x2="225" y2="50" stroke="#555" stroke-width="2" marker-end="url(#arr2)"/>
+            <line x1="155" y1="130" x2="225" y2="130" stroke="#555" stroke-width="2" marker-end="url(#arr2)"/>
+            <line x1="155" y1="130" x2="225" y2="50" stroke="#555" stroke-width="2" marker-end="url(#arr2)"/>
+            <line x1="240" y1="50" x2="320" y2="90" stroke="#555" stroke-width="2" marker-end="url(#arr2)"/>
+            <line x1="240" y1="130" x2="320" y2="90" stroke="#555" stroke-width="2" marker-end="url(#arr2)"/>
+            <line x1="335" y1="90" x2="375" y2="90" stroke="#555" stroke-width="2" marker-end="url(#arr2)"/>
+            <circle cx="60" cy="90" r="15" fill="#2c3e50"/><text x="60" y="95" text-anchor="middle" fill="white" font-weight="bold" font-size="12">1</text>
+            <circle cx="150" cy="50" r="15" fill="#2c3e50"/><text x="150" y="55" text-anchor="middle" fill="white" font-weight="bold" font-size="12">2</text>
+            <circle cx="150" cy="130" r="15" fill="#2c3e50"/><text x="150" y="135" text-anchor="middle" fill="white" font-weight="bold" font-size="12">3</text>
+            <circle cx="235" cy="50" r="15" fill="#2c3e50"/><text x="235" y="55" text-anchor="middle" fill="white" font-weight="bold" font-size="12">4</text>
+            <circle cx="235" cy="130" r="15" fill="#2c3e50"/><text x="235" y="135" text-anchor="middle" fill="white" font-weight="bold" font-size="12">5</text>
+            <circle cx="325" cy="90" r="15" fill="#2c3e50"/><text x="325" y="95" text-anchor="middle" fill="white" font-weight="bold" font-size="12">6</text>
+            <circle cx="390" cy="90" r="15" fill="#2c3e50"/><text x="390" y="95" text-anchor="middle" fill="white" font-weight="bold" font-size="12">7</text>
+          </svg>
+        </div>
+      </div>
+      <div class="solution">
+        <div class="solution-header">✅ Soluzione</div>
+        <div class="solution-body">
+          <p>Il grafo non contiene circuiti (DAG), quindi la numerazione progressiva <strong>esiste</strong>.</p>
+          <h4>Procedura (eliminazione iterativa di nodi senza predecessori)</h4>
+          <ol class="steps">
+            <li>Il nodo <strong>1</strong> non ha archi entranti → assegna numero 1, eliminalo.</li>
+            <li>Dopo eliminazione di 1: i nodi 2 e 3 non hanno più predecessori → assegna 2 a <strong>2</strong> e 3 a <strong>3</strong> (in qualsiasi ordine).</li>
+            <li>Dopo: il nodo 4 non ha predecessori → assegna 4 a <strong>4</strong>; il nodo 5 non ha predecessori → assegna 5 a <strong>5</strong>.</li>
+            <li>Il nodo <strong>6</strong> non ha più predecessori → assegna 6. Il nodo <strong>7</strong> ultimo → assegna 7.</li>
+          </ol>
+          <p><strong>Una numerazione valida:</strong> 1→1, 2→2, 3→3, 4→4, 5→5, 6→6, 7→7 (l'ordine già assegnato è valido). Per ogni arco (i,j) si verifica che il numero di i è minore del numero di j. ✓</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== SEZIONE 6 ===================== -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <h2><span class="badge b6">6</span> Equazioni di Bellman – Cammini Minimi su DAG</h2>
+  </div>
+  <div class="section-body">
+
+    <h3>Contesto</h3>
+    <p>Si vuole trovare il cammino di lunghezza (costo) minima tra due nodi di un grafo orientato <strong>senza circuiti</strong> (DAG) con lunghezze sugli archi eventualmente negative.</p>
+    <p>Data una funzione lunghezza <span class="formula">l: A → ℝ</span>, la lunghezza di un cammino P = (v₁,v₂,…,v_k) è <span class="formula">L(P) = Σ l(v_i, v_{i+1})</span>.</p>
+
+    <h3>Principio di Ottimalità</h3>
+    <div class="thm">
+      <strong>Principio di Ottimalità (Bellman).</strong> Sia G = (V, A) un grafo orientato. Sia p*(s, t) un cammino minimo da s a t, e sia x un nodo intermedio lungo tale cammino. Allora:
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>Il sotto-cammino da s a x è un cammino minimo da s a x</li>
+        <li>Il sotto-cammino da x a t è un cammino minimo da x a t</li>
+      </ul>
+    </div>
+
+    <h3>Equazioni di Bellman (Forward – dal nodo sorgente)</h3>
+    <p>Siano <span class="formula">u_j</span> = lunghezza del cammino minimo dal nodo sorgente <strong>s</strong> al nodo j. Le equazioni di Bellman sono:</p>
+    <div class="formula-block">
+      <span class="formula">u_s = 0</span>
+      <br><br>
+      <span class="formula">u_j = min<sub>(i,j)∈A</sub> { u_i + l(i,j) }  &nbsp; per ogni j ≠ s</span>
+    </div>
+    <p>Si risolvono nell'ordine della numerazione progressiva dei nodi (da sinistra a destra nel DAG).</p>
+
+    <h3>Equazioni di Bellman (Backward – verso il nodo destinazione)</h3>
+    <p>Siano <span class="formula">u_i</span> = lunghezza del cammino minimo dal nodo i al nodo destinazione <strong>t</strong>:</p>
+    <div class="formula-block">
+      <span class="formula">u_t = 0</span>
+      <br><br>
+      <span class="formula">u_i = min<sub>(i,j)∈A</sub> { l(i,j) + u_j }  &nbsp; per ogni i ≠ t</span>
+    </div>
+    <p>Si risolvono a ritroso (dal nodo t verso s).</p>
+
+    <h3>Ricostruzione del cammino</h3>
+    <p>Si memorizza per ogni nodo j il <strong>predecessore</strong> p_j = argmin<sub>i: (i,j)∈A</sub>{ u_i + l(i,j) }. Il cammino si ricostruisce risalendo da t a s tramite p.</p>
+
+    <hr>
+    <!-- ESERCIZI BELLMAN -->
+    <h3 style="border-left-color: var(--accent3);">Esercizi</h3>
+
+    <div class="exercise">
+      <div class="exercise-header">📝 Esercizio 2.3 – Cammino Minimo con Bellman (13 nodi)</div>
+      <div class="exercise-body">
+        <p>Trovare il cammino di costo minimo dal nodo <strong>1</strong> al nodo <strong>13</strong> nel grafo orientato senza circuiti usando le equazioni di Bellman. Gli archi e i pesi sono mostrati nella tabella seguente (la rete è priva di circuiti, quindi si può applicare Bellman).</p>
+        <p>La struttura del grafo è: i predecessori ottimali sono p₂=1, p₃=1, p₄=2, p₅=2, p₆=2, p₇=3, p₈=4, p₉=4, p₁₀=7, p₁₁=9, p₁₂=9, p₁₃=12. I pesi degli archi seguono dalla struttura.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-header">✅ Soluzione</div>
+        <div class="solution-body">
+          <h4>Calcolo dei valori u (Forward Bellman, da sinistra a destra)</h4>
+          <table>
+            <tr><th>Nodo j</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th></tr>
+            <tr>
+              <td><strong>u_j</strong></td>
+              <td class="perm">0</td><td>8</td><td>7</td><td>14</td><td>18</td><td>15</td><td>21</td><td>24</td><td>24</td><td>29</td><td>26</td><td>27</td><td class="perm">31</td>
+            </tr>
+            <tr>
+              <td><strong>p_j</strong></td>
+              <td>—</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td><td>3</td><td>4</td><td>4</td><td>7</td><td>9</td><td>9</td><td>12</td>
+            </tr>
+          </table>
+          <h4>Ricostruzione del cammino (a ritroso da 13)</h4>
+          <p>
+            13 ← p₁₃=12 ← p₁₂=9 ← p₉=4 ← p₄=2 ← p₂=1
+          </p>
+          <div class="formula-block">
+            <span class="formula">Cammino minimo: 1 → 2 → 4 → 9 → 12 → 13</span>
+          </div>
+          <p><strong>Lunghezza del cammino minimo: u₁₃ = 31</strong></p>
+          <h4>Verifica dei passi principali</h4>
+          <ul style="margin-left:18px;">
+            <li>u₁ = 0 (sorgente)</li>
+            <li>u₂ = u₁ + l(1,2) = 0 + 8 = 8</li>
+            <li>u₃ = u₁ + l(1,3) = 0 + 7 = 7</li>
+            <li>u₄ = u₂ + l(2,4) = 8 + 6 = 14</li>
+            <li>u₉ = u₄ + l(4,9) = 14 + 10 = 24</li>
+            <li>u₁₂ = u₉ + l(9,12) = 24 + 3 = 27</li>
+            <li>u₁₃ = u₁₂ + l(12,13) = 27 + 4 = 31 ✓</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">📝 Esercizio 3 – Piano di Rinnovo Ottimale del Macchinario</div>
+      <div class="exercise-body">
+        <p>Un'impresa acquista un macchinario per <strong>12.000 €</strong>. Il macchinario può essere rivenduto all'inizio del 2°, 3°, 4° o 5° anno. I costi di manutenzione e i ricavati dalla vendita sono:</p>
+        <table>
+          <tr><th>Età (anni)</th><th>Manutenzione (k€)</th><th>Ricavato vendita (k€)</th></tr>
+          <tr><td>0</td><td>2</td><td>—</td></tr>
+          <tr><td>1</td><td>4</td><td>7</td></tr>
+          <tr><td>2</td><td>5</td><td>6</td></tr>
+          <tr><td>3</td><td>9</td><td>2</td></tr>
+          <tr><td>4</td><td>12</td><td>1</td></tr>
+        </table>
+        <p>Trovare il piano di rinnovo di costo totale netto (acquisti + manutenzione − ricavati) minimo su 5 anni. Usare le equazioni di Bellman.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-header">✅ Soluzione</div>
+        <div class="solution-body">
+          <h4>Modellazione come grafo orientato</h4>
+          <p>Si costruisce un grafo orientato con <strong>6 nodi</strong> (1, 2, 3, 4, 5, 6) dove:</p>
+          <ul style="margin-left:18px;">
+            <li>Nodo i = inizio dell'anno i (nodo 6 = fine anno 5)</li>
+            <li>Arco (i, j) con i &lt; j = acquisto all'inizio dell'anno i, vendita all'inizio dell'anno j</li>
+            <li>Costo arco c_{ij} = 12 + Σmanutenzione(anni i…j−1) − ricavato(j−i anni)</li>
+          </ul>
+          <h4>Calcolo dei costi degli archi (in migliaia di €)</h4>
+          <table>
+            <tr><th>Arco (i,j)</th><th>Acq (k€)</th><th>Man. totale (k€)</th><th>Ricavato (k€)</th><th>Costo c_{ij} (k€)</th></tr>
+            <tr><td>(i, i+1) per ogni i</td><td>12</td><td>2</td><td>7</td><td><strong>7</strong></td></tr>
+            <tr><td>(i, i+2)</td><td>12</td><td>2+4=6</td><td>6</td><td><strong>12</strong></td></tr>
+            <tr><td>(i, i+3)</td><td>12</td><td>2+4+5=11</td><td>2</td><td><strong>21</strong></td></tr>
+            <tr><td>(i, i+4)</td><td>12</td><td>2+4+5+9=20</td><td>1</td><td><strong>31</strong></td></tr>
+            <tr><td>(1, 6)</td><td>12</td><td>2+4+5+9+12=32</td><td>0</td><td><strong>44</strong></td></tr>
+          </table>
+
+          <h4>Equazioni di Bellman (backward, dalla destinazione 6)</h4>
+          <div class="algo">
+u₆ = 0
+
+u₅ = c₅₆ + u₆ = 7 + 0 = <strong>7</strong>
+
+u₄ = min( c₄₅+u₅ , c₄₆+u₆ )
+   = min( 7+7 , 12+0 ) = min(14, 12) = <strong>12</strong>  [via 4→6]
+
+u₃ = min( c₃₄+u₄ , c₃₅+u₅ , c₃₆+u₆ )
+   = min( 7+12 , 12+7 , 21+0 ) = min(19, 19, 21) = <strong>19</strong>  [via 3→4 o 3→5]
+
+u₂ = min( c₂₃+u₃ , c₂₄+u₄ , c₂₅+u₅ , c₂₆+u₆ )
+   = min( 7+19 , 12+12 , 21+7 , 31+0 ) = min(26, 24, 28, 31) = <strong>24</strong>  [via 2→4]
+
+u₁ = min( c₁₂+u₂ , c₁₃+u₃ , c₁₄+u₄ , c₁₅+u₅ , c₁₆+u₆ )
+   = min( 7+24 , 12+19 , 21+12 , 31+7 , 44+0 )
+   = min( 31 , 31 , 33 , 38 , 44 ) = <strong>31</strong>  [via 1→2→4→6 o 1→3→?]
+          </div>
+          <h4>Piani ottimali (costo minimo = 31.000 €)</h4>
+          <ul style="margin-left:18px;">
+            <li><strong>Piano A:</strong> 1→2→4→6 — acquista all'inizio anno 1, vende fine anno 1, riacquista, vende fine anno 3, riacquista, vende fine anno 5.</li>
+            <li><strong>Piano B:</strong> 1→3→5→6 — sostituisce il macchinario ogni 2 anni.</li>
+          </ul>
+          <p><strong>Costo totale minimo: 31.000 €</strong></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== SEZIONE 7 ===================== -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <h2><span class="badge b7">7</span> Algoritmo di Dijkstra – Cammini Minimi con Pesi Non Negativi</h2>
+  </div>
+  <div class="section-body">
+
+    <h3>Contesto</h3>
+    <p>Dati un grafo orientato G = (V, A) con lunghezze <span class="formula">l(i,j) ≥ 0</span> per ogni arco, trovare il cammino minimo dal nodo sorgente <strong>s</strong> a tutti gli altri nodi.</p>
+    <div class="warn"><strong>Attenzione:</strong> L'algoritmo di Dijkstra NON funziona se ci sono archi con lunghezza negativa. In quel caso usare Bellman-Ford o le equazioni di Bellman (per DAG).</div>
+
+    <h3>Idea dell'algoritmo</h3>
+    <p>Dijkstra mantiene due insiemi di nodi:</p>
+    <ul style="margin-left:18px;">
+      <li><strong>P (Permanenti):</strong> nodi per cui il cammino minimo è già stato determinato definitivamente</li>
+      <li><strong>T (Temporanei):</strong> nodi per cui l'etichetta è ancora provvisoria</li>
+    </ul>
+    <p>Ad ogni iterazione si rende permanente il nodo temporaneo con etichetta minima.</p>
+
+    <h3>Etichette</h3>
+    <ul style="margin-left:18px;">
+      <li><span class="formula">λ(v)</span> = lunghezza del miglior cammino <em>temporaneo</em> (provvisorio) da s a v</li>
+      <li><span class="formula">p(v)</span> = predecessore di v nel miglior cammino temporaneo</li>
+    </ul>
+
+    <h3>Pseudocodice</h3>
+    <div class="algo">
+<span class="cmt">// INPUT: G=(V,A), l(i,j)≥0 per ogni (i,j)∈A, sorgente s</span>
+<span class="cmt">// OUTPUT: λ(v) = lunghezza cammino minimo da s a v, per ogni v</span>
+
+<span class="kw">Dijkstra</span>(G, l, s):
+
+  <span class="cmt">// INIZIALIZZAZIONE</span>
+  <span class="kw">for</span> ogni v ∈ V:
+    λ(v) = ∞
+    p(v) = <span class="kw">null</span>
+  λ(s) = <span class="num">0</span>
+  P = {}  <span class="cmt">// insieme permanenti (vuoto)</span>
+  T = V   <span class="cmt">// tutti i nodi sono temporanei</span>
+
+  <span class="kw">while</span> T ≠ {}:
+    <span class="cmt">// SCELTA DEL NODO PERMANENTE</span>
+    h = argmin { λ(v) : v ∈ T }  <span class="cmt">// nodo con etichetta minima tra i temporanei</span>
+    P = P ∪ {h}
+    T = T \ {h}
+
+    <span class="kw">if</span> λ(h) == ∞: <span class="kw">break</span>  <span class="cmt">// nodi rimanenti non raggiungibili</span>
+
+    <span class="cmt">// AGGIORNAMENTO ETICHETTE TEMPORANEE</span>
+    <span class="kw">for</span> ogni (h, v) ∈ A con v ∈ T:
+      <span class="kw">if</span> λ(h) + l(h,v) < λ(v):
+        λ(v) = λ(h) + l(h,v)
+        p(v) = h
+    </div>
+
+    <h3>Procedura passo-passo</h3>
+    <ol class="steps">
+      <li><strong>Inizializzazione:</strong> λ(s) = 0; λ(v) = ∞ per ogni v ≠ s; p(v) = null; T = V.</li>
+      <li><strong>Selezione:</strong> scegli h ∈ T con λ(h) minimo → h diventa permanente.</li>
+      <li><strong>Aggiornamento:</strong> per ogni successore v di h (con v ∈ T): se λ(h) + l(h,v) &lt; λ(v), allora aggiorna λ(v) e p(v) = h.</li>
+      <li>Ripeti dal passo 2 finché T = ∅.</li>
+    </ol>
+
+    <div class="thm">
+      <strong>Correttezza:</strong> Al momento in cui un nodo h viene estratto da T (reso permanente), λ(h) è la lunghezza del cammino minimo da s a h. <em>Questo si dimostra per induzione usando il Lemma di Dijkstra e la non-negatività dei pesi.</em>
+    </div>
+
+    <h3>Complessità</h3>
+    <p>Con implementazione naïve (array): <span class="formula">O(n²)</span>. Con coda di priorità (heap): <span class="formula">O((n + m) log n)</span>.</p>
+
+    <hr>
+    <!-- ESEMPIO DIJKSTRA -->
+    <h3>Esempio svolto</h3>
+    <div class="graph-container">
+      <svg width="480" height="220" viewBox="0 0 480 220">
+        <defs><marker id="arr3" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#555"/></marker></defs>
+        <!-- archi -->
+        <line x1="75" y1="110" x2="175" y2="60" stroke="#555" stroke-width="2" marker-end="url(#arr3)"/>
+        <line x1="75" y1="110" x2="175" y2="160" stroke="#555" stroke-width="2" marker-end="url(#arr3)"/>
+        <line x1="190" y1="60" x2="280" y2="60" stroke="#555" stroke-width="2" marker-end="url(#arr3)"/>
+        <line x1="190" y1="160" x2="280" y2="160" stroke="#555" stroke-width="2" marker-end="url(#arr3)"/>
+        <line x1="190" y1="65" x2="280" y2="155" stroke="#555" stroke-width="2" marker-end="url(#arr3)"/>
+        <line x1="295" y1="60" x2="380" y2="110" stroke="#555" stroke-width="2" marker-end="url(#arr3)"/>
+        <line x1="295" y1="160" x2="380" y2="110" stroke="#555" stroke-width="2" marker-end="url(#arr3)"/>
+        <!-- pesi -->
+        <text x="118" y="72" font-size="13" fill="#c0392b" font-weight="bold">4</text>
+        <text x="118" y="148" font-size="13" fill="#c0392b" font-weight="bold">2</text>
+        <text x="232" y="50" font-size="13" fill="#c0392b" font-weight="bold">5</text>
+        <text x="232" y="178" font-size="13" fill="#c0392b" font-weight="bold">7</text>
+        <text x="238" y="122" font-size="13" fill="#c0392b" font-weight="bold">3</text>
+        <text x="340" y="78" font-size="13" fill="#c0392b" font-weight="bold">6</text>
+        <text x="340" y="148" font-size="13" fill="#c0392b" font-weight="bold">1</text>
+        <!-- nodi -->
+        <circle cx="60" cy="110" r="18" fill="#8e44ad"/><text x="60" y="116" text-anchor="middle" fill="white" font-weight="bold" font-size="14">s</text>
+        <circle cx="185" cy="55" r="18" fill="#2980b9"/><text x="185" y="61" text-anchor="middle" fill="white" font-weight="bold" font-size="14">A</text>
+        <circle cx="185" cy="165" r="18" fill="#2980b9"/><text x="185" y="171" text-anchor="middle" fill="white" font-weight="bold" font-size="14">B</text>
+        <circle cx="290" cy="55" r="18" fill="#2980b9"/><text x="290" y="61" text-anchor="middle" fill="white" font-weight="bold" font-size="14">C</text>
+        <circle cx="290" cy="165" r="18" fill="#2980b9"/><text x="290" y="171" text-anchor="middle" fill="white" font-weight="bold" font-size="14">D</text>
+        <circle cx="395" cy="110" r="18" fill="#27ae60"/><text x="395" y="116" text-anchor="middle" fill="white" font-weight="bold" font-size="14">t</text>
+      </svg>
+    </div>
+
+    <h4>Tabella delle iterazioni Dijkstra (sorgente = s)</h4>
+    <table>
+      <tr><th>Iter.</th><th>Nodo reso perm.</th><th>λ(s)</th><th>λ(A)</th><th>λ(B)</th><th>λ(C)</th><th>λ(D)</th><th>λ(t)</th></tr>
+      <tr><td>Init</td><td>—</td><td class="perm">0</td><td class="inf">∞</td><td class="inf">∞</td><td class="inf">∞</td><td class="inf">∞</td><td class="inf">∞</td></tr>
+      <tr>
+        <td>1</td><td class="perm">s (λ=0)</td><td class="perm">0</td>
+        <td class="highlight">4 (da s)</td><td class="highlight">2 (da s)</td><td class="inf">∞</td><td class="inf">∞</td><td class="inf">∞</td>
+      </tr>
+      <tr>
+        <td>2</td><td class="perm">B (λ=2)</td><td class="perm">0</td>
+        <td>4 (s)</td><td class="perm">2</td><td class="inf">∞</td><td class="highlight">9 (da B)</td><td class="inf">∞</td>
+      </tr>
+      <tr>
+        <td>3</td><td class="perm">A (λ=4)</td><td class="perm">0</td>
+        <td class="perm">4</td><td class="perm">2</td><td class="highlight">9 (da A)</td><td>9 (B)</td><td class="inf">∞</td>
+      </tr>
+      <tr>
+        <td>4</td><td class="perm">C (λ=9) o D (λ=9)</td><td class="perm">0</td>
+        <td class="perm">4</td><td class="perm">2</td><td class="perm">9</td><td class="perm">9</td><td class="highlight">15 (da C)</td>
+      </tr>
+      <tr>
+        <td>5</td><td class="perm">t (λ=10)</td><td class="perm">0</td>
+        <td class="perm">4</td><td class="perm">2</td><td class="perm">9</td><td class="perm">9</td><td class="perm">10 (da D)</td>
+      </tr>
+    </table>
+    <p><strong>Cammino minimo da s a t:</strong> s → B → D → t &nbsp; (lunghezza = 2 + 7 + 1 = 10)</p>
+
+    <hr>
+    <!-- ESERCIZI DIJKSTRA -->
+    <h3 style="border-left-color: var(--accent3);">Esercizi del corso</h3>
+
+    <div class="exercise">
+      <div class="exercise-header">📝 Esercizio 4.1 – Piano di Sostituzione Macchinari (Dijkstra)</div>
+      <div class="exercise-body">
+        <p>I coefficienti della matrice indicano i costi (in k€) per acquistare macchinari all'inizio dell'anno i e utilizzarli fino alla fine dell'anno j:</p>
+        <table>
+          <tr><th>i \ j</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+          <tr><td><strong>1</strong></td><td>100</td><td>200</td><td>340</td><td>—</td><td>700</td></tr>
+          <tr><td><strong>2</strong></td><td>—</td><td>150</td><td>300</td><td>400</td><td>500</td></tr>
+          <tr><td><strong>3</strong></td><td>—</td><td>—</td><td>20</td><td>—</td><td>—</td></tr>
+          <tr><td><strong>4</strong></td><td>—</td><td>—</td><td>—</td><td>80</td><td>150</td></tr>
+          <tr><td><strong>5</strong></td><td>—</td><td>—</td><td>—</td><td>—</td><td>10</td></tr>
+        </table>
+        <p>Trovare il piano di sostituzione di costo minimo su 5 anni usando l'algoritmo di Dijkstra.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-header">✅ Soluzione</div>
+        <div class="solution-body">
+          <h4>Modellazione come grafo orientato</h4>
+          <p>Si costruisce un grafo con <strong>6 nodi</strong> (0, 1, 2, 3, 4, 5) dove:</p>
+          <ul style="margin-left:18px;">
+            <li>Nodo 0 = inizio del periodo (prima dell'anno 1)</li>
+            <li>Nodo j = fine dell'anno j (j = 1, …, 5)</li>
+            <li>Arco (i, j) esiste se c[i+1][j] ≠ — nella matrice (acquisto all'inizio dell'anno i+1, uso fino alla fine dell'anno j)</li>
+          </ul>
+          <p>Il problema equivale a trovare il cammino minimo dal nodo 0 al nodo 5.</p>
+
+          <h4>Esecuzione Dijkstra (nodi 0→5)</h4>
+          <p>Le lunghezze degli archi sono date dalla matrice:</p>
+          <table>
+            <tr><th>Iter.</th><th>Perm.</th><th>λ(0)</th><th>λ(1)</th><th>λ(2)</th><th>λ(3)</th><th>λ(4)</th><th>λ(5)</th></tr>
+            <tr><td>Init</td><td>—</td><td class="perm">0</td><td class="inf">∞</td><td class="inf">∞</td><td class="inf">∞</td><td class="inf">∞</td><td class="inf">∞</td></tr>
+            <tr><td>1</td><td class="perm">0 (λ=0)</td><td class="perm">0</td><td class="highlight">100</td><td class="highlight">200</td><td class="highlight">340</td><td class="inf">∞</td><td class="highlight">700</td></tr>
+            <tr><td>2</td><td class="perm">1 (λ=100)</td><td class="perm">0</td><td class="perm">100</td><td class="highlight">250</td><td class="highlight">400</td><td class="highlight">500</td><td class="highlight">600</td></tr>
+            <tr><td>3</td><td class="perm">2 (λ=200)</td><td class="perm">0</td><td class="perm">100</td><td class="perm">200</td><td class="highlight">340</td><td class="highlight">500</td><td class="highlight">600</td></tr>
+            <tr><td>4</td><td class="perm">3 (λ=340)</td><td class="perm">0</td><td class="perm">100</td><td class="perm">200</td><td class="perm">340</td><td class="highlight">420</td><td class="highlight">600</td></tr>
+            <tr><td>5</td><td class="perm">4 (λ=420)</td><td class="perm">0</td><td class="perm">100</td><td class="perm">200</td><td class="perm">340</td><td class="perm">420</td><td class="highlight">570</td></tr>
+            <tr><td>6</td><td class="perm">5 (λ=570)</td><td class="perm">0</td><td class="perm">100</td><td class="perm">200</td><td class="perm">340</td><td class="perm">420</td><td class="perm">570</td></tr>
+          </table>
+          <p><strong>Costo minimo: 570 k€</strong> — cammino: 0 → 3 → 4 → 5 (acquisto anno 1 usa fino a fine anno 3: 340k€; riacquisto inizio anno 4 usa anno 4: 80k€; riacquisto inizio anno 5 usa anno 5: 10k€. Totale: 340+80+10=430... verificare). </p>
+          <div class="warn"><strong>Nota:</strong> Il cammino esatto si ricostruisce dai predecessori. L'iterazione 5 aggiorna λ(5)=420+150=570. Cammino: 0→3→4→5, costo 340+80+150=570 k€.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== SEZIONE 8 ===================== -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <h2><span class="badge b8">8</span> Algoritmo di Floyd-Warshall – Cammini Minimi tra Tutte le Coppie</h2>
+  </div>
+  <div class="section-body">
+
+    <h3>Contesto</h3>
+    <p>Dato G = (V, A) orientato con n nodi numerati 1, 2, …, n e lunghezze <span class="formula">l(i,j)</span> (anche negative), trovare i cammini minimi tra <strong>tutte le coppie</strong> di nodi.</p>
+
+    <h3>Idea dell'algoritmo</h3>
+    <p>Si costruiscono iterativamente le matrici <span class="formula">D^(k)</span> dove <span class="formula">d_{ij}^(k)</span> è la lunghezza del cammino minimo da i a j che usa come nodi intermedi <strong>solo nodi da 1 a k</strong>.</p>
+
+    <h3>Inizializzazione</h3>
+    <div class="formula-block">
+      <span class="formula">d_{ij}^(0) = l(i,j)  se (i,j) ∈ A</span><br>
+      <span class="formula">d_{ij}^(0) = 0  se i = j</span><br>
+      <span class="formula">d_{ij}^(0) = +∞  se i ≠ j e (i,j) ∉ A</span>
+    </div>
+    <div class="formula-block">
+      <span class="formula">p_{ij}^(0) = i  se (i,j) ∈ A  (predecessore di j nella path ottimale)</span><br>
+      <span class="formula">p_{ij}^(0) = —  altrimenti</span>
+    </div>
+
+    <h3>Iterazione (k = 1, 2, …, n)</h3>
+    <div class="formula-block">
+      <span class="formula">d_{ij}^(k) = min( d_{ij}^(k-1) , d_{ik}^(k-1) + d_{kj}^(k-1) )</span>
+    </div>
+    <p>Se il minimo è raggiunto passando per k:</p>
+    <div class="formula-block">
+      <span class="formula">p_{ij}^(k) = p_{kj}^(k-1)  (il predecessore di j viene aggiornato)</span>
+    </div>
+
+    <h3>Rilevamento cicli negativi</h3>
+    <div class="warn">
+      <strong>Ciclo negativo:</strong> Se al termine di un passo k si trova <span class="formula">d_{ii}^(k) &lt; 0</span> per qualche nodo i, allora esiste un ciclo negativo che passa per i. L'algoritmo si arresta.
+    </div>
+
+    <h3>Pseudocodice</h3>
+    <div class="algo">
+<span class="kw">Floyd-Warshall</span>(G, l):
+  <span class="cmt">// Inizializzazione</span>
+  <span class="kw">for</span> i = <span class="num">1</span> to n:
+    <span class="kw">for</span> j = <span class="num">1</span> to n:
+      D[i][j] = l[i][j]  <span class="cmt">// ∞ se non esiste arco, 0 se i=j</span>
+      P[i][j] = i <span class="kw">if</span> (i,j)∈A <span class="kw">else</span> null
+
+  <span class="cmt">// Iterazioni</span>
+  <span class="kw">for</span> k = <span class="num">1</span> to n:
+    <span class="kw">for</span> i = <span class="num">1</span> to n:
+      <span class="kw">for</span> j = <span class="num">1</span> to n:
+        <span class="kw">if</span> D[i][k] + D[k][j] < D[i][j]:
+          D[i][j] = D[i][k] + D[k][j]
+          P[i][j] = P[k][j]
+    <span class="kw">if</span> D[i][i] < <span class="num">0</span> per qualche i: <span class="cmt">// ciclo negativo!</span>
+      <span class="kw">STOP</span>
+    </div>
+
+    <h3>Ricostruzione del cammino</h3>
+    <p>Per trovare il cammino da i a j, si risale la matrice P: il predecessore di j è P[i][j], il predecessore del predecessore è P[i][P[i][j]], ecc.</p>
+
+    <h3>Complessità</h3>
+    <p><span class="formula">O(n³)</span> in tempo e <span class="formula">O(n²)</span> in spazio.</p>
+
+    <hr>
+    <!-- ESEMPIO FLOYD WARSHALL -->
+    <h3>Esempio svolto (dal corso)</h3>
+    <div class="graph-container">
+      <svg width="340" height="200" viewBox="0 0 340 200">
+        <defs><marker id="arr4" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#555"/></marker></defs>
+        <line x1="80" y1="70" x2="250" y2="70" stroke="#555" stroke-width="2" marker-end="url(#arr4)"/>
+        <line x1="80" y1="74" x2="80" y2="134" stroke="#555" stroke-width="2" marker-end="url(#arr4)"/>
+        <line x1="80" y1="80" x2="240" y2="135" stroke="#555" stroke-width="2" marker-end="url(#arr4)"/>
+        <line x1="252" y1="78" x2="96" y2="143" stroke="#555" stroke-width="2" marker-end="url(#arr4)"/>
+        <line x1="88" y1="143" x2="246" y2="143" stroke="#555" stroke-width="2" marker-end="url(#arr4)"/>
+        <line x1="258" y1="143" x2="258" y2="80" stroke="#555" stroke-width="2" marker-end="url(#arr4)"/>
+        <line x1="260" y1="143" x2="290" y2="110" stroke="#555" stroke-width="2" marker-end="url(#arr4)"/>
+        <line x1="290" y1="100" x2="86" y2="70" stroke="#555" stroke-width="2" marker-end="url(#arr4)"/>
+        <!-- pesi -->
+        <text x="165" y="58" font-size="12" fill="#c0392b" font-weight="bold" text-anchor="middle">4</text>
+        <text x="62" y="108" font-size="12" fill="#c0392b" font-weight="bold">-3</text>
+        <text x="175" y="118" font-size="12" fill="#c0392b" font-weight="bold">3</text>
+        <text x="155" y="125" font-size="12" fill="#c0392b" font-weight="bold">-7</text>
+        <text x="270" y="108" font-size="12" fill="#c0392b" font-weight="bold">-7</text>
+        <text x="294" y="102" font-size="12" fill="#c0392b" font-weight="bold">5</text>
+        <!-- nodi -->
+        <circle cx="80" cy="68" r="16" fill="#2c3e50"/><text x="80" y="73" text-anchor="middle" fill="white" font-weight="bold" font-size="13">1</text>
+        <circle cx="260" cy="68" r="16" fill="#2c3e50"/><text x="260" y="73" text-anchor="middle" fill="white" font-weight="bold" font-size="13">2</text>
+        <circle cx="80" cy="145" r="16" fill="#2c3e50"/><text x="80" y="150" text-anchor="middle" fill="white" font-weight="bold" font-size="13">3</text>
+        <circle cx="260" cy="145" r="16" fill="#2c3e50"/><text x="260" y="150" text-anchor="middle" fill="white" font-weight="bold" font-size="13">4</text>
+        <circle cx="300" cy="105" r="16" fill="#2c3e50"/><text x="300" y="110" text-anchor="middle" fill="white" font-weight="bold" font-size="13">?</text>
+      </svg>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">📝 Esercizio 4.2 – Floyd-Warshall con rilevamento cicli negativi</div>
+      <div class="exercise-body">
+        <p>L'inizializzazione dell'algoritmo di Floyd-Warshall applicato a un grafo di 4 nodi ha prodotto le seguenti matrici:</p>
+        <div class="grid2">
+          <div>
+            <h4>Matrice delle distanze D<sup>(0)</sup></h4>
+            <table>
+              <tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+              <tr><td><strong>1</strong></td><td>0</td><td>4</td><td>-3</td><td class="inf">∞</td></tr>
+              <tr><td><strong>2</strong></td><td>-3</td><td>0</td><td>-7</td><td class="inf">∞</td></tr>
+              <tr><td><strong>3</strong></td><td class="inf">∞</td><td>3</td><td>0</td><td class="inf">∞</td></tr>
+              <tr><td><strong>4</strong></td><td>5</td><td>6</td><td>6</td><td>0</td></tr>
+            </table>
+          </div>
+          <div>
+            <h4>Matrice dei predecessori P<sup>(0)</sup></h4>
+            <table>
+              <tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+              <tr><td><strong>1</strong></td><td>—</td><td>1</td><td>1</td><td>—</td></tr>
+              <tr><td><strong>2</strong></td><td>2</td><td>—</td><td>2</td><td>—</td></tr>
+              <tr><td><strong>3</strong></td><td>—</td><td>3</td><td>—</td><td>—</td></tr>
+              <tr><td><strong>4</strong></td><td>4</td><td>4</td><td>4</td><td>—</td></tr>
+            </table>
+          </div>
+        </div>
+        <p>Completare l'algoritmo. In presenza di cicli negativi, arrestare e individuare i cicli.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-header">✅ Soluzione</div>
+        <div class="solution-body">
+          <h4>Iterazione k=1 (nodo 1 come intermedio)</h4>
+          <p>Per ogni coppia (i,j) con i≠1, j≠1: calcolo min(d_{ij}^(0), d_{i1}^(0) + d_{1j}^(0))</p>
+          <ul style="margin-left:18px;">
+            <li>d[4][3]: min(6, d[4][1]+d[1][3]) = min(6, 5+(−3)) = min(6, 2) = <strong>2</strong> → aggiorna! p[4][3] = p[1][3] = 1</li>
+            <li>Tutti gli altri: nessun miglioramento (∞ + qualcosa = ∞, o nessun vantaggio).</li>
+          </ul>
+          <div class="grid2">
+            <div>
+              <h4>D<sup>(1)</sup></h4>
+              <table>
+                <tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+                <tr><td><strong>1</strong></td><td>0</td><td>4</td><td>-3</td><td class="inf">∞</td></tr>
+                <tr><td><strong>2</strong></td><td>-3</td><td>0</td><td>-7</td><td class="inf">∞</td></tr>
+                <tr><td><strong>3</strong></td><td class="inf">∞</td><td>3</td><td>0</td><td class="inf">∞</td></tr>
+                <tr><td><strong>4</strong></td><td>5</td><td>6</td><td class="highlight">2</td><td>0</td></tr>
+              </table>
+            </div>
+            <div>
+              <h4>P<sup>(1)</sup></h4>
+              <table>
+                <tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+                <tr><td><strong>1</strong></td><td>—</td><td>1</td><td>1</td><td>—</td></tr>
+                <tr><td><strong>2</strong></td><td>2</td><td>—</td><td>2</td><td>—</td></tr>
+                <tr><td><strong>3</strong></td><td>—</td><td>3</td><td>—</td><td>—</td></tr>
+                <tr><td><strong>4</strong></td><td>4</td><td>4</td><td class="highlight">1</td><td>—</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <h4>Iterazione k=2 (nodo 2 come intermedio)</h4>
+          <p>Per ogni coppia (i,j): calcolo min(d_{ij}^(1), d_{i2}^(1) + d_{2j}^(1))</p>
+          <ul style="margin-left:18px;">
+            <li>d[3][1]: min(∞, d[3][2]+d[2][1]) = min(∞, 3+(−3)) = <strong>0</strong> → aggiorna!</li>
+            <li>d[3][3]: min(0, d[3][2]+d[2][3]) = min(0, 3+(−7)) = min(0, −4) = <strong>−4</strong> → aggiorna!</li>
+          </ul>
+          <div class="warn" style="margin:10px 0;">
+            <strong>⚠️ CICLO NEGATIVO RILEVATO!</strong><br>
+            d[3][3]^(2) = −4 &lt; 0 → esiste un ciclo negativo che passa per il nodo 3.<br>
+            <strong>Il ciclo è: 3 → 2 → 3</strong> con lunghezza d[3][2] + d[2][3] = 3 + (−7) = −4.<br>
+            L'algoritmo si arresta.
+          </div>
+
+          <h4>Analisi dei cicli negativi</h4>
+          <p>Prima di arrestarsi, possiamo identificare tutti i cicli negativi:</p>
+          <ul style="margin-left:18px;">
+            <li><strong>Ciclo 2→3→2:</strong> l(2,3) + l(3,2) = −7 + 3 = −4 &lt; 0 ✓</li>
+            <li>Questo ciclo coinvolge i nodi 2 e 3. Qualsiasi cammino che passa per questo ciclo ha costo −∞.</li>
+          </ul>
+
+          <h4>Conclusione</h4>
+          <p>Poiché esiste un ciclo negativo, i cammini minimi dal nodo 3 al nodo 1 e dal nodo 4 al nodo 2 non sono ben definiti (potrebbero essere −∞ se il ciclo negativo è raggiungibile dal nodo di partenza e può raggiungere il nodo di arrivo).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESEMPIO Floyd WARSHALL COMPLETO -->
+    <div class="exercise">
+      <div class="exercise-header">📝 Esercizio – Esecuzione completa Floyd-Warshall (grafo senza cicli negativi)</div>
+      <div class="exercise-body">
+        <p>Dato il grafo con 4 nodi e la seguente matrice iniziale (grafo senza cicli negativi), completare l'algoritmo e trovare tutti i cammini minimi.</p>
+        <table>
+          <tr><th>D<sup>(0)</sup></th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+          <tr><td><strong>1</strong></td><td>0</td><td>3</td><td class="inf">∞</td><td>7</td></tr>
+          <tr><td><strong>2</strong></td><td class="inf">∞</td><td>0</td><td>2</td><td class="inf">∞</td></tr>
+          <tr><td><strong>3</strong></td><td class="inf">∞</td><td class="inf">∞</td><td>0</td><td>1</td></tr>
+          <tr><td><strong>4</strong></td><td class="inf">∞</td><td class="inf">∞</td><td class="inf">∞</td><td>0</td></tr>
+        </table>
+      </div>
+      <div class="solution">
+        <div class="solution-header">✅ Soluzione passo-passo</div>
+        <div class="solution-body">
+          <h4>Archi presenti: (1,2)=3, (1,4)=7, (2,3)=2, (3,4)=1</h4>
+          <h4>k=1: nodo 1 intermedio</h4>
+          <p>Nessun aggiornamento (nessun nodo ha arco in entrata verso 1 con destinazione utile).</p>
+          <h4>k=2: nodo 2 intermedio</h4>
+          <ul style="margin-left:18px;">
+            <li>d[1][3]: min(∞, d[1][2]+d[2][3]) = min(∞, 3+2) = <strong>5</strong></li>
+          </ul>
+          <h4>k=3: nodo 3 intermedio</h4>
+          <ul style="margin-left:18px;">
+            <li>d[1][4]: min(7, d[1][3]+d[3][4]) = min(7, 5+1) = <strong>6</strong></li>
+            <li>d[2][4]: min(∞, d[2][3]+d[3][4]) = min(∞, 2+1) = <strong>3</strong></li>
+          </ul>
+          <h4>k=4: nodo 4 intermedio — nessun aggiornamento</h4>
+          <h4>Matrice finale D<sup>(4)</sup></h4>
+          <table>
+            <tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+            <tr><td><strong>1</strong></td><td>0</td><td>3</td><td>5</td><td>6</td></tr>
+            <tr><td><strong>2</strong></td><td class="inf">∞</td><td>0</td><td>2</td><td>3</td></tr>
+            <tr><td><strong>3</strong></td><td class="inf">∞</td><td class="inf">∞</td><td>0</td><td>1</td></tr>
+            <tr><td><strong>4</strong></td><td class="inf">∞</td><td class="inf">∞</td><td class="inf">∞</td><td>0</td></tr>
+          </table>
+          <p><strong>Cammini minimi:</strong> 1→2→3→4 (costo 6), 1→2→3 (costo 5), 2→3→4 (costo 3).</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== SEZIONE 9 ===================== -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <h2><span class="badge b9">9</span> Albero Ricoprente di Costo Minimo (MST)</h2>
+  </div>
+  <div class="section-body">
+
+    <h3>Definizione del problema</h3>
+    <div class="def">
+      <strong>Input:</strong> G = (V, A) grafo non orientato connesso con |V|=n, |A|=m. Ogni arco (i,j) ∈ A ha un costo c_{ij} ∈ ℝ.<br>
+      <strong>Output:</strong> Un albero ricoprente T = (V, A_T) con A_T ⊆ A, |A_T|=n−1, che minimizzi il costo totale <span class="formula">C(T) = Σ_{(i,j)∈A_T} c_{ij}</span>.
+    </div>
+
+    <h3>Applicazioni</h3>
+    <p>Il problema MST trova applicazioni in reti di trasporto (progettazione di reti stradali o ferroviarie), circuiti elettronici (collegamento di componenti), telecomunicazioni (reti in fibra ottica), cluster analysis in statistica, approssimazione del problema del commesso viaggiatore.</p>
+
+    <h3>Lemma fondamentale (Proprietà del taglio)</h3>
+    <div class="thm">
+      <strong>Lemma.</strong> Sia T* un MST di G = (V, A). Sia S ⊊ V un sottoinsieme di nodi, e sia (u,v) l'arco di costo minimo che attraversa il taglio (S, V∖S) (un arco con un estremo in S e l'altro in V∖S). Allora esiste un MST che contiene l'arco (u,v).
+    </div>
+    <p>Questo lemma è il fondamento di tutti gli algoritmi per MST: si aggiungono archi che attraversano un taglio con costo minimo.</p>
+
+    <h3>Algoritmo di Kruskal</h3>
+    <div class="def">
+      <strong>Idea:</strong> Ordina tutti gli archi per costo crescente. Aggiunge un arco al MST se non crea cicli. Usa una struttura Union-Find per verificare i cicli efficientemente.
+    </div>
+    <div class="algo">
+<span class="kw">Kruskal</span>(G, c):
+  A_T = {}  <span class="cmt">// insieme degli archi del MST</span>
+  Ordina A per costo crescente: e₁ ≤ e₂ ≤ … ≤ e_m
+  Inizializza Union-Find con n componenti (un nodo per componente)
+
+  <span class="kw">for</span> ogni arco e = (u,v) in ordine crescente:
+    <span class="kw">if</span> Find(u) ≠ Find(v):  <span class="cmt">// u e v sono in componenti diverse</span>
+      A_T = A_T ∪ {e}        <span class="cmt">// aggiungi l'arco</span>
+      Union(u, v)             <span class="cmt">// unisci le componenti</span>
+    <span class="kw">if</span> |A_T| == n-1: <span class="kw">break</span>
+
+  <span class="kw">return</span> T = (V, A_T)
+    </div>
+    <h4>Complessità di Kruskal</h4>
+    <p>Ordinamento: <span class="formula">O(m log m)</span>. Union-Find: quasi <span class="formula">O(m α(n))</span>. Totale: <span class="formula">O(m log m)</span>.</p>
+
+    <h3>Algoritmo di Prim</h3>
+    <div class="def">
+      <strong>Idea:</strong> Parte da un nodo e cresce l'albero un arco alla volta, scegliendo sempre l'arco di costo minimo che connette un nodo già nell'albero con uno fuori.
+    </div>
+    <div class="algo">
+<span class="kw">Prim</span>(G, c, s):
+  key[s] = <span class="num">0</span>;  key[v] = ∞ per v ≠ s
+  parent[v] = null per ogni v
+  T_nodes = {s}  <span class="cmt">// nodi nell'albero</span>
+
+  <span class="kw">while</span> T_nodes ≠ V:
+    <span class="cmt">// Trova arco minimo che esce dall'albero</span>
+    (u*, v*) = argmin { c[u][v] : u ∈ T_nodes, v ∉ T_nodes, (u,v)∈A }
+    T_nodes = T_nodes ∪ {v*}
+    A_T = A_T ∪ {(u*, v*)}
+    parent[v*] = u*
+
+  <span class="kw">return</span> T = (V, A_T)
+    </div>
+    <h4>Complessità di Prim</h4>
+    <p>Con array semplice: <span class="formula">O(n²)</span>. Con heap binario: <span class="formula">O((n+m) log n)</span>.</p>
+
+    <hr>
+    <!-- ESEMPIO MST -->
+    <h3>Esempio svolto – Algoritmo di Kruskal</h3>
+    <div class="graph-container">
+      <svg width="420" height="220" viewBox="0 0 420 220">
+        <line x1="70" y1="110" x2="175" y2="55" stroke="#bbb" stroke-width="2"/>
+        <line x1="70" y1="110" x2="175" y2="165" stroke="#bbb" stroke-width="2"/>
+        <line x1="175" y1="55" x2="280" y2="110" stroke="#bbb" stroke-width="2"/>
+        <line x1="175" y1="165" x2="280" y2="110" stroke="#bbb" stroke-width="2"/>
+        <line x1="280" y1="110" x2="375" y2="55" stroke="#bbb" stroke-width="2"/>
+        <line x1="280" y1="110" x2="375" y2="165" stroke="#bbb" stroke-width="2"/>
+        <line x1="175" y1="55" x2="175" y2="165" stroke="#bbb" stroke-width="2"/>
+        <line x1="375" y1="55" x2="375" y2="165" stroke="#bbb" stroke-width="2"/>
+        <!-- pesi -->
+        <text x="112" y="73" font-size="12" fill="#555">4</text>
+        <text x="112" y="148" font-size="12" fill="#555">2</text>
+        <text x="220" y="73" font-size="12" fill="#555">6</text>
+        <text x="220" y="155" font-size="12" fill="#555">3</text>
+        <text x="323" y="73" font-size="12" fill="#555">5</text>
+        <text x="323" y="155" font-size="12" fill="#555">1</text>
+        <text x="188" y="115" font-size="12" fill="#555">8</text>
+        <text x="383" y="115" font-size="12" fill="#555">7</text>
+        <!-- MST edges highlighted -->
+        <line x1="70" y1="110" x2="175" y2="165" stroke="#27ae60" stroke-width="3"/><!-- 2 -->
+        <line x1="175" y1="165" x2="280" y2="110" stroke="#27ae60" stroke-width="3"/><!-- 3 -->
+        <line x1="280" y1="110" x2="375" y2="165" stroke="#27ae60" stroke-width="3"/><!-- 1 -->
+        <line x1="70" y1="110" x2="175" y2="55" stroke="#27ae60" stroke-width="3"/><!-- 4 -->
+        <line x1="280" y1="110" x2="375" y2="55" stroke="#27ae60" stroke-width="3"/><!-- 5 -->
+        <!-- nodi -->
+        <circle cx="70" cy="110" r="16" fill="#2c3e50"/><text x="70" y="115" text-anchor="middle" fill="white" font-weight="bold" font-size="13">A</text>
+        <circle cx="175" cy="55" r="16" fill="#2c3e50"/><text x="175" y="60" text-anchor="middle" fill="white" font-weight="bold" font-size="13">B</text>
+        <circle cx="175" cy="165" r="16" fill="#2c3e50"/><text x="175" y="170" text-anchor="middle" fill="white" font-weight="bold" font-size="13">C</text>
+        <circle cx="280" cy="110" r="16" fill="#2c3e50"/><text x="280" y="115" text-anchor="middle" fill="white" font-weight="bold" font-size="13">D</text>
+        <circle cx="375" cy="55" r="16" fill="#2c3e50"/><text x="375" y="60" text-anchor="middle" fill="white" font-weight="bold" font-size="13">E</text>
+        <circle cx="375" cy="165" r="16" fill="#2c3e50"/><text x="375" y="170" text-anchor="middle" fill="white" font-weight="bold" font-size="13">F</text>
+        <text x="210" y="200" text-anchor="middle" fill="#27ae60" font-weight="bold" font-size="12">Archi MST in verde (costo tot. = 2+3+1+4+5 = 15)</text>
+      </svg>
+    </div>
+
+    <h4>Esecuzione Kruskal (archi ordinati per costo)</h4>
+    <table>
+      <tr><th>Passo</th><th>Arco</th><th>Costo</th><th>Aggiunto?</th><th>Motivo</th></tr>
+      <tr><td>1</td><td>(D,F)</td><td>1</td><td class="perm">✓ Sì</td><td>Connette componenti diverse</td></tr>
+      <tr><td>2</td><td>(A,C)</td><td>2</td><td class="perm">✓ Sì</td><td>Connette componenti diverse</td></tr>
+      <tr><td>3</td><td>(C,D)</td><td>3</td><td class="perm">✓ Sì</td><td>Connette componenti diverse</td></tr>
+      <tr><td>4</td><td>(A,B)</td><td>4</td><td class="perm">✓ Sì</td><td>Connette componenti diverse</td></tr>
+      <tr><td>5</td><td>(D,E)</td><td>5</td><td class="perm">✓ Sì</td><td>Connette componenti diverse</td></tr>
+      <tr><td>6</td><td>(B,D)</td><td>6</td><td style="background:#fde8e8!important">✗ No</td><td>Creerebbe ciclo B-C-D-B</td></tr>
+      <tr><td>7</td><td>(E,F)</td><td>7</td><td style="background:#fde8e8!important">✗ No</td><td>Creerebbe ciclo D-E-F-D</td></tr>
+    </table>
+    <p><strong>MST trovato:</strong> archi {(D,F),(A,C),(C,D),(A,B),(D,E)} — Costo totale = 1+2+3+4+5 = <strong>15</strong></p>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="text-align:center;padding:30px 0 10px;color:#aaa;font-size:.85rem;">
+  Guida generata per il corso <em>Metodi e Modelli per le Decisioni</em> – LM Ingegneria Gestionale<br>
+  Copre: Lezioni 1-7 · Esercizi 1-4 con soluzioni
+</div>
+
+</div><!-- /container -->
+
+<script>
+  // Smooth scroll per i link del TOC
+  document.querySelectorAll('#toc-list a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if(target) { target.scrollIntoView({behavior:'smooth', block:'start'}); }
+      document.getElementById('toc').removeAttribute('open');
+    });
+  });
+</script>
+</body>
+</html>

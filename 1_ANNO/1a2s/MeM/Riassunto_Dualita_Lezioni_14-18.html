@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dualità, Totale Unimodularità e Flussi — Lezioni 14–18</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  :root {
+    --bg: #f6f1e7; --bg-paper: #fdfaf3; --ink: #1a1a1a; --ink-soft: #4a4742; --ink-muted: #7a7670;
+    --accent: #8b2a1f; --accent-soft: #c9614f; --gold: #b88a3d; --blue: #2c4a6b; --green: #4a6b3a;
+    --rule: #d9cdb5; --paper-line: #e8dcc4;
+    --shadow: 0 1px 0 rgba(26,26,26,.04), 0 8px 24px rgba(26,26,26,.06);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 20px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  .layout { display: grid; grid-template-columns: 290px 1fr; max-width: 1440px; margin: 0 auto; gap: 0; }
+
+  aside.toc { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 36px 22px 40px 30px; border-right: 1px solid var(--rule); background: var(--bg); }
+  aside.toc h2 { font-family: 'Fraunces', serif; font-weight: 800; font-size: 21px; margin: 0 0 8px; line-height: 1.1; letter-spacing: -.01em; }
+  aside.toc .sub { font-family: 'Fraunces', serif; font-style: italic; font-size: 13px; color: var(--ink-muted); margin-bottom: 24px; border-bottom: 1px solid var(--rule); padding-bottom: 16px; }
+  aside.toc nav ul { list-style: none; padding: 0; margin: 0; }
+  aside.toc nav > ul > li { margin-bottom: 7px; }
+  aside.toc nav a { color: var(--ink-soft); text-decoration: none; font-size: 13.5px; display: block; padding: 3px 8px; border-left: 2px solid transparent; transition: all .15s ease; }
+  aside.toc nav a:hover { color: var(--accent); border-left-color: var(--accent); background: rgba(139,42,31,.04); }
+  aside.toc nav .group { font-family: 'Fraunces', serif; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--gold); margin: 20px 0 8px 8px; display: block; }
+
+  main { padding: 48px 64px 120px; max-width: 940px; }
+  .hero { margin-bottom: 48px; padding-bottom: 30px; border-bottom: 3px double var(--rule); }
+  .eyebrow { font-family: 'Fraunces', serif; font-style: italic; color: var(--accent); font-size: 15px; letter-spacing: .04em; margin-bottom: 8px; }
+  h1 { font-family: 'Fraunces', serif; font-weight: 800; font-size: 48px; line-height: 1.02; letter-spacing: -.02em; margin: 0 0 16px; }
+  h1 em { font-style: italic; color: var(--accent); font-weight: 400; }
+  .lede { font-family: 'Fraunces', serif; font-size: 18px; line-height: 1.5; color: var(--ink-soft); max-width: 66ch; }
+
+  .part-head { font-family: 'Fraunces', serif; font-weight: 800; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--bg-paper); background: var(--accent); display: inline-block; padding: 6px 16px; border-radius: 3px; margin: 80px 0 0; }
+
+  h2 { font-family: 'Fraunces', serif; font-weight: 800; font-size: 32px; line-height: 1.1; letter-spacing: -.015em; margin: 40px 0 8px; padding-top: 16px; border-top: 1px solid var(--rule); }
+  h2::before { content: attr(data-num); font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; color: var(--accent); font-size: 17px; display: block; margin-bottom: 6px; }
+  h3 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; line-height: 1.2; margin: 34px 0 10px; color: var(--ink); }
+  h4 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: .14em; color: var(--gold); margin: 22px 0 8px; }
+  p { margin: 0 0 14px; max-width: 74ch; }
+  strong { color: var(--accent); font-weight: 600; }
+  em.term { font-style: italic; color: var(--blue); font-weight: 500; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: .92em; background: rgba(139,42,31,.06); padding: 1px 6px; border-radius: 3px; color: var(--accent); }
+
+  .problem-card { background: var(--bg-paper); border: 1px solid var(--rule); border-radius: 4px; padding: 26px 32px; margin: 22px 0 36px; box-shadow: var(--shadow); position: relative; }
+  .problem-card::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: var(--accent); border-radius: 4px 0 0 4px; }
+
+  .block { margin: 16px 0; padding: 15px 20px; border-radius: 3px; font-size: 15px; }
+  .block .label { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .14em; margin-bottom: 8px; display: block; }
+  .block.vars { background: #eaf0e3; border-left: 4px solid var(--green); }
+  .block.vars .label { color: var(--green); }
+  .block.obj { background: #fbeede; border-left: 4px solid var(--gold); }
+  .block.obj .label { color: var(--gold); }
+  .block.constr { background: #e3ecf3; border-left: 4px solid var(--blue); }
+  .block.constr .label { color: var(--blue); }
+  .block.example { background: #fbf3d8; border-left: 4px solid #b88a3d; }
+  .block.example .label { color: #8a6520; }
+  .block ul, .block ol { margin: 6px 0; padding-left: 22px; }
+  .block li { margin-bottom: 4px; }
+
+  .callout { background: linear-gradient(0deg, rgba(139,42,31,.04), rgba(139,42,31,.04)), var(--bg-paper); border: 1px dashed var(--accent-soft); padding: 20px 24px; border-radius: 4px; margin: 20px 0; position: relative; }
+  .callout .tag { position: absolute; top: -10px; left: 16px; background: var(--accent); color: var(--bg-paper); font-family: 'Fraunces', serif; font-style: italic; font-size: 13px; padding: 2px 12px; border-radius: 3px; }
+
+  .recognize { background: var(--bg-paper); border: 1px solid var(--rule); padding: 18px 24px; border-radius: 4px; margin: 16px 0 24px; }
+  .recognize h4 { margin-top: 0; color: var(--accent); }
+
+  .logic-table { width: 100%; border-collapse: collapse; margin: 22px 0; font-size: 14.5px; background: var(--bg-paper); box-shadow: var(--shadow); }
+  .logic-table th { background: var(--ink); color: var(--bg-paper); font-family: 'Fraunces', serif; font-weight: 600; text-align: left; padding: 12px 16px; font-size: 14px; letter-spacing: .02em; }
+  .logic-table td { padding: 12px 16px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  .logic-table tr:last-child td { border-bottom: none; }
+  .logic-table tr:nth-child(even) td { background: rgba(217,205,181,.15); }
+  .logic-table td:first-child { font-weight: 500; color: var(--accent); width: 46%; }
+
+  .steps { counter-reset: step; padding: 0; list-style: none; margin: 18px 0; }
+  .steps > li { counter-increment: step; position: relative; padding: 8px 0 8px 50px; margin-bottom: 8px; }
+  .steps > li::before { content: counter(step); position: absolute; left: 0; top: 6px; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--bg-paper); font-family: 'Fraunces', serif; font-weight: 600; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+
+  .pill { display: inline-block; background: var(--bg); border: 1px solid var(--rule); padding: 3px 10px; border-radius: 12px; font-size: 13px; color: var(--ink-soft); margin: 2px 4px 2px 0; font-family: 'JetBrains Mono', monospace; }
+  .note { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--rule); font-size: 14px; color: var(--ink-muted); font-style: italic; }
+  hr.fancy { border: none; text-align: center; margin: 44px 0; }
+  hr.fancy::before { content: '\2766'; color: var(--accent); font-size: 22px; }
+
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 22px 0; }
+  .pair .problem-card { margin: 0; }
+  .glossary { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin: 18px 0 26px; }
+  .glossary div { background: var(--bg-paper); border: 1px solid var(--rule); border-radius: 4px; padding: 10px 14px; font-size: 14px; }
+  .glossary b { color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+
+  .chain { background: var(--bg-paper); border: 1px solid var(--rule); border-left: 4px solid var(--gold); border-radius: 3px; padding: 14px 20px; margin: 18px 0; overflow-x: auto; }
+
+  @media (max-width: 1000px) {
+    .layout { grid-template-columns: 1fr; }
+    aside.toc { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--rule); }
+    main { padding: 30px 22px 80px; }
+    h1 { font-size: 34px; }
+    h2 { font-size: 26px; }
+    .pair, .glossary { grid-template-columns: 1fr; }
+  }
+  @media print {
+    aside.toc { display: none; }
+    .layout { display: block; }
+    main { padding: 20px; max-width: 100%; }
+    .problem-card { break-inside: avoid; box-shadow: none; }
+    .part-head { break-before: page; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="toc">
+  <h2>Dualità & Interezza</h2>
+  <div class="sub">Ricerca Operativa · Lezioni 14–18</div>
+  <nav><ul>
+    <li><a href="#intro">Introduzione</a></li>
+    <li><a href="#glossario">Glossario dei simboli</a></li>
+
+    <span class="group">Parte I · Dualità nella PL</span>
+    <li><a href="#coppia">1. Coppia primale–duale</a></li>
+    <li><a href="#debole">2. Dualità debole</a></li>
+    <li><a href="#esempio">3. Esempio numerico svolto</a></li>
+    <li><a href="#conseguenze">4. Conseguenze</a></li>
+    <li><a href="#forte">5. Dualità forte</a></li>
+    <li><a href="#astratta">6. Dualità in forma astratta</a></li>
+    <li><a href="#costruire">7. Costruire un duale via rilassamento</a></li>
+
+    <span class="group">Parte II · Dualità combinatoria</span>
+    <li><a href="#matching">8. Accoppiamento e copertura</a></li>
+    <li><a href="#modelli-mc">9. I modelli PLI e i rilassamenti</a></li>
+
+    <span class="group">Parte III · Totale Unimodularità</span>
+    <li><a href="#interezza-dom">10. La domanda dell'interezza</a></li>
+    <li><a href="#tu-def">11. Matrici TU: definizione</a></li>
+    <li><a href="#tu-cond">12. Come riconoscere una TU</a></li>
+    <li><a href="#tu-grafi">13. Matrici TU dai grafi</a></li>
+    <li><a href="#teorema">14. Teorema di interezza</a></li>
+    <li><a href="#konig">15. Bipartiti: matching = copertura</a></li>
+
+    <span class="group">Parte IV · Problemi "facili"</span>
+    <li><a href="#flusso">16. Flusso di costo minimo</a></li>
+    <li><a href="#trasporto">17. Trasporto</a></li>
+    <li><a href="#assegnazione">18. Assegnazione</a></li>
+    <li><a href="#maxflow">19. Flusso di valore massimo</a></li>
+    <li><a href="#sintesi">20. Quadro d'insieme</a></li>
+  </ul></nav>
+</aside>
+<main>
+
+<section class="hero" id="intro">
+  <div class="eyebrow">Riassunto ragionato · dalla sezione "Richiami sulla dualità" (Lez. 14) alla Lez. 18</div>
+  <h1>Dualità, <em>interezza</em> e flussi su rete</h1>
+  <p class="lede">
+    Un unico filo conduttore lega queste cinque lezioni: la <em>dualità</em>. Si parte dalla dualità della
+    programmazione lineare (un problema di massimo "specchiato" in uno di minimo), la si generalizza a
+    qualunque problema di ottimizzazione, e la si usa come strumento per costruire <em>limiti</em> e
+    <em>certificati di ottimalità</em>. Poi ci si chiede: quando il rilassamento continuo restituisce
+    già una soluzione intera? La risposta è la <em>totale unimodularità</em>. Infine si scopre che una
+    grande famiglia di problemi (flussi, trasporto, assegnazione) è "facile" proprio per questo motivo.
+  </p>
+</section>
+
+<div class="callout">
+  <span class="tag">come leggere questo riassunto</span>
+  <p style="margin:0">
+    Le formule sono scritte in LaTeX e renderizzate da MathJax: aprendo il file in un browser le vedi formattate.
+    Ogni concetto degli appunti è ripreso e spiegato passo per passo, con esempi numerici (alcuni presi dalle lezioni,
+    altri aggiunti per chiarezza). I riquadri colorati distinguono <strong>definizioni</strong>, <strong>esempi</strong>,
+    <strong>teoremi</strong> e <strong>intuizioni</strong>.
+  </p>
+</div>
+
+<h2 id="glossario" data-num="§ 0">Glossario dei simboli</h2>
+<p>Le abbreviazioni qui sotto compaiono di continuo negli appunti. Tienile a portata di mano.</p>
+<div class="glossary">
+  <div><b>SA</b> — Soluzione Ammissibile: un punto che rispetta <em>tutti</em> i vincoli (non per forza il migliore).</div>
+  <div><b>SO</b> — Soluzione Ottima: la SA che dà il valore migliore dell'obiettivo.</div>
+  <div><b>SBA</b> — Soluzione di Base Ammissibile: un <em>vertice</em> della regione ammissibile.</div>
+  <div><b>(P) / (D)</b> — problema Primale / Duale.</div>
+  <div><b>(PI) / (PL)</b> — Programma Intero / sua versione rilassata (Programma Lineare).</div>
+  <div><b>$z^\ast,\,w^\ast$</b> — valore ottimo del primale / del duale.</div>
+  <div><b>TU</b> — matrice Totalmente Unimodulare (vedi Parte III).</div>
+  <div><b>$c^{\!\top}x$</b> — somma compatta $c_1x_1+\dots+c_nx_n$ ("T" = trasposto).</div>
+</div>
+
+<div class="part-head">Parte I — Dualità nella programmazione lineare</div>
+
+<h2 id="coppia" data-num="§ 1">La coppia primale–duale</h2>
+<p>
+  Il punto di partenza (Lezione 14, "Richiami sulla dualità") è un problema di PL scritto nella sua
+  <strong>forma standard di massimo</strong>: lo chiamiamo <em class="term">primale</em>, $(P)$. Ad esso si associa
+  automaticamente un secondo problema, il <em class="term">duale</em> $(D)$, che è un problema di minimo.
+</p>
+
+<div class="pair">
+  <div class="problem-card">
+    <div class="block obj"><span class="label">Primale (P)</span>$$ z^\ast=\max\; z=c^{\!\top}x $$</div>
+    <div class="block constr"><span class="label">soggetto a</span>
+      $$ Ax \le b, \qquad x \ge 0 $$
+      <p class="note" style="font-style:normal;color:var(--ink-soft);">$x\in\mathbb{R}^n$ · $A\in M_{m\times n}$ · $c\in\mathbb{R}^n$ · $b\in\mathbb{R}^m$</p>
+    </div>
+  </div>
+  <div class="problem-card">
+    <div class="block obj"><span class="label">Duale (D)</span>$$ w^\ast=\min\; w=b^{\!\top}y $$</div>
+    <div class="block constr"><span class="label">soggetto a</span>
+      $$ A^{\!\top}y \ge c, \qquad y \ge 0 $$
+      <p class="note" style="font-style:normal;color:var(--ink-soft);">$y\in\mathbb{R}^m$ — una variabile duale per <em>ogni</em> vincolo del primale.</p>
+    </div>
+  </div>
+</div>
+
+<p>
+  La cosa cruciale, e dove ci si confonde, sono le dimensioni. Il primale ha <strong>$n$ variabili</strong> e
+  <strong>$m$ vincoli</strong>; il duale <strong>ribalta</strong> tutto: ha <strong>$m$ variabili</strong> (una per
+  ogni vincolo primale) e <strong>$n$ vincoli</strong> (uno per ogni variabile primale). Gli appunti dicono che
+  $(P)$ e $(D)$ formano un <strong>accoppiamento primale–duale in forma simmetrica</strong>: "simmetrica" perché la
+  regola è speculare — <em>max</em> con "$\le$" e variabili "$\ge 0$" da una parte, <em>min</em> con "$\ge$" e
+  variabili "$\ge 0$" dall'altra — e perché il duale del duale è di nuovo il primale.
+</p>
+
+<h3>La ricetta per costruire il duale</h3>
+<table class="logic-table">
+  <thead><tr><th>Nel Primale (P) — max</th><th>diventa nel Duale (D) — min</th></tr></thead>
+  <tbody>
+    <tr><td>$n$ variabili $x_j\ge 0$</td><td>$n$ vincoli $A^{\!\top}y \ge c$</td></tr>
+    <tr><td>$m$ vincoli $Ax \le b$</td><td>$m$ variabili $y_i \ge 0$</td></tr>
+    <tr><td>coefficienti obiettivo $c$</td><td>termini noti dei vincoli</td></tr>
+    <tr><td>termini noti $b$</td><td>coefficienti obiettivo</td></tr>
+    <tr><td>matrice $A$</td><td>matrice trasposta $A^{\!\top}$</td></tr>
+  </tbody>
+</table>
+<p>In pratica: $b$ e $c$ si <strong>scambiano di ruolo</strong> e la matrice $A$ viene <strong>trasposta</strong>. Le variabili duali $y_i$ hanno un significato concreto: sono i <em class="term">prezzi ombra</em>, cioè quanto "vale" rilassare di un'unità l'$i$-esimo vincolo del primale.</p>
+
+<h2 id="debole" data-num="§ 2">Dualità debole</h2>
+<p>È la prima delle due proprietà fondamentali. A parole: <strong>qualunque</strong> soluzione ammissibile del primale vale sempre $\le$ di <strong>qualunque</strong> soluzione ammissibile del duale.</p>
+<div class="problem-card">
+  <div class="block obj"><span class="label">Proprietà di dualità debole</span>
+    <p style="margin:0 0 8px">Per ogni $x$ SA di $(P)$ e ogni $y$ SA di $(D)$:</p>
+    $$ z(x)=c^{\!\top}x \;\le\; b^{\!\top}y = w(y) $$
+  </div>
+</div>
+
+<h3>Dimostrazione in tre passi</h3>
+<ol class="steps">
+  <li><strong>Uso il vincolo del duale</strong> ($A^{\!\top}y\ge c$, cioè $c\le A^{\!\top}y$) e moltiplico per $x\ge 0$:
+    $$ c^{\!\top}x \;\le\; (A^{\!\top}y)^{\!\top}x = y^{\!\top}Ax. $$</li>
+  <li><strong>Uso il vincolo del primale</strong> ($Ax\le b$) e moltiplico per $y\ge 0$:
+    $$ y^{\!\top}Ax \;\le\; y^{\!\top}b = b^{\!\top}y. $$</li>
+  <li><strong>Concateno</strong>: $\;c^{\!\top}x \le y^{\!\top}Ax \le b^{\!\top}y$, cioè $z(x)\le w(y)$. &nbsp;∎</li>
+</ol>
+
+<h3>Le tre osservazioni degli appunti</h3>
+<div class="block constr"><span class="label">Conseguenze immediate</span>
+  <ol style="margin:6px 0; padding-left:22px;">
+    <li><strong>$z^\ast \le b^{\!\top}y$</strong> per ogni $y$ SA di $(D)$ — ogni soluzione duale è un <em>tetto</em> per il primale.</li>
+    <li><strong>$w^\ast \ge c^{\!\top}x$</strong> per ogni $x$ SA di $(P)$ — ogni soluzione primale è un <em>pavimento</em> per il duale.</li>
+    <li><strong>$z^\ast \le w^\ast$</strong> — il valore ottimo del primale non supera mai quello del duale.</li>
+  </ol>
+</div>
+<div class="callout"><span class="tag">l'immagine da ricordare</span>
+  <p style="margin:0">Due squadre spingono da lati opposti: il primale (max) spinge il valore <strong>verso l'alto</strong>, il duale (min) lo spinge <strong>verso il basso</strong>. La dualità debole garantisce che chi spinge dal basso non superi mai chi spinge dall'alto: l'ottimo resta schiacciato in mezzo. Più ci si avvicina, più la morsa si stringe.</p>
+</div>
+
+<h2 id="esempio" data-num="§ 3">Esempio numerico svolto</h2>
+<p>Mettiamo tutto alla prova con un piccolo problema a due variabili: lo risolviamo, ne costruiamo il duale, verifichiamo la dualità debole e vediamo "chiudersi la morsa" (anticipo della dualità forte).</p>
+
+<div class="problem-card">
+  <div class="block obj"><span class="label">(P) — massimizza il profitto</span>$$ \max\; z = 3x_1 + 5x_2 $$</div>
+  <div class="block constr"><span class="label">vincoli</span>
+    $$ x_1 \le 4 \;\;(\text{v.1}) \qquad 2x_2 \le 12 \;\;(\text{v.2}) \qquad 3x_1 + 2x_2 \le 18 \;\;(\text{v.3}) $$
+    $$ x_1,\,x_2 \ge 0 $$
+  </div>
+</div>
+<p>Qui $n=2$, $m=3$, con $c=(3,5)^{\!\top}$, $b=(4,12,18)^{\!\top}$ e $A=\left(\begin{smallmatrix}1&0\\0&2\\3&2\end{smallmatrix}\right)$. Esaminando i vertici si trova l'ottimo in $x^\ast=(2,6)$ con $z^\ast = 3\cdot2+5\cdot6 = 36$. Nel punto ottimo i vincoli 2 e 3 sono <em>saturi</em>; il vincolo 1 "avanza" ($x_1=2<4$).</p>
+
+<h3>Costruisco il duale</h3>
+<p>$m=3$ variabili duali $y_1,y_2,y_3$ e $n=2$ vincoli; scambio $b\leftrightarrow c$ e traspongo $A$ (così $A^{\!\top}=\left(\begin{smallmatrix}1&0&3\\0&2&2\end{smallmatrix}\right)$):</p>
+<div class="problem-card">
+  <div class="block obj"><span class="label">(D)</span>$$ \min\; w = 4y_1 + 12y_2 + 18y_3 $$</div>
+  <div class="block constr"><span class="label">vincoli</span>
+    $$ y_1 + 3y_3 \ge 3 \quad(\text{da }x_1) \qquad 2y_2 + 2y_3 \ge 5 \quad(\text{da }x_2) $$
+    $$ y_1,\,y_2,\,y_3 \ge 0 $$
+  </div>
+</div>
+
+<h3>Verifico la dualità debole</h3>
+<div class="block example"><span class="label">punto primale ammissibile</span>
+  <p style="margin:0">$x=(4,3)$: $4\le4$ ✓, $6\le12$ ✓, $18\le18$ ✓. Vale $z(x)=12+15=\mathbf{27}$.</p>
+</div>
+<div class="block example"><span class="label">punto duale ammissibile</span>
+  <p style="margin:0">$y=(3,\,2{.}5,\,0)$: $3\ge3$ ✓, $5\ge5$ ✓. Vale $w(y)=12+30+0=\mathbf{42}$.</p>
+</div>
+<p>La dualità debole è rispettata: $27 \le 42$. E l'ottimo è incastrato fra i due: $27 \le z^\ast=w^\ast \le 42$.</p>
+
+<h3>La morsa si chiude</h3>
+<p>Poiché il vincolo 1 "avanza", il suo prezzo ombra è nullo ($y_1=0$); all'ottimo i due vincoli duali valgono con l'uguale, da cui $y_3=1$ e $y_2=1{.}5$. Allora $y^\ast=(0,\,1{.}5,\,1)$ e $w^\ast=0+18+18=36$.</p>
+<div class="callout"><span class="tag">ed ecco la magia</span>
+  <p style="margin:0">$z^\ast = 36 = w^\ast$: i due valori ottimi <strong>coincidono</strong>, non resta spazio fra pavimento e tetto. Non è fortuna: è la <a href="#forte">dualità forte</a>.</p>
+</div>
+
+<h2 id="conseguenze" data-num="§ 4">Conseguenze della dualità debole</h2>
+
+<h3>a) Condizione sufficiente di ottimalità (il certificato)</h3>
+<div class="problem-card">
+  <p style="margin:0 0 6px">Siano $\hat{x}$ SA di $(P)$ e $\hat{y}$ SA di $(D)$. Se i loro valori obiettivo coincidono,</p>
+  $$ c^{\!\top}\hat{x} = b^{\!\top}\hat{y}, $$
+  <p style="margin:8px 0 0">allora <strong>(a)</strong> $\hat{x}$ è ottima per $(P)$ <em>e</em> <strong>(b)</strong> $\hat{y}$ è ottima per $(D)$.</p>
+</div>
+<p>Perché funziona: per dualità debole $c^{\!\top}\hat{x}\le z^\ast \le w^\ast \le b^{\!\top}\hat{y}$; se le estremità sono uguali la catena collassa, e $\hat{x},\hat{y}$ devono già stare all'ottimo. È un <strong>certificato di ottimalità</strong>: la sola coincidenza dei valori <em>dimostra</em> l'ottimalità, senza rifare i conti. Nell'esempio della §3: $x^\ast=(2,6)$ dà $36$ e $y^\ast=(0,1{.}5,1)$ dà $36$ → ottimalità certificata.</p>
+
+<h3>b) Illimitatezza</h3>
+<div class="block constr"><span class="label">implicazioni dell'illimitatezza</span>
+  <ul style="margin:6px 0; padding-left:22px;">
+    <li>$(P)$ <strong>illimitato</strong> (max $\to+\infty$) $\Rightarrow$ $(D)$ <strong>inammissibile</strong>.</li>
+    <li>$(D)$ <strong>illimitato</strong> (min $\to-\infty$) $\Rightarrow$ $(P)$ <strong>inammissibile</strong>.</li>
+  </ul>
+</div>
+<p>Segue dalla dualità debole: se esistesse una soluzione duale ammissibile, farebbe da tetto finito al primale, che quindi non potrebbe correre all'infinito (e viceversa).</p>
+
+<h3>c) Esistenza congiunta</h3>
+<p>Se <strong>$(P)$ e $(D)$ sono entrambi ammissibili</strong>, allora entrambi ammettono soluzione ottima. (Ciascuno limita l'altro: il primale non può divergere perché il duale lo "tetta", e viceversa.)</p>
+
+<h2 id="forte" data-num="§ 5">Dualità forte</h2>
+<div class="problem-card">
+  <div class="block obj"><span class="label">Proprietà di dualità forte (PL)</span>
+    <p style="margin:0 0 6px">Se $(P)$ — risp. $(D)$ — ammette soluzione ottima, allora anche $(D)$ — risp. $(P)$ — la ammette, e i valori ottimi <strong>coincidono</strong>:</p>
+    $$ z^\ast = c^{\!\top}x^\ast = b^{\!\top}y^\ast = w^\ast. $$
+  </div>
+</div>
+<p>
+  Mentre la dualità debole dà solo $z^\ast\le w^\ast$ (una disuguaglianza, valida sempre), la dualità forte dice che
+  nella PL <strong>non c'è alcun "gap"</strong>: la morsa si chiude perfettamente. È un fatto specifico della
+  programmazione lineare. Come vedremo, nella programmazione <em>intera</em> il gap può invece restare aperto — ed è
+  proprio lì che nascono le difficoltà (e le idee belle) delle lezioni successive.
+</p>
+
+<h2 id="astratta" data-num="§ 6">Dualità in forma astratta</h2>
+<p>
+  La Lezione 15 generalizza l'idea: la dualità non riguarda solo la PL, ma <em>qualunque</em> coppia di problemi di
+  ottimizzazione. Siano
+  $$ (P)\;\; z^\ast=\max\{c(x): x\in X\}, \qquad (D)\;\; w^\ast=\min\{b(u): u\in U\}. $$
+</p>
+<div class="recognize"><h4>Definizioni</h4>
+  <p style="margin:0">
+    $(D)$ si dice <strong>duale debole</strong> di $(P)$ se $\;c(x)\le b(u)\;$ per ogni $x\in X$ e ogni $u\in U$.
+    La coppia è allora detta <strong>coppia in dualità debole</strong>. Se inoltre $z^\ast=w^\ast$, $(D)$ si dice
+    <strong>duale forte</strong> di $(P)$.
+  </p>
+</div>
+<p>Valgono le stesse proprietà viste prima: $c(x)\le w^\ast$, $z^\ast\le b(u)$, $z^\ast\le w^\ast$; l'illimitatezza di uno rende l'altro inammissibile; e il <strong>criterio di ottimalità</strong>:</p>
+<div class="problem-card">
+  <p style="margin:0 0 6px"><strong>Criterio di ottimalità.</strong> Se $\hat{x}\in X$, $\hat{u}\in U$ e $c(\hat{x})=b(\hat{u})$, allora $\hat{x}$ è ottima per $(P)$ e $\hat{u}$ è ottima per $(D)$.</p>
+  <p class="note">Dim.: per ogni $x\in X$, $\;c(\hat{x})\overset{\text{ip.}}{=}b(\hat{u})\overset{\text{d.deb.}}{\ge}c(x)$, dunque $\hat{x}$ è ottima. Specularmente per $\hat{u}$.</p>
+</div>
+
+<h2 id="costruire" data-num="§ 7">Costruire un duale via rilassamento lineare</h2>
+<p>
+  Ecco l'idea-ponte fra la dualità della PL e la programmazione intera. Si parte da un programma intero e si vuole
+  costruirgli un "duale" utile, cioè qualcosa che gli faccia da tetto. Lo strumento è il <strong>rilassamento
+  lineare</strong> combinato con la <strong>dualità della PL</strong>.
+</p>
+<div class="problem-card">
+  <p style="margin:0 0 8px"><strong>(PI)</strong> &nbsp; $z^\ast_{PI}=\max\{c^{\!\top}x : Ax\le b,\; x\ge 0,\; x\in\mathbb{Z}^n\}$.</p>
+  <p style="margin:0 0 8px"><strong>(PL)</strong> &nbsp; rilassamento lineare: si toglie il vincolo di interezza → $\max\{c^{\!\top}x : Ax\le b,\; x\ge 0\}$.</p>
+  <p style="margin:0"><strong>(DPL)</strong> &nbsp; duale del rilassamento: $\min\{b^{\!\top}y : A^{\!\top}y\ge c,\; y\ge 0\}$.</p>
+</div>
+<p><strong>Conclusione.</strong> $(PI)$ e $(DPL)$ formano una coppia di problemi in <em>dualità debole</em>. La giustificazione è una catena di disuguaglianze che merita di essere capita bene:</p>
+<div class="chain">
+  $$ z_{PI}(x)\;\le\;\underbrace{z^\ast_{PI}\;\le\;z^\ast_{PL}}_{\text{rilassamento}}\;\underbrace{=}_{\text{dualità FORTE PL}}\;w^\ast_{PL}\;\le\;w_{PL}(y) $$
+</div>
+<p>
+  da sinistra: ogni soluzione intera ammissibile $\le$ l'ottimo intero $\le$ l'ottimo del rilassamento (è più
+  permissivo) $=$ l'ottimo del suo duale (dualità forte nella PL) $\le$ ogni soluzione duale ammissibile. Quindi
+  <strong>ogni</strong> soluzione di $(DPL)$ è un tetto per $(PI)$.
+</p>
+
+<h3>Esempio 1 — dualità forte (gap nullo)</h3>
+<div class="block example"><span class="label">il caso fortunato</span>
+  <p style="margin:0 0 6px">$(PI)$: $\max x_1+x_2$, con $x_1+x_2\le 1$, $x_1,x_2\ge 0$ interi. L'ottimo intero è $z^\ast_{PI}=1$.</p>
+  <p style="margin:0 0 6px">$(PL)$: stesso problema senza interezza → $z^\ast_{PL}=1$. Duale $(DPL)$: $\min y$ con $y\ge 1,\,y\ge 1,\,y\ge0$ → $w^\ast_{PL}=1$.</p>
+  <p style="margin:0">Risultato: $z^\ast_{PI}=1=w^\ast_{PL}$. Qui $(PI)$ e $(DPL)$ sono perfino in <strong>dualità forte</strong>.</p>
+</div>
+
+<h3>Esempio 2 — solo dualità debole (gap aperto)</h3>
+<div class="block example"><span class="label">quando resta un buco</span>
+  <p style="margin:0 0 6px">$(PI)$: $\max x_1+x_2$, con $\tfrac{3}{2}x_1+x_2\le \tfrac{3}{2}$, $x_1,x_2\ge 0$ interi. L'ottimo intero è $z^\ast_{PI}=1$.</p>
+  <p style="margin:0 0 6px">$(PL)$: il rilassamento arriva fino a $z^\ast_{PL}=\tfrac{3}{2}$, e $w^\ast_{PL}=\tfrac{3}{2}$.</p>
+  <p style="margin:0">Risultato: $z^\ast_{PI}=1 \;<\; \tfrac{3}{2}=w^\ast_{PL}$. Resta un <strong>gap di integralità</strong>: la coppia è solo in dualità debole.</p>
+</div>
+<div class="callout"><span class="tag">la domanda che apre la Parte III</span>
+  <p style="margin:0">Perché nell'esempio 1 il gap è nullo e nell'esempio 2 no? Cosa rende un programma intero "facile" come fosse un PL? La risposta — la <strong>totale unimodularità</strong> — è il cuore delle Lezioni 16–18.</p>
+</div>
+
+<div class="part-head">Parte II — Dualità combinatoria: accoppiamento e copertura</div>
+
+<h2 id="matching" data-num="§ 8">Accoppiamento e copertura per nodi</h2>
+<p>Un esempio splendido di dualità che <em>non</em> è PL ma combinatoria. Sia $G=(V,A)$ un grafo non orientato.</p>
+<div class="pair">
+  <div class="problem-card">
+    <h3 style="margin-top:0">Accoppiamento (matching)</h3>
+    <p style="margin:0">Un <em class="term">accoppiamento</em> (o abbinamento) è un sottoinsieme $M\subseteq A$ di archi <strong>disgiunti</strong>, cioè senza nodi in comune.</p>
+    <p style="margin:8px 0 0"><strong>PB1:</strong> trovare un accoppiamento di <strong>cardinalità massima</strong>.</p>
+  </div>
+  <div class="problem-card">
+    <h3 style="margin-top:0">Copertura per nodi (vertex cover)</h3>
+    <p style="margin:0">Una <em class="term">copertura per nodi</em> è un sottoinsieme $R\subseteq V$ tale che <strong>ogni arco</strong> di $G$ ha almeno un estremo in $R$.</p>
+    <p style="margin:8px 0 0"><strong>PB2:</strong> trovare una copertura di <strong>cardinalità minima</strong>.</p>
+  </div>
+</div>
+
+<div class="problem-card">
+  <div class="block obj"><span class="label">PB1 e PB2 sono in dualità debole</span>
+    $$ |M| \;\le\; |R| \qquad \text{(per ogni accoppiamento } M \text{ e ogni copertura } R). $$
+  </div>
+  <p class="note">Dim.: in un accoppiamento $M=\{(i_1,j_1),\dots,(i_k,j_k)\}$ i $2k$ estremi sono tutti distinti. Per coprire questi $k$ archi disgiunti, una qualunque copertura $R$ deve contenere <strong>almeno un nodo per arco</strong>, quindi almeno $k$ nodi: $|R|\ge k=|M|$.</p>
+</div>
+
+<div class="block example"><span class="label">esempio · il triangolo</span>
+  <p style="margin:0">Grafo a 3 nodi $\{1,2,3\}$ con i 3 lati. L'accoppiamento massimo prende un solo lato: $|M^\ast|=1$. La copertura minima ha bisogno di 2 nodi (un solo nodo lascia scoperto il lato opposto): $|R^\ast|=2$. Dunque $1<2$: qui la dualità è <strong>debole ma non forte</strong> — c'è un gap di $1$.</p>
+</div>
+
+<h2 id="modelli-mc" data-num="§ 9">I modelli PLI e i loro rilassamenti</h2>
+<p>
+  Per trasformare questi problemi in modelli serve la <em class="term">matrice di incidenza nodi–archi</em> $A=(a_{ie})$:
+  vale $a_{ie}=1$ se il nodo $i$ è estremo dell'arco $e$, altrimenti $0$. Con essa si legge il matching come un
+  <strong>impaccamento</strong> (gli archi impaccano i nodi: ogni nodo toccato al più una volta) e la copertura come una
+  <strong>copertura astratta</strong> (i nodi coprono gli archi).
+</p>
+
+<div class="pair">
+  <div class="problem-card">
+    <div class="block obj"><span class="label">(PI1) matching</span>$$ z^\ast_{PI}=\max\; e^{\!\top}x $$</div>
+    <div class="block constr"><span class="label">vincoli</span>
+      $$ Ax\le e, \qquad x\in\{0,1\}^m $$
+      <p class="note" style="font-style:normal;">$e$ = vettore di tutti $1$. Ogni nodo coperto al più una volta: $\sum_e a_{ie}x_e\le 1$.</p>
+    </div>
+  </div>
+  <div class="problem-card">
+    <div class="block obj"><span class="label">(PI2) copertura</span>$$ w^\ast_{PI}=\min\; e^{\!\top}y $$</div>
+    <div class="block constr"><span class="label">vincoli</span>
+      $$ A^{\!\top}y\ge e, \qquad y\in\{0,1\}^n $$
+      <p class="note" style="font-style:normal;">Ogni arco coperto da almeno un nodo.</p>
+    </div>
+  </div>
+</div>
+
+<p>Rilassando l'interezza si ottengono <strong>(PL1)</strong> $\max\{e^{\!\top}x: Ax\le e,\,x\ge0\}$ e <strong>(PL2)</strong> $\min\{e^{\!\top}y: A^{\!\top}y\ge e,\,y\ge0\}$. Osservazione chiave: <strong>(PL1) e (PL2) sono esattamente una coppia primale–duale nella PL</strong> (confronta con la §1: stessa matrice $A$, ruoli scambiati di $b=e$ e $c=e$). Quindi tra loro vale la dualità forte. Si ottiene la catena:</p>
+<div class="chain">
+  $$ z_{PI}\;\le\;z^\ast_{PI}\;\le\;\underbrace{z^\ast_{PL}}_{(PL1)}\;\underbrace{=}_{\text{forte PL}}\;\underbrace{w^\ast_{PL}}_{(PL2)}\;\le\;w^\ast_{PI}\;\le\;w_{PI} $$
+</div>
+<p>
+  In generale rimane $z^\ast_{PI}\le w^\ast_{PI}$ (dualità debole tra matching e copertura, come nel triangolo). Ma se i
+  due rilassamenti danno valori interi, la morsa si chiude del tutto. Quando succede? Quando la matrice $A$ è
+  <strong>totalmente unimodulare</strong> — ed è qui che entra la Parte III.
+</p>
+
+<div class="part-head">Parte III — Quando il rilassamento è intero: totale unimodularità</div>
+
+<h2 id="interezza-dom" data-num="§ 10">La domanda dell'interezza</h2>
+<p>
+  Riprendiamo $(PL)\;\max\{c^{\!\top}x : Ax=b,\,x\ge0\}$ con $A\in M_{m\times n}(\mathbb{Z})$, rango $m$. Sappiamo
+  (algoritmo del simplesso) che l'ottimo, se esiste, sta in un <strong>vertice</strong>, cioè in una SBA. La domanda è:
+  sotto quali ipotesi su $A$ questo vertice è <strong>automaticamente intero</strong>? Se lo fosse, il programma intero
+  si risolverebbe come un semplice PL.
+</p>
+<p>
+  Una SBA si costruisce scegliendo una <em>base</em> $B=[A^{j_1},\dots,A^{j_m}]$, cioè $m$ colonne di $A$ linearmente
+  indipendenti ($\det B\neq 0$). Le variabili $x_{j_1},\dots,x_{j_m}$ sono <em class="term">basiche</em>, le altre
+  <em class="term">non basiche</em> (poste a $0$). La SBA è
+  $$ \hat{x}=\begin{pmatrix} B^{-1}b \\ 0 \end{pmatrix}. $$
+</p>
+<div class="problem-card">
+  <p style="margin:0 0 6px">Quando sono interi i componenti di $B^{-1}b$? Dalla formula dell'inversa
+  $$ B^{-1}=\frac{1}{\det B}\,\big((-1)^{i+j}\det B_{ji}\big) $$
+  i cofattori $\det B_{ji}$ sono interi (perché $A$ è intera), e $b$ è intero. L'unico ostacolo è il denominatore.</p>
+  <p style="margin:8px 0 0"><strong>Se $\det B=\pm 1$, allora $\hat{x}$ ha componenti intere.</strong> Da qui nasce l'idea di chiedere che <em>ogni</em> base abbia determinante $\pm1$.</p>
+</div>
+
+<h2 id="tu-def" data-num="§ 11">Matrici totalmente unimodulari</h2>
+<div class="problem-card">
+  <div class="block obj"><span class="label">Definizione</span>
+    <p style="margin:0">Una matrice intera $A$ si dice <strong>totalmente unimodulare (TU)</strong> se <em>ogni sua sottomatrice quadrata</em> ha determinante in $\{0,1,-1\}$.</p>
+  </div>
+  <p class="note">Conseguenza immediata (sottomatrici $1\times1$): se $A$ è TU allora $a_{ij}\in\{0,1,-1\}$ per ogni $i,j$. Attenzione: il viceversa è falso (avere solo entrate $0,\pm1$ non basta).</p>
+</div>
+<p>
+  Il punto è che se $A$ è TU, allora <strong>ogni</strong> base $B$ (sottomatrice quadrata invertibile) ha
+  $\det B=\pm1$, quindi <strong>tutti</strong> i vertici sono interi. Risultato (Lez. 16): se $A$ è TU, il
+  $(PL)\;\max\{c^{\!\top}x: Ax=b,\,x\ge0\}$ ammette una SBA ottima intera, per ogni $b\in\mathbb{Z}^m$ per cui esiste
+  l'ottimo.
+</p>
+<div class="block example"><span class="label">esempio · non è TU</span>
+  <p style="margin:0">La matrice di incidenza del triangolo non orientato è $A=\left(\begin{smallmatrix}0&1&1\\1&0&1\\1&1&0\end{smallmatrix}\right)$, con $\det A=2\notin\{0,\pm1\}$: <strong>non</strong> è TU. È esattamente il motivo per cui il triangolo aveva il gap matching/copertura ($1<2$).</p>
+</div>
+
+<h2 id="tu-cond" data-num="§ 12">Come riconoscere una matrice TU</h2>
+<h3>Proprietà di equivalenza</h3>
+<p>La TU si conserva sotto molte operazioni. Sono equivalenti: $A$ è TU $\Leftrightarrow$ $A^{\!\top}$ è TU $\Leftrightarrow$ $-A$ è TU $\Leftrightarrow$ $[A\,|\,A]$ è TU $\Leftrightarrow$ $[A\,|\,I_m]$ è TU $\Leftrightarrow$ $[A\,|\,{-}A]$ è TU $\Leftrightarrow$ $\left[\frac{A}{I_n}\right]$ è TU $\Leftrightarrow$ $\left[\frac{A}{-I_n}\right]$ è TU. (Aggiungere righe/colonne identità o duplicare/cambiare segno non rompe la TU.)</p>
+
+<h3>Condizioni sufficienti</h3>
+<div class="problem-card">
+  <p style="margin:0 0 6px">Una matrice $A=(a_{ij})$ è TU se valgono <strong>tutte e tre</strong>:</p>
+  <ol style="margin:0; padding-left:22px;">
+    <li>$a_{ij}\in\{0,1,-1\}$ per ogni $i,j$;</li>
+    <li>ogni <strong>colonna</strong> contiene al più <strong>due</strong> coefficienti non nulli;</li>
+    <li>l'insieme delle righe si può partizionare in $M_1$ e $M_2$ ($M=M_1\cup M_2$, $M_1\cap M_2=\varnothing$) tale che, per ogni colonna con due coefficienti non nulli:
+      <ul>
+        <li><strong>(3.1)</strong> se i due hanno segno <em>concorde</em>, le loro righe stanno in insiemi <strong>diversi</strong> della partizione;</li>
+        <li><strong>(3.2)</strong> se hanno segno <em>discorde</em>, le loro righe stanno nello <strong>stesso</strong> insieme.</li>
+      </ul>
+    </li>
+  </ol>
+  <p class="note">Sono <em>sufficienti</em>, non necessarie: esistono matrici TU che non le soddisfano (come $A^{\!\top}$ di certi esempi della Lez. 16). Per verificare conviene allora controllare se le soddisfa $A$ <em>oppure</em> $A^{\!\top}$, dato che $A$ TU $\Leftrightarrow A^{\!\top}$ TU.</p>
+</div>
+
+<h2 id="tu-grafi" data-num="§ 13">Dove nascono le matrici TU: i grafi</h2>
+<p>Le condizioni sufficienti hanno tre conseguenze fondamentali, che sono il vero "catalogo" di matrici TU usato negli esercizi.</p>
+<table class="logic-table">
+  <thead><tr><th>Tipo di grafo / matrice di incidenza</th><th>È TU?</th></tr></thead>
+  <tbody>
+    <tr><td>Grafo <strong>orientato</strong> — incidenza nodi–archi ($a_{ie}=+1$ se $i$ è coda dell'arco, $-1$ se è testa, $0$ altrimenti)</td><td><strong>Sempre TU</strong></td></tr>
+    <tr><td>Grafo <strong>non orientato</strong> generico — incidenza nodi–archi ($a_{ie}=1$ se $i$ è estremo, $0$ altrimenti)</td><td><strong>In generale NO</strong> (es. triangolo, $\det=2$)</td></tr>
+    <tr><td>Grafo <strong>non orientato bipartito</strong> ($V=V_1\cup V_2$, ogni arco fra $V_1$ e $V_2$)</td><td><strong>Sempre TU</strong></td></tr>
+  </tbody>
+</table>
+<p>
+  Il caso <strong>orientato</strong> verifica la condizione sufficiente con $M_1$ = tutte le righe, $M_2=\varnothing$:
+  ogni colonna (arco) ha esattamente un $+1$ e un $-1$ (segno discorde → stesso insieme ✓). Il caso
+  <strong>bipartito</strong>: la bipartizione $V_1,V_2$ fornisce direttamente la partizione delle righe — ogni arco ha
+  i suoi due estremi (entrambi $+1$, segno concorde) in $V_1$ e $V_2$, cioè in insiemi diversi ✓.
+</p>
+
+<h2 id="teorema" data-num="§ 14">Il teorema di interezza</h2>
+<p>Mette insieme tutto. Nella <strong>forma standard</strong> (vincoli $Ax=b$) la TU è una condizione <em>sufficiente</em>; nella <strong>forma canonica</strong> (vincoli $Ax\le b$) diventa addirittura <em>necessaria e sufficiente</em>.</p>
+<div class="problem-card">
+  <div class="block obj"><span class="label">Teorema di interezza (forma canonica)</span></div>
+  <p style="margin:0 0 6px">Sia $A\in M_{m\times n}(\mathbb{Z})$ e $P^\ast(A,b)=\{x\in\mathbb{R}^n : Ax\le b,\,x\ge0\}$. Sono equivalenti:</p>
+  <ol style="margin:0; padding-left:22px;">
+    <li>i <strong>vertici</strong> di $P^\ast(A,b)$ sono interi, per ogni $b\in\mathbb{Z}^m$ con $P^\ast\neq\varnothing$;</li>
+    <li>il PL $\max\{c^{\!\top}x: Ax\le b,\,x\ge0\}$ ha una <strong>SBA ottima intera</strong>, per ogni $b\in\mathbb{Z}^m$ per cui esiste l'ottimo;</li>
+    <li>il PL duale $\min\{b^{\!\top}y: A^{\!\top}y\ge c,\,y\ge0\}$ ha una <strong>SBA ottima intera</strong>, per ogni $c\in\mathbb{Z}^n$ per cui esiste l'ottimo;</li>
+  </ol>
+  <p style="margin:8px 0 0">$\Leftrightarrow\;A$ è <strong>TU</strong> ($\Leftrightarrow A^{\!\top}$ è TU).</p>
+</div>
+<p class="note">Tecnicamente, il passaggio dalla forma canonica a quella standard avviene introducendo le <em>variabili di scarto</em>: $Ax\le b$ diventa $[A\,|\,I_m]\,\hat{x}=b$, e $[A\,|\,I_m]$ è TU se e solo se $A$ lo è. La TU non è però <em>necessaria</em> in senso assoluto per un singolo $b$: ad es. $A=\left(\begin{smallmatrix}2&1\\1&1\end{smallmatrix}\right)$ ha $\det=1$ e dà vertici interi pur non essendo TU.</p>
+
+<h2 id="konig" data-num="§ 15">Grafi bipartiti: matching = copertura</h2>
+<p>
+  Applichiamo il teorema ai modelli della Parte II. Se $G$ è <strong>bipartito</strong>, la sua matrice di incidenza $A$
+  è TU (§13). Allora i rilassamenti $(PL1)$ e $(PL2)$ hanno vertici interi, e la catena della §9 collassa
+  completamente:
+</p>
+<div class="chain">
+  $$ z^\ast_{PI}\;=\;z^\ast_{PL}\;\underbrace{=}_{\text{forte PL}}\;w^\ast_{PL}\;=\;w^\ast_{PI} $$
+</div>
+<div class="callout"><span class="tag">teorema di König</span>
+  <p style="margin:0">
+    Per i grafi bipartiti, <strong>la cardinalità del massimo accoppiamento è uguale a quella della minima copertura per nodi</strong>: $z^\ast_{PI}=w^\ast_{PI}$. La dualità da debole diventa <strong>forte</strong>. La dimostrazione è la combinazione di due ingredienti già visti: il <em>teorema di interezza</em> (i rilassamenti sono interi perché $A$ è TU) e la <em>dualità forte della PL</em> (i due rilassamenti sono duali). Nel triangolo — che <em>non</em> è bipartito — questo crolla, e infatti lì $1<2$.
+  </p>
+</div>
+
+<div class="part-head">Parte IV — La gerarchia dei problemi "facili"</div>
+
+<p style="margin-top:28px">
+  La TU spiega perché un'intera famiglia di problemi su rete è "facile": la loro matrice dei vincoli è l'incidenza
+  nodi–archi di un grafo <em>orientato</em>, quindi TU, quindi il rilassamento lineare dà già soluzioni intere. Il
+  capostipite è il flusso di costo minimo; gli altri sono suoi casi particolari.
+</p>
+
+<h2 id="flusso" data-num="§ 16">Flusso di costo minimo</h2>
+<p>
+  Dati: grafo orientato $G=(V,A)$; ad ogni arco $(i,j)$ un <strong>costo</strong> $c_{ij}$ e una <strong>capacità</strong>
+  $h_{ij}$. Un <em class="term">flusso</em> è una funzione $x_{ij}$ con $0\le x_{ij}\le h_{ij}$. Per ogni nodo $k$ si
+  definisce il <strong>flusso netto uscente</strong> $b_k$ (= flusso uscente − flusso entrante), con
+  $\sum_{k}b_k=0$. Tre ruoli:
+</p>
+<div class="block constr"><span class="label">i tre tipi di nodo</span>
+  <ul style="margin:6px 0; padding-left:22px;">
+    <li>$b_k>0$: nodo <strong>sorgente</strong> (origine) — $b_k$ è l'offerta in $k$;</li>
+    <li>$b_k<0$: nodo <strong>pozzo</strong> (destinazione) — $|b_k|$ è la domanda in $k$;</li>
+    <li>$b_k=0$: nodo di <strong>transito</strong> (trasferimento).</li>
+  </ul>
+</div>
+<div class="problem-card">
+  <div class="block obj"><span class="label">Modello</span>$$ \min\; z=\sum_{(i,j)\in A} c_{ij}\,x_{ij} $$</div>
+  <div class="block constr"><span class="label">vincoli</span>
+    $$ \sum_{i:(k,i)\in A} x_{ki} \;-\; \sum_{i:(i,k)\in A} x_{ik} \;=\; b_k \quad (\forall k\in V) $$
+    $$ 0\le x_{ij}\le h_{ij} $$
+    <p class="note" style="font-style:normal;">Il vincolo è la <strong>conservazione del flusso</strong>: uscente − entrante $=b_k$.</p>
+  </div>
+</div>
+<p>
+  In forma matriciale: $\min\{c^{\!\top}x : Ax=b,\,x\le h,\,x\ge0\}$, dove $A$ è la matrice di incidenza nodi–archi del
+  grafo <em>orientato</em>. Portando i vincoli in forma canonica si ottiene la matrice $\left[\frac{A}{-A}\;\big|\;I\right]$
+  che è <strong>TU</strong> (perché $A$ lo è). Per il teorema di interezza: <strong>se capacità $h$ e bilanci $b$ sono
+  interi, ogni SBA ottima è intera</strong> — i flussi ottimi vengono interi "gratis".
+</p>
+
+<h2 id="trasporto" data-num="§ 17">Problema di trasporto</h2>
+<p>$m$ origini con offerta $a_i$, $n$ destinazioni con domanda $b_j$, costo unitario $c_{ij}$ sulla tratta $i\to j$.</p>
+<div class="problem-card">
+  <div class="block obj"><span class="label">Modello</span>$$ \min\; z=\sum_{i=1}^m\sum_{j=1}^n c_{ij}\,x_{ij} $$</div>
+  <div class="block constr"><span class="label">vincoli</span>
+    $$ \sum_{j} x_{ij}=a_i \;\;(\forall i) \qquad \sum_{i} x_{ij}=b_j \;\;(\forall j) \qquad x_{ij}\ge 0 $$
+    <p class="note" style="font-style:normal;">Si assume il bilanciamento $\sum_i a_i=\sum_j b_j$.</p>
+  </div>
+</div>
+<p>
+  È un flusso di costo minimo su un grafo <strong>bipartito completo orientato</strong> da $V_1$ (origini, sorgenti con
+  $b_k=a_k$) a $V_2$ (destinazioni, pozzi con $b_k=-b_k$) e capacità infinite. Quindi è "facile": <strong>se offerte e
+  domande sono intere, ogni SBA ottima è intera</strong>.
+</p>
+
+<h2 id="assegnazione" data-num="§ 18">Problema di assegnazione</h2>
+<p>Caso particolarissimo del trasporto: $m=n$ e tutte le offerte/domande pari a $1$. Si assegna ogni "agente" $i$ a esattamente un "compito" $j$ minimizzando il costo.</p>
+<div class="problem-card">
+  <div class="block obj"><span class="label">Modello (PI)</span>$$ \min\; z=\sum_{i}\sum_{j} c_{ij}\,x_{ij} $$</div>
+  <div class="block constr"><span class="label">vincoli</span>
+    $$ \sum_{j} x_{ij}=1 \;\;(\forall i) \qquad \sum_{i} x_{ij}=1 \;\;(\forall j) \qquad x_{ij}\in\{0,1\} $$
+  </div>
+</div>
+<p>
+  La matrice dei coefficienti è TU (caso particolare del trasporto con $a_i=b_j=1$). Perciò il rilassamento lineare
+  ($x_{ij}\ge0$, con il limite $\le1$ già imposto dai vincoli) ha vertici a componenti <strong>binarie</strong>: ogni
+  SBA ottima del rilassamento è già una soluzione ottima del problema intero. L'assegnazione si risolve come un PL.
+</p>
+
+<h2 id="maxflow" data-num="§ 19">Flusso di valore massimo</h2>
+<p>
+  Si fissano una <strong>sorgente</strong> $s$ e un <strong>pozzo</strong> $t$; ogni arco ha capacità $h_{ij}$. Un flusso
+  ammissibile conserva il flusso a tutti i nodi <em>intermedi</em> ($\neq s,t$). Il suo <strong>valore</strong> $f(x)$ è
+  il flusso netto che esce da $s$. Si vuole $\max f(x)$ soggetto a conservazione ai nodi intermedi e $0\le x_{ij}\le h_{ij}$.
+</p>
+<div class="block example"><span class="label">trucco · è di nuovo un flusso di costo minimo</span>
+  <p style="margin:0 0 6px">Si aggiunge un <strong>arco di ritorno</strong> $(t,s)$ con capacità infinita e costo $c_{ts}=-1$ (tutti gli altri archi a costo $0$), e si pongono <strong>tutti</strong> i nodi a transito ($b_k=0$).</p>
+  <p style="margin:0">Allora $\min z = -x_{ts}$ equivale a $\max x_{ts}$, cioè a massimizzare il flusso che ricircola da $t$ a $s$ — proprio il valore del flusso. Il massimo flusso è dunque un caso particolare del flusso di costo minimo, e quindi anch'esso "facile".</p>
+</div>
+
+<hr class="fancy">
+
+<h2 id="sintesi" data-num="§ 20">Quadro d'insieme</h2>
+<p>Tutto il percorso, in una mappa unica. La dualità è il filo; la TU è la chiave che, in certi casi, la trasforma da debole a forte.</p>
+
+<table class="logic-table">
+  <thead><tr><th>Concetto</th><th>In una frase</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Dualità debole</strong> (sempre)</td><td>ogni soluzione del primale $\le$ ogni soluzione del duale; quindi $z^\ast\le w^\ast$.</td></tr>
+    <tr><td><strong>Dualità forte</strong> (nella PL)</td><td>nessun gap: $z^\ast=w^\ast$. Vale sempre in PL, non sempre in PLI.</td></tr>
+    <tr><td><strong>Criterio di ottimalità</strong></td><td>valori uguali $\Rightarrow$ entrambe ottime: un certificato gratuito.</td></tr>
+    <tr><td><strong>Rilassamento + duale</strong></td><td>$(PI)$ e il duale del suo rilassamento sono in dualità debole; il gap misura la "difficoltà".</td></tr>
+    <tr><td><strong>Matching ↔ copertura</strong></td><td>$|M|\le|R|$ sempre; uguaglianza (König) nei grafi bipartiti.</td></tr>
+    <tr><td><strong>Totale unimodularità</strong></td><td>$\det$ di ogni sottomatrice quadrata $\in\{0,\pm1\}$ $\Rightarrow$ vertici interi $\Rightarrow$ il PL risolve il PLI.</td></tr>
+    <tr><td><strong>Grafi e TU</strong></td><td>orientati: sempre TU; bipartiti: sempre TU; non orientati generici: no.</td></tr>
+    <tr><td><strong>Problemi "facili"</strong></td><td>flusso di costo minimo ⊇ trasporto ⊇ assegnazione, e flusso massimo: tutti TU, tutti interi.</td></tr>
+  </tbody>
+</table>
+
+<div class="callout"><span class="tag">il filo, riavvolto</span>
+  <p style="margin:0">
+    Si parte dalla dualità della PL (un max specchiato in un min, §1–5). La si generalizza (§6) e la si usa per dare
+    un <em>tetto</em> a un programma intero tramite il rilassamento (§7): se il tetto tocca il pavimento, il problema è
+    risolto. La domanda diventa allora "quando tocca?", e la risposta è la totale unimodularità (§10–14): se la matrice è
+    TU, il rilassamento è già intero e la dualità diventa forte (§15, König). Infine si scopre che i grandi problemi su
+    rete (§16–19) sono TU per costruzione — ecco perché si risolvono efficientemente.
+  </p>
+</div>
+
+<p style="text-align:center; color:var(--ink-muted); font-style:italic; font-family:'Fraunces',serif; margin-top:40px;">
+fine del riassunto · Lezioni 14–18 — buono studio
+</p>
+
+</main>
+</div>
+</body>
+</html>

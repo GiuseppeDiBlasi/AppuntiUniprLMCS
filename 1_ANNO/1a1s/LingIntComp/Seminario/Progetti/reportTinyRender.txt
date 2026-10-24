@@ -1,0 +1,29 @@
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyrenderer/main.cpp:10:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+   10 |     vec2  varying_uv[3]; // triangle uv coordinates, written by the vertex shader, read by the fragment shader
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyrenderer/main.cpp:11:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+   11 |     vec4 varying_nrm[3]; // normal per vertex to be interpolated by the fragment shader
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyrenderer/main.cpp:12:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+   12 |     vec4 tri[3];         // triangle in view coordinates
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyrenderer/main.cpp:18:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+   18 |     virtual vec4 vertex(const int face, const int vert) {
+      |             ~~~~ ^
+      |             auto                                        -> vec4
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyrenderer/main.cpp:26:5: warning: function 'fragment' should be marked [[nodiscard]] [modernize-use-nodiscard]
+   26 |     virtual std::pair<bool,TGAColor> fragment(const vec3 bar) const {
+      |     ^
+      |     [[nodiscard]] 
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyrenderer/main.cpp:26:38: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [modernize-use-override]
+   26 |     virtual std::pair<bool,TGAColor> fragment(const vec3 bar) const {
+      |     ~~~~~~~                          ^
+      |                                                                     override
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyrenderer/main.cpp:26:38: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+   26 |     virtual std::pair<bool,TGAColor> fragment(const vec3 bar) const {
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~ ^
+      |             auto                                                    -> std::pair<bool,TGAColor>
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyrenderer/main.cpp:47:5: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+   47 | int main(int argc, char** argv) {
+      | ~~~ ^
+      | auto                            -> int

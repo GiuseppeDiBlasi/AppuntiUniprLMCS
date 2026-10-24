@@ -1,0 +1,105 @@
+\documentclass[aspectratio=169]{beamer}
+
+% Tema e colori
+\usetheme{SimplePlus}
+\usecolortheme{default}
+%\usetheme{Singapore}
+%\usecolortheme{default}
+
+% Pacchetti utili
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows.meta, positioning}
+
+\newcommand{\quotes}[1]{``#1''}
+
+% Informazioni sulla presentazione
+\title{Super Resolution Imaging}
+\subtitle{Progetto Fondamenti dell'Intelligenza Artificiale}
+\author{Giuseppe Di Blasi}
+\institute{Università di Parma}
+\date{}
+
+% Logo (opzionale - decommentare e specificare il percorso)
+% \logo{\includegraphics[height=1cm]{logo.png}}
+
+\begin{document}
+
+% Slide del titolo
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+% Sezione 1
+\section{Introduzione}
+
+
+\input{sections/Introduzione_Rete_Paper2014.tex}
+\input{sections/Rete_VDSR.tex}
+
+\begin{frame}{\textbf{Tabelle Riassuntive}}
+
+    \begin{columns}[t] % L'opzione [t] allinea le colonne in alto
+
+        % Prima Colonna (Tabella 1)
+        \begin{column}{0.48\textwidth}
+            \centering
+            \textbf{Modello SRCNN (2014)}
+            \vspace{0.2cm}
+
+            \begin{tabular}{|l|c|}
+                \hline
+                \textbf{Parametro} & \textbf{Valore} \\ \hline
+                Strati (Layers)    & 3               \\ \hline
+                Learning rate      & $10^{-4}$, $10^{-4}$, $10^{-5}$ \\ \hline
+                Grandezza canali   & 64-64-64        \\ \hline
+                Grandezza kernel   & 9-5-5           \\ \hline
+                Funzione Att.      & ReLU            \\ \hline
+                Test passati       & 0               \\ \hline
+
+            \end{tabular}
+        \end{column}
+
+        % Seconda Colonna (Tabella 2)
+        \begin{column}{0.48\textwidth}
+            \centering
+            \textbf{Modello VDSR (2015)}
+            \vspace{0.2cm}
+
+            \begin{tabular}{|l|c|}
+                \hline
+                \textbf{Parametro} & \textbf{Valore} \\ \hline
+                Strati (Layers)    & 7               \\ \hline
+                Apprendimento      & Residual        \\ \hline
+                Learning rate      & $10^{-4}$ \\ \hline
+                Grandezza canali   & 64              \\ \hline
+                Grandezza kernel   & 9 il primo, 5 il resto          \\ \hline
+                Funzione Att.      & ReLU            \\ \hline
+                Test passati       & 1               \\ \hline
+            \end{tabular}
+        \end{column}
+
+    \end{columns}
+\end{frame}
+% ------------------------------------------
+
+\begin{frame}{\textbf{Riferimenti Bibliografici}}
+    \begin{itemize}
+        \setlength{\itemsep}{0.8em} % Aumenta leggermente lo spazio tra i riferimenti
+
+        \item Dong, C., Loy, C. C., He, K., \& Tang, X. (2014).
+        \textit{Learning a deep convolutional network for image super-resolution}.
+        In European Conference on Computer Vision (ECCV) (pp. 184-199).
+
+        \item Kim, J., Lee, J. K., \& Lee, K. M. (2015).
+        \textit{Accurate image super-resolution using very deep convolutional networks}.
+        In IEEE Conference on Computer Vision and Pattern Recognition (CVPR) (pp. 1646-1654).
+    \end{itemize}
+\end{frame}
+
+\end{document}

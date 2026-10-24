@@ -1,0 +1,35 @@
+# DFA non minimizzato per l'espressione regolare: fee|fie
+# Riconosce solo le stringhe "fee" e "fie"
+# Formato: ogni sezione inizia con una parola chiave seguita dai dati
+
+# Stati del DFA (uno per riga)
+STATES
+q0
+q1
+q2
+q3
+q4
+q5
+
+# Alfabeto (simboli separati da spazio o uno per riga)
+ALPHABET
+f
+e
+i
+
+# Stato iniziale
+INITIAL
+q0
+
+# Stati finali (uno per riga)
+FINAL
+q3
+q5
+
+# Transizioni (formato: stato_partenza simbolo stato_arrivo)
+TRANSITIONS
+q0 f q1
+q1 e q2
+q1 i q4
+q2 e q3
+q4 e q5

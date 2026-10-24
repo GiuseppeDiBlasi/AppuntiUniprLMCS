@@ -1,0 +1,240 @@
+
+<h2 class="sr-only">Esercizi interattivi su Dualità, TU e Flussi su rete — Lezioni 14-18</h2>
+
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .tab-btn {
+    padding: 6px 14px; font-size: 13px; border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md); background: var(--color-background-primary);
+    color: var(--color-text-secondary); cursor: pointer; transition: background 0.15s;
+  }
+  .tab-btn:hover { background: var(--color-background-secondary); }
+  .tab-btn.active { background: var(--color-background-primary); color: var(--color-text-primary); border-color: var(--color-border-primary); font-weight: 500; }
+  .ex-card {
+    background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 1rem;
+  }
+  .ex-num { font-size: 11px; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+  .ex-q { font-size: 15px; color: var(--color-text-primary); line-height: 1.6; margin-bottom: 1rem; }
+  .ex-q code { font-family: var(--font-mono); font-size: 13px; background: var(--color-background-secondary); padding: 1px 5px; border-radius: 4px; }
+  .hint-btn {
+    font-size: 13px; padding: 5px 12px; border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md); background: transparent; color: var(--color-text-secondary);
+    cursor: pointer; margin-right: 8px;
+  }
+  .hint-btn:hover { background: var(--color-background-secondary); }
+  .sol-btn {
+    font-size: 13px; padding: 5px 12px; border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md); background: transparent; color: var(--color-text-secondary); cursor: pointer;
+  }
+  .sol-btn:hover { background: var(--color-background-secondary); }
+  .hint-box { margin-top: 10px; padding: 10px 14px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); font-size: 14px; color: var(--color-text-secondary); display: none; }
+  .sol-box { margin-top: 10px; padding: 10px 14px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); font-size: 14px; color: var(--color-text-primary); display: none; border-left: 2px solid #5DCAA5; }
+  .sol-box code { font-family: var(--font-mono); font-size: 13px; background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 3px; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; margin-bottom: 8px; font-weight: 500; }
+  .tag-theory { background: #EEEDFE; color: #3C3489; }
+  .tag-calc { background: #E1F5EE; color: #085041; }
+  .tag-conc { background: #FAECE7; color: #712B13; }
+  @media (prefers-color-scheme: dark) {
+    .tag-theory { background: #26215C; color: #AFA9EC; }
+    .tag-calc { background: #04342C; color: #5DCAA5; }
+    .tag-conc { background: #4A1B0C; color: #F0997B; }
+    .sol-box { border-left-color: #1D9E75; }
+  }
+  .progress { font-size: 12px; color: var(--color-text-tertiary); margin-bottom: 1rem; }
+  .nav-row { display: flex; gap: 8px; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
+</style>
+
+<div class="wrap">
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" onclick="setTopic(0)">Dualità PL</button>
+    <button class="tab-btn" onclick="setTopic(1)">Dualità combinatoria</button>
+    <button class="tab-btn" onclick="setTopic(2)">Totale unimodularità</button>
+    <button class="tab-btn" onclick="setTopic(3)">Problemi su rete</button>
+    <button class="tab-btn" onclick="setTopic(4)">Misto</button>
+  </div>
+
+  <div class="progress" id="prog"></div>
+  <div id="exercises"></div>
+</div>
+
+<script>
+const topics = [
+  {
+    name: "Dualità PL",
+    exercises: [
+      {
+        type: "calc",
+        q: "Scrivi il duale del seguente primale in forma simmetrica:\n\nmax z = 3x₁ + 5x₂\ns.t.  x₁ + x₂ ≤ 4\n      x₁ + 3x₂ ≤ 6\n      x₁, x₂ ≥ 0",
+        hint: "Il duale di max cᵀx, Ax ≤ b, x ≥ 0 è: min bᵀy, Aᵀy ≥ c, y ≥ 0. Quante variabili duali servono? Una per ogni vincolo del primale.",
+        sol: "Duale: min w = 4y₁ + 6y₂\ns.t.  y₁ + y₂ ≥ 3   (per x₁)\n      y₁ + 3y₂ ≥ 5   (per x₂)\n      y₁, y₂ ≥ 0\n\nIl primale ha 2 vincoli → il duale ha 2 variabili. Il primale ha 2 variabili → il duale ha 2 vincoli."
+      },
+      {
+        type: "conc",
+        q: "Vero o falso? Se il primale è illimitato superiormente (z* = +∞), allora il duale è inammissibile. Giustifica.",
+        hint: "Usa la dualità debole: ogni valore ammissibile del duale è un upper bound al primale.",
+        sol: "Vero. Per la dualità debole, se esistesse una soluzione ammissibile del duale con valore w finito, allora z* ≤ w < +∞, contraddicendo l'illimitatezza. Quindi il duale non può avere soluzioni ammissibili."
+      },
+      {
+        type: "calc",
+        q: "Dato il primale con z* = 12 e una soluzione duale ammissibile con w = 12, cosa puoi concludere? Non è necessario risolvere alcun sistema.",
+        hint: "Ricorda il criterio di ottimalità: z(x) = w(y) implica...",
+        sol: "Per la dualità debole z* ≤ w*. Ma z* = 12 e w = 12 è ammissibile, quindi w* ≤ 12. Dunque z* = w* = 12, e sia x che y sono ottime. I valori uguali forniscono un certificato di ottimalità senza richiedere ulteriori calcoli."
+      },
+      {
+        type: "theory",
+        q: "Enuncia la dualità forte per la programmazione lineare e spiega perché non vale in generale per la PLI.",
+        hint: "Pensa alla regione ammissibile: il rilassamento del PLI e il PLI stesso hanno la stessa matrice, ma regioni diverse.",
+        sol: "Dualità forte (PL): se (P) e (D) sono entrambi ammissibili, allora z* = w* (nessun gap duale). \n\nPer la PLI questo può fallire perché l'insieme ammissibile è discreto: il valore ottimo z*_PI può essere strettamente minore di z*_PL = w*_PL. Il gap z*_PL − z*_PI misura la 'difficoltà intera'. Solo se la matrice è TU i due coincidono."
+      },
+    ]
+  },
+  {
+    name: "Dualità combinatoria",
+    exercises: [
+      {
+        type: "conc",
+        q: "Nel grafo triangolo (3 nodi, 3 archi), il massimo matching ha cardinalità 1 e la minima copertura per nodi ha cardinalità 2. Questo viola il teorema di König? Perché?",
+        hint: "König vale solo per grafi bipartiti. Il triangolo è bipartito?",
+        sol: "No, non viola König: il teorema si applica solo ai grafi bipartiti. Il triangolo è un ciclo dispari (3 nodi), quindi non è bipartito. In grafi non bipartiti può esserci un gap tra matching e copertura, come in questo caso (1 < 2). Questo gap corrisponde al fatto che la matrice di incidenza del triangolo non è TU (det = 2)."
+      },
+      {
+        type: "calc",
+        q: "Considera un grafo bipartito con V₁ = {a,b} e V₂ = {1,2,3}, e archi: a–1, a–2, b–2, b–3. Trova il massimo matching e la minima copertura per nodi, e verifica König.",
+        hint: "Il matching massimo: prova ad abbinare ogni nodo di V₁ a un nodo di V₂. La copertura minima deve 'toccare' tutti gli archi.",
+        sol: "Matching massimo: {a–1, b–2} oppure {a–2, b–3} — cardinalità 2.\nCopertura minima: {a, b} oppure {2, a} ecc. — basta verificarne una di cardinalità 2.\nAd esempio R = {a, b}: copre tutti e 4 gli archi (a–1, a–2, b–2, b–3). ✓\nKönig: |M*| = |R*| = 2. ✓ (grafo bipartito, matrice TU)"
+      },
+      {
+        type: "theory",
+        q: "In che senso il matching massimo e la copertura minima sono 'primale e duale' l'uno dell'altro?",
+        hint: "Scrivi i due PLI come max e min, e osserva la struttura dei vincoli.",
+        sol: "Il PLI del matching è: max Σ xₑ s.t. per ogni nodo v: Σ_{e∋v} xₑ ≤ 1, x ∈ {0,1}.\nIl PLI della copertura è: min Σ yᵥ s.t. per ogni arco e=(u,v): yᵤ + yᵥ ≥ 1, y ∈ {0,1}.\nIl duale del rilassamento del matching è esattamente il rilassamento della copertura (stessa matrice trasposta, b e c scambiati). Per la dualità debole |M| ≤ |R| sempre; per König (grafo bipartito, A TU) la dualità diventa forte: |M*| = |R*|."
+      }
+    ]
+  },
+  {
+    name: "Totale unimodularità",
+    exercises: [
+      {
+        type: "theory",
+        q: "Qual è la definizione di matrice totalmente unimodulare (TU)? Enuncia anche il teorema di interezza (forma canonica).",
+        hint: "La TU parla di tutte le sottomatrici quadrate. Il teorema di interezza collega TU e vertici interi.",
+        sol: "Def: A è TU se ogni sua sottomatrice quadrata ha determinante in {0, +1, −1}.\n\nConseguenza: ogni entrata aᵢⱼ ∈ {0,±1} (sottomatrici 1×1).\n\nTeorema di interezza (forma canonica): A intera è TU ⟺ per ogni b intero con P*(A,b) non vuoto, tutti i vertici di {x: Ax≤b, x≥0} sono interi. Equivalentemente: il PL ha sempre una SBA ottima intera ⟺ A è TU."
+      },
+      {
+        type: "calc",
+        q: "La matrice di incidenza nodi–archi di un grafo orientato con 3 nodi e 3 archi (1→2, 2→3, 1→3) è:\n\nA = [ +1  0  +1 ]\n    [ -1 +1   0 ]\n    [  0 -1  -1 ]\n\nVerifica che ogni colonna abbia esattamente un +1 e un −1, e deduci che A è TU usando le condizioni sufficienti.",
+        hint: "Usa la condizione sufficiente: per i grafi orientati, M₁ = tutte le righe, M₂ = ∅. Ogni colonna ha un +1 e un −1 (segni discordi), quindi le due righe stanno nello stesso insieme.",
+        sol: "Colonna 1 (arco 1→2): +1 in riga 1, −1 in riga 2 ✓\nColonna 2 (arco 2→3): +1 in riga 2, −1 in riga 3 ✓\nColonna 3 (arco 1→3): +1 in riga 1, −1 in riga 3 ✓\n\nCondizioni sufficienti con M₁={1,2,3}, M₂=∅:\n- Entrate ∈ {0,±1} ✓\n- Ogni colonna ha ≤2 non nulli ✓\n- Ogni colonna con 2 non nulli ha segni discordi (un +1 e un −1) → le righe devono stare nello stesso insieme. M₁ contiene tutte le righe ✓\n\nConclusione: A è TU (grafo orientato → sempre TU)."
+      },
+      {
+        type: "calc",
+        q: "La matrice A = [[1,1,0],[0,1,1],[1,0,1]] è la matrice di incidenza del triangolo non orientato. Calcola det(A) e deduci che A non è TU.",
+        hint: "Se det(A) ∉ {0,±1}, A non può essere TU (è essa stessa una sottomatrice quadrata di se stessa).",
+        sol: "det(A) = 1(1·1 − 1·0) − 1(0·1 − 1·1) + 0(...)\n       = 1(1) − 1(−1) = 1 + 1 = 2\n\nPoiché det(A) = 2 ∉ {0,±1}, A non è TU. Questo spiega il gap matching/copertura nel triangolo: la matrice non TU implica che i rilassamenti non sono necessariamente interi, e quindi la dualità forte può mancare."
+      },
+      {
+        type: "conc",
+        q: "Un grafo non orientato bipartito con V₁={u,v} e V₂={x,y,z} ha archi ux, uy, vx, vz. La sua matrice di incidenza è TU? Perché?",
+        hint: "Ricorda: grafo non orientato bipartito → matrice di incidenza sempre TU. Usa le condizioni sufficienti con la bipartizione come partizione delle righe.",
+        sol: "Sì, è TU. La bipartizione (V₁, V₂) fornisce la partizione delle righe M₁={u,v}, M₂={x,y,z}.\nOgni arco collega un nodo di V₁ a uno di V₂: i due coefficienti non nulli (+1,+1) hanno segno concorde, e le righe stanno in insiemi diversi della partizione ✓.\nTutte e tre le condizioni sufficienti sono verificate → A è TU."
+      }
+    ]
+  },
+  {
+    name: "Problemi su rete",
+    exercises: [
+      {
+        type: "theory",
+        q: "Nel problema di flusso di costo minimo, cosa rappresentano b_k > 0, b_k < 0 e b_k = 0? Scrivi il vincolo di conservazione del flusso.",
+        hint: "b_k è il flusso netto uscente dal nodo k. Il bilancio globale deve essere zero.",
+        sol: "b_k > 0: nodo sorgente (offerta b_k)\nb_k < 0: nodo pozzo (domanda |b_k|)\nb_k = 0: nodo di transito\n\nVincolo di conservazione per ogni nodo k:\nΣᵢ x_{ki} − Σᵢ x_{ik} = b_k\n(flusso uscente − flusso entrante = bilancio)\n\nCondizione globale: Σ_k b_k = 0 (offerta totale = domanda totale)."
+      },
+      {
+        type: "conc",
+        q: "Spiega in che senso il problema di trasporto è un caso particolare del flusso di costo minimo. Qual è la struttura del grafo sottostante?",
+        hint: "Il trasporto ha m origini e n destinazioni. Come si modella come un grafo orientato?",
+        sol: "Il problema di trasporto è un flusso di costo minimo su un grafo bipartito completo orientato:\n- Nodi: V₁ = origini (sorgenti con b_k = aᵢ > 0), V₂ = destinazioni (pozzi con b_k = −bⱼ < 0)\n- Archi: uno per ogni coppia (i,j) con capacità infinita e costo cᵢⱼ\n- Vincoli: conservazione del flusso ↔ vincoli di domanda/offerta\n\nIl grafo è bipartito orientato → matrice TU → se offerte e domande sono intere, ogni SBA ottima è intera."
+      },
+      {
+        type: "calc",
+        q: "Hai 2 origini (a₁=3, a₂=5) e 2 destinazioni (b₁=4, b₂=4), con costi c₁₁=2, c₁₂=4, c₂₁=3, c₂₂=1. Scrivi il modello di trasporto (obiettivo e vincoli).",
+        hint: "Offerta totale = domanda totale? Scrivi i vincoli di fornitura (per ogni riga) e di domanda (per ogni colonna).",
+        sol: "Verifica bilanciamento: a₁+a₂ = 8 = b₁+b₂ ✓\n\nmin z = 2x₁₁ + 4x₁₂ + 3x₂₁ + x₂₂\n\nVincoli di offerta:\n  x₁₁ + x₁₂ = 3   (origine 1)\n  x₂₁ + x₂₂ = 5   (origine 2)\n\nVincoli di domanda:\n  x₁₁ + x₂₁ = 4   (dest. 1)\n  x₁₂ + x₂₂ = 4   (dest. 2)\n\nx_{ij} ≥ 0\n\nPoiché la matrice è TU e i dati sono interi, la soluzione ottima sarà intera."
+      },
+      {
+        type: "theory",
+        q: "Come si riconduce il problema del flusso di valore massimo a un flusso di costo minimo? Descrivi la trasformazione.",
+        hint: "Si aggiunge un arco artificiale. Cosa succede al valore dell'arco di ritorno in termini di obiettivo?",
+        sol: "Trasformazione:\n1. Aggiungere un arco di ritorno (t,s) con capacità +∞ e costo c_{ts} = −1.\n2. Porre tutti gli altri costi cᵢⱼ = 0.\n3. Tutti i nodi (inclusi s e t) diventano di transito: b_k = 0.\n\nAllora: min z = −x_{ts} equivale a max x_{ts}.\nIl flusso che circola da t a s è esattamente il valore del flusso da s a t.\nIl max-flow è un caso speciale del min-cost flow → anche questo è TU → soluzione intera garantita."
+      }
+    ]
+  },
+  {
+    name: "Misto",
+    exercises: [
+      {
+        type: "conc",
+        q: "Elenca la gerarchia dei problemi 'facili' su rete, dal più generale al più specifico, e spiega perché sono tutti 'facili'.",
+        hint: "Pensa a quale problema contiene quale. La risposta alla 'facilità' è la TU.",
+        sol: "Gerarchia (dal più generale al più specifico):\n  Flusso di costo minimo\n    ⊇ Flusso di valore massimo\n    ⊇ Problema di trasporto\n       ⊇ Problema di assegnazione\n\nTutti 'facili' perché la loro matrice dei vincoli è la matrice di incidenza nodi–archi di un grafo orientato → sempre TU → il rilassamento lineare ha già vertici interi → si risolvono con la PL senza bisogno di tecniche di PLI."
+      },
+      {
+        type: "theory",
+        q: "Riassumi in poche righe il 'filo conduttore' delle lezioni 14–18: come sono collegati dualità, TU, König e problemi su rete?",
+        hint: "Segui la catena logica dal riassunto: dualità → rilassamento → gap → TU → König → reti.",
+        sol: "Filo conduttore:\n1. La dualità PL crea coppie (P)/(D): per la dualità forte, z*=w* nella PL.\n2. Il PLI si maggiora con il rilassamento (PL): rimane il gap z*_PI ≤ z*_PL.\n3. La domanda chiave: quando il rilassamento è già intero? Risposta: quando A è TU.\n4. TU → tutti i vertici sono interi → il PL risolve il PLI → la dualità forte vale anche per il PLI.\n5. König segue: in grafi bipartiti (A TU), matching massimo = copertura minima.\n6. I problemi su rete (flusso, trasporto, assegnazione) hanno A = matrice di incidenza orientata → sempre TU → sempre 'facili'."
+      },
+      {
+        type: "calc",
+        q: "Un problema di assegnazione ha matrice dei costi:\nC = [[3,1,2],[2,4,3],[5,2,1]]\nassegna 3 agenti a 3 compiti minimizzando il costo. Scrivi il modello PLI e spiega perché puoi risolverlo come un PL.",
+        hint: "Ogni riga e ogni colonna deve avere esattamente una x pari a 1. La matrice è TU (caso speciale del trasporto con aᵢ=bⱼ=1).",
+        sol: "Modello PLI:\nmin z = 3x₁₁+x₁₂+2x₁₃ + 2x₂₁+4x₂₂+3x₂₃ + 5x₃₁+2x₃₂+x₃₃\n\nVincoli:\n  x₁₁+x₁₂+x₁₃ = 1  (agente 1)\n  x₂₁+x₂₂+x₂₃ = 1  (agente 2)\n  x₃₁+x₃₂+x₃₃ = 1  (agente 3)\n  x₁₁+x₂₁+x₃₁ = 1  (compito 1)\n  x₁₂+x₂₂+x₃₂ = 1  (compito 2)\n  x₁₃+x₂₃+x₃₃ = 1  (compito 3)\n  xᵢⱼ ∈ {0,1}\n\nPerché si risolve come PL: la matrice dei vincoli è TU (è il trasporto con aᵢ=bⱼ=1). Il rilassamento xᵢⱼ≥0 (limite ≤1 già imposto dai vincoli di uguaglianza) ha SBA binarie → ogni SBA ottima del rilassamento è già la soluzione del PLI.\n\nSoluzione ottima: agente 1→compito 2 (c=1), agente 2→compito 1 (c=2), agente 3→compito 3 (c=1) → z*=4."
+      }
+    ]
+  }
+];
+
+let currentTopic = 0;
+let revealed = {};
+
+function setTopic(i) {
+  currentTopic = i;
+  revealed = {};
+  document.querySelectorAll('.tab-btn').forEach((b,j) => b.classList.toggle('active', j===i));
+  render();
+}
+
+function toggle(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+
+function render() {
+  const exs = topics[currentTopic].exercises;
+  document.getElementById('prog').textContent = exs.length + ' esercizi';
+  const tagMap = { theory: ['Teoria','tag-theory'], calc: ['Calcolo','tag-calc'], conc: ['Concettuale','tag-conc'] };
+  document.getElementById('exercises').innerHTML = exs.map((ex, i) => {
+    const [tagLabel, tagClass] = tagMap[ex.type] || ['',''];
+    const lines = ex.q.split('\n').map(l => l ? l : '<br>').join('<br>');
+    return `<div class="ex-card">
+      <div class="ex-num">Esercizio ${i+1}</div>
+      <span class="tag ${tagClass}">${tagLabel}</span>
+      <div class="ex-q">${lines}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="hint-btn" onclick="toggle('hint-${i}')"><i class="ti ti-bulb" aria-hidden="true"></i> Suggerimento</button>
+        <button class="sol-btn" onclick="toggle('sol-${i}')"><i class="ti ti-eye" aria-hidden="true"></i> Soluzione</button>
+        <button class="sol-btn" onclick="sendPrompt('Voglio discutere l\\'esercizio ${i+1} sugli argomenti delle lezioni 14-18: ${ex.q.substring(0,80).replace(/'/g,'')}...')">Discuti con Claude ↗</button>
+      </div>
+      <div class="hint-box" id="hint-${i}"><strong>Suggerimento:</strong> ${ex.hint}</div>
+      <div class="sol-box" id="sol-${i}"><strong>Soluzione:</strong><br>${ex.sol.replace(/\n/g,'<br>')}</div>
+    </div>`;
+  }).join('');
+}
+
+render();
+</script>

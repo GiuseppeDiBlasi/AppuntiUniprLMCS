@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1580 440" width="1580" height="440" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d9d9d9"/>
+    </marker>
+  </defs>
+  <rect width="1580" height="440" fill="#fff"/>
+
+  <!-- ===== Grafico a sinistra ===== -->
+  <rect x="78" y="27" width="398" height="335" fill="#fff" stroke="#555" stroke-width="1"/>
+
+  <!-- tacche e etichette asse x -->
+  <g font-size="9" fill="#333" text-anchor="middle">
+    <text x="93" y="381">-3</text><text x="155" y="381">-2</text><text x="215" y="381">-1</text>
+    <text x="277" y="381">0</text><text x="338" y="381">1</text><text x="399" y="381">2</text><text x="461" y="381">3</text>
+  </g>
+  <g stroke="#555" stroke-width="1">
+    <line x1="93" y1="362" x2="93" y2="367"/><line x1="155" y1="362" x2="155" y2="367"/>
+    <line x1="215" y1="362" x2="215" y2="367"/><line x1="277" y1="362" x2="277" y2="367"/>
+    <line x1="338" y1="362" x2="338" y2="367"/><line x1="399" y1="362" x2="399" y2="367"/>
+    <line x1="461" y1="362" x2="461" y2="367"/>
+    <line x1="73" y1="38" x2="78" y2="38"/><line x1="73" y1="91" x2="78" y2="91"/>
+    <line x1="73" y1="143" x2="78" y2="143"/><line x1="73" y1="194" x2="78" y2="194"/>
+    <line x1="73" y1="246" x2="78" y2="246"/><line x1="73" y1="298" x2="78" y2="298"/>
+    <line x1="73" y1="350" x2="78" y2="350"/>
+  </g>
+  <!-- etichette asse y (ruotate) -->
+  <g font-size="9" fill="#333" text-anchor="middle">
+    <text transform="translate(63,38) rotate(-90)">3</text>
+    <text transform="translate(63,91) rotate(-90)">2</text>
+    <text transform="translate(63,143) rotate(-90)">1</text>
+    <text transform="translate(63,194) rotate(-90)">0</text>
+    <text transform="translate(63,246) rotate(-90)">-1</text>
+    <text transform="translate(63,298) rotate(-90)">-2</text>
+    <text transform="translate(63,350) rotate(-90)">-3</text>
+  </g>
+  <text x="277" y="408" font-size="9" fill="#333" text-anchor="middle">x</text>
+  <text transform="translate(42,194) rotate(-90)" font-size="9" fill="#333" text-anchor="middle">y</text>
+
+  <!-- punti rossi -->
+  <g fill="#ff0000">
+    <circle cx="147" cy="121" r="6"/><circle cx="167" cy="100" r="6"/><circle cx="185" cy="84" r="6"/>
+    <circle cx="209" cy="91" r="6"/><circle cx="207" cy="102" r="6"/><circle cx="206" cy="123" r="6"/>
+    <circle cx="210" cy="122" r="6"/><circle cx="246" cy="104" r="6"/><circle cx="235" cy="107" r="6"/>
+    <circle cx="233" cy="129" r="6"/><circle cx="228" cy="133" r="6"/><circle cx="262" cy="122" r="6"/>
+    <circle cx="265" cy="131" r="6"/><circle cx="174" cy="141" r="6"/><circle cx="205" cy="148" r="6"/>
+    <circle cx="196" cy="159" r="6"/><circle cx="213" cy="150" r="6"/><circle cx="215" cy="163" r="6"/>
+    <circle cx="225" cy="167" r="6"/><circle cx="237" cy="169" r="6"/><circle cx="220" cy="141" r="6"/>
+    <circle cx="239" cy="146" r="6"/><circle cx="213" cy="125" r="6"/>
+
+    <circle cx="354" cy="198" r="6"/><circle cx="287" cy="225" r="6"/><circle cx="297" cy="238" r="6"/>
+    <circle cx="298" cy="218" r="6"/><circle cx="307" cy="215" r="6"/><circle cx="312" cy="216" r="6"/>
+    <circle cx="327" cy="233" r="6"/><circle cx="333" cy="224" r="6"/><circle cx="368" cy="230" r="6"/>
+    <circle cx="398" cy="232" r="6"/><circle cx="383" cy="244" r="6"/><circle cx="380" cy="248" r="6"/>
+    <circle cx="352" cy="251" r="6"/><circle cx="345" cy="267" r="6"/><circle cx="349" cy="282" r="6"/>
+    <circle cx="309" cy="270" r="6"/><circle cx="327" cy="268" r="6"/><circle cx="370" cy="263" r="6"/>
+    <circle cx="387" cy="278" r="6"/><circle cx="284" cy="279" r="6"/><circle cx="342" cy="270" r="6"/>
+    <circle cx="327" cy="249" r="6"/>
+  </g>
+
+  <!-- punti blu -->
+  <g fill="#0000ff">
+    <circle cx="314" cy="87" r="6"/><circle cx="327" cy="90" r="6"/><circle cx="345" cy="88" r="6"/>
+    <circle cx="347" cy="110" r="6"/><circle cx="357" cy="117" r="6"/><circle cx="354" cy="127" r="6"/>
+    <circle cx="344" cy="125" r="6"/><circle cx="332" cy="134" r="6"/><circle cx="328" cy="137" r="6"/>
+    <circle cx="376" cy="133" r="6"/><circle cx="399" cy="130" r="6"/><circle cx="404" cy="130" r="6"/>
+    <circle cx="414" cy="163" r="6"/><circle cx="361" cy="180" r="6"/><circle cx="345" cy="171" r="6"/>
+    <circle cx="339" cy="148" r="6"/><circle cx="346" cy="157" r="6"/><circle cx="326" cy="155" r="6"/>
+    <circle cx="333" cy="163" r="6"/><circle cx="313" cy="160" r="6"/><circle cx="313" cy="152" r="6"/>
+    <circle cx="327" cy="142" r="6"/><circle cx="375" cy="161" r="6"/>
+
+    <circle cx="173" cy="193" r="6"/><circle cx="266" cy="186" r="6"/><circle cx="166" cy="215" r="6"/>
+    <circle cx="191" cy="222" r="6"/><circle cx="189" cy="236" r="6"/><circle cx="168" cy="245" r="6"/>
+    <circle cx="214" cy="216" r="6"/><circle cx="226" cy="209" r="6"/><circle cx="222" cy="214" r="6"/>
+    <circle cx="230" cy="232" r="6"/><circle cx="215" cy="236" r="6"/><circle cx="212" cy="245" r="6"/>
+    <circle cx="222" cy="244" r="6"/><circle cx="249" cy="244" r="6"/><circle cx="252" cy="260" r="6"/>
+    <circle cx="246" cy="254" r="6"/><circle cx="208" cy="260" r="6"/><circle cx="214" cy="272" r="6"/>
+    <circle cx="203" cy="281" r="6"/><circle cx="236" cy="291" r="6"/><circle cx="278" cy="231" r="6"/>
+    <circle cx="210" cy="251" r="6"/><circle cx="230" cy="240" r="6"/>
+  </g>
+
+  <!-- linee di separazione viola -->
+  <g stroke="#a020f0" stroke-width="3" fill="none" stroke-linecap="square">
+    <polyline points="92,178 281,178 281,350"/>
+    <polyline points="313,38 313,189 461,189"/>
+  </g>
+
+  <!-- ===== Albero decisionale a destra ===== -->
+  <!-- archi -->
+  <g stroke="#e0e0e0" stroke-width="3" fill="none" marker-end="url(#arrG)">
+    <line x1="1065" y1="90" x2="697" y2="334" marker-end="url(#arrG)"/>
+    <line x1="1092" y1="90" x2="1064" y2="150" marker-end="url(#arrG)"/>
+    <line x1="1130" y1="90" x2="1230" y2="150" marker-end="url(#arrG)"/>
+    <line x1="1040" y1="194" x2="971" y2="328" marker-end="url(#arrG)"/>
+    <line x1="1060" y1="194" x2="1109" y2="330" marker-end="url(#arrG)"/>
+    <line x1="1266" y1="194" x2="1268" y2="332" marker-end="url(#arrG)"/>
+    <line x1="1288" y1="194" x2="1445" y2="330" marker-end="url(#arrG)"/>
+  </g>
+
+  <!-- etichette archi -->
+  <g font-size="14" fill="#111" text-anchor="middle">
+    <text x="877" y="222">overcast</text>
+    <text x="1076" y="126">rain</text>
+    <text x="1183" y="126">sunny</text>
+    <text x="1001" y="271">false</text>
+    <text x="1085" y="272">true</text>
+    <text x="1266" y="273">&gt; 77.500</text>
+    <text x="1369" y="272">≤ 77.500</text>
+  </g>
+
+  <!-- nodi interni -->
+  <g fill="#e8e8e8">
+    <rect x="1051" y="47" width="98" height="43"/>
+    <rect x="1013" y="152" width="74" height="42"/>
+    <rect x="1210" y="152" width="107" height="42"/>
+  </g>
+  <g font-size="19" fill="#111" text-anchor="middle" dominant-baseline="central">
+    <text x="1100" y="69">Outlook</text>
+    <text x="1050" y="174">Wind</text>
+    <text x="1263" y="174">Humidity</text>
+  </g>
+
+  <!-- foglie -->
+  <g fill="#e8e8e8">
+    <rect x="607" y="334" width="88" height="56"/>
+    <rect x="905" y="330" width="88" height="56"/>
+    <rect x="1073" y="333" width="88" height="56"/>
+    <rect x="1224" y="333" width="87" height="56"/>
+    <rect x="1431" y="332" width="88" height="56"/>
+  </g>
+  <g fill="#e74c3c">
+    <rect x="612" y="359" width="77" height="23"/>
+    <rect x="910" y="355" width="77" height="23"/>
+    <rect x="1436" y="357" width="77" height="23"/>
+  </g>
+  <g fill="#4a90e2">
+    <rect x="1078" y="358" width="77" height="23"/>
+    <rect x="1229" y="358" width="77" height="23"/>
+  </g>
+  <g font-size="18" fill="#111" text-anchor="middle" dominant-baseline="central">
+    <text x="650" y="346">yes</text>
+    <text x="949" y="342">yes</text>
+    <text x="1117" y="344">no</text>
+    <text x="1267" y="345">no</text>
+    <text x="1474" y="343">yes</text>
+  </g>
+</svg>

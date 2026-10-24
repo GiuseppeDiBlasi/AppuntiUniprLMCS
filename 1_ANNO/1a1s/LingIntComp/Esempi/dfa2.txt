@@ -1,0 +1,43 @@
+# DFA non minimizzato per l'espressione regolare: (a|b)*abb
+# Formato: ogni sezione inizia con una parola chiave seguita dai dati
+
+# Stati del DFA (uno per riga)
+STATES
+q0
+q1
+q2
+q3
+q4
+q5
+q6
+
+# Alfabeto (simboli separati da spazio o uno per riga)
+ALPHABET
+a
+b
+
+# Stato iniziale
+INITIAL
+q0
+
+# Stati finali (uno per riga)
+FINAL
+q3
+q6
+
+# Transizioni (formato: stato_partenza simbolo stato_arrivo)
+TRANSITIONS
+q0 a q1
+q0 b q0
+q1 a q4
+q1 b q2
+q2 a q1
+q2 b q3
+q3 a q5
+q3 b q0
+q4 a q4
+q4 b q2
+q5 a q4
+q5 b q6
+q6 a q5
+q6 b q0

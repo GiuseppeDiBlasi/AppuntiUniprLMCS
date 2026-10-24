@@ -1,0 +1,223 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.w{padding:1rem 0;font-family:var(--font-sans)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.1rem 1.25rem;margin-bottom:1rem}
+.lbl{font-size:12px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.6rem}
+.note{font-size:13px;color:var(--color-text-secondary);line-height:1.65;margin-bottom:.85rem}
+.igrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:9px;margin-bottom:1rem}
+.irow{display:flex;flex-direction:column;gap:4px}
+.irow label{font-size:12px;color:var(--color-text-secondary)}
+.irow input{padding:6px 10px;font-size:14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+button{padding:7px 16px;font-size:13px;font-weight:500;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;color:var(--color-text-primary);cursor:pointer}
+button:hover{background:var(--color-background-secondary)}
+.fb{margin-top:1rem;padding:.9rem 1rem;font-size:13px;line-height:1.8;display:none;border-radius:0}
+.fb.show{display:block}
+.ok{background:#E1F5EE;color:#085041;border-left:3px solid #1D9E75}
+.err{background:#FAECE7;color:#712B13;border-left:3px solid #D85A30}
+.sol{background:var(--color-background-secondary);color:var(--color-text-primary);border-left:3px solid #378ADD}
+.hint{background:var(--color-background-secondary);color:var(--color-text-secondary);border-left:3px solid #888780;border-radius:0;font-size:13px;line-height:1.65;padding:.9rem 1rem;margin-top:.75rem;display:none}
+.hint.show{display:block}
+</style>
+
+<div class="w">
+<h2 class="sr-only">Esercizio flusso massimo e costo minimo su grafo a 7 nodi</h2>
+
+<div class="card">
+  <div class="lbl">Il grafo — 7 nodi</div>
+  <p class="note">Nodi: s, A, B, C, D, E, t. Su ogni arco: costo c e capacità h. <span style="color:#D85A30;font-weight:500">In rosso l'arco fittizio (t→s): c=−1, h=∞.</span></p>
+  <svg viewBox="0 0 680 310" width="100%" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+
+    <!-- archi originali -->
+    <!-- s->A -->
+    <line x1="82" y1="130" x2="218" y2="68" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+    <text x="133" y="84" font-size="11" fill="#5F5E5A" font-family="var(--font-sans)">c=3,h=9</text>
+    <!-- s->B -->
+    <line x1="82" y1="150" x2="218" y2="195" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+    <text x="115" y="195" font-size="11" fill="#5F5E5A" font-family="var(--font-sans)">c=2,h=7</text>
+    <!-- s->C -->
+    <line x1="82" y1="165" x2="218" y2="255" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+    <text x="110" y="240" font-size="11" fill="#5F5E5A" font-family="var(--font-sans)">c=6,h=5</text>
+    <!-- A->D -->
+    <line x1="258" y1="65" x2="388" y2="65" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+    <text x="298" y="57" font-size="11" fill="#5F5E5A" font-family="var(--font-sans)">c=4,h=6</text>
+    <!-- A->E -->
+    <line x1="252" y1="80" x2="388" y2="178" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+    <text x="298" y="138" font-size="11" fill="#5F5E5A" font-family="var(--font-sans)">c=2,h=5</text>
+    <!-- B->D -->
+    <line x1="252" y1="188" x2="390" y2="82" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+    <text x="330" y="128" font-size="11" fill="#5F5E5A" font-family="var(--font-sans)">c=5,h=4</text>
+    <!-- B->E -->
+    <line x1="258" y1="200" x2="388" y2="200" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+    <text x="298" y="192" font-size="11" fill="#5F5E5A" font-family="var(--font-sans)">c=3,h=8</text>
+    <!-- C->E -->
+    <line x1="252" y1="252" x2="388" y2="215" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+    <text x="295" y="248" font-size="11" fill="#5F5E5A" font-family="var(--font-sans)">c=1,h=5</text>
+    <!-- D->t -->
+    <line x1="428" y1="65" x2="560" y2="130" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+    <text x="470" y="85" font-size="11" fill="#5F5E5A" font-family="var(--font-sans)">c=2,h=8</text>
+    <!-- E->t -->
+    <line x1="428" y1="200" x2="560" y2="148" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+    <text x="470" y="190" font-size="11" fill="#5F5E5A" font-family="var(--font-sans)">c=4,h=10</text>
+
+    <!-- arco fittizio t->s in rosso -->
+    <path d="M574 148 Q340 310 82 158" fill="none" stroke="#D85A30" stroke-width="1.5" stroke-dasharray="6 3" marker-end="url(#ar)"/>
+    <text x="330" y="303" font-size="11" fill="#993C1D" font-family="var(--font-sans)" text-anchor="middle">c = −1, h = ∞  (arco fittizio t→s)</text>
+
+    <!-- nodi -->
+    <circle cx="68" cy="148" r="20" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
+    <text x="68" y="153" text-anchor="middle" font-size="14" font-weight="500" fill="#0C447C" font-family="var(--font-sans)">s</text>
+
+    <circle cx="238" cy="65" r="20" fill="#EEEDFE" stroke="#7F77DD" stroke-width="1"/>
+    <text x="238" y="70" text-anchor="middle" font-size="14" font-weight="500" fill="#3C3489" font-family="var(--font-sans)">A</text>
+
+    <circle cx="238" cy="200" r="20" fill="#EEEDFE" stroke="#7F77DD" stroke-width="1"/>
+    <text x="238" y="205" text-anchor="middle" font-size="14" font-weight="500" fill="#3C3489" font-family="var(--font-sans)">B</text>
+
+    <circle cx="238" cy="260" r="20" fill="#EEEDFE" stroke="#7F77DD" stroke-width="1"/>
+    <text x="238" y="265" text-anchor="middle" font-size="14" font-weight="500" fill="#3C3489" font-family="var(--font-sans)">C</text>
+
+    <circle cx="408" cy="65" r="20" fill="#EEEDFE" stroke="#7F77DD" stroke-width="1"/>
+    <text x="408" y="70" text-anchor="middle" font-size="14" font-weight="500" fill="#3C3489" font-family="var(--font-sans)">D</text>
+
+    <circle cx="408" cy="200" r="20" fill="#EEEDFE" stroke="#7F77DD" stroke-width="1"/>
+    <text x="408" y="205" text-anchor="middle" font-size="14" font-weight="500" fill="#3C3489" font-family="var(--font-sans)">E</text>
+
+    <circle cx="576" cy="140" r="20" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+    <text x="576" y="145" text-anchor="middle" font-size="14" font-weight="500" fill="#712B13" font-family="var(--font-sans)">t</text>
+  </svg>
+</div>
+
+<div class="card">
+  <div class="lbl">Parte 1 — formulazione obiettivo</div>
+  <p class="note">
+    Tutti i nodi hanno b<sub>k</sub> = 0. La funzione obiettivo del problema di costo minimo è:<br><br>
+    <strong>min z = 3x<sub>sA</sub> + 2x<sub>sB</sub> + 6x<sub>sC</sub> + 4x<sub>AD</sub> + 2x<sub>AE</sub> + 5x<sub>BD</sub> + 3x<sub>BE</sub> + 1x<sub>CE</sub> + 2x<sub>Dt</sub> + 4x<sub>Et</sub> − x<sub>ts</sub></strong><br><br>
+    Minimizzare −x<sub>ts</sub> equivale a massimizzare il flusso da s a t.
+  </p>
+</div>
+
+<div class="card">
+  <div class="lbl">Parte 2 — inserisci i flussi</div>
+  <p class="note">Trova i flussi che massimizzano x<sub>ts</sub> = x<sub>Dt</sub> + x<sub>Et</sub>, rispettando capacità e bilanciamento in ogni nodo intermedio.</p>
+  <div class="igrid">
+    <div class="irow"><label>x<sub>sA</sub> (h≤9)</label><input type="number" id="xsA" min="0" max="9"/></div>
+    <div class="irow"><label>x<sub>sB</sub> (h≤7)</label><input type="number" id="xsB" min="0" max="7"/></div>
+    <div class="irow"><label>x<sub>sC</sub> (h≤5)</label><input type="number" id="xsC" min="0" max="5"/></div>
+    <div class="irow"><label>x<sub>AD</sub> (h≤6)</label><input type="number" id="xAD" min="0" max="6"/></div>
+    <div class="irow"><label>x<sub>AE</sub> (h≤5)</label><input type="number" id="xAE" min="0" max="5"/></div>
+    <div class="irow"><label>x<sub>BD</sub> (h≤4)</label><input type="number" id="xBD" min="0" max="4"/></div>
+    <div class="irow"><label>x<sub>BE</sub> (h≤8)</label><input type="number" id="xBE" min="0" max="8"/></div>
+    <div class="irow"><label>x<sub>CE</sub> (h≤5)</label><input type="number" id="xCE" min="0" max="5"/></div>
+    <div class="irow"><label>x<sub>Dt</sub> (h≤8)</label><input type="number" id="xDt" min="0" max="8"/></div>
+    <div class="irow"><label>x<sub>Et</sub> (h≤10)</label><input type="number" id="xEt" min="0" max="10"/></div>
+  </div>
+  <div class="btnrow">
+    <button onclick="toggleHint()"><i class="ti ti-bulb" aria-hidden="true"></i> Suggerimento</button>
+    <button onclick="check()"><i class="ti ti-check" aria-hidden="true"></i> Verifica</button>
+    <button onclick="showSol()"><i class="ti ti-eye" aria-hidden="true"></i> Soluzione</button>
+  </div>
+  <div class="hint" id="hint">
+    <strong>Suggerimento — cammini aumentanti da cercare:</strong><br>
+    • s→A→D→t<br>
+    • s→B→E→t<br>
+    • s→C→E→t<br>
+    • s→A→E→t<br>
+    Per ognuno calcola il bottleneck (min delle capacità sul cammino), manda quel flusso e aggiorna le capacità residue prima di passare al cammino successivo.
+  </div>
+  <div class="fb" id="fb"></div>
+</div>
+</div>
+
+<script>
+function g(id){return +document.getElementById(id).value||0}
+function toggleHint(){document.getElementById('hint').classList.toggle('show')}
+
+function check(){
+  const sA=g('xsA'),sB=g('xsB'),sC=g('xsC')
+  const AD=g('xAD'),AE=g('xAE'),BD=g('xBD'),BE=g('xBE'),CE=g('xCE')
+  const Dt=g('xDt'),Et=g('xEt')
+  const fb=document.getElementById('fb')
+  const errs=[]
+
+  if(sA>9)  errs.push('x<sub>sA</sub> supera la capacità 9')
+  if(sB>7)  errs.push('x<sub>sB</sub> supera la capacità 7')
+  if(sC>5)  errs.push('x<sub>sC</sub> supera la capacità 5')
+  if(AD>6)  errs.push('x<sub>AD</sub> supera la capacità 6')
+  if(AE>5)  errs.push('x<sub>AE</sub> supera la capacità 5')
+  if(BD>4)  errs.push('x<sub>BD</sub> supera la capacità 4')
+  if(BE>8)  errs.push('x<sub>BE</sub> supera la capacità 8')
+  if(CE>5)  errs.push('x<sub>CE</sub> supera la capacità 5')
+  if(Dt>8)  errs.push('x<sub>Dt</sub> supera la capacità 8')
+  if(Et>10) errs.push('x<sub>Et</sub> supera la capacità 10')
+
+  const balA = sA - AD - AE
+  const balB = sB - BD - BE
+  const balC = sC - CE
+  const balD = AD + BD - Dt
+  const balE = AE + BE + CE - Et
+
+  if(Math.abs(balA)>0) errs.push('Nodo A non bilanciato: entra '+sA+', esce '+(AD+AE))
+  if(Math.abs(balB)>0) errs.push('Nodo B non bilanciato: entra '+sB+', esce '+(BD+BE))
+  if(Math.abs(balC)>0) errs.push('Nodo C non bilanciato: entra '+sC+', esce '+CE)
+  if(Math.abs(balD)>0) errs.push('Nodo D non bilanciato: entra '+(AD+BD)+', esce '+Dt)
+  if(Math.abs(balE)>0) errs.push('Nodo E non bilanciato: entra '+(AE+BE+CE)+', esce '+Et)
+
+  if(errs.length>0){
+    fb.className='fb err show'
+    fb.innerHTML='<strong>Errori:</strong><br>'+errs.map(e=>'• '+e).join('<br>')
+    return
+  }
+
+  const flusso=Dt+Et
+  const costo=3*sA+2*sB+6*sC+4*AD+2*AE+5*BD+3*BE+CE+2*Dt+4*Et
+
+  if(flusso===18){
+    fb.className='fb ok show'
+    fb.innerHTML='<strong>Corretto! Flusso massimo = 18</strong><br>'
+      +'Costo archi originali = '+costo+'<br>'
+      +'Obiettivo min z = '+costo+' − '+flusso+' = '+(costo-flusso)
+  } else if(flusso<18){
+    fb.className='fb err show'
+    fb.innerHTML='Flusso ammissibile = '+flusso+', ma non è massimo. Esiste ancora almeno un cammino aumentante nel grafo residuo!'
+  }
+}
+
+function showSol(){
+  const fb=document.getElementById('fb')
+  fb.className='fb sol show'
+  fb.innerHTML=`<strong>Soluzione ottima — flusso massimo = 18</strong><br><br>
+<strong>Cammini aumentanti (Ford-Fulkerson):</strong><br>
+1. s→A→D→t: min(9,6,8) = <strong>6</strong><br>
+2. s→B→E→t: min(7,8,10) = <strong>7</strong><br>
+3. s→C→E→t: min(5,5,residua Et=3) = <strong>3</strong><br>
+4. s→A→E→t: residua sA=3, AE=5, Et=0 → Et saturo. Provo: residua Et=0 → non percorribile.<br>
+&nbsp;&nbsp;Torno: s→A→E→t residua Et = 10−10=0. Già saturo dopo i passi 2+3.<br>
+&nbsp;&nbsp;Aggiungo: s→B→D→t: residua sB=0... già esaurito.<br>
+&nbsp;&nbsp;s→A→E→t: AE libero (5), ma Et già 10=saturo.<br>
+&nbsp;&nbsp;Grafo residuo: nessun cammino aumentante → stop.<br><br>
+<strong>Flussi finali:</strong><br>
+x<sub>sA</sub>=6, x<sub>sB</sub>=7, x<sub>sC</sub>=3<br>
+x<sub>AD</sub>=6, x<sub>AE</sub>=0, x<sub>BD</sub>=0, x<sub>BE</sub>=7, x<sub>CE</sub>=3<br>
+x<sub>Dt</sub>=6, x<sub>Et</sub>=10<br>
+x<sub>ts</sub> = 6+10 = <strong>16</strong><br><br>
+<em>Nota: il flusso massimo è 16, non 18 — i colli di bottiglia sono D→t (cap 8, ma AD=6) e la saturazione di E→t (cap 10). Verifica con il tuo grafo residuo!</em>`
+
+  document.getElementById('xsA').value=6
+  document.getElementById('xsB').value=7
+  document.getElementById('xsC').value=3
+  document.getElementById('xAD').value=6
+  document.getElementById('xAE').value=0
+  document.getElementById('xBD').value=0
+  document.getElementById('xBE').value=7
+  document.getElementById('xCE').value=3
+  document.getElementById('xDt').value=6
+  document.getElementById('xEt').value=10
+}
+</script>

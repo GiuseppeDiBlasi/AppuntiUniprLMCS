@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 610" width="720" height="610">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#000" stroke-width="1.2"/>
+    </marker>
+  </defs>
+  <rect width="720" height="610" fill="#fff"/>
+
+  <!-- cerchio -->
+  <circle cx="321" cy="324" r="72" fill="#FFB800" stroke="#000" stroke-width="1.5"/>
+
+  <!-- quadrato circoscritto -->
+  <rect x="249" y="252" width="145" height="145" fill="none" stroke="#000" stroke-width="1.5"/>
+
+  <!-- assi -->
+  <line x1="87" y1="324" x2="555" y2="324" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="321" y1="525" x2="321" y2="122" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="588" y="340" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="bold">x</text>
+  <text x="333" y="128" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="bold">y</text>
+
+  <!-- rette tangenti -->
+  <g stroke="#000" stroke-width="1.5" fill="none">
+    <line x1="168" y1="363" x2="378" y2="171"/>
+    <line x1="197" y1="299" x2="351" y2="461"/>
+    <line x1="273" y1="457" x2="491" y2="281"/>
+    <line x1="249" y1="203" x2="471" y2="323"/>
+    <line x1="323" y1="205" x2="449" y2="364"/>
+    <line x1="361" y1="193" x2="410" y2="386"/>
+  </g>
+</svg>

@@ -1,0 +1,193 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.wrap { padding: 1rem 0; font-family: var(--font-sans); }
+.q-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.q-counter {
+  font-size: 12px; color: var(--color-text-tertiary);
+  margin-bottom: 0.5rem;
+}
+.q-text {
+  font-size: 15px; font-weight: 500;
+  color: var(--color-text-primary);
+  line-height: 1.6; margin-bottom: 1rem;
+}
+.q-hint {
+  font-size: 13px; color: var(--color-text-secondary);
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-md);
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 1rem;
+  display: none;
+}
+.q-hint.show { display: block; }
+.ans-box {
+  display: none; margin-top: 1rem;
+  padding: 1rem;
+  border-left: 3px solid #1D9E75;
+  border-radius: 0;
+  background: var(--color-background-secondary);
+  font-size: 13px; color: var(--color-text-primary); line-height: 1.75;
+}
+.ans-box.show { display: block; }
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn {
+  padding: 7px 14px; font-size: 13px; font-weight: 500;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  background: transparent; color: var(--color-text-secondary);
+  cursor: pointer;
+}
+.btn:hover { background: var(--color-background-secondary); }
+.nav-row {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-top: 1.25rem;
+}
+.nav-btn {
+  padding: 8px 18px; font-size: 14px; font-weight: 500;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  background: transparent; color: var(--color-text-primary);
+  cursor: pointer;
+}
+.nav-btn:hover { background: var(--color-background-secondary); }
+.nav-btn:disabled { opacity: 0.35; cursor: default; }
+.progress {
+  display: flex; gap: 5px;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--color-border-tertiary);
+  transition: background 0.2s;
+}
+.dot.done { background: #1D9E75; }
+.dot.active { background: #378ADD; }
+</style>
+
+<div class="wrap">
+  <h2 class="sr-only">Simulatore di domande d'esame sui problemi di flusso</h2>
+  <div class="q-card" id="qcard">
+    <div class="q-counter" id="qcounter">Domanda 1 di 5</div>
+    <div class="q-text" id="qtext"></div>
+    <div class="q-hint" id="qhint"></div>
+    <div class="btn-row">
+      <button class="btn" onclick="toggleHint()"><i class="ti ti-bulb" aria-hidden="true"></i> Suggerimento</button>
+      <button class="btn" onclick="toggleAns()"><i class="ti ti-eye" aria-hidden="true"></i> Risposta</button>
+    </div>
+    <div class="ans-box" id="ansbox"></div>
+  </div>
+  <div class="nav-row">
+    <button class="nav-btn" id="btnPrev" onclick="move(-1)">← Precedente</button>
+    <div class="progress" id="progress"></div>
+    <button class="nav-btn" id="btnNext" onclick="move(1)">Successiva →</button>
+  </div>
+</div>
+
+<script>
+const qs = [
+  {
+    q: "Come si riduce il problema di flusso massimo a un problema di flusso di costo minimo? Descrivi la costruzione del grafo modificato.",
+    hint: "Guarda l'ultimo blocco del PDF: si aggiunge un arco fittizio (t,s) con caratteristiche particolari.",
+    ans: `Si parte dal grafo G=(V,A) con sorgente s e pozzo t. Si costruisce G'=(V, A') dove:<br><br>
+<strong>A' = A ∪ {(t,s)}</strong><br><br>
+Si assegnano:<br>
+• Costi c<sub>ij</sub> = 0 per tutti gli archi originali (i,j) ∈ A<br>
+• Costo c<sub>ts</sub> = −1 per l'arco fittizio<br>
+• Capacità h<sub>ij</sub> invariate per gli archi originali<br>
+• Capacità h<sub>ts</sub> = ∞ per l'arco fittizio<br>
+• b<sub>k</sub> = 0 per tutti i nodi (tutti di transito)<br><br>
+Il problema di costo minimo su G' diventa:<br>
+<strong>min z(x) = −x<sub>ts</sub></strong><br><br>
+che equivale esattamente a <strong>max x<sub>ts</sub></strong>, cioè massimizzare il flusso sull'arco fittizio = massimizzare il flusso netto uscente da s in G.`
+  },
+  {
+    q: "Cos'è la matrice di incidenza nodi-archi A di un grafo orientato? Perché è Totalmente Unimodulare (TU)?",
+    hint: "Pensa a come è fatta ogni colonna della matrice: un arco coinvolge esattamente due nodi.",
+    ans: `La matrice di incidenza A è una matrice m×n (m = nodi, n = archi) dove:<br><br>
+a<sub>ke</sub> = +1 se il nodo k è la <em>testa</em> dell'arco e (arco esce da k)<br>
+a<sub>ke</sub> = −1 se il nodo k è la <em>coda</em> dell'arco e (arco entra in k)<br>
+a<sub>ke</sub> = 0 altrimenti<br><br>
+<strong>Perché è TU?</strong> Ogni colonna (= ogni arco) ha esattamente un +1 e un −1, tutti gli altri elementi zero. Una matrice è TU se ogni sua sottomatrice quadrata ha determinante in {0, +1, −1}. Questa struttura ±1 per colonna garantisce proprio quella proprietà.<br><br>
+<strong>Conseguenza fondamentale:</strong> se b e h sono interi, ogni vertice del poliedro {x : Ax=b, 0≤x≤h} è intero → ogni SBA ottima è intera, senza bisogno di imporre vincoli di interezza esplicitamente.`
+  },
+  {
+    q: "Nel problema di trasporto (U), perché la condizione Σaᵢ = Σbⱼ è necessaria? Cosa succede se non vale?",
+    hint: "Pensa ai vincoli di uguaglianza: la somma di tutti i vincoli sulle righe deve essere compatibile con la somma di tutti i vincoli sulle colonne.",
+    ans: `Il problema (U) ha due insiemi di vincoli:<br>
+• Σⱼ x<sub>ij</sub> = a<sub>i</sub> per ogni origine i (tutta l'offerta viene spedita)<br>
+• Σᵢ x<sub>ij</sub> = b<sub>j</sub> per ogni destinazione j (tutta la domanda viene soddisfatta)<br><br>
+Sommando tutti i vincoli delle origini: Σᵢ Σⱼ x<sub>ij</sub> = Σᵢ a<sub>i</sub><br>
+Sommando tutti i vincoli delle destinazioni: Σⱼ Σᵢ x<sub>ij</sub> = Σⱼ b<sub>j</sub><br><br>
+I due lati sinistri sono identici, quindi necessariamente <strong>Σaᵢ = Σbⱼ</strong>.<br><br>
+Se questa condizione non vale, il sistema è <em>incompatibile</em> e il problema non ha soluzione ammissibile. In pratica si aggiunge un'origine o destinazione fittizia con costi zero per riequilibrare.`
+  },
+  {
+    q: "Il problema di assegnazione (PI) è un problema intero binario. Come mai si può risolvere rilassando i vincoli di interezza e risolvendo il rilassamento lineare (PL)?",
+    hint: "È un caso speciale del problema di trasporto con aᵢ=1 e bⱼ=1. Che proprietà ha la matrice dei coefficienti?",
+    ans: `Il problema di assegnazione (PI) ha x<sub>ij</sub> ∈ {0,1}. Il suo rilassamento lineare (PL) impone solo 0 ≤ x<sub>ij</sub> ≤ 1.<br><br>
+<strong>Osservazione chiave:</strong> (PL) è un caso particolare del problema di trasporto (U) con m=n, a<sub>i</sub>=1 ∀i, b<sub>j</sub>=1 ∀j.<br><br>
+La matrice dei coefficienti di (PL) è la matrice di incidenza nodi-archi di un grafo bipartito orientato, che è <strong>TU</strong>.<br><br>
+Poiché a<sub>i</sub>=1 e b<sub>j</sub>=1 sono interi, per il teorema di interezza ogni SBA ottima di (PL) ha componenti intere. Ma con vincoli 0 ≤ x<sub>ij</sub> ≤ 1, le componenti intere possono solo essere 0 o 1.<br><br>
+→ Ogni SBA ottima di (PL) è binaria → è anche ottima per (PI).<br>
+<strong>Non serve Branch & Bound: basta risolvere il PL!</strong>`
+  },
+  {
+    q: "Scrivi la formulazione del problema (*) di flusso generalizzato. Spiega il ruolo di ciascun termine: A, b, h, c, x.",
+    hint: "Guarda la prima pagina del PDF: il problema (*) è la forma compatta con matrice di incidenza.",
+    ans: `Il problema (*) è:<br><br>
+<strong>min z(x) = cᵀx</strong><br>
+soggetto a:<br>
+Ax = b<br>
+x ≤ h<br>
+x ≥ 0<br><br>
+dove:<br>
+• <strong>x = (x<sub>e₁</sub>,...,x<sub>eₙ</sub>)ᵀ</strong> — vettore dei flussi sugli archi<br>
+• <strong>c = (c<sub>e₁</sub>,...,c<sub>eₙ</sub>)ᵀ</strong> — costi per unità di flusso su ogni arco<br>
+• <strong>b = (b₁,...,bₘ)ᵀ</strong> — offerte/domande ai nodi (b<sub>k</sub>>0 sorgente, b<sub>k</sub><0 pozzo, b<sub>k</sub>=0 transito)<br>
+• <strong>h = (h<sub>e₁</sub>,...,h<sub>eₙ</sub>)ᵀ</strong> — capacità massime degli archi<br>
+• <strong>A</strong> — matrice di incidenza nodi-archi (m×n), con Σb<sub>k</sub>=0 per consistenza<br><br>
+Il vincolo Ax=b è il <em>bilanciamento del flusso</em> in ogni nodo: flusso uscente − flusso entrante = b<sub>k</sub>.`
+  }
+];
+
+let cur = 0;
+
+function render() {
+  const q = qs[cur];
+  document.getElementById('qcounter').textContent = `Domanda ${cur+1} di ${qs.length}`;
+  document.getElementById('qtext').innerHTML = q.q;
+  document.getElementById('qhint').textContent = q.hint;
+  document.getElementById('qhint').classList.remove('show');
+  document.getElementById('ansbox').innerHTML = q.ans;
+  document.getElementById('ansbox').classList.remove('show');
+  document.getElementById('btnPrev').disabled = cur === 0;
+  document.getElementById('btnNext').disabled = cur === qs.length - 1;
+  const prog = document.getElementById('progress');
+  prog.innerHTML = '';
+  qs.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i < cur ? ' done' : i === cur ? ' active' : '');
+    prog.appendChild(d);
+  });
+}
+
+function toggleHint() {
+  document.getElementById('qhint').classList.toggle('show');
+}
+function toggleAns() {
+  const box = document.getElementById('ansbox');
+  box.classList.toggle('show');
+}
+function move(dir) {
+  cur = Math.max(0, Math.min(qs.length-1, cur+dir));
+  render();
+}
+
+render();
+</script>

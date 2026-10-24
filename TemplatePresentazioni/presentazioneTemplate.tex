@@ -1,0 +1,144 @@
+\documentclass[aspectratio=169]{beamer}
+
+% Tema e colori
+\usetheme{SimplePlus}
+\usecolortheme{default}
+%\usetheme{Singapore}
+%\usecolortheme{default}
+
+% Pacchetti utili
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcommand{\quotes}[1]{``#1''}
+
+% Informazioni sulla presentazione
+\title{Titolo della Presentazione}
+\subtitle{Sottotitolo (opzionale)}
+\author{Giuseppe Di Blasi}
+\institute{Università degli studi di Parma}
+\date{\today}
+
+
+
+% Logo (opzionale - decommentare e specificare il percorso)
+% \logo{\includegraphics[height=1cm]{logo.png}}
+
+\begin{document}
+
+% Slide del titolo
+\begin{frame}
+\titlepage
+\end{frame}
+
+% Indice
+\begin{frame}{Indice}
+\tableofcontents
+\end{frame}
+
+% Sezione 1
+\section{Introduzione}
+
+\begin{frame}{Slide di Introduzione}
+\begin{itemize}
+    \item Primo punto importante
+    \item Secondo punto con \textbf{testo in grassetto}
+    \item Terzo punto con \textit{testo in corsivo}
+    \item Quarto punto con \textcolor{red}{testo colorato}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Slide con Blocchi}
+\begin{block}{Definizione}
+Questo è un blocco per definizioni o concetti importanti.
+\end{block}
+
+\begin{alertblock}{Attenzione}
+Questo è un blocco di avviso per informazioni critiche.
+\end{alertblock}
+
+\begin{exampleblock}{Esempio}
+Questo è un blocco per esempi pratici.
+\end{exampleblock}
+\end{frame}
+
+% Sezione 2
+\section{Contenuto Principale}
+
+\begin{frame}{Slide con Due Colonne}
+\begin{columns}
+\column{0.5\textwidth}
+\textbf{Colonna Sinistra}
+\begin{itemize}
+    \item Elemento A
+    \item Elemento B
+    \item Elemento C
+\end{itemize}
+
+\column{0.5\textwidth}
+\textbf{Colonna Destra}
+\begin{itemize}
+    \item Elemento X
+    \item Elemento Y
+    \item Elemento Z
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Slide con Formule Matematiche}
+Equazione inline: $E = mc^2$
+
+Equazione centrata:
+\begin{equation}
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+\end{equation}
+
+Formula importante:
+\[
+f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!}(x-a)^n
+\]
+\end{frame}
+
+\begin{frame}{Slide con Immagine}
+\begin{center}
+% Decommentare e specificare il percorso dell'immagine
+% \includegraphics[width=0.6\textwidth]{immagine.png}
+\end{center}
+\begin{itemize}
+    \item Descrizione dell'immagine
+    \item Commento aggiuntivo
+\end{itemize}
+\end{frame}
+
+% Sezione 3
+\section{Conclusioni}
+
+\begin{frame}{Conclusioni}
+\begin{enumerate}
+    \item Prima conclusione
+    \item Seconda conclusione
+    \item Terza conclusione
+\end{enumerate}
+
+\vspace{1cm}
+\centering
+\Large Grazie per l'attenzione!
+\end{frame}
+
+\begin{frame}{Contatti e Riferimenti}
+\begin{itemize}
+    \item Email: tuaemail@esempio.it
+    \item Sito web: www.tuosito.it
+\end{itemize}
+
+\vspace{1cm}
+\textbf{Riferimenti bibliografici:}
+\begin{itemize}
+    \item Autore A. (2024). Titolo del libro.
+    \item Autore B. (2023). Titolo dell'articolo.
+\end{itemize}
+\end{frame}
+
+\end{document}

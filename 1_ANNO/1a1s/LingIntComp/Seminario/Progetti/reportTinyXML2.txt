@@ -1,0 +1,1149 @@
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:115:20: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  115 |         static inline int TIXML_VSCPRINTF( const char* format, va_list va )
+      |                       ~~~ ^                                                
+      |                       auto                                                  -> int
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:117:24: warning: use nullptr [modernize-use-nullptr]
+  117 |                 int len = vsnprintf( 0, 0, format, va );
+      |                                      ^
+      |                                      nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:164:14: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+  164 | static const Entity entities[NUM_ENTITIES] = {
+      |              ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:199:14: warning: use nullptr [modernize-use-nullptr]
+  199 |     _start = 0;
+      |              ^
+      |              nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:200:12: warning: use nullptr [modernize-use-nullptr]
+  200 |     _end = 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:210:14: warning: use nullptr [modernize-use-nullptr]
+  210 |     _start = 0;
+      |              ^
+      |              nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:211:12: warning: use nullptr [modernize-use-nullptr]
+  211 |     _end = 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:228:16: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  228 | char* StrPair::ParseText( char* p, const char* endTag, int strFlags, int* curLineNumPtr )
+      | ~~~~~          ^                                                                         
+      | auto                                                                                      -> char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:249:12: warning: use nullptr [modernize-use-nullptr]
+  249 |     return 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:253:16: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  253 | char* StrPair::ParseName( char* p )
+      | ~~~~~          ^                   
+      | auto                                -> char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:256:16: warning: use nullptr [modernize-use-nullptr]
+  256 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:259:16: warning: use nullptr [modernize-use-nullptr]
+  259 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:278:47: warning: use nullptr [modernize-use-nullptr]
+  278 |     _start = XMLUtil::SkipWhiteSpace( _start, 0 );
+      |                                               ^
+      |                                               nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:286:49: warning: use nullptr [modernize-use-nullptr]
+  286 |                 p = XMLUtil::SkipWhiteSpace( p, 0 );
+      |                                                 ^
+      |                                                 nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:302:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  302 | const char* StrPair::GetStr()
+      | ~~~~~~~~~~~          ^       
+      | auto                          -> const char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:346:25: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+  346 |                         char buf[buflen] = { 0 };
+      |                         ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:349:42: warning: use nullptr [modernize-use-nullptr]
+  349 |                         if ( adjusted == 0 ) {
+      |                                          ^
+      |                                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:364:25: warning: use range-based for loop instead [modernize-loop-convert]
+  364 |                         for( int i = 0; i < NUM_ENTITIES; ++i ) {
+      |                         ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                            (auto entity : entities)
+  365 |                             const Entity& entity = entities[i];
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  366 |                             if ( strncmp( p + 1, entity.pattern, entity.length ) == 0
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:420:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  420 | const char* XMLUtil::ReadBOM( const char* p, bool* bom )
+      | ~~~~~~~~~~~          ^                                  
+      | auto                                                     -> const char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:425:11: warning: use auto when initializing with a cast to avoid duplicating the type name [modernize-use-auto]
+  425 |     const unsigned char* pu = reinterpret_cast<const unsigned char*>(p);
+      |           ^~~~~~~~~~~~~
+      |           auto
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:442:11: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+  442 |     const unsigned long FIRST_BYTE_MARK[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
+      |           ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:491:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  491 | const char* XMLUtil::GetCharacterRef(const char* p, char* value, int* length)
+      | ~~~~~~~~~~~          ^                                                       
+      | auto                                                                          -> const char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:506:25: warning: use nullptr [modernize-use-nullptr]
+  506 |         const char* q = 0;
+      |                         ^
+      |                         nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:522:20: warning: use nullptr [modernize-use-nullptr]
+  522 |             return 0;
+      |                    ^
+      |                    nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:527:20: warning: use nullptr [modernize-use-nullptr]
+  527 |             return 0;
+      |                    ^
+      |                    nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:547:24: warning: use nullptr [modernize-use-nullptr]
+  547 |                 return 0;
+      |                        ^
+      |                        nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:565:20: warning: use nullptr [modernize-use-nullptr]
+  565 |             return 0;
+      |                    ^
+      |                    nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:569:17: warning: use nullptr [modernize-use-nullptr]
+  569 |                 if (length == 0) {
+      |                               ^
+      |                               nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:572:11: warning: use nullptr [modernize-use-nullptr]
+  572 |                         return 0;
+      |                                ^
+      |                                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:624:15: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  624 | bool XMLUtil::ToInt(const char* str, int* value)
+      | ~~~~          ^                                 
+      | auto                                             -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:641:15: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  641 | bool XMLUtil::ToUnsigned(const char* str, unsigned* value)
+      | ~~~~          ^                                           
+      | auto                                                       -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:649:15: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  649 | bool XMLUtil::ToBool( const char* str, bool* value )
+      | ~~~~          ^                                     
+      | auto                                                 -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:656:18: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+  656 |     static const char* TRUE_VALS[] = { "true", "True", "TRUE", 0 };
+      |                  ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:656:64: warning: use nullptr [modernize-use-nullptr]
+  656 |     static const char* TRUE_VALS[] = { "true", "True", "TRUE", 0 };
+      |                                                                ^
+      |                                                                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:657:18: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+  657 |     static const char* FALSE_VALS[] = { "false", "False", "FALSE", 0 };
+      |                  ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:657:68: warning: use nullptr [modernize-use-nullptr]
+  657 |     static const char* FALSE_VALS[] = { "false", "False", "FALSE", 0 };
+      |                                                                    ^
+      |                                                                    nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:675:15: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  675 | bool XMLUtil::ToFloat( const char* str, float* value )
+      | ~~~~          ^                                       
+      | auto                                                   -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:684:15: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  684 | bool XMLUtil::ToDouble( const char* str, double* value )
+      | ~~~~          ^                                         
+      | auto                                                     -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:693:15: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  693 | bool XMLUtil::ToInt64(const char* str, int64_t* value)
+      | ~~~~          ^                                       
+      | auto                                                   -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:713:15: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  713 | bool XMLUtil::ToUnsigned64(const char* str, uint64_t* value) {
+      | ~~~~          ^
+      | auto                                                         -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:723:20: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  723 | char* XMLDocument::Identify( char* p, XMLNode** node, bool first )
+      | ~~~~~              ^                                              
+      | auto                                                               -> char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:731:17: warning: use nullptr [modernize-use-nullptr]
+  731 |         *node = 0;
+      |                 ^
+      |                 nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:751:27: warning: use nullptr [modernize-use-nullptr]
+  751 |     XMLNode* returnNode = 0;
+      |                           ^
+      |                           nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:763:9: warning: use auto when initializing with a template cast to avoid duplicating the type name [modernize-use-auto]
+  763 |         XMLText* text = CreateUnlinkedNode<XMLText>( _textPool );
+      |         ^~~~~~~
+      |         auto
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:803:19: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  803 | bool XMLDocument::Accept( XMLVisitor* visitor ) const
+      | ~~~~              ^                                  
+      | auto                                                  -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:821:14: warning: use nullptr [modernize-use-nullptr]
+  821 |     _parent( 0 ),
+      |              ^
+      |              nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:824:18: warning: use nullptr [modernize-use-nullptr]
+  824 |     _firstChild( 0 ), _lastChild( 0 ),
+      |                  ^
+      |                  nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:824:35: warning: use nullptr [modernize-use-nullptr]
+  824 |     _firstChild( 0 ), _lastChild( 0 ),
+      |                                   ^
+      |                                   nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:825:12: warning: use nullptr [modernize-use-nullptr]
+  825 |     _prev( 0 ), _next( 0 ),
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:825:24: warning: use nullptr [modernize-use-nullptr]
+  825 |     _prev( 0 ), _next( 0 ),
+      |                        ^
+      |                        nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:826:13: warning: use nullptr [modernize-use-nullptr]
+  826 |         _userData( 0 ),
+      |                    ^
+      |                    nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:827:15: warning: use nullptr [modernize-use-nullptr]
+  827 |     _memPool( 0 )
+      |               ^
+      |               nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:842:14: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  842 | int XMLNode::ChildElementCount(const char *value) const {
+      | ~~~          ^
+      | auto                                                    -> int
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:855:14: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  855 | int XMLNode::ChildElementCount() const {
+      | ~~~          ^
+      | auto                                   -> int
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:868:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  868 | const char* XMLNode::Value() const
+      | ~~~~~~~~~~~          ^            
+      | auto                               -> const char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:872:16: warning: use nullptr [modernize-use-nullptr]
+  872 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:886:19: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  886 | XMLNode* XMLNode::DeepClone(XMLDocument* target) const
+      | ~~~~~~~~          ^                                   
+      | auto                                                   -> XMLNode*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:889:21: warning: use nullptr [modernize-use-nullptr]
+  889 |         if (!clone) return 0;
+      |                            ^
+      |                            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:905:32: warning: use nullptr [modernize-use-nullptr]
+  905 |     _firstChild = _lastChild = 0;
+      |                                ^
+      |                                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:927:17: warning: use nullptr [modernize-use-nullptr]
+  927 |         child->_next = 0;
+      |                        ^
+      |                        nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:928:17: warning: use nullptr [modernize-use-nullptr]
+  928 |         child->_prev = 0;
+      |                        ^
+      |                        nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:929:19: warning: use nullptr [modernize-use-nullptr]
+  929 |         child->_parent = 0;
+      |                          ^
+      |                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:946:19: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  946 | XMLNode* XMLNode::InsertEndChild( XMLNode* addThis )
+      | ~~~~~~~~          ^                                 
+      | auto                                                 -> XMLNode*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:951:16: warning: use nullptr [modernize-use-nullptr]
+  951 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:962:26: warning: use nullptr [modernize-use-nullptr]
+  962 |         addThis->_next = 0;
+      |                          ^
+      |                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:968:26: warning: use nullptr [modernize-use-nullptr]
+  968 |         addThis->_prev = 0;
+      |                          ^
+      |                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:969:26: warning: use nullptr [modernize-use-nullptr]
+  969 |         addThis->_next = 0;
+      |                          ^
+      |                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:976:19: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+  976 | XMLNode* XMLNode::InsertFirstChild( XMLNode* addThis )
+      | ~~~~~~~~          ^                                   
+      | auto                                                   -> XMLNode*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:981:16: warning: use nullptr [modernize-use-nullptr]
+  981 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:993:26: warning: use nullptr [modernize-use-nullptr]
+  993 |         addThis->_prev = 0;
+      |                          ^
+      |                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:999:26: warning: use nullptr [modernize-use-nullptr]
+  999 |         addThis->_prev = 0;
+      |                          ^
+      |                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1000:26: warning: use nullptr [modernize-use-nullptr]
+ 1000 |         addThis->_next = 0;
+      |                          ^
+      |                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1007:19: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1007 | XMLNode* XMLNode::InsertAfterChild( XMLNode* afterThis, XMLNode* addThis )
+      | ~~~~~~~~          ^                                                       
+      | auto                                                                       -> XMLNode*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1012:16: warning: use nullptr [modernize-use-nullptr]
+ 1012 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1019:16: warning: use nullptr [modernize-use-nullptr]
+ 1019 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1029:30: warning: use nullptr [modernize-use-nullptr]
+ 1029 |     if ( afterThis->_next == 0 ) {
+      |                              ^
+      |                              nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1045:28: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1045 | const XMLElement* XMLNode::FirstChildElement( const char* name ) const
+      | ~~~~~~~~~~~~~~~~~          ^                                          
+      | auto                                                                   -> const XMLElement*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1053:12: warning: use nullptr [modernize-use-nullptr]
+ 1053 |     return 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1057:28: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1057 | const XMLElement* XMLNode::LastChildElement( const char* name ) const
+      | ~~~~~~~~~~~~~~~~~          ^                                         
+      | auto                                                                  -> const XMLElement*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1065:12: warning: use nullptr [modernize-use-nullptr]
+ 1065 |     return 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1069:28: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1069 | const XMLElement* XMLNode::NextSiblingElement( const char* name ) const
+      | ~~~~~~~~~~~~~~~~~          ^                                           
+      | auto                                                                    -> const XMLElement*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1077:12: warning: use nullptr [modernize-use-nullptr]
+ 1077 |     return 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1081:28: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1081 | const XMLElement* XMLNode::PreviousSiblingElement( const char* name ) const
+      | ~~~~~~~~~~~~~~~~~          ^                                               
+      | auto                                                                        -> const XMLElement*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1089:12: warning: use nullptr [modernize-use-nullptr]
+ 1089 |     return 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1093:16: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1093 | char* XMLNode::ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr )
+      | ~~~~~          ^                                                              
+      | auto                                                                           -> char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1114:10: warning: use nullptr [modernize-use-nullptr]
+ 1114 |                 return 0;
+      |                        ^
+      |                        nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1118:25: warning: use nullptr [modernize-use-nullptr]
+ 1118 |         XMLNode* node = 0;
+      |                         ^
+      |                         nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1122:22: warning: use nullptr [modernize-use-nullptr]
+ 1122 |         if ( node == 0 ) {
+      |                      ^
+      |                      nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1134:73: warning: use nullptr [modernize-use-nullptr]
+ 1134 |                 _document->SetError( XML_ERROR_PARSING, initialLineNum, 0);
+      |                                                                         ^
+      |                                                                         nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1206:12: warning: use nullptr [modernize-use-nullptr]
+ 1206 |     return 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1211:18: warning: use nullptr [modernize-use-nullptr]
+ 1211 |     if ( node == 0 ) {
+      |                  ^
+      |                  nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1238:28: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1238 | const XMLElement* XMLNode::ToElementWithName( const char* name ) const
+      | ~~~~~~~~~~~~~~~~~          ^                                          
+      | auto                                                                   -> const XMLElement*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1241:21: warning: use nullptr [modernize-use-nullptr]
+ 1241 |     if ( element == 0 ) {
+      |                     ^
+      |                     nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1242:16: warning: use nullptr [modernize-use-nullptr]
+ 1242 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1244:18: warning: use nullptr [modernize-use-nullptr]
+ 1244 |     if ( name == 0 ) {
+      |                  ^
+      |                  nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1250:12: warning: use nullptr [modernize-use-nullptr]
+ 1250 |     return 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1254:16: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1254 | char* XMLText::ParseDeep( char* p, StrPair*, int* curLineNumPtr )
+      | ~~~~~          ^                                                 
+      | auto                                                              -> char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1259:74: warning: use nullptr [modernize-use-nullptr]
+ 1259 |             _document->SetError( XML_ERROR_PARSING_CDATA, _parseLineNum, 0 );
+      |                                                                          ^
+      |                                                                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1274:73: warning: use nullptr [modernize-use-nullptr]
+ 1274 |             _document->SetError( XML_ERROR_PARSING_TEXT, _parseLineNum, 0 );
+      |                                                                         ^
+      |                                                                         nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1277:12: warning: use nullptr [modernize-use-nullptr]
+ 1277 |     return 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1281:19: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1281 | XMLNode* XMLText::ShallowClone( XMLDocument* doc ) const
+      | ~~~~~~~~          ^                                     
+      | auto                                                     -> XMLNode*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1292:15: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1292 | bool XMLText::ShallowEqual( const XMLNode* compare ) const
+      | ~~~~          ^                                           
+      | auto                                                       -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1300:15: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1300 | bool XMLText::Accept( XMLVisitor* visitor ) const
+      | ~~~~          ^                                  
+      | auto                                              -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1314:13: warning: use '= default' to define a trivial destructor [modernize-use-equals-default]
+ 1314 | XMLComment::~XMLComment()
+      |             ^
+ 1315 | {
+      | ~
+      | = default;
+ 1316 | }
+      | ~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1319:19: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1319 | char* XMLComment::ParseDeep( char* p, StrPair*, int* curLineNumPtr )
+      | ~~~~~             ^                                                 
+      | auto                                                                 -> char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1323:15: warning: use nullptr [modernize-use-nullptr]
+ 1323 |     if ( p == 0 ) {
+      |               ^
+      |               nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1324:72: warning: use nullptr [modernize-use-nullptr]
+ 1324 |         _document->SetError( XML_ERROR_PARSING_COMMENT, _parseLineNum, 0 );
+      |                                                                        ^
+      |                                                                        nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1330:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1330 | XMLNode* XMLComment::ShallowClone( XMLDocument* doc ) const
+      | ~~~~~~~~             ^                                     
+      | auto                                                        -> XMLNode*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1340:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1340 | bool XMLComment::ShallowEqual( const XMLNode* compare ) const
+      | ~~~~             ^                                           
+      | auto                                                          -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1348:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1348 | bool XMLComment::Accept( XMLVisitor* visitor ) const
+      | ~~~~             ^                                  
+      | auto                                                 -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1362:17: warning: use '= default' to define a trivial destructor [modernize-use-equals-default]
+ 1362 | XMLDeclaration::~XMLDeclaration()
+      |                 ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1368:23: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1368 | char* XMLDeclaration::ParseDeep( char* p, StrPair*, int* curLineNumPtr )
+      | ~~~~~                 ^                                                 
+      | auto                                                                     -> char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1372:15: warning: use nullptr [modernize-use-nullptr]
+ 1372 |     if ( p == 0 ) {
+      |               ^
+      |               nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1373:76: warning: use nullptr [modernize-use-nullptr]
+ 1373 |         _document->SetError( XML_ERROR_PARSING_DECLARATION, _parseLineNum, 0 );
+      |                                                                            ^
+      |                                                                            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1379:26: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1379 | XMLNode* XMLDeclaration::ShallowClone( XMLDocument* doc ) const
+      | ~~~~~~~~                 ^                                     
+      | auto                                                            -> XMLNode*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1389:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1389 | bool XMLDeclaration::ShallowEqual( const XMLNode* compare ) const
+      | ~~~~                 ^                                           
+      | auto                                                              -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1398:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1398 | bool XMLDeclaration::Accept( XMLVisitor* visitor ) const
+      | ~~~~                 ^                                  
+      | auto                                                     -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1411:13: warning: use '= default' to define a trivial destructor [modernize-use-equals-default]
+ 1411 | XMLUnknown::~XMLUnknown()
+      |             ^
+ 1412 | {
+      | ~
+      | = default;
+ 1413 | }
+      | ~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1416:19: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1416 | char* XMLUnknown::ParseDeep( char* p, StrPair*, int* curLineNumPtr )
+      | ~~~~~             ^                                                 
+      | auto                                                                 -> char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1421:72: warning: use nullptr [modernize-use-nullptr]
+ 1421 |         _document->SetError( XML_ERROR_PARSING_UNKNOWN, _parseLineNum, 0 );
+      |                                                                        ^
+      |                                                                        nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1427:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1427 | XMLNode* XMLUnknown::ShallowClone( XMLDocument* doc ) const
+      | ~~~~~~~~             ^                                     
+      | auto                                                        -> XMLNode*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1437:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1437 | bool XMLUnknown::ShallowEqual( const XMLNode* compare ) const
+      | ~~~~             ^                                           
+      | auto                                                          -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1445:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1445 | bool XMLUnknown::Accept( XMLVisitor* visitor ) const
+      | ~~~~             ^                                  
+      | auto                                                 -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1453:27: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1453 | const char* XMLAttribute::Name() const
+      | ~~~~~~~~~~~               ^           
+      | auto                                   -> const char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1458:27: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1458 | const char* XMLAttribute::Value() const
+      | ~~~~~~~~~~~               ^            
+      | auto                                    -> const char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1463:21: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1463 | char* XMLAttribute::ParseDeep( char* p, bool processEntities, int* curLineNumPtr )
+      | ~~~~~               ^                                                             
+      | auto                                                                               -> char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1468:16: warning: use nullptr [modernize-use-nullptr]
+ 1468 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1474:16: warning: use nullptr [modernize-use-nullptr]
+ 1474 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1480:16: warning: use nullptr [modernize-use-nullptr]
+ 1480 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1483:11: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1483 |     const char endTag[2] = { *p, 0 };
+      |           ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1497:24: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1497 | XMLError XMLAttribute::QueryIntValue( int* value ) const
+      | ~~~~~~~~               ^                                
+      | auto                                                     -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1506:24: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1506 | XMLError XMLAttribute::QueryUnsignedValue( unsigned int* value ) const
+      | ~~~~~~~~               ^                                              
+      | auto                                                                   -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1515:24: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1515 | XMLError XMLAttribute::QueryInt64Value(int64_t* value) const
+      | ~~~~~~~~               ^                                    
+      | auto                                                         -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1524:24: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1524 | XMLError XMLAttribute::QueryUnsigned64Value(uint64_t* value) const
+      | ~~~~~~~~               ^                                          
+      | auto                                                               -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1533:24: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1533 | XMLError XMLAttribute::QueryBoolValue( bool* value ) const
+      | ~~~~~~~~               ^                                  
+      | auto                                                       -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1542:24: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1542 | XMLError XMLAttribute::QueryFloatValue( float* value ) const
+      | ~~~~~~~~               ^                                    
+      | auto                                                         -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1551:24: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1551 | XMLError XMLAttribute::QueryDoubleValue( double* value ) const
+      | ~~~~~~~~               ^                                      
+      | auto                                                           -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1568:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1568 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1576:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1576 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1584:2: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1584 |         char buf[BUF_SIZE];
+      |         ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1591:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1591 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1599:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1599 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1606:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1606 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1613:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1613 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1622:21: warning: use nullptr [modernize-use-nullptr]
+ 1622 |     _rootAttribute( 0 )
+      |                     ^
+      |                     nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1637:33: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1637 | const XMLAttribute* XMLElement::FindAttribute( const char* name ) const
+      | ~~~~~~~~~~~~~~~~~~~             ^                                      
+      | auto                                                                    -> const XMLAttribute*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1644:12: warning: use nullptr [modernize-use-nullptr]
+ 1644 |     return 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1648:25: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1648 | const char* XMLElement::Attribute( const char* name, const char* value ) const
+      | ~~~~~~~~~~~             ^                                                     
+      | auto                                                                           -> const char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1652:16: warning: use nullptr [modernize-use-nullptr]
+ 1652 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1657:12: warning: use nullptr [modernize-use-nullptr]
+ 1657 |     return 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1660:17: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1660 | int XMLElement::IntAttribute(const char* name, int defaultValue) const
+      | ~~~             ^                                                     
+      | auto                                                                   -> int
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1667:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1667 | unsigned XMLElement::UnsignedAttribute(const char* name, unsigned defaultValue) const
+      | ~~~~~~~~             ^                                                               
+      | auto                                                                                  -> unsigned
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1674:21: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1674 | int64_t XMLElement::Int64Attribute(const char* name, int64_t defaultValue) const
+      | ~~~~~~~             ^                                                           
+      | auto                                                                             -> int64_t
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1681:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1681 | uint64_t XMLElement::Unsigned64Attribute(const char* name, uint64_t defaultValue) const
+      | ~~~~~~~~             ^                                                                 
+      | auto                                                                                    -> uint64_t
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1688:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1688 | bool XMLElement::BoolAttribute(const char* name, bool defaultValue) const
+      | ~~~~             ^                                                       
+      | auto                                                                      -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1695:20: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1695 | double XMLElement::DoubleAttribute(const char* name, double defaultValue) const
+      | ~~~~~~             ^                                                           
+      | auto                                                                            -> double
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1702:19: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1702 | float XMLElement::FloatAttribute(const char* name, float defaultValue) const
+      | ~~~~~             ^                                                         
+      | auto                                                                         -> float
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1709:25: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1709 | const char* XMLElement::GetText() const
+      | ~~~~~~~~~~~             ^              
+      | auto                                    -> const char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1724:12: warning: use nullptr [modernize-use-nullptr]
+ 1724 |     return 0;
+      |            ^
+      |            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1741:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1741 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1749:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1749 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1757:2: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1757 |         char buf[BUF_SIZE];
+      |         ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1763:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1763 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1771:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1771 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1779:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1779 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1787:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 1787 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1793:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1793 | XMLError XMLElement::QueryIntText( int* ival ) const
+      | ~~~~~~~~             ^                              
+      | auto                                                 -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1806:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1806 | XMLError XMLElement::QueryUnsignedText( unsigned* uval ) const
+      | ~~~~~~~~             ^                                        
+      | auto                                                           -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1819:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1819 | XMLError XMLElement::QueryInt64Text(int64_t* ival) const
+      | ~~~~~~~~             ^                                  
+      | auto                                                     -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1832:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1832 | XMLError XMLElement::QueryUnsigned64Text(uint64_t* uval) const
+      | ~~~~~~~~             ^                                        
+      | auto                                                           -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1845:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1845 | XMLError XMLElement::QueryBoolText( bool* bval ) const
+      | ~~~~~~~~             ^                                
+      | auto                                                   -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1858:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1858 | XMLError XMLElement::QueryDoubleText( double* dval ) const
+      | ~~~~~~~~             ^                                    
+      | auto                                                       -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1871:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1871 | XMLError XMLElement::QueryFloatText( float* fval ) const
+      | ~~~~~~~~             ^                                  
+      | auto                                                     -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1883:17: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1883 | int XMLElement::IntText(int defaultValue) const
+      | ~~~             ^                              
+      | auto                                            -> int
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1890:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1890 | unsigned XMLElement::UnsignedText(unsigned defaultValue) const
+      | ~~~~~~~~             ^                                        
+      | auto                                                           -> unsigned
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1897:21: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1897 | int64_t XMLElement::Int64Text(int64_t defaultValue) const
+      | ~~~~~~~             ^                                    
+      | auto                                                      -> int64_t
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1904:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1904 | uint64_t XMLElement::Unsigned64Text(uint64_t defaultValue) const
+      | ~~~~~~~~             ^                                          
+      | auto                                                             -> uint64_t
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1911:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1911 | bool XMLElement::BoolText(bool defaultValue) const
+      | ~~~~             ^                                
+      | auto                                               -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1918:20: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1918 | double XMLElement::DoubleText(double defaultValue) const
+      | ~~~~~~             ^                                    
+      | auto                                                     -> double
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1925:19: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1925 | float XMLElement::FloatText(float defaultValue) const
+      | ~~~~~             ^                                  
+      | auto                                                  -> float
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1933:27: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1933 | XMLAttribute* XMLElement::FindOrCreateAttribute( const char* name )
+      | ~~~~~~~~~~~~~             ^                                        
+      | auto                                                                -> XMLAttribute*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1935:26: warning: use nullptr [modernize-use-nullptr]
+ 1935 |     XMLAttribute* last = 0;
+      |                          ^
+      |                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1936:28: warning: use nullptr [modernize-use-nullptr]
+ 1936 |     XMLAttribute* attrib = 0;
+      |                            ^
+      |                            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1963:26: warning: use nullptr [modernize-use-nullptr]
+ 1963 |     XMLAttribute* prev = 0;
+      |                          ^
+      |                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1980:19: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 1980 | char* XMLElement::ParseAttributes( char* p, int* curLineNumPtr )
+      | ~~~~~             ^                                             
+      | auto                                                             -> char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1982:35: warning: use nullptr [modernize-use-nullptr]
+ 1982 |     XMLAttribute* prevAttribute = 0;
+      |                                   ^
+      |                                   nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:1989:20: warning: use nullptr [modernize-use-nullptr]
+ 1989 |             return 0;
+      |                    ^
+      |                    nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2004:24: warning: use nullptr [modernize-use-nullptr]
+ 2004 |                 return 0;
+      |                        ^
+      |                        nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2032:76: warning: use nullptr [modernize-use-nullptr]
+ 2032 |             _document->SetError( XML_ERROR_PARSING_ELEMENT, _parseLineNum, 0 );
+      |                                                                            ^
+      |                                                                            nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2033:20: warning: use nullptr [modernize-use-nullptr]
+ 2033 |             return 0;
+      |                    ^
+      |                    nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2041:23: warning: use nullptr [modernize-use-nullptr]
+ 2041 |     if ( attribute == 0 ) {
+      |                       ^
+      |                       nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2049:27: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2049 | XMLAttribute* XMLElement::CreateAttribute()
+      | ~~~~~~~~~~~~~             ^                
+      | auto                                        -> XMLAttribute*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2052:5: warning: use auto when initializing with new to avoid duplicating the type name [modernize-use-auto]
+ 2052 |     XMLAttribute* attrib = new (_document->_attributePool.Alloc() ) XMLAttribute();
+      |     ^~~~~~~~~~~~
+      |     auto
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2060:25: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2060 | XMLElement* XMLElement::InsertNewChildElement(const char* name)
+      | ~~~~~~~~~~~             ^                                      
+      | auto                                                            -> XMLElement*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2063:42: warning: use nullptr [modernize-use-nullptr]
+ 2063 |     return InsertEndChild(node) ? node : 0;
+      |                                          ^
+      |                                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2066:25: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2066 | XMLComment* XMLElement::InsertNewComment(const char* comment)
+      | ~~~~~~~~~~~             ^                                    
+      | auto                                                          -> XMLComment*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2069:42: warning: use nullptr [modernize-use-nullptr]
+ 2069 |     return InsertEndChild(node) ? node : 0;
+      |                                          ^
+      |                                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2072:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2072 | XMLText* XMLElement::InsertNewText(const char* text)
+      | ~~~~~~~~             ^                              
+      | auto                                                 -> XMLText*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2075:42: warning: use nullptr [modernize-use-nullptr]
+ 2075 |     return InsertEndChild(node) ? node : 0;
+      |                                          ^
+      |                                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2078:29: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2078 | XMLDeclaration* XMLElement::InsertNewDeclaration(const char* text)
+      | ~~~~~~~~~~~~~~~             ^                                     
+      | auto                                                               -> XMLDeclaration*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2081:42: warning: use nullptr [modernize-use-nullptr]
+ 2081 |     return InsertEndChild(node) ? node : 0;
+      |                                          ^
+      |                                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2084:25: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2084 | XMLUnknown* XMLElement::InsertNewUnknown(const char* text)
+      | ~~~~~~~~~~~             ^                                 
+      | auto                                                       -> XMLUnknown*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2087:42: warning: use nullptr [modernize-use-nullptr]
+ 2087 |     return InsertEndChild(node) ? node : 0;
+      |                                          ^
+      |                                          nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2096:19: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2096 | char* XMLElement::ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr )
+      | ~~~~~             ^                                                              
+      | auto                                                                              -> char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2111:16: warning: use nullptr [modernize-use-nullptr]
+ 2111 |         return 0;
+      |                ^
+      |                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2125:22: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2125 | XMLNode* XMLElement::ShallowClone( XMLDocument* doc ) const
+      | ~~~~~~~~             ^                                     
+      | auto                                                        -> XMLNode*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2138:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2138 | bool XMLElement::ShallowEqual( const XMLNode* compare ) const
+      | ~~~~             ^                                           
+      | auto                                                          -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2164:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2164 | bool XMLElement::Accept( XMLVisitor* visitor ) const
+      | ~~~~             ^                                  
+      | auto                                                 -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2181:7: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2181 | const char* XMLDocument::_errorNames[XML_ERROR_COUNT] = {
+      |       ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2205:14: warning: use nullptr [modernize-use-nullptr]
+ 2205 |     XMLNode( 0 ),
+      |              ^
+      |              nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2212:18: warning: use nullptr [modernize-use-nullptr]
+ 2212 |     _charBuffer( 0 ),
+      |                  ^
+      |                  nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2258:19: warning: use nullptr [modernize-use-nullptr]
+ 2258 |     _charBuffer = 0;
+      |                   ^
+      |                   nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2292:26: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2292 | XMLElement* XMLDocument::NewElement( const char* name )
+      | ~~~~~~~~~~~              ^                             
+      | auto                                                    -> XMLElement*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2294:5: warning: use auto when initializing with a template cast to avoid duplicating the type name [modernize-use-auto]
+ 2294 |     XMLElement* ele = CreateUnlinkedNode<XMLElement>( _elementPool );
+      |     ^~~~~~~~~~
+      |     auto
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2300:26: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2300 | XMLComment* XMLDocument::NewComment( const char* str )
+      | ~~~~~~~~~~~              ^                            
+      | auto                                                   -> XMLComment*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2302:5: warning: use auto when initializing with a template cast to avoid duplicating the type name [modernize-use-auto]
+ 2302 |     XMLComment* comment = CreateUnlinkedNode<XMLComment>( _commentPool );
+      |     ^~~~~~~~~~
+      |     auto
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2308:23: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2308 | XMLText* XMLDocument::NewText( const char* str )
+      | ~~~~~~~~              ^                         
+      | auto                                             -> XMLText*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2310:5: warning: use auto when initializing with a template cast to avoid duplicating the type name [modernize-use-auto]
+ 2310 |     XMLText* text = CreateUnlinkedNode<XMLText>( _textPool );
+      |     ^~~~~~~
+      |     auto
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2316:30: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2316 | XMLDeclaration* XMLDocument::NewDeclaration( const char* str )
+      | ~~~~~~~~~~~~~~~              ^                                
+      | auto                                                           -> XMLDeclaration*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2318:5: warning: use auto when initializing with a template cast to avoid duplicating the type name [modernize-use-auto]
+ 2318 |     XMLDeclaration* dec = CreateUnlinkedNode<XMLDeclaration>( _commentPool );
+      |     ^~~~~~~~~~~~~~
+      |     auto
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2319:32: warning: escaped string literal can be written as a raw string literal [modernize-raw-string-literal]
+ 2319 |     dec->SetValue( str ? str : "xml version=\"1.0\" encoding=\"UTF-8\"" );
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                R"(xml version="1.0" encoding="UTF-8")"
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2324:26: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2324 | XMLUnknown* XMLDocument::NewUnknown( const char* str )
+      | ~~~~~~~~~~~              ^                            
+      | auto                                                   -> XMLUnknown*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2326:5: warning: use auto when initializing with a template cast to avoid duplicating the type name [modernize-use-auto]
+ 2326 |     XMLUnknown* unk = CreateUnlinkedNode<XMLUnknown>( _commentPool );
+      |     ^~~~~~~~~~
+      |     auto
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2331:14: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2331 | static FILE* callfopen( const char* filepath, const char* mode )
+      |        ~~~~~ ^                                                  
+      |        auto                                                      -> FILE*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2365:23: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2365 | XMLError XMLDocument::LoadFile( const char* filename )
+      | ~~~~~~~~              ^                               
+      | auto                                                   -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2384:23: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2384 | XMLError XMLDocument::LoadFile( FILE* fp )
+      | ~~~~~~~~              ^                   
+      | auto                                       -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2390:49: warning: use nullptr [modernize-use-nullptr]
+ 2390 |         SetError( XML_ERROR_FILE_READ_ERROR, 0, 0 );
+      |                                                 ^
+      |                                                 nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2401:53: warning: use nullptr [modernize-use-nullptr]
+ 2401 |             SetError( XML_ERROR_FILE_READ_ERROR, 0, 0 );
+      |                                                     ^
+      |                                                     nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2408:11: warning: use auto when initializing with a cast to avoid duplicating the type name [modernize-use-auto]
+ 2408 |     const size_t maxSizeT = static_cast<size_t>(-1);
+      |           ^~~~~~
+      |           auto
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2413:49: warning: use nullptr [modernize-use-nullptr]
+ 2413 |         SetError( XML_ERROR_FILE_READ_ERROR, 0, 0 );
+      |                                                 ^
+      |                                                 nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2418:48: warning: use nullptr [modernize-use-nullptr]
+ 2418 |         SetError( XML_ERROR_EMPTY_DOCUMENT, 0, 0 );
+      |                                                ^
+      |                                                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2422:11: warning: use auto when initializing with a cast to avoid duplicating the type name [modernize-use-auto]
+ 2422 |     const size_t size = static_cast<size_t>(filelength);
+      |           ^~~~~~
+      |           auto
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2427:49: warning: use nullptr [modernize-use-nullptr]
+ 2427 |         SetError( XML_ERROR_FILE_READ_ERROR, 0, 0 );
+      |                                                 ^
+      |                                                 nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2431:5: warning: Potential out of bound access to the heap area with tainted index [clang-analyzer-security.ArrayBound]
+ 2431 |     _charBuffer[size] = 0;
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2367:10: note: Assuming 'filename' is non-null
+ 2367 |     if ( !filename ) {
+      |          ^~~~~~~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2367:5: note: Taking false branch
+ 2367 |     if ( !filename ) {
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2374:16: note: Calling 'callfopen'
+ 2374 |     FILE* fp = callfopen( filename, "rb" );
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2333:5: note: Loop condition is false.  Exiting loop
+ 2333 |     TIXMLASSERT( filepath );
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.h:92:43: note: expanded from macro 'TIXMLASSERT'
+   92 | #   define TIXMLASSERT( x )               do {} while(false)
+      |                                           ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2334:5: note: Loop condition is false.  Exiting loop
+ 2334 |     TIXMLASSERT( mode );
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.h:92:43: note: expanded from macro 'TIXMLASSERT'
+   92 | #   define TIXMLASSERT( x )               do {} while(false)
+      |                                           ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2342:16: note: Taint originated here
+ 2342 |     FILE* fp = fopen( filepath, mode );
+      |                ^~~~~~~~~~~~~~~~~~~~~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2342:16: note: Taint propagated to the return value
+ 2342 |     FILE* fp = fopen( filepath, mode );
+      |                ^~~~~~~~~~~~~~~~~~~~~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2342:16: note: Assuming that 'fopen' is successful
+ 2342 |     FILE* fp = fopen( filepath, mode );
+      |                ^~~~~~~~~~~~~~~~~~~~~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2374:16: note: Returning from 'callfopen'
+ 2374 |     FILE* fp = callfopen( filename, "rb" );
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2375:11: note: 'fp' is non-null
+ 2375 |     if ( !fp ) {
+      |           ^~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2375:5: note: Taking false branch
+ 2375 |     if ( !fp ) {
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2379:5: note: Calling 'XMLDocument::LoadFile'
+ 2379 |     LoadFile( fp );
+      |     ^~~~~~~~~~~~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2389:29: note: Left side of '&&' is false
+ 2389 |     if ( fgetc( fp ) == EOF && ferror( fp ) != 0 ) {
+      |                             ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2398:44: note: Assuming that 'ftell' is successful
+ 2398 |         const long long fileLengthSigned = TIXML_FTELL( fp );
+      |                                            ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:135:22: note: expanded from macro 'TIXML_FTELL'
+  135 |         #define TIXML_FTELL ftell
+      |                             ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2400:9: note: Taking false branch
+ 2400 |         if ( fileLengthSigned == -1L ) {
+      |         ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2404:9: note: Loop condition is false.  Exiting loop
+ 2404 |         TIXMLASSERT( fileLengthSigned >= 0 );
+      |         ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.h:92:43: note: expanded from macro 'TIXMLASSERT'
+   92 | #   define TIXMLASSERT( x )               do {} while(false)
+      |                                           ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2411:10: note: 'filelength' is < 'maxSizeT'
+ 2411 |     if ( filelength >= static_cast<unsigned long long>(maxSizeT) ) {
+      |          ^~~~~~~~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2411:5: note: Taking false branch
+ 2411 |     if ( filelength >= static_cast<unsigned long long>(maxSizeT) ) {
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2417:10: note: Assuming 'filelength' is not equal to 0
+ 2417 |     if ( filelength == 0 ) {
+      |          ^~~~~~~~~~~~~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2417:5: note: Taking false branch
+ 2417 |     if ( filelength == 0 ) {
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2423:5: note: Loop condition is false.  Exiting loop
+ 2423 |     TIXMLASSERT( _charBuffer == 0 );
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.h:92:43: note: expanded from macro 'TIXMLASSERT'
+   92 | #   define TIXMLASSERT( x )               do {} while(false)
+      |                                           ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2425:25: note: Taint propagated to the return value
+ 2425 |     const size_t read = fread( _charBuffer, 1, size, fp );
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2425:25: note: Assuming that 'fread' is successful
+ 2425 |     const size_t read = fread( _charBuffer, 1, size, fp );
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2426:10: note: 'read' is equal to 'size'
+ 2426 |     if ( read != size ) {
+      |          ^~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2426:5: note: Taking false branch
+ 2426 |     if ( read != size ) {
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2431:5: note: Access of the heap area with a tainted index that may be too large
+ 2431 |     _charBuffer[size] = 0;
+      |     ^~~~~~~~~~~~~~~~~
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2438:23: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2438 | XMLError XMLDocument::SaveFile( const char* filename, bool compact )
+      | ~~~~~~~~              ^                                             
+      | auto                                                                 -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2457:23: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2457 | XMLError XMLDocument::SaveFile( FILE* fp, bool compact )
+      | ~~~~~~~~              ^                                 
+      | auto                                                     -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2468:23: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2468 | XMLError XMLDocument::Parse( const char* xml, size_t nBytes )
+      | ~~~~~~~~              ^                                      
+      | auto                                                          -> XMLError
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2473:48: warning: use nullptr [modernize-use-nullptr]
+ 2473 |         SetError( XML_ERROR_EMPTY_DOCUMENT, 0, 0 );
+      |                                                ^
+      |                                                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2547:37: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2547 | /*static*/ const char* XMLDocument::ErrorIDToName(XMLError errorID)
+      |            ~~~~~~~~~~~              ^                              
+      |            auto                                                     -> const char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2555:26: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2555 | const char* XMLDocument::ErrorStr() const
+      | ~~~~~~~~~~~              ^               
+      | auto                                      -> const char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2566:26: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2566 | const char* XMLDocument::ErrorName() const
+      | ~~~~~~~~~~~              ^                
+      | auto                                       -> const char*
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2581:48: warning: use nullptr [modernize-use-nullptr]
+ 2581 |         SetError( XML_ERROR_EMPTY_DOCUMENT, 0, 0 );
+      |                                                ^
+      |                                                nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2584:18: warning: use nullptr [modernize-use-nullptr]
+ 2584 |     ParseDeep(p, 0, &_parseCurLineNum );
+      |                  ^
+      |                  nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2616:5: warning: use range-based for loop instead [modernize-loop-convert]
+ 2616 |     for( int i=0; i<NUM_ENTITIES; ++i ) {
+      |     ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |        (auto entitie : entities)
+ 2617 |         const char entityValue = entities[i].value;
+      |                                  ~~~~~~~~~~~
+      |                                  entitie
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2619:19: warning: use auto when initializing with a cast to avoid duplicating the type name [modernize-use-auto]
+ 2619 |             const unsigned char flagIndex = static_cast<unsigned char>(entityValue);
+      |                   ^~~~~~~~~~~~~
+      |                   auto
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2709:21: warning: use range-based for loop instead [modernize-loop-convert]
+ 2709 |                     for( int i=0; i<NUM_ENTITIES; ++i ) {
+      |                     ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                        (auto entitie : entities)
+ 2710 |                         if ( entities[i].value == *q ) {
+      |                              ~~~~~~~~~~~
+      |                              entitie
+ 2711 |                             Putc( '&' );
+ 2712 |                             Write( entities[i].pattern, entities[i].length );
+      |                                    ~~~~~~~~~~~          ~~~~~~~~~~~
+      |                                    entitie              entitie
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2745:22: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2745 |         static const unsigned char bom[] = { TIXML_UTF_LEAD_0, TIXML_UTF_LEAD_1, TIXML_UTF_LEAD_2, 0 };
+      |                      ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2797:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2797 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2805:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2805 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2813:2: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2813 |         char buf[BUF_SIZE];
+      |         ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2821:2: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2821 |         char buf[BUF_SIZE];
+      |         ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2829:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2829 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2837:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2837 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2899:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2899 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2907:2: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2907 |         char buf[BUF_SIZE];
+      |         ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2915:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2915 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2923:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2923 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2931:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2931 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2939:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2939 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2947:5: warning: do not declare C-style arrays, use 'std::array' instead [modernize-avoid-c-arrays]
+ 2947 |     char buf[BUF_SIZE];
+      |     ^
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2983:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2983 | bool XMLPrinter::VisitEnter( const XMLDocument& doc )
+      | ~~~~             ^                                   
+      | auto                                                  -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2993:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 2993 | bool XMLPrinter::VisitEnter( const XMLElement& element, const XMLAttribute* attribute )
+      | ~~~~             ^                                                                     
+      | auto                                                                                    -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:2995:36: warning: use nullptr [modernize-use-nullptr]
+ 2995 |     const XMLElement* parentElem = 0;
+      |                                    ^
+      |                                    nullptr
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:3009:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 3009 | bool XMLPrinter::VisitExit( const XMLElement& element )
+      | ~~~~             ^                                     
+      | auto                                                    -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:3016:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 3016 | bool XMLPrinter::Visit( const XMLText& text )
+      | ~~~~             ^                           
+      | auto                                          -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:3023:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 3023 | bool XMLPrinter::Visit( const XMLComment& comment )
+      | ~~~~             ^                                 
+      | auto                                                -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:3029:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 3029 | bool XMLPrinter::Visit( const XMLDeclaration& declaration )
+      | ~~~~             ^                                         
+      | auto                                                        -> bool
+/home/giuse/Documents/Unipr/AppuntiUnipr/LingIntComp/Seminario/Progetti/tinyxml2/tinyxml2.cpp:3036:18: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+ 3036 | bool XMLPrinter::Visit( const XMLUnknown& unknown )
+      | ~~~~             ^                                 
+      | auto                                                -> bool

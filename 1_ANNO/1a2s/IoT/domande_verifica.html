@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Domande di Verifica – IoT</title>
+<style>
+  :root {
+    --blu: #1a3c5e; --blu-chiaro: #2d6da8; --azzurro: #e8f4fd;
+    --verde: #1e7e34; --verde-chiaro: #d4f0dd;
+    --rosso-chiaro: #fde8e8; --rosso: #b02020;
+    --grigio: #f4f6f8; --testo: #222; --bordo: #dde3ea;
+    --oro: #c8860a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--testo); background: #f0f3f7; font-size: 15px; line-height: 1.65; }
+
+  .header { background: linear-gradient(135deg, #0f2a44 0%, #1e5c9a 100%); color: #fff; padding: 36px 48px; }
+  .header h1 { font-size: 26px; margin-bottom: 8px; }
+  .header p { opacity: 0.85; font-size: 14px; }
+  .badges { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge { background: rgba(255,255,255,0.2); padding: 3px 12px; border-radius: 20px; font-size: 12.5px; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  /* NAVIGAZIONE ARGOMENTI */
+  .topic-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+  .topic-btn { padding: 6px 14px; border: 2px solid var(--blu-chiaro); border-radius: 20px; background: #fff; color: var(--blu-chiaro); font-size: 13px; cursor: pointer; transition: all 0.18s; font-weight: 600; }
+  .topic-btn:hover, .topic-btn.active { background: var(--blu-chiaro); color: #fff; }
+
+  /* SEZIONE ARGOMENTO */
+  .topic-section { margin: 32px 0; }
+  .topic-header { display: flex; align-items: center; gap: 14px; background: var(--blu); color: #fff; padding: 16px 24px; border-radius: 12px 12px 0 0; }
+  .topic-header .num { font-size: 28px; font-weight: 900; opacity: 0.3; line-height: 1; }
+  .topic-header h2 { font-size: 17px; }
+  .topic-header .count { margin-left: auto; background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; font-size: 12px; }
+
+  /* DOMANDA */
+  .q-card { background: #fff; border-left: none; border-bottom: 1px solid var(--bordo); }
+  .q-card:last-child { border-radius: 0 0 12px 12px; }
+  .q-header { padding: 18px 24px 14px; cursor: pointer; display: flex; gap: 12px; align-items: flex-start; user-select: none; }
+  .q-header:hover { background: #fafbff; }
+  .q-num { background: var(--blu-chiaro); color: #fff; width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .q-text { font-size: 15px; font-weight: 600; color: #1a1a2e; flex: 1; }
+  .toggle-icon { margin-left: auto; font-size: 18px; color: var(--blu-chiaro); transition: transform 0.2s; flex-shrink: 0; }
+  .toggle-icon.open { transform: rotate(180deg); }
+
+  /* RISPOSTA */
+  .q-answer { display: none; padding: 0 24px 18px 62px; }
+  .q-answer.show { display: block; }
+  .answer-box { background: var(--verde-chiaro); border-left: 4px solid var(--verde); border-radius: 0 6px 6px 0; padding: 14px 16px; }
+  .answer-box .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--verde); font-weight: 700; margin-bottom: 6px; }
+  .answer-box p, .answer-box ul, .answer-box ol { font-size: 14px; margin-bottom: 6px; }
+  .answer-box ul, .answer-box ol { padding-left: 18px; }
+  .answer-box li { margin-bottom: 3px; }
+  .answer-box strong { color: #155724; }
+
+  /* HINT */
+  .hint-btn { background: none; border: 1px solid var(--oro); color: var(--oro); padding: 3px 10px; border-radius: 12px; font-size: 12px; cursor: pointer; margin-bottom: 8px; }
+  .hint-box { background: #fffbea; border-left: 3px solid var(--oro); padding: 8px 12px; border-radius: 0 6px 6px 0; font-size: 13px; color: #7a5a00; display: none; margin-bottom: 8px; }
+  .hint-box.show { display: block; }
+
+  /* PUNTEGGIO */
+  .score-bar { position: sticky; top: 0; z-index: 50; background: var(--blu); color: #fff; padding: 10px 24px; display: flex; align-items: center; gap: 16px; font-size: 13px; }
+  .score-bar .progress-track { flex: 1; height: 8px; background: rgba(255,255,255,0.2); border-radius: 4px; }
+  .score-bar .progress-fill { height: 100%; background: #4cd96b; border-radius: 4px; transition: width 0.3s; }
+  .show-all-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; padding: 5px 14px; border-radius: 12px; cursor: pointer; font-size: 12.5px; white-space: nowrap; }
+  .show-all-btn:hover { background: rgba(255,255,255,0.35); }
+
+  code { background: #eef2f6; padding: 1px 5px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 13px; }
+
+  @media (max-width: 640px) {
+    .header { padding: 24px; }
+    .container { padding: 16px 12px; }
+    .q-header, .q-answer { padding-left: 16px; }
+    .q-answer { padding-left: 16px; }
+    .topic-nav { gap: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>❓ Domande di Verifica – Internet of Things</h1>
+  <p>Prof. Gianluigi Ferrari – Università di Parma &nbsp;|&nbsp; 3–4 domande per ogni argomento del corso</p>
+  <div class="badges">
+    <span class="badge">📝 48 domande totali</span>
+    <span class="badge">12 argomenti</span>
+    <span class="badge">Clicca per vedere la risposta</span>
+  </div>
+</div>
+
+<!-- BARRA PROGRESSO -->
+<div class="score-bar">
+  <span id="score-text">0 / 48 risposte viste</span>
+  <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <button class="show-all-btn" onclick="toggleAll()">Mostra/Nascondi tutte</button>
+</div>
+
+<div class="container">
+
+  <!-- NAVIGAZIONE -->
+  <div class="topic-nav">
+    <button class="topic-btn" onclick="scrollTo('t1')">1. Intro IoT</button>
+    <button class="topic-btn" onclick="scrollTo('t2')">2. Hardware</button>
+    <button class="topic-btn" onclick="scrollTo('t3')">3. UDP</button>
+    <button class="topic-btn" onclick="scrollTo('t4')">4. TCP</button>
+    <button class="topic-btn" onclick="scrollTo('t5')">5. IPv6</button>
+    <button class="topic-btn" onclick="scrollTo('t6')">6. 802.15.4 e Comm.</button>
+    <button class="topic-btn" onclick="scrollTo('t7')">7. MAC Energy</button>
+    <button class="topic-btn" onclick="scrollTo('t8')">8. 6LoWPAN</button>
+    <button class="topic-btn" onclick="scrollTo('t9')">9. RPL</button>
+    <button class="topic-btn" onclick="scrollTo('t10')">10. CoAP</button>
+    <button class="topic-btn" onclick="scrollTo('t11')">11. OS IoT</button>
+    <button class="topic-btn" onclick="scrollTo('t12')">12. Sicurezza</button>
+    <button class="topic-btn" onclick="scrollTo('t13')">13. LoRa</button>
+  </div>
+
+<!-- ====================== 1. INTRODUZIONE IoT ====================== -->
+<div class="topic-section" id="t1">
+  <div class="topic-header"><div class="num">1</div><h2>Introduzione all'IoT</h2><span class="count">4 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Cos'è l'Internet of Things? Dai almeno due definizioni diverse e spiega perché IPv6 è fondamentale per lo sviluppo dell'IoT.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>Definizione 1 (tecnica):</strong> L'IoT estende Internet fornendo connessione, comunicazione e inter-networking tra dispositivi e oggetti fisici ("Things"), integrando dati e servizi del mondo reale nelle reti informatiche.</p>
+        <p><strong>Definizione 2 (WSIS 2005):</strong> Tramite ricetrasmettitori mobili a corto raggio incorporati in gadget e oggetti quotidiani si abilitano nuove forme di comunicazione tra persone e cose, e tra cose stesse.</p>
+        <p><strong>Perché IPv6:</strong> Con miliardi di dispositivi connessi lo spazio di indirizzamento IPv4 (32 bit ≈ 4,3 miliardi di indirizzi) è completamente insufficiente. IPv6 con 128 bit fornisce 3,4×10³⁸ indirizzi, sufficiente per ogni "cosa" del pianeta. In più, SLAAC (autoconfiguration stateless) permette ai dispositivi IoT di configurarsi autonomamente senza amministrazione manuale.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Quali sono le principali sfide a livello di nodo negli smart object? Descrivi almeno due e spiega come influenzano il design del protocollo di rete.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>1. Consumo energetico:</strong> Gli smart object sono alimentati a batteria (difficile da sostituire). Il modulo radio è il componente più energivoro (consumo in ricezione ≈ consumo in trasmissione). Il design del protocollo MAC deve massimizzare i periodi di sleep → duty cycling, schemi wake-up/sleep (B-MAC, ContikiMAC).</p>
+        <p><strong>2. Dimensione fisica e costo:</strong> Pochi kB di RAM, decine/centinaia kB di Flash, clock di pochi MHz, costo &lt; 10$. I protocolli devono avere footprint minimo: 6LoWPAN comprime gli header, CoAP ha header da soli 4 byte, le routing table in RPL sono minimizzate.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Cos'è la "lossyness" nelle reti IoT? Perché è un problema "illusorio" e come deve comportarsi un protocollo di routing di fronte a essa?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>La <strong>lossyness</strong> è la natura intrinsecamente inaffidabile dei link nelle reti IoT wireless: i pacchetti vengono persi frequentemente per interferenze elettromagnetiche, ostacoli, variazioni ambientali (temperatura, umidità).</p>
+        <p>È "illusoria" perché non è costante nel tempo: un link può sembrare buono e poi diventare improvvisamente pessimo senza preavviso, rendendo difficile fare previsioni.</p>
+        <p><strong>Implicazioni per il routing:</strong> Il protocollo deve progettarsi per reti lossy come condizione normale (non eccezionale). RPL usa la metrica ETX che misura statisticamente la qualità del link e si aggiorna dinamicamente. I meccanismi di repair (locale e globale) in RPL permettono di adattarsi rapidamente ai cambiamenti.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Cosa si intende per "vertical fragmentation" nel mondo M2M/IoT? Quali sono gli svantaggi di questo approccio?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>La <strong>vertical fragmentation</strong> significa che ogni industria risolve le proprie esigenze M2M in modo indipendente, creando soluzioni proprietarie e "a silo" (verticali chiuse).</p>
+        <ul>
+          <li><strong>Soluzioni customizzate:</strong> ogni soluzione richiede un proprio ciclo di design/produzione, hardware specifico e software limitato a pochi sviluppatori esperti → costi elevati.</li>
+          <li><strong>Nessuna economia di scala:</strong> ogni industria ha soluzioni così diverse che è difficile raggiungere economie di scala sui componenti.</li>
+          <li><strong>La ruota viene reinventata</strong> da industria a industria, convergendo però spesso sulle stesse architetture.</li>
+        </ul>
+        <p>La soluzione è la standardizzazione: un livello di Service Capability Layer condiviso (API aperte) che disaccoppia le applicazioni dall'infrastruttura fisica.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 2. HARDWARE ====================== -->
+<div class="topic-section" id="t2">
+  <div class="topic-header"><div class="num">2</div><h2>Hardware degli Smart Object</h2><span class="count">3 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Quali sono i 4 componenti hardware principali di uno smart object? Qual è il più energivoro e perché?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>I 4 componenti sono: <strong>(1) Communication Device</strong> (radio/wired), <strong>(2) Microcontroller</strong>, <strong>(3) Sensori/Attuatori</strong>, <strong>(4) Sorgente di energia</strong> (batteria/harvesting).</p>
+        <p>Il componente più energivoro è il <strong>modulo radio</strong>, che consuma circa 10 volte di più del microcontroller. Il motivo è che la demodulazione del segnale (ricezione) richiede quasi la stessa energia della modulazione (trasmissione). Anche l'ascolto passivo del canale (idle listening) è energeticamente costoso come trasmettere → il duty cycling è fondamentale.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Quali sono le differenze principali tra un sistema embedded tradizionale e uno smart object IoT?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>Punti in comune:</strong> stesso hardware (microcontroller), vincoli computazionali e di memoria simili.</p>
+        <p><strong>Differenza chiave:</strong> La <strong>comunicazione</strong> è marginale per un sistema embedded (un motore auto può funzionare senza comunicare), mentre è <strong>centrale e imprescindibile</strong> per uno smart object: senza comunicazione, uno smart object perde il suo scopo.</p>
+        <p>Questa differenza impatta profondamente il design: gli smart object richiedono OS con stack IP nativo (Contiki, TinyOS), protocolli ottimizzati per reti wireless lossy, e la comunicazione guida tutto il design energetico.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Confronta Contiki OS e TinyOS: per cosa sono stati progettati, in che linguaggio sono scritti e quali sono le differenze principali nel modello di programmazione?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:6px;">
+          <tr><th style="background:#1e7e34;color:#fff;padding:6px 10px;text-align:left">Caratteristica</th><th style="background:#1e7e34;color:#fff;padding:6px 10px">Contiki</th><th style="background:#1e7e34;color:#fff;padding:6px 10px">TinyOS</th></tr>
+          <tr style="background:#f8fff8"><td style="padding:6px 10px">Anno/Origine</td><td style="padding:6px 10px">2003, SICS-Thingsquare</td><td style="padding:6px 10px">2000, Berkeley-Stanford</td></tr>
+          <tr><td style="padding:6px 10px">Linguaggio</td><td style="padding:6px 10px">C</td><td style="padding:6px 10px">nesC</td></tr>
+          <tr style="background:#f8fff8"><td style="padding:6px 10px">Modello</td><td style="padding:6px 10px">Protothreads (semi-cooperative)</td><td style="padding:6px 10px">Event-driven (no thread)</td></tr>
+          <tr><td style="padding:6px 10px">Stack IP</td><td style="padding:6px 10px">uIP (5kB), uIPv6 (11kB) nativo</td><td style="padding:6px 10px">uIP aggiunto dopo, poi IPv6</td></tr>
+          <tr style="background:#f8fff8"><td style="padding:6px 10px">Simulatore</td><td style="padding:6px 10px">Cooja</td><td style="padding:6px 10px">TOSSIM</td></tr>
+          <tr><td style="padding:6px 10px">Focus</td><td style="padding:6px 10px">Industria + ricerca</td><td style="padding:6px 10px">Accademia/WSN</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 3. UDP ====================== -->
+<div class="topic-section" id="t3">
+  <div class="topic-header"><div class="num">3</div><h2>UDP – User Datagram Protocol</h2><span class="count">3 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Descrivi la struttura dell'header UDP e spiega perché UDP è particolarmente adatto alle reti IoT.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>Header UDP (8 byte totali):</strong> Source Port (16 bit), Destination Port (16 bit), Length (16 bit), Checksum (16 bit, opzionale in IPv4, obbligatorio in IPv6).</p>
+        <p><strong>Adatto a IoT perché:</strong></p>
+        <ul>
+          <li><strong>Overhead minimo:</strong> solo 8 byte (vs 20 di TCP) → preziosissimo con frame 802.15.4 da 127 byte.</li>
+          <li><strong>Nessun connection setup:</strong> nessun handshake → nessuna latenza aggiuntiva.</li>
+          <li><strong>Stateless:</strong> nessun buffer, nessun numero di sequenza → adatto per gestire molti sensori simultaneamente.</li>
+          <li><strong>Multicast nativo:</strong> un sensore può inviare a molti destinatari senza connessioni multiple.</li>
+          <li>Perdere una singola lettura di temperatura non è critico → la semplicità di UDP è sufficiente.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Quali sono gli svantaggi di UDP nelle reti IoT? Come li gestisce tipicamente l'applicazione?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <ul>
+          <li><strong>Nessun meccanismo di recupero dalla perdita:</strong> se un pacchetto viene perso, UDP non lo ritrasmette. L'applicazione deve implementare il proprio meccanismo di recupero se necessario (aumenta la complessità applicativa).</li>
+          <li><strong>Nessuna frammentazione:</strong> UDP non divide i dati in segmenti adatti al MTU del link. L'applicazione deve scegliere dimensioni dei messaggi compatibili con il layer sottostante (es. ≤ 127 byte per 802.15.4).</li>
+          <li><strong>Nessun controllo di congestione:</strong> può sovraccaricare la rete in caso di traffico intenso.</li>
+        </ul>
+        <p>La gestione avviene a livello applicativo (es. CoAP aggiunge affidabilità opzionale sopra UDP con messaggi CON/ACK).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Cos'è il multiplexing e demultiplexing nel contesto UDP/TCP? Come vengono utilizzate le porte?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>Multiplexing:</strong> il layer trasporto raccoglie dati da più socket applicativi e li incapsula in segmenti con header (porta sorgente + destinazione) prima di passarli al layer IP.</p>
+        <p><strong>Demultiplexing:</strong> il ricevitore usa l'indirizzo IP e il numero di porta per indirizzare il segmento alla socket applicativa corretta.</p>
+        <p>Un <strong>indirizzo univoco a livello trasporto</strong> è la coppia &lt;IP address, port number&gt;. La porta massima è 2¹⁶–1 = 65.535. Porte note (well-known): 0–1023 (es. HTTP=80, DNS=53); porte registrate: 1024–49151; porte effimere: 49152–65535.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 4. TCP ====================== -->
+<div class="topic-section" id="t4">
+  <div class="topic-header"><div class="num">4</div><h2>TCP – Transmission Control Protocol</h2><span class="count">4 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Descrivi i tre meccanismi fondamentali con cui TCP garantisce l'affidabilità. Come funziona il three-way handshake?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>Tre meccanismi di affidabilità:</strong></p>
+        <ol>
+          <li><strong>ACK + ritrasmissioni:</strong> ogni dato inviato deve essere confermato dal ricevitore; in assenza di ACK entro il timeout, il mittente ritrasmette.</li>
+          <li><strong>Numeri di sequenza:</strong> ogni byte del flusso ha un numero sequenziale → permette rilevamento perdite e riordinamento.</li>
+          <li><strong>Sliding window (flow control):</strong> il ricevitore pubblica quanti byte può accettare → il mittente non invia più di quanto il buffer del ricevitore possa contenere.</li>
+        </ol>
+        <p><strong>Three-way handshake:</strong></p>
+        <ol>
+          <li>A → B: <code>SYN</code> con ISN_A (Initial Sequence Number di A)</li>
+          <li>B → A: <code>SYN-ACK</code> con ISN_B e ACK=ISN_A+1</li>
+          <li>A → B: <code>ACK</code> con ACK=ISN_B+1 → connessione stabilita</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Come TCP stima il timeout di ritrasmissione? Perché non è possibile usare un timeout fisso?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>TCP non può usare un timeout fisso perché il <strong>RTT (Round Trip Time)</strong> dipende dalla distanza tra i due host, dalla congestione della rete e da molti altri fattori dinamici. Un timeout troppo breve provoca ritrasmissioni inutili; uno troppo lungo introduce ritardi eccessivi.</p>
+        <p><strong>Stima dell'RTT con media mobile esponenziale:</strong></p>
+        <p><code>EstimatedRTT = α × EstimatedRTT + (1–α) × SampleRTT</code></p>
+        <p>dove α ≈ 7/8 rende la stima smooth. Il timeout viene poi calcolato come:</p>
+        <p><code>Timeout = 2 × EstimatedRTT</code></p>
+        <p>con un fattore aggiuntivo per il jitter (variazione del RTT). Dopo ogni ritrasmissione, il timeout viene raddoppiato (binary exponential backoff).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Cos'è il fast retransmit in TCP? In quale situazione viene attivato e perché è più efficiente di aspettare il timeout?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>Il <strong>fast retransmit</strong> è un meccanismo che permette al mittente di ritrasmettere un segmento prima che il timeout scada.</p>
+        <p><strong>Attivazione:</strong> quando il mittente riceve <strong>3 ACK duplicati</strong> (cioè 4 ACK con lo stesso numero di sequenza in totale), deduce che il segmento corrispondente è stato perso e lo ritrasmette immediatamente, senza aspettare il timeout.</p>
+        <p><strong>Perché è più efficiente:</strong> il timeout può richiedere secondi; 3 ACK duplicati arrivano in pochi RTT → latenza molto minore. Gli ACK duplicati vengono generati dal ricevitore ogni volta che riceve un segmento fuori sequenza (i segmenti successivi a quello perso arrivano comunque e vengono bufferizzati).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Perché TCP è utile per le reti IoT nonostante sia più complesso di UDP? Quali sono le sue limitazioni specifiche in questo contesto?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>Vantaggi di TCP per IoT:</strong></p>
+        <ul>
+          <li>Le reti IoT sono tipicamente lossy → l'affidabilità garantita da TCP è utile.</li>
+          <li>Interoperabilità con sistemi esistenti (server web, backend cloud) che usano TCP.</li>
+          <li>L'opzione MSS (Maximum Segment Size) permette di adattare la dimensione dei segmenti ai frame 802.15.4.</li>
+          <li>Il core di TCP è semplice; i meccanismi complessi (sliding window, congestion control) puntano all'alto throughput, che però non serve in IoT.</li>
+          <li>L'header TCP (20 byte) può essere compresso con 6LoWPAN.</li>
+        </ul>
+        <p><strong>Limitazioni:</strong></p>
+        <ul>
+          <li>Le implementazioni ridotte di TCP per smart object non implementano lo sliding window (un solo pacchetto attivo alla volta) → throughput basso.</li>
+          <li>I delayed ACK riducono ulteriormente il throughput.</li>
+          <li>TCP non è stato progettato per link wireless → può interpretare erroneamente le perdite wireless come congestione.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 5. IPv6 ====================== -->
+<div class="topic-section" id="t5">
+  <div class="topic-header"><div class="num">5</div><h2>IPv6</h2><span class="count">4 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Elenca e descrivi brevemente gli 8 campi dell'header base IPv6. Qual è la dimensione totale e come si confronta con IPv4?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>Header IPv6 base: <strong>40 byte</strong> fissi (vs 20 byte IPv4 senza opzioni).</p>
+        <ul>
+          <li><strong>Version (4 bit):</strong> sempre 6.</li>
+          <li><strong>Traffic Class (8 bit):</strong> Class of Service (CoS) per QoS.</li>
+          <li><strong>Flow Label (20 bit):</strong> identifica flussi che richiedono trattamento speciale nei router intermedi.</li>
+          <li><strong>Payload Length (16 bit):</strong> lunghezza del payload (escluso header base); max 65.535 byte.</li>
+          <li><strong>Next Header (8 bit):</strong> tipo dell'header seguente (TCP=6, UDP=17, ICMPv6=58…); permette extension headers.</li>
+          <li><strong>Hop Limit (8 bit):</strong> equivalente TTL; decrementato a ogni salto; pacchetto scartato se arriva a 0.</li>
+          <li><strong>Source Address (128 bit):</strong> indirizzo IPv6 sorgente.</li>
+          <li><strong>Destination Address (128 bit):</strong> indirizzo IPv6 destinazione.</li>
+        </ul>
+        <p>IPv6 elimina: checksum IP (delega al trasporto), frammentazione in transit (solo gli endpoint), IHL (header lunghezza fissa), identificazione/flags fragment (in extension header).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Che cos'è SLAAC (Stateless Address Autoconfiguration)? Descrivine il funzionamento e spiega cos'è il DAD (Duplicate Address Detection).</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>SLAAC</strong> permette a un host IPv6 di configurarsi automaticamente senza un server DHCP.</p>
+        <p><strong>Funzionamento:</strong></p>
+        <ol>
+          <li>L'host invia un <strong>Router Solicitation</strong> in multicast per trovare i router.</li>
+          <li>Il router risponde con un <strong>Router Advertisement</strong> contenente il prefisso di rete (es. <code>2001:db8::/64</code>).</li>
+          <li>L'host costruisce il suo indirizzo: <code>[prefisso 64 bit][Interface ID 64 bit]</code>, dove l'Interface ID è derivato dal MAC address (Modified EUI-64).</li>
+          <li>Prima di usare l'indirizzo, esegue il <strong>DAD</strong>.</li>
+        </ol>
+        <p><strong>DAD (Duplicate Address Detection):</strong> l'host invia un <em>Neighbor Solicitation</em> all'indirizzo che vuole usare (in multicast). Se nessuno risponde entro un certo tempo, l'indirizzo non è duplicato ed è sicuro usarlo. Se qualcuno risponde con un <em>Neighbor Advertisement</em>, l'indirizzo è già in uso e deve sceglierne un altro.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Quali sono i tre tipi di meccanismi di transizione da IPv4 a IPv6? Descrivi brevemente ognuno e le sue limitazioni principali.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <ol>
+          <li><strong>Dual Stack:</strong> il dispositivo esegue contemporaneamente IPv4 e IPv6. Usa l'uno o l'altro a seconda del destinatario. Limitazione: richiede supporto a entrambi i protocolli su ogni dispositivo e router.</li>
+          <li><strong>Tunneling:</strong> pacchetti IPv6 incapsulati in pacchetti IPv4 per attraversare reti IPv4 (e viceversa). Limitazione: configurazione complessa degli endpoint del tunnel; MTU ridotta (header aggiuntivo).</li>
+          <li><strong>Translation:</strong> gateway che converte i pacchetti tra IPv4 e IPv6 (NAT64/DNS64). Limitazione: introduce stati nella rete, potenziale incompatibilità con applicazioni che usano indirizzi IP direttamente nel payload.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Cosa sono gli Extension Headers di IPv6? Fai due esempi e spiega come funziona la catena di header.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>Gli extension headers sono header opzionali inseriti tra l'header IPv6 base e il payload. Si concatenano tramite il campo <strong>Next Header</strong> di ciascuno (come una linked list).</p>
+        <p>Ogni EH ha lunghezza 8×(1+n) byte e contiene il tipo del next header che lo segue.</p>
+        <p><strong>Esempio 1 – Fragment Header (tipo 44):</strong> usato per frammentare pacchetti che superano il MTU del percorso. Contiene: Fragment Offset, flag M (more fragments), Fragment Identification.</p>
+        <p><strong>Esempio 2 – Authentication Header (tipo 51):</strong> fornisce autenticazione e integrità del pacchetto IP (ma non cifratura). Usato con IPSec.</p>
+        <p><strong>Catena:</strong> IPv6 Header (Next=43) → Routing Header (Next=44) → Fragment Header (Next=6) → TCP PDU. Ogni header "punta" al successivo tramite il campo Next Header.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 6. 802.15.4 ====================== -->
+<div class="topic-section" id="t6">
+  <div class="topic-header"><div class="num">6</div><h2>IEEE 802.15.4 e Comunicazione Fisica</h2><span class="count">4 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Descrivi la struttura del frame IEEE 802.15.4 (livelli PHY e MAC) e spiega perché l'MTU di 127 byte crea problemi con IPv6.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>Frame PHY:</strong> Preamble (sincronizzazione) | SFD (Start of Frame Delimiter) | Length (0–127 byte) | PSDU</p>
+        <p><strong>Frame MAC:</strong> Frame Control (16 bit) | Sequence Number (8 bit) | Addressing Fields (variabile) | Payload | FCS/CRC (16 bit)</p>
+        <p>Con indirizzi lunghi (64+64 bit sorgente+dest + 2 PAN ID = 20 byte) e security header (fino a 21 byte), rimangono solo <strong>86–116 byte per il payload</strong>.</p>
+        <p><strong>Problema con IPv6:</strong> IPv6 richiede un MTU minimo di 1280 byte, ma 802.15.4 ne supporta al massimo 127 (con ca. 80–100 byte utili). Senza adattamento, non è possibile trasportare pacchetti IPv6 su 802.15.4 → soluzione: <strong>6LoWPAN</strong> con frammentazione e compressione degli header.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Cos'è il CCA (Clear Channel Assessment) in IEEE 802.15.4? Descrivine i tre meccanismi e spiega a cosa serve.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>Il <strong>CCA (Clear Channel Assessment)</strong> è un meccanismo dello strato PHY che misura l'attività sul canale radio. Viene usato dal MAC layer per determinare se il canale è libero prima di trasmettere (parte di CSMA/CA).</p>
+        <p><strong>Tre meccanismi CCA:</strong></p>
+        <ol>
+          <li><strong>Energy Detection:</strong> misura l'energia totale sul canale e la confronta con una soglia → libero se energia &lt; soglia.</li>
+          <li><strong>Carrier Sense:</strong> demodula il segnale in arrivo e controlla se è un segnale 802.15.4 valido → libero se non è 802.15.4.</li>
+          <li><strong>Combinazione:</strong> combina energia E segnale 802.15.4 → libero se entrambi i criteri indicano libertà.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Descrivi il problema del terminale nascosto (hidden terminal) e quello del terminale esposto (exposed terminal). Come vengono risolti?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>Hidden Terminal:</strong> A vuole trasmettere a B. C vuole anch'esso trasmettere a B. C non può vedere A (fuori raggio), quindi sente il canale libero e trasmette → collisione in B. A è "nascosto" per C.</p>
+        <p><strong>Exposed Terminal:</strong> B trasmette ad A. C vuole trasmettere a D. C sente B trasmettere e aspetta inutilmente (A è fuori raggio di C, quindi la trasmissione C→D non interferirebbe). C è "esposto" a B.</p>
+        <p><strong>Soluzione: meccanismo RTS/CTS (MACA):</strong></p>
+        <ul>
+          <li>Il mittente invia un <strong>RTS (Ready To Send)</strong> prima di trasmettere.</li>
+          <li>Il ricevitore risponde con un <strong>CTS (Clear To Send)</strong>.</li>
+          <li>Chi sente il CTS sa che c'è un ricevitore occupato nelle vicinanze → aspetta.</li>
+          <li>Chi sente solo il RTS (ma non il CTS) sa che può trasmettere senza causare interferenze.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Confronta IEEE 802.15.4, IEEE 802.11 (WiFi) e PLC in termini di range, consumo energetico e adattabilità all'IoT.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <table style="width:100%;font-size:13px;border-collapse:collapse;">
+          <tr><th style="background:#1a3c5e;color:#fff;padding:6px 8px">Caratteristica</th><th style="background:#1a3c5e;color:#fff;padding:6px 8px">802.15.4</th><th style="background:#1a3c5e;color:#fff;padding:6px 8px">802.11</th><th style="background:#1a3c5e;color:#fff;padding:6px 8px">PLC</th></tr>
+          <tr style="background:#f0f4f8"><td style="padding:5px 8px">Range</td><td>10–100 m</td><td>100–300 m</td><td>dominio elettrico</td></tr>
+          <tr><td style="padding:5px 8px">Consumo</td><td>Molto basso</td><td>Alto (10× 802.15.4)</td><td>Basso (no batteria)</td></tr>
+          <tr style="background:#f0f4f8"><td style="padding:5px 8px">Data rate</td><td>250 kb/s</td><td>Mb/s–Gb/s</td><td>kb/s–Mb/s</td></tr>
+          <tr><td style="padding:5px 8px">MTU</td><td>127 byte</td><td>2304 byte</td><td>variabile</td></tr>
+          <tr style="background:#f0f4f8"><td style="padding:5px 8px">Routing</td><td>Essenziale (multi-hop)</td><td>AP based</td><td>Non necessario (broadcast)</td></tr>
+          <tr><td style="padding:5px 8px">Vantaggio IoT</td><td>Bassissimo consumo</td><td>Ecosistema enorme</td><td>Dati+energia sullo stesso cavo</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 7. MAC ENERGY ====================== -->
+<div class="topic-section" id="t7">
+  <div class="topic-header"><div class="num">7</div><h2>Protocolli MAC Energy-Efficient</h2><span class="count">4 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Elenca le 4 sorgenti di spreco energetico in un nodo WSN/IoT e spiega quale è solitamente la più significativa e perché.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <ol>
+          <li><strong>Idle listening:</strong> il nodo ascolta il canale aspettando traffico che non arriva mai. Costa quasi quanto trasmettere.</li>
+          <li><strong>Overhearing:</strong> ricezione (ed elaborazione) di pacchetti destinati ad altri nodi.</li>
+          <li><strong>Collisioni:</strong> due nodi trasmettono simultaneamente → collisione → ritrasmissioni inutili.</li>
+          <li><strong>Overhead di controllo:</strong> pacchetti di controllo (RTS/CTS, ACK, beacon) che consumano energia senza trasportare dati utili.</li>
+        </ol>
+        <p>La più significativa è tipicamente l'<strong>idle listening</strong> perché il radio deve rimanere acceso anche quando non c'è traffico, consumando quasi la stessa energia della trasmissione. I protocolli MAC energy-efficient (B-MAC, S-MAC, ContikiMAC) si focalizzano principalmente su questo problema tramite sleep/wake-up scheduling.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Spiega il funzionamento di B-MAC (Berkeley MAC) e il suo principale problema. Come lo risolve X-MAC?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>B-MAC (Low Power Listening):</strong></p>
+        <ul>
+          <li>Il ricevitore si sveglia periodicamente per un breve istante e controlla se c'è attività sul canale (CCA).</li>
+          <li>Se vuole trasmettere, il mittente invia un preambolo lungo (≥ durata dell'intervallo di sleep) così che il destinatario lo rileverà sicuramente durante il suo prossimo wake-up.</li>
+          <li>Vantaggio: no sincronizzazione, robusto.</li>
+        </ul>
+        <p><strong>Problema di B-MAC:</strong> tutti i nodi nelle vicinanze del mittente si svegliano durante il lungo preambolo e aspettano il pacchetto → <strong>overhearing massiccio</strong>. I costi di comunicazione ricadono quasi interamente sul mittente (preambolo >> dati).</p>
+        <p><strong>Soluzione X-MAC:</strong></p>
+        <ul>
+          <li>Usa un <strong>preambolo corto a strobe</strong>: il mittente invia brevi "preamble packets" ripetuti invece di un unico lungo preambolo.</li>
+          <li>Ogni strobe contiene l'<strong>indirizzo del destinatario</strong>: i non-destinatari si addormentano immediatamente.</li>
+          <li>Quando il destinatario si sveglia e riceve uno strobe, risponde con un ACK precoce → il mittente smette di inviare strobe e invia subito i dati (<em>early ACK</em>).</li>
+          <li>Risultato: latenza ridotta, overhearing minimizzato, duty cycle dinamico.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Descrivi il funzionamento di S-MAC. Quali problemi risolve rispetto a B-MAC e quali nuovi problemi introduce?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>S-MAC (Sensor MAC):</strong> protocollo schedulato che divide il tempo in frame, ciascuno diviso in un periodo di <em>listen</em> e uno di <em>sleep</em>.</p>
+        <p><strong>Meccanismi:</strong></p>
+        <ul>
+          <li><strong>Schedule announcement:</strong> ogni nodo annuncia il suo schedule (quando è sveglio); i vicini si sincronizzano.</li>
+          <li><strong>Collision avoidance:</strong> usa RTS/CTS durante il periodo di ascolto.</li>
+          <li><strong>Overhearing avoidance:</strong> chi sente un RTS/CTS altrui si addormenta per la durata del trasferimento.</li>
+          <li><strong>Message passing:</strong> trasmissione dati a lungo raggio suddivisa in sottoframe consecutivi senza tornare a sleep.</li>
+        </ul>
+        <p><strong>Vantaggi vs B-MAC:</strong> riduce collisioni, overhearing e idle listening in modo sistematico.</p>
+        <p><strong>Svantaggi:</strong> la latenza per-hop aumenta (bisogna aspettare il prossimo periodo di listen); il rapporto listen/sleep fisso non è sempre ottimale; richiede sincronizzazione tra nodi vicini.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Cos'è il "phase lock" in ContikiMAC e perché permette di eliminare il lungo preambolo di B-MAC pur mantenendo affidabilità?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>In ContikiMAC, il <strong>phase lock</strong> (blocco di fase) è una tecnica con cui un nodo "impara" e memorizza il momento esatto in cui un vicino si sveglia per ascoltare il canale.</p>
+        <p><strong>Come funziona:</strong></p>
+        <ul>
+          <li>La prima volta che A deve inviare a B, usa la trasmissione ripetuta (come B-MAC) per trovare la finestra di wake-up di B.</li>
+          <li>Dall'ACK ricevuto, A deduce il momento esatto del wake-up di B.</li>
+          <li>Nelle trasmissioni successive, A invia il pacchetto esattamente poco prima del wake-up di B → nessun lungo preambolo necessario.</li>
+        </ul>
+        <p><strong>Risultato:</strong> l'efficienza energetica migliora drasticamente poiché il preambolo è eliminato o ridottissimo, mantenendo l'affidabilità (il destinatario si sveglia nel momento atteso). Il timing preciso dei CCA è fondamentale per rilevare attività e sincronizzarsi.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 8. 6LoWPAN ====================== -->
+<div class="topic-section" id="t8">
+  <div class="topic-header"><div class="num">8</div><h2>6LoWPAN</h2><span class="count">4 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Quali sono i tre servizi principali offerti dallo strato di adattamento 6LoWPAN? Descrivili brevemente e spiega perché ciascuno è necessario.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <ol>
+          <li><strong>Frammentazione e riassemblaggio:</strong> IPv6 richiede MTU ≥ 1280 byte, ma 802.15.4 supporta solo 127 byte. 6LoWPAN divide il pacchetto IPv6 in più frammenti (ciascuno nel limite 802.15.4) e li riassembla alla destinazione.</li>
+          <li><strong>Compressione degli header:</strong> l'header IPv6 (40 byte) + UDP (8 byte) occupa quasi tutto lo spazio disponibile in un frame 802.15.4. HC1/IPHC riducono questi header a pochi byte (2–7 byte), lasciando il massimo spazio al payload utile.</li>
+          <li><strong>Forwarding a livello 2 (mesh-under):</strong> permette routing multi-hop al livello link (non IP), trasparente per il livello IPv6. Utile per reti dove i nodi FFD fanno da relay senza che IPv6 debba gestire ogni salto.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Come funziona la compressione HC1 di 6LoWPAN? A quanti byte può ridurre l'header IPv6 e con quali condizioni?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>HC1 è ottimizzata per indirizzi <strong>link-local</strong> e sfrutta le ridondanze tra header IPv6 e frame 802.15.4:</p>
+        <ul>
+          <li><strong>Versione IPv6:</strong> sempre 6 → omessa.</li>
+          <li><strong>Interface ID (64 bit):</strong> derivabile dal MAC address (EUI-64) → omessa.</li>
+          <li><strong>Prefisso link-local (FE80::/10):</strong> sempre uguale → omesso.</li>
+          <li><strong>Payload Length:</strong> derivabile dalla lunghezza del frame 802.15.4 → omessa.</li>
+          <li><strong>Traffic Class e Flow Label:</strong> solitamente = 0 → omessi.</li>
+        </ul>
+        <p><strong>Risultato:</strong> header IPv6 da 40 byte → <strong>2 byte</strong> (dispatch byte + HC1 byte) per indirizzi link-local! Se multi-hop con hop limit variabile: 3 byte. Con HC2/HC_UDP aggiunto, anche l'header UDP (8 byte) si riduce a <strong>2–4 byte</strong>.</p>
+        <p><strong>Limitazione:</strong> HC1 non comprime bene gli indirizzi globali (non link-local) → per quelli si usa IPHC.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Cos'è il Fragment Header di 6LoWPAN? Descrivi i campi principali e spiega come il ricevitore riassembla i frammenti.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>Il Fragment Header è necessario quando il payload IPv6 non entra in un singolo frame 802.15.4.</p>
+        <p><strong>Campi:</strong></p>
+        <ul>
+          <li><strong>Datagram_size:</strong> dimensione totale del datagramma originale (unità di 8 byte). Permette al ricevitore di allocare il buffer.</li>
+          <li><strong>Datagram_tag:</strong> identifica univocamente il gruppo di frammenti appartenenti allo stesso datagramma (+ indirizzo sorgente). Viene incrementato per ogni nuovo gruppo di frammenti.</li>
+          <li><strong>Datagram_offset</strong> (solo dal secondo frammento): posizione dell'inizio del frammento nel datagramma originale (in unità di 8 byte).</li>
+        </ul>
+        <p><strong>Riassemblaggio:</strong> il ricevitore usa (indirizzo sorgente + datagram_tag + datagram_size) per raggruppare i frammenti. Usa datagram_offset per posizionare ogni frammento nel buffer. Quando tutti i frammenti sono arrivati (nessun "buco" nel buffer), riassembla il pacchetto IPv6 originale.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Qual è la differenza tra IPHC e HC1 in 6LoWPAN? Cos'è il "shared context" e a quanti byte può ridurre l'header con indirizzi globali?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>HC1:</strong> funziona bene solo per indirizzi link-local (FE80::/10); con indirizzi globali deve trasmetterli completamente → nessuna compressione per source/dest.</p>
+        <p><strong>IPHC (ImProved Header Compression):</strong> gestisce sia indirizzi link-local che globali e multicast. Usa un <strong>campo CID opzionale</strong> per riferirsi a contesti condivisi.</p>
+        <p><strong>Shared context:</strong> un "contesto" è un prefisso IPv6 condiviso (es. il prefisso della rete: <code>2001:db8::/64</code>) che sia mittente che destinatario conoscono già. Con CID (Context IDentifier, 4 bit → 16 contesti possibili), IPHC può omettere il prefisso e trasportare solo le parti dell'indirizzo che cambiano (tipicamente l'Interface ID derivato dal MAC).</p>
+        <p><strong>Risultato con indirizzi globali:</strong> header IPv6 da 40 byte → <strong>4 byte</strong> (2 byte IPHC + 1 byte CID + 1 byte Hop Limit; Source e Destination address a 0 byte se derivabili dal MAC e dal contesto condiviso).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 9. RPL ====================== -->
+<div class="topic-section" id="t9">
+  <div class="topic-header"><div class="num">9</div><h2>Routing in LLN e RPL</h2><span class="count">4 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Cos'è un DODAG in RPL? Descrivi la struttura (root, parent, sibling, rank) e le tre direzioni del traffico che supporta.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>Un <strong>DODAG (Destination Oriented Directed Acyclic Graph)</strong> è una topologia di routing logica costruita da RPL sopra la rete fisica. È un grafo aciclico orientato verso la radice.</p>
+        <p><strong>Componenti strutturali:</strong></p>
+        <ul>
+          <li><strong>Root (LBR):</strong> nodo radice, tipicamente connesso a Internet. Avvia e controlla il DODAG.</li>
+          <li><strong>Parent:</strong> predecessore immediato di un nodo in direzione UP (verso la root). Un nodo può avere più parent per ridondanza.</li>
+          <li><strong>Sibling:</strong> nodo allo stesso rank. Può ricevere pacchetti P2P da altri nodi.</li>
+          <li><strong>Rank:</strong> posizione relativa nel DODAG (calcolata dall'OF). Usato per loop avoidance: un nodo non accetta route che farebbero aumentare il rank.</li>
+          <li><strong>Children:</strong> nodi con rank più alto (più lontani dalla root).</li>
+        </ul>
+        <p><strong>Tre direzioni del traffico:</strong></p>
+        <ul>
+          <li><strong>MP2P (upward):</strong> dalle foglie verso la root → raccolta dati di sensori.</li>
+          <li><strong>P2MP (downward):</strong> dalla root verso le foglie → comandi/aggiornamenti.</li>
+          <li><strong>P2P:</strong> sale fino all'ancestor comune, poi scende verso la destinazione.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Descrivi i messaggi DIO e DAO in RPL: chi li invia, cosa contengono e a cosa servono.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>DIO (DODAG Information Object):</strong></p>
+        <ul>
+          <li><strong>Chi lo invia:</strong> i nodi RPL in multicast (propagazione bottom-up e broadcast locale).</li>
+          <li><strong>Contenuto:</strong> DODAGID, Objective Function (OF), Rank del nodo, DODAGSequenceNumber, flag G/T/S/A, metriche e vincoli del percorso.</li>
+          <li><strong>Scopo:</strong> pubblicizzare il DODAG e permettere ad altri nodi di scoprirlo e unirsi. Permette costruzione e manutenzione del DODAG.</li>
+          <li><strong>Invio governato da:</strong> Trickle Timer (frequente in fase instabile, raro quando stabile).</li>
+        </ul>
+        <p><strong>DAO (Destination Advertisement Object):</strong></p>
+        <ul>
+          <li><strong>Chi lo invia:</strong> i nodi foglia e i nodi interni, propagati in direzione UP verso la root.</li>
+          <li><strong>Contenuto:</strong> DAO sequence, RPLInstanceID, DAO rank, DAO lifetime, Destination Prefix, Reverse Route Stack (RRS per nodi senza routing state).</li>
+          <li><strong>Scopo:</strong> informare gli ancestor della raggiungibilità dei prefissi nelle foglie → permettere traffico P2MP (downward) e P2P.</li>
+          <li>I DAO possono essere aggregati lungo il percorso se il nodo padre ha un prefisso più generale.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Cos'è l'Objective Function (OF) in RPL? Fai due esempi di OF con metriche diverse e spiega come si combinano con il concetto di DODAG instance.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>L'<strong>Objective Function (OF)</strong> specifica il criterio di ottimizzazione usato per costruire il DODAG: qual è il "miglior" percorso secondo l'applicazione.</p>
+        <p><strong>Esempio OF1 – Minimizzare ETX:</strong> seleziona il percorso con il numero atteso di trasmissioni più basso → massima affidabilità. Usata per dati critici (allarmi).</p>
+        <p><strong>Esempio OF2 – Minimizzare latenza evitando nodi battery-operated:</strong> trova il percorso più rapido che non attraversi nodi alimentati a batteria (per preservarne l'energia). Usata per telemetria dove l'efficienza energetica della rete conta più della latenza.</p>
+        <p><strong>DODAG instance:</strong> una rete RPL può avere più istanze DODAG (ognuna con RPLInstanceID diverso e OF propria). Ogni nodo può unirsi a più istanze simultaneamente. Il traffico viene taggato e instradata sull'istanza corretta in base ai requisiti dell'applicazione.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Come funziona il Trickle Timer in RPL? Perché è fondamentale per le LLN e cosa succede quando il DODAG diventa inconsistente?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>Il <strong>Trickle Timer</strong> governa la frequenza di invio dei messaggi DIO e DAO con adattamento dinamico:</p>
+        <p><strong>Parametri:</strong> T_min (periodo minimo), T_max (periodo massimo), k (suppression threshold).</p>
+        <p><strong>Meccanismo:</strong></p>
+        <ol>
+          <li>Il timer parte da T_min e raddoppia a ogni periodo fino a T_max (backoff esponenziale).</li>
+          <li>In ogni periodo, il nodo conta (c) quanti DIO simili sente dagli altri: se c ≥ k, non trasmette (soppressione → riduce ridondanza).</li>
+          <li>Se c &lt; k, trasmette il proprio DIO.</li>
+        </ol>
+        <p><strong>Inconsistenza:</strong> quando un nodo riceve informazioni di routing contrastanti (es. un DIO con sequenza diversa, link failure rilevato), il timer viene resettato a T_min → DIO vengono inviati molto più frequentemente per riconvergere rapidamente la topologia.</p>
+        <p><strong>Importanza per LLN:</strong> bilancia due esigenze opposte: reagire velocemente ai cambiamenti (T_min basso) e ridurre il traffico di controllo quando la rete è stabile (T_max alto e soppressione). Cruciale in reti con risorse limitate.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 10. CoAP ====================== -->
+<div class="topic-section" id="t10">
+  <div class="topic-header"><div class="num">10</div><h2>CoAP</h2><span class="count">4 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Perché CoAP è preferito a HTTP nelle reti IoT? Confronta i due protocolli su almeno 4 dimensioni.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <table style="width:100%;font-size:13px;border-collapse:collapse;">
+          <tr><th style="background:#1a3c5e;color:#fff;padding:6px 8px">Dimensione</th><th style="background:#1a3c5e;color:#fff;padding:6px 8px">CoAP</th><th style="background:#1a3c5e;color:#fff;padding:6px 8px">HTTP</th></tr>
+          <tr style="background:#f0f4f8"><td style="padding:5px 8px">Trasporto</td><td>UDP (+ DTLS)</td><td>TCP (+ TLS)</td></tr>
+          <tr><td style="padding:5px 8px">Header</td><td>min. 4 byte</td><td>centinaia di byte (testo)</td></tr>
+          <tr style="background:#f0f4f8"><td style="padding:5px 8px">Multicast</td><td>✅ supportato</td><td>❌ non supportato</td></tr>
+          <tr><td style="padding:5px 8px">Observe/Push</td><td>✅ meccanismo nativo</td><td>❌ (richiede WebSocket/SSE)</td></tr>
+          <tr style="background:#f0f4f8"><td style="padding:5px 8px">Sicurezza</td><td>DTLS</td><td>TLS</td></tr>
+          <tr><td style="padding:5px 8px">Discovery</td><td>/.well-known/core (Link Format)</td><td>Non standardizzato</td></tr>
+          <tr style="background:#f0f4f8"><td style="padding:5px 8px">Modello</td><td>RESTful (GET/POST/PUT/DELETE)</td><td>RESTful (GET/POST/PUT/DELETE)</td></tr>
+        </table>
+        <p style="margin-top:8px;">CoAP è essenzialmente "HTTP per IoT": same REST semantics, ma adattato a reti con bassa banda, alta perdita e dispositivi vincolati.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Descrivi i 4 tipi di messaggi CoAP (CON, NON, ACK, RST) e spiega come viene garantita l'affidabilità sopra UDP.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <ul>
+          <li><strong>CON (Confirmable):</strong> richiede una risposta ACK dal destinatario. Se l'ACK non arriva entro un timeout, il mittente ritrasmette (con backoff esponenziale). Garantisce consegna affidabile.</li>
+          <li><strong>NON (Non-confirmable):</strong> best-effort, nessun ACK richiesto. Usato per dati non critici dove la perdita è accettabile (es. letture periodiche di temperatura).</li>
+          <li><strong>ACK (Acknowledgement):</strong> conferma la ricezione di un messaggio CON. Può trasportare la risposta (piggybacked) o essere vuoto (separato).</li>
+          <li><strong>RST (Reset):</strong> inviato quando un messaggio (CON o NON) non può essere processato (es. nessun handler per quel token).</li>
+        </ul>
+        <p><strong>Affidabilità sopra UDP:</strong> CoAP usa <em>Message ID</em> per de-duplicare i messaggi (evita elaborazione doppia in caso di ritrasmissioni) e <em>Token</em> per correlare richieste e risposte. Il meccanismo CON/ACK con ritrasmissioni esponenziali fornisce affidabilità simile a TCP ma con header molto più compatto.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Cos'è il meccanismo Observe in CoAP? Fai un esempio applicativo e spiega come si differenzia da un polling tradizionale.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>Il meccanismo <strong>Observe</strong> (RFC 7641) permette a un client CoAP di registrarsi a una risorsa sul server e ricevere notifiche automatiche ogni volta che il valore cambia, senza dover fare polling ripetuto.</p>
+        <p><strong>Come funziona:</strong></p>
+        <ol>
+          <li>Il client invia un <code>GET</code> con l'opzione <code>Observe: 0</code> → si registra.</li>
+          <li>Il server risponde con il valore attuale e continua a inviare notifiche ogni volta che il valore cambia.</li>
+          <li>Per de-registrarsi il client invia <code>GET</code> con <code>Observe: 1</code> o smette di rispondere agli ACK.</li>
+        </ol>
+        <p><strong>Esempio:</strong> un sensore di temperatura (server CoAP) ha la risorsa <code>/temperature</code>. Una dashboard (client) si registra con Observe. Ogni volta che la temperatura cambia di più di 0.5°C, il sensore invia automaticamente la notifica → nessun polling ogni 5 secondi.</p>
+        <p><strong>Vs polling:</strong> il polling richiede richieste ripetute (spreco di energia e banda anche quando nulla cambia); Observe è event-driven → molto più efficiente per dispositivi IoT a batteria.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Cos'è DTLS e perché viene usato con CoAP invece di TLS? Quali modalità di autenticazione supporta?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>DTLS (Datagram TLS)</strong> è la versione di TLS adattata per funzionare su UDP invece di TCP. Fornisce le stesse garanzie di sicurezza (riservatezza, integrità, autenticazione) ma per flussi di datagrammi.</p>
+        <p><strong>Perché DTLS con CoAP (non TLS):</strong> CoAP usa UDP → TLS non può essere usato direttamente (TLS richiede uno stream affidabile TCP). DTLS aggiunge meccanismi per gestire perdite e riordinamento dei pacchetti (handshake con cookie, numeri di sequenza, ritrasmissioni proprie).</p>
+        <p><strong>Tre modalità di autenticazione supportate:</strong></p>
+        <ol>
+          <li><strong>Pre-Shared Key (PSK):</strong> chiave simmetrica condivisa in anticipo tra i dispositivi. Semplice ma richiede configurazione manuale. Adatta a reti chiuse.</li>
+          <li><strong>Raw Public Key (RPK):</strong> chiave pubblica del dispositivo senza certificato X.509. Riduce overhead rispetto ai certificati completi.</li>
+          <li><strong>Certificati X.509:</strong> infrastruttura PKI completa. Più overhead ma massima flessibilità e interoperabilità. Adatto per deployment su larga scala.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 11. OS IoT ====================== -->
+<div class="topic-section" id="t11">
+  <div class="topic-header"><div class="num">11</div><h2>Sistemi Operativi per IoT</h2><span class="count">3 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Cos'è il modello "protothreads" di Contiki? Perché è preferito al multithreading tradizionale per i sistemi IoT a risorse limitate?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>I <strong>protothreads</strong> sono un'astrazione di programmazione che simula il multithreading usando una singola stack. Implementati in C tramite macro, permettono di scrivere codice sequenziale (come con thread) ma senza il costo di avere stack separate per ogni thread.</p>
+        <p><strong>Funzionamento:</strong> un protothread può "fermarsi" (yield) ad un punto specifico e riprendere da lì al prossimo scheduling, usando le macro <code>PT_WAIT_UNTIL</code>, <code>PT_YIELD</code>, ecc.</p>
+        <p><strong>Vantaggi vs multithreading tradizionale:</strong></p>
+        <ul>
+          <li><strong>Uso di memoria minimo:</strong> non richiede stack separate per ogni thread (ogni thread FreeRTOS richiede centinaia/migliaia di byte di stack). I protothreads usano solo pochi byte.</li>
+          <li><strong>No preemption:</strong> non serve sincronizzazione (mutex, semafori) → codice più semplice e senza race conditions.</li>
+          <li>Adatti a microcontroller con pochi kB di RAM dove il multithreading classico è proibitivo.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Per quale tipo di applicazione IoT è più adatto FreeRTOS rispetto a Contiki? Quali sono le caratteristiche che lo rendono diverso?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>FreeRTOS è più adatto per <strong>applicazioni di controllo industriale e sistemi embedded con requisiti real-time</strong> dove è necessario garantire tempi di risposta massimi e prevedibili (RTOS = Real-Time OS).</p>
+        <p><strong>Caratteristiche distintive di FreeRTOS:</strong></p>
+        <ul>
+          <li><strong>Scheduler preemptivo:</strong> un task di priorità più alta può interrompere immediatamente quello in esecuzione → risposta garantita entro un tempo determinato.</li>
+          <li><strong>Multithreading reale:</strong> ogni task ha la propria stack → più memoria ma maggiore isolamento.</li>
+          <li><strong>Primitive di sincronizzazione:</strong> semafori, mutex, code di messaggi per comunicazione tra task.</li>
+          <li><strong>Portabilità massima:</strong> oltre 50 microprocessori/controller supportati.</li>
+        </ul>
+        <p><strong>Quando Contiki è meglio:</strong> sensori IoT con batteria, reti wireless, dove l'efficienza energetica conta più del real-time. Contiki include già uIP/uIPv6 nativamente.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Cos'è il simulatore Cooja di Contiki? A cosa serve e quali vantaggi offre rispetto allo sviluppo diretto su hardware fisico?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>Cooja</strong> è un simulatore di reti di smart object incluso in Contiki OS. Permette di emulare interi stack protocollari (da PHY fino all'applicazione) su computer desktop, simulando nodi come Telos B, Sky, ecc.</p>
+        <p><strong>Vantaggi rispetto all'hardware fisico:</strong></p>
+        <ul>
+          <li><strong>Nessun hardware richiesto:</strong> si può sviluppare e testare senza possedere i nodi fisici.</li>
+          <li><strong>Scalabilità:</strong> simulare decine/centinaia di nodi in un singolo PC, impossibile con hardware reale.</li>
+          <li><strong>Riproducibilità:</strong> esperimenti deterministici con lo stesso seed random → stesso scenario ogni volta.</li>
+          <li><strong>Debugging facilitato:</strong> si può ispezionare lo stato interno di ogni nodo in ogni momento.</li>
+          <li><strong>Velocità di sviluppo:</strong> ciclo sviluppo-test molto più rapido rispetto al flashing su hardware.</li>
+        </ul>
+        <p>Cooja esegue il codice Contiki reale (non una simulazione astratta) → il codice testato su Cooja funziona su hardware reale senza modifiche.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 12. SICUREZZA ====================== -->
+<div class="topic-section" id="t12">
+  <div class="topic-header"><div class="num">12</div><h2>Sicurezza IoT</h2><span class="count">4 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Cos'è un attacco "Sinkhole" in una rete IoT? Come funziona e quali effetti può avere sulla rete? Come può essere rilevato?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>Un <strong>Sinkhole attack</strong> (o Blackhole) è un attacco in cui un nodo malevolo si "pubblicizza" come ottimo router (es. con ETX=1 verso tutti, o rank falsificato in RPL) per attirare il traffico della rete verso di sé, e poi scarta o altera i pacchetti invece di inoltrarli correttamente.</p>
+        <p><strong>Funzionamento:</strong></p>
+        <ol>
+          <li>Il nodo malevolo invia DIO con rank molto basso (ottimistico) e metriche falsificate.</li>
+          <li>I nodi vicini lo scelgono come parent preferenziale → gran parte del traffico vi converge.</li>
+          <li>Il nodo scarta i pacchetti (blackhole) o li altera (sinkhole selettivo).</li>
+        </ol>
+        <p><strong>Effetti:</strong> perdita di dati, interruzione del servizio, difficile da distinguere da normali perdite di link.</p>
+        <p><strong>Rilevamento:</strong> monitoraggio del tasso di consegna dei pacchetti (se un nodo riceve molto ma consegna poco → sospetto), verifica della consistenza delle metriche tra nodi, meccanismi di trust management e reputation.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Quali meccanismi di sicurezza offre IEEE 802.15.4 a livello MAC? Descrivi le modalità di protezione disponibili.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>IEEE 802.15.4 include meccanismi di sicurezza nativi a livello MAC tramite un security header opzionale:</p>
+        <p><strong>Algoritmo:</strong> AES-128 (Advanced Encryption Standard con chiave a 128 bit), hardware-accelerated su molti chipset.</p>
+        <p><strong>Tre modalità di protezione:</strong></p>
+        <ul>
+          <li><strong>Cipher (cifratura):</strong> solo riservatezza del payload. Nessuno può leggere il contenuto senza la chiave.</li>
+          <li><strong>MIC (Message Integrity Code):</strong> solo integrità. Un tag crittografico (MIC) rileva modifiche al frame. Nessuna cifratura → il contenuto è leggibile ma le modifiche vengono rilevate.</li>
+          <li><strong>Cipher + MIC:</strong> sia riservatezza che integrità → protezione completa.</li>
+        </ul>
+        <p><strong>Dimensioni security header:</strong> 21 byte (AES-128 + MIC-128), 13 byte (MIC-64), 9 byte (MIC-32). La scelta impatta il payload utile disponibile nel frame 802.15.4.</p>
+        <p><strong>Protezione against replay:</strong> frame counter (contatore) per prevenire replay attacks.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Cos'è un attacco Sybil e in che modo mette in pericolo un protocollo di routing come RPL?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>Un <strong>attacco Sybil</strong> si verifica quando un singolo nodo fisico malevolo si presenta alla rete con <strong>molteplici identità false</strong> (indirizzi diversi).</p>
+        <p><strong>Come funziona:</strong> il nodo crea artificialmente molte "identità" nella rete, ognuna con le proprie credenziali (es. indirizzi IP o MAC falsificati).</p>
+        <p><strong>Impatto su RPL:</strong></p>
+        <ul>
+          <li>Il DODAG può essere manipolato: il nodo Sybil con molte identità "controlla" una parte significativa del DODAG.</li>
+          <li>Può creare route false che portano traffico verso il nodo malevolo.</li>
+          <li>Altera statistiche di rete (ETX) rendendo le metriche non affidabili.</li>
+          <li>Può isolare parte della rete modificando artificialmente il DODAG.</li>
+        </ul>
+        <p><strong>Contromisura principale:</strong> autenticazione forte dell'identità (certificati crittografici hardware, secure elements). Ogni dispositivo deve poter provare la propria identità univoca in modo non falsificabile.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Descrivi lo stack di sicurezza completo in una rete IoT 6LoWPAN con CoAP, indicando il meccanismo di sicurezza a ogni livello dello stack.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <table style="width:100%;font-size:13px;border-collapse:collapse;">
+          <tr><th style="background:#1a3c5e;color:#fff;padding:6px 8px">Livello</th><th style="background:#1a3c5e;color:#fff;padding:6px 8px">Meccanismo</th><th style="background:#1a3c5e;color:#fff;padding:6px 8px">Cosa protegge</th></tr>
+          <tr style="background:#f0f4f8"><td style="padding:5px 8px">Applicazione (CoAP)</td><td>OSCORE</td><td>End-to-end (anche attraverso proxy)</td></tr>
+          <tr><td style="padding:5px 8px">Trasporto (UDP)</td><td>DTLS</td><td>Riservatezza + integrità + autenticazione</td></tr>
+          <tr style="background:#f0f4f8"><td style="padding:5px 8px">Rete (IPv6)</td><td>IPSec (AH/ESP)</td><td>Autenticazione header + payload cifrato</td></tr>
+          <tr><td style="padding:5px 8px">Link (802.15.4 MAC)</td><td>AES-128 (Cipher+MIC)</td><td>Hop-by-hop: cifratura + integrità + anti-replay</td></tr>
+          <tr style="background:#f0f4f8"><td style="padding:5px 8px">Routing (RPL)</td><td>Secure DIO/DAO</td><td>Autenticità messaggi routing</td></tr>
+        </table>
+        <p style="margin-top:8px;">Il livello link protegge il singolo hop (802.15.4 frame); DTLS protegge la comunicazione end-to-end tra client e server CoAP. I due livelli sono complementari: 802.15.4 security proteggere anche gli header IP (visibili tra nodi adiacenti), DTLS protegge il payload UDP end-to-end.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 13. LoRa ====================== -->
+<div class="topic-section" id="t13">
+  <div class="topic-header"><div class="num">13</div><h2>LoRa e LoRaWAN</h2><span class="count">4 domande</span></div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Cos'è la modulazione LoRa basata su CSS? Descrivi il ruolo del parametro Spreading Factor (SF) e come influenza range, data rate e consumo energetico.</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>LoRa usa la modulazione <strong>CSS (Chirp Spread Spectrum)</strong>: il segnale varia linearmente in frequenza nel tempo (chirp crescente o decrescente). Questa caratteristica rende il segnale molto robusto al rumore e alle interferenze, anche con SNR negativo (il segnale può essere più debole del rumore!).</p>
+        <p><strong>Spreading Factor (SF):</strong> parametro da 7 a 12 che determina la "velocità" del chirp.</p>
+        <table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:6px;">
+          <tr><th style="background:#1a3c5e;color:#fff;padding:5px 8px">SF</th><th style="background:#1a3c5e;color:#fff;padding:5px 8px">Data Rate</th><th style="background:#1a3c5e;color:#fff;padding:5px 8px">Range</th><th style="background:#1a3c5e;color:#fff;padding:5px 8px">Tempo TX (payload 20B)</th></tr>
+          <tr style="background:#f0f4f8"><td style="padding:4px 8px">SF7</td><td>~5.5 kb/s</td><td>breve</td><td>~56 ms</td></tr>
+          <tr><td style="padding:4px 8px">SF9</td><td>~1.8 kb/s</td><td>medio</td><td>~185 ms</td></tr>
+          <tr style="background:#f0f4f8"><td style="padding:4px 8px">SF12</td><td>~0.3 kb/s</td><td>massimo (15+ km)</td><td>~1.3 s</td></tr>
+        </table>
+        <p>Ogni incremento di SF raddoppia il tempo di trasmissione (e dimezza il data rate), ma aumenta il range. Il consumo energetico per bit è più alto con SF alto (trasmissione più lunga), ma il consumo per messaggio dipende dal trade-off specifico.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Descrivi l'architettura di rete LoRaWAN: quali sono i 4 elementi e quale ruolo svolge ciascuno?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <ol>
+          <li><strong>End Node (Device):</strong> sensore o attuatore IoT. Trasmette dati via radio LoRa al gateway. Può essere Classe A, B o C. Solitamente alimentato a batteria per anni.</li>
+          <li><strong>Gateway:</strong> riceve contemporaneamente segnali LoRa da tutti i nodi nelle vicinanze (tutti gli SF e canali simultaneamente). Inoltra tutti i pacchetti ricevuti al Network Server via IP (Ethernet, WiFi, 4G). Non ha logica di rete: è trasparente. La copertura di un singolo gateway in area urbana = ~2 km; in campagna aperta = ~15+ km.</li>
+          <li><strong>Network Server:</strong> gestisce la rete LoRaWAN. De-duplica pacchetti ricevuti da più gateway (lo stesso pacchetto può arrivare da più gateway), seleziona il miglior gateway per il downlink, gestisce ADR, gestisce la sicurezza NwkSKey, verifica MIC.</li>
+          <li><strong>Application Server:</strong> riceve i dati dal Network Server e li decripta con AppSKey (chiave applicazione). Il Network Server non vede il payload applicativo (privacy). Elabora i dati e li rende disponibili all'applicazione.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Descrivi le tre classi di dispositivi LoRaWAN (A, B, C). Quando è appropriato usare ciascuna?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p><strong>Classe A (All):</strong> baseline obbligatoria per tutti i dispositivi LoRaWAN.</p>
+        <ul>
+          <li>Dopo ogni trasmissione uplink, il device apre 2 brevi finestre di ricezione (RX1 dopo 1s, RX2 dopo 2s).</li>
+          <li>Il downlink dal server può arrivare solo in queste finestre.</li>
+          <li>Massimo risparmio energetico. Latenza downlink = attende il prossimo uplink.</li>
+          <li><strong>Uso:</strong> sensori a batteria (temperatura, umidità, tracciamento asset) dove l'attuazione rara è accettabile.</li>
+        </ul>
+        <p><strong>Classe B (Beacon):</strong></p>
+        <ul>
+          <li>Aggiunge finestre di ricezione schedulate (slot time) sincronizzate con beacon periodici dei gateway.</li>
+          <li>Il server sa esattamente quando il device è disponibile per ricevere → latenza downlink prevedibile.</li>
+          <li><strong>Uso:</strong> attuatori che devono rispondere a comandi con latenza garantita (valvole, interruttori).</li>
+        </ul>
+        <p><strong>Classe C (Continuous):</strong></p>
+        <ul>
+          <li>Il device è in ricezione continua (eccetto quando trasmette).</li>
+          <li>Latenza downlink minima (~100 ms); consumo energetico massimo.</li>
+          <li><strong>Uso:</strong> dispositivi alimentati dalla rete (luci, contatori) dove la latenza minima conta.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Cos'è l'ADR (Adaptive Data Rate) in LoRaWAN? Quali parametri adatta e quali sono i suoi benefici per la rete?</div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="q-answer">
+      <div class="answer-box">
+        <div class="label">✅ Risposta</div>
+        <p>L'<strong>ADR (Adaptive Data Rate)</strong> è un meccanismo del Network Server che adatta automaticamente i parametri di trasmissione di ogni device in base alla qualità del link osservata.</p>
+        <p><strong>Parametri adattati:</strong></p>
+        <ul>
+          <li><strong>Spreading Factor (SF):</strong> se il segnale è forte → SF più basso (più veloce, meno tempo in aria).</li>
+          <li><strong>Potenza di trasmissione (TX Power):</strong> ridotta se il link è abbondante → risparmio energetico del device.</li>
+          <li>In certi casi anche la bandwidth.</li>
+        </ul>
+        <p><strong>Benefici:</strong></p>
+        <ul>
+          <li><strong>Per il device:</strong> trasmissioni più brevi → meno energia consumata → vita batteria più lunga.</li>
+          <li><strong>Per la rete:</strong> minor time-on-air → meno interferenze tra dispositivi → maggiore capacità della rete (più dispositivi per gateway). Il duty cycle 1% (EU) viene sfruttato meglio.</li>
+          <li><strong>Ottimizzazione automatica:</strong> senza ADR, tutti i dispositivi userebbero SF massimo "per sicurezza" → rete sovraccarica.</li>
+        </ul>
+        <p>ADR è attivato solo per dispositivi statici (o con mobilità bassa); per dispositivi mobili si usa SF fisso per garantire copertura in ogni posizione.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+let totalVisible = 0;
+const TOTAL = 48;
+
+function toggle(header) {
+  const ans = header.nextElementSibling;
+  const icon = header.querySelector('.toggle-icon');
+  const isOpen = ans.classList.contains('show');
+  if (!isOpen) {
+    ans.classList.add('show');
+    icon.classList.add('open');
+    totalVisible++;
+  } else {
+    ans.classList.remove('show');
+    icon.classList.remove('open');
+    totalVisible = Math.max(0, totalVisible - 1);
+  }
+  updateScore();
+}
+
+function toggleAll() {
+  const allAnswers = document.querySelectorAll('.q-answer');
+  const allIcons = document.querySelectorAll('.toggle-icon');
+  const anyOpen = document.querySelector('.q-answer.show');
+  if (anyOpen) {
+    allAnswers.forEach(a => a.classList.remove('show'));
+    allIcons.forEach(i => i.classList.remove('open'));
+    totalVisible = 0;
+  } else {
+    allAnswers.forEach(a => a.classList.add('show'));
+    allIcons.forEach(i => i.classList.add('open'));
+    totalVisible = TOTAL;
+  }
+  updateScore();
+}
+
+function updateScore() {
+  const visible = document.querySelectorAll('.q-answer.show').length;
+  document.getElementById('score-text').textContent = visible + ' / ' + TOTAL + ' risposte viste';
+  document.getElementById('prog-fill').style.width = (visible / TOTAL * 100) + '%';
+}
+
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body>
+</html>

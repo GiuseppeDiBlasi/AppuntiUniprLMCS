@@ -1,0 +1,7 @@
+.obsidian/
+*.zip
+Python/
+*.tar
+*.tar.gz
+**/.venv/
+venv/

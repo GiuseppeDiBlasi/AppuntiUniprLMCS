@@ -1,0 +1,15 @@
+\section{Conclusioni}
+In questo lavoro sono stati implementati e
+confrontati diversi modelli CNN per la super-resolution ispirati
+a SRCNN\cite{dong2014srcnn} e VDSR\cite{kim2015accurate}.
+ Nonostante i miglioramenti progressivi introdotti,
+ le prestazioni non hanno superato sistematicamente l'interpolazione bicubica.
+ Il risultato migliore è stato ottenuto con la loss L1,
+ che ha permesso di superare Bicubic in un caso del test set con un
+ miglioramento percettivo visibile sui dettagli.
+ La difficoltà nel raggiungere prestazioni superiori è probabilmente
+ attribuibile all'utilizzo di un dataset di training diverso rispetto ai paper di riferimento,
+ all'assenza di data augmentation e a una profondità della rete ridotta.
+ Il fatto che la loss si stabilizzasse dopo circa cento epoche suggerisce
+ inoltre che il modello raggiungeva i limiti della propria capacità rappresentativa,
+ indipendentemente dalla durata dell'addestramento.

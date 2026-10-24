@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 580" width="1400" height="580">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+    </marker>
+    <style>
+      .code { font-family: "DejaVu Sans Mono", Consolas, monospace; font-size: 34px; fill: #111; }
+      .kw { fill: #0000ff; }
+      .node { fill: #fff; stroke: #000; stroke-width: 2; }
+      .red { fill: #fff; stroke: #e6195a; stroke-width: 5; }
+      .green { fill: #fff; stroke: #12b24a; stroke-width: 5; }
+      .t { font-family: "Times New Roman", Times, serif; font-size: 23px; fill: #000; }
+      .lbl { font-family: "DejaVu Sans Mono", Consolas, monospace; font-style: italic; font-size: 19px; fill: #5a6577; }
+      .cap { font-family: Helvetica, Arial, sans-serif; font-size: 27px; fill: #5a6577; text-anchor: middle; }
+      .cap tspan.m { font-family: "DejaVu Sans Mono", Consolas, monospace; font-size: 25px; }
+      .edge { stroke: #000; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .sub { font-size: 13px; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="580" fill="#fff"/>
+
+  <!-- Codice -->
+  <text x="700" y="35" text-anchor="middle" class="code" xml:space="preserve"><tspan class="kw">void</tspan> foo() {<tspan class="kw">int</tspan> i=0; <tspan class="kw">while</tspan>(i&lt;50) i=bar(i);}</text>
+
+  <!-- ===================== CFG di default ===================== -->
+  <!-- Nodi -->
+  <rect class="node" x="371" y="57" width="98" height="65"/>
+  <text class="t" x="420" y="82" text-anchor="middle">entry:</text>
+  <text class="t" x="420" y="108" text-anchor="middle">i.0 = 0</text>
+
+  <rect class="red" x="349" y="186" width="140" height="61"/>
+  <text class="t" x="419" y="223" text-anchor="middle">while.cond:</text>
+
+  <rect class="red" x="177" y="312" width="194" height="65"/>
+  <text class="t" x="274" y="339" text-anchor="middle">__@bb_5:</text>
+  <text class="t" x="274" y="365" text-anchor="middle">assume(i.0 ≤ 49)</text>
+
+  <rect class="red" x="468" y="312" width="212" height="65"/>
+  <text class="t" x="574" y="339" text-anchor="middle">__@bb_6:</text>
+  <text class="t" x="574" y="365" text-anchor="middle">assume(-i.0 ≤ -50)</text>
+
+  <rect class="node" x="139" y="442" width="316" height="91"/>
+  <text class="t" x="154" y="469">while.body:</text>
+  <text class="t" x="159" y="495">call:int32 = call bar(i.0:int32)</text>
+  <text class="t" x="159" y="521">i.0 = call</text>
+
+  <rect class="node" x="510" y="457" width="128" height="61"/>
+  <text class="t" x="574" y="494" text-anchor="middle">while.end:</text>
+
+  <!-- Archi -->
+  <line class="edge" x1="420" y1="122" x2="420" y2="184"/>
+  <line class="edge" x1="385" y1="247" x2="315" y2="310"/>
+  <line class="edge" x1="455" y1="247" x2="535" y2="310"/>
+  <line class="edge" x1="279" y1="377" x2="291" y2="440"/>
+  <line class="edge" x1="574" y1="377" x2="574" y2="455"/>
+  <path class="edge" d="M343,442 C400,405 420,330 416,249"/>
+
+  <!-- Etichette -->
+  <text class="lbl" x="228" y="90" xml:space="preserve">&lt;pre, post&gt;</text>
+  <text class="lbl" x="228" y="173" xml:space="preserve">&lt;pre, post&gt;</text>
+  <text class="lbl" x="116" y="300" xml:space="preserve">&lt;pre, post&gt;</text>
+  <text class="lbl" x="572" y="300" xml:space="preserve">&lt;pre, post&gt;</text>
+  <text class="lbl" x="70" y="428" xml:space="preserve">&lt;pre<tspan class="sub" dy="5">then</tspan><tspan dy="-5">, post&gt;</tspan></text>
+  <text class="lbl" x="598" y="448" xml:space="preserve">&lt;pre<tspan class="sub" dy="5">else</tspan><tspan dy="-5">, post&gt;</tspan></text>
+
+  <text class="cap" x="416" y="563">Default CFG</text>
+
+  <!-- ===================== CFG con split ===================== -->
+  <rect class="node" x="916" y="82" width="112" height="72"/>
+  <text class="t" x="972" y="110" text-anchor="middle">entry:</text>
+  <text class="t" x="972" y="137" text-anchor="middle">i.0 = 0</text>
+
+  <rect class="green" x="879" y="228" width="188" height="73"/>
+  <text class="t" x="973" y="258" text-anchor="middle">while.cond:</text>
+  <text class="t" x="973" y="285" text-anchor="middle">split(i.0 ≤ 49)</text>
+
+  <rect class="node" x="792" y="376" width="360" height="105"/>
+  <text class="t" x="808" y="406">while.body:</text>
+  <text class="t" x="815" y="434">call:int32 = call bar(i.0:int32)</text>
+  <text class="t" x="815" y="462">i.0 = call</text>
+
+  <rect class="node" x="1187" y="394" width="146" height="70"/>
+  <text class="t" x="1260" y="435" text-anchor="middle">while.end:</text>
+
+  <!-- Archi -->
+  <line class="edge" x1="972" y1="154" x2="972" y2="226"/>
+  <line class="edge" x1="960" y1="301" x2="960" y2="374"/>
+  <line class="edge" x1="985" y1="376" x2="985" y2="303"/>
+  <line class="edge" x1="1060" y1="301" x2="1198" y2="392"/>
+
+  <!-- Etichette -->
+  <text class="lbl" x="988" y="190" xml:space="preserve">&lt;inv&gt;</text>
+  <text class="lbl" x="858" y="343" xml:space="preserve">&lt;inv<tspan class="sub" dy="5">then</tspan><tspan dy="-5">&gt;</tspan></text>
+  <text class="lbl" x="996" y="354" xml:space="preserve">&lt;inv&gt;</text>
+  <text class="lbl" x="1114" y="342" xml:space="preserve">&lt;inv<tspan class="sub" dy="5">else</tspan><tspan dy="-5">&gt;</tspan></text>
+
+  <text class="cap" x="977" y="563">CFG with <tspan class="m">split</tspan> stmt</text>
+</svg>

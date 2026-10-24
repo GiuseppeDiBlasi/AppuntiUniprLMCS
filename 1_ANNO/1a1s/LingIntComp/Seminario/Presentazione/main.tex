@@ -1,0 +1,325 @@
+\documentclass[aspectratio=169]{beamer}
+
+% Tema e colori
+\usetheme{SimplePlus}
+\usecolortheme{default}
+
+% Pacchetti utili
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=C++,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!60!black}\ttfamily,
+    stringstyle=\color{red},
+    breaklines=true,
+    frame=none,
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false,
+    columns=flexible
+}
+
+
+% Informazioni sulla presentazione
+\title{Clang-Tidy: Modernize}
+
+\author{Giuseppe Di Blasi}
+\institute{Università di Parma}
+\date{8 Gennaio 2026}
+
+% Logo (opzionale - decommentare e specificare il percorso)
+% \logo{\includegraphics[height=1cm]{logo.png}}
+
+\begin{document}
+
+% Slide del titolo
+\begin{frame}
+\titlepage
+\end{frame}
+
+% Sezione 1
+\section{Cos'è Clang-Tidy}
+
+\begin{frame}{Cos'è Clang-Tidy}
+
+ 
+  \begin{block}{Clang-Tidy}
+    
+  \begin{itemize}
+    \item Strumento di linting basato su Clang per C++
+    \item Offre un framework estensibile
+    \item Individua e correggere : 
+      \begin{itemize}
+        \item Errori di programmazione
+        \item Cattive pratiche di programmazione
+        \item Problematiche di stile
+      \end{itemize}
+  \end{itemize}
+\end{block}
+
+  In questo seminario ci concentreremo sulla parte di modernize, quindi la rilevazione di codice legacy e 
+  gli opportuni suggerimenti per adeguarlo allo standard moderno.
+
+\end{frame}
+
+\begin{frame}{TinyXML2}
+ 
+  \begin{block}{TinyXML2}
+    \begin{itemize}
+      \item Parser per file XML scritto in C++
+      \item Progetto abbastanza grande
+      \item Presenta codice legacy 
+    \end{itemize}
+  \end{block}
+   
+  \begin{block}{Clang-Tidy modernize}
+    \begin{itemize}
+      \item Comando: \textbf{clang-tidy tinyxml2.cpp -checks="modernize-*" -{-} -std=c++17 }
+    \item C++ 17 come standard target
+    \item 1700 warning generati
+  \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Risultato esecuzione}
+    \begin{itemize}
+  \item 111 modernize-use-trailing-return-type
+  \item 103 modernize-use-nullptr
+  \item 35 modernize-avoid-c-arrays
+  \item 11 modernize-use-auto
+  \item 3 modernize-use-equals-default
+  \item 3 modernize-loop-convert
+  \item 1 modernize-raw-string-literal
+  \end{itemize}
+  \end{block}
+\end{frame}
+
+% Esempi di trasformazione con clang-tidy modenrize
+
+\section{Esempi di trasformazione}
+
+% modernize-use-trailing-return-type
+
+\begin{frame}[fragile]{modernize-use-trailing-return-type}
+  \begin{block}{Codice legacy}
+  \begin{lstlisting}
+  char* StrPair::ParseText( char* p, const char* endTag, int strFlags, int* curLineNumPtr ){
+    //... 
+  }
+
+   \end{lstlisting}
+ \end{block}
+
+ \begin{block}{Codice moderno}
+    \begin{lstlisting}
+    auto StrPair::ParseText( char* p, const char* endTag, int strFlags, int* curLineNumPtr ) -> char*{
+      //... 
+    }
+
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+% modernize-use-nullptr
+
+\begin{frame}[fragile]{modernize-use-nullptr}
+  \begin{block}{Codice legacy}
+  \begin{lstlisting}[literate={ù}{{\`u}}1]
+      
+      //const char* XMLUtil::GetCharacterRef(const char* p, char* value, int* length) 
+      const char* q = 0; // riga 506
+      
+      // length_ptr sarebbe più appropriato
+      if (length == 0) // riga 569
+   \end{lstlisting}
+ \end{block}
+
+ \begin{block}{Codice moderno}
+    \begin{lstlisting}[literate={ù}{{\`u}}1] 
+    const char* q = nullptr;
+    
+    // length_ptr sarebbe più appropriato
+    if (length == nullptr);
+
+    \end{lstlisting}
+  \end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% modernize-use-auto
+
+\begin{frame}[fragile]{modernize-use-auto}
+  \begin{block}{Codice legacy}
+  \begin{lstlisting}
+  const unsigned char* pu = reinterpret_cast<const unsigned char*>(p);
+
+  XMLText* text = CreateUnlinkedNode<XMLText>( _textPool );
+   \end{lstlisting}
+ \end{block}
+
+ \begin{block}{Codice moderno}
+    \begin{lstlisting}
+    auto pu = reinterpret_cast<const unsigned char*>(p);
+
+    auto text = CreateUnlinkedNode<XMLText>( _textPool );
+    \end{lstlisting}
+  \end{block}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% modernize-raw-string-literal
+\begin{frame}[fragile]{modernize-raw-string-literal}
+  \vspace{-1em}
+  \begin{block}{Codice legacy}
+  \begin{lstlisting}
+  XMLDeclaration* XMLDocument::NewDeclaration( const char* str ){
+    XMLDeclaration* dec = CreateUnlinkedNode<XMLDeclaration>( _commentPool );
+    dec->SetValue( str ? str : "xml version=\"1.0\" encoding=\"UTF-8\"" );
+    return dec;
+  }
+  \end{lstlisting}
+ \end{block}
+
+ \begin{block}{Codice moderno}
+    \begin{lstlisting}
+  XMLDeclaration* XMLDocument::NewDeclaration( const char* str ){
+    XMLDeclaration* dec = CreateUnlinkedNode<XMLDeclaration>( _commentPool );
+    dec->SetValue( str ? str : R"( xml version="1.0" encoding="UTF-8" )" );
+    return dec;
+  }
+    \end{lstlisting}
+  \end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% modernize-avoid-c-arrays
+
+\begin{frame}[fragile]{modernize-avoid-c-arrays}
+  \vspace{-1em}
+  \begin{block}{Codice legacy}
+  \begin{lstlisting}
+  
+  static const char* TRUE_VALS[] = { "true", "True", "TRUE", 0 };
+  static const char* FALSE_VALS[] = { "false", "False", "FALSE", 0 };
+  \end{lstlisting}
+ \end{block}
+
+ \begin{block}{Codice moderno}
+    \begin{lstlisting}
+    
+  static constexpr std::array<const char*, 3> TRUE_VALS = {
+    "true", "True", "TRUE"
+  };
+
+  static constexpr std::array<const char*, 3> FALSE_VALS = {
+    "false", "False", "FALSE"
+  };
+    \end{lstlisting}
+  \end{block}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% modernize-loop-convert
+
+\begin{frame}[fragile]{modernize-loop-convert}
+  \vspace{-1em}
+  \begin{block}{Codice legacy}
+  \begin{lstlisting}
+  for( int i=0; i<NUM_ENTITIES; ++i ) {
+    if ( entities[i].value == *q ) {
+      //.. 
+      Write( entities[i].pattern, entities[i].length );      
+    } 
+  }
+  \end{lstlisting}
+ \end{block}
+
+ \begin{block}{Codice moderno}
+    \begin{lstlisting}
+    //si potrebbe usare const auto& per efficienza...
+    for(auto entitie : entities) {
+      if ( entitie.value == *q ) {
+        //.. 
+        Write( entitie.pattern, entitie.length );               
+      } 
+    }
+    \end{lstlisting}
+  \end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% modernize-use-equals-default
+%
+\begin{frame}[fragile]{modernize-use-equals-default}
+  \vspace{-1em}
+  \begin{block}{Codice legacy}
+  \begin{lstlisting}
+     XMLComment::~XMLComment() { }
+     XMLUnknown::~XMLUnknown() { }
+  \end{lstlisting}
+ \end{block}
+
+ \begin{block}{Codice moderno}
+    \begin{lstlisting}
+    XMLComment::~XMLComment() = default;
+    XMLUnknown::~XMLUnknown() = default;
+    \end{lstlisting}
+  \end{block}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% CONCLUSIONI
+
+\begin{frame}{Conclusioni}
+  \begin{itemize}
+    \item Aggiornato TinyXML2 allo standard C++ 17
+    \item Facilitato l'aggiornamento allo standard moderno
+    \item Migliorato la sicurezza del programma (nullptr, std::array)
+    \item Migliorato la comprensione del codice con costrutti di sintassi moderna
+    \item Alcuni check non fanno autofix: {modernize-avoid-c-arrays}
+     \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+% RIFERIMENTI 
+
+\begin{frame}{Riferimenti}
+  \begin {itemize}
+\item GitHub TinyXML2: \url{https://github.com/leethomason/tinyxml2}
+\item Documentazione Clang-Tidy: \url{https://clang.llvm.org/extra/clang-tidy}
+\item C++ Core guidelines: \url{https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines.html}
+  \end {itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 350" width="100%" height="100%">
+  <defs>
+    <!-- Definizione della freccia per gli assi -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#222" />
+    </marker>
+  </defs>
+
+  <style>
+    .axis { stroke: #222; stroke-width: 2; fill: none; }
+    .cluster { stroke: #333; stroke-width: 1.5; stroke-dasharray: 4 3; fill: none; }
+    .data-point { stroke: #c0392b; stroke-width: 2; fill: #ffffff; }
+    .label { font-family: 'Times New Roman', serif; font-size: 20px; font-style: italic; text-anchor: middle; fill: #111; }
+    .subscript { font-size: 14px; font-style: normal; }
+  </style>
+
+  <!-- Sfondo bianco -->
+  <rect width="100%" height="100%" fill="#ffffff" />
+
+  <!-- Assi Cartesiani -->
+  <!-- Asse Y (X1) -->
+  <line x1="60" y1="290" x2="60" y2="30" class="axis" marker-end="url(#arrow)" />
+  <!-- Asse X (X2) -->
+  <line x1="60" y1="290" x2="360" y2="290" class="axis" marker-end="url(#arrow)" />
+
+  <!-- Etichette degli Assi -->
+  <text x="35" y="160" class="label">X<tspan font-size="13" dy="4" font-style="normal">1</tspan></text>
+  <text x="210" y="325" class="label">X<tspan font-size="13" dy="4" font-style="normal">2</tspan></text>
+
+  <!-- Cluster 1 (In basso a sinistra) -->
+  <circle cx="115" cy="225" r="42" class="cluster" />
+  <circle cx="98" cy="210" r="7" class="data-point" />
+  <circle cx="132" cy="198" r="7" class="data-point" />
+  <circle cx="95" cy="242" r="7" class="data-point" />
+  <circle cx="130" cy="238" r="7" class="data-point" />
+
+  <!-- Cluster 2 (In basso al centro/destra) -->
+  <circle cx="210" cy="235" r="42" class="cluster" />
+  <circle cx="190" cy="215" r="7" class="data-point" />
+  <circle cx="200" cy="255" r="7" class="data-point" />
+  <circle cx="232" cy="235" r="7" class="data-point" />
+
+  <!-- Cluster 3 (In alto a destra - Grande) -->
+  <ellipse cx="235" cy="105" rx="75" ry="65" class="cluster" />
+  <circle cx="190" cy="68" r="7" class="data-point" />
+  <circle cx="250" cy="78" r="7" class="data-point" />
+  <circle cx="295" cy="92" r="7" class="data-point" />
+  <circle cx="200" cy="118" r="7" class="data-point" />
+  <circle cx="248" cy="118" r="7" class="data-point" />
+  <circle cx="260" cy="140" r="7" class="data-point" />
+  <circle cx="228" cy="155" r="7" class="data-point" />
+  <circle cx="198" cy="142" r="7" class="data-point" />
+</svg>

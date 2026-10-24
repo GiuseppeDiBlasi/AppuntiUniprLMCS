@@ -1,0 +1,5 @@
+# Ignora tutto nella cartella output
+output/*
+
+# Tranne i PDF
+!output/*.pdf

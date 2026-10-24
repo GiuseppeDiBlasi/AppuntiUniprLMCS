@@ -1,0 +1,6 @@
+[submodule "FIA/SuperResolutionFIA"]
+	path = FIA/SuperResolutionFIA
+	url = git@github.com:GiuseppeDiBlasi/SuperResolutionFIA.git
+[submodule "IoT/SmartAmbulanceIoT"]
+	path = IoT/SmartAmbulanceIoT
+	url = git@github.com:GiuseppeDiBlasi/SmartAmbulanceIoT.git
