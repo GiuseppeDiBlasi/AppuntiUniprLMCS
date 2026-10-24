@@ -25,3 +25,4 @@
 #include "lezione6.typ"
 #include "lezione7.typ"
 #include "lezione8.typ"
+#include "lezione9.typ"
