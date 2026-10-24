@@ -117,6 +117,17 @@ $ P(A | B) P(B) = P(B | A) P(A) $
 
 L'analisi discriminante sfrutta il teorema di Bayes per produrre stime per una risposta qualitativa $Y$ appartenga ad una certa categoria $k = 1, 2, dots, K$, sulla base di informazioni fornite dalle feature qualitative e quantitative.
 
+#note[
+  Quando lavoriamo con probabilità condizionate, dobbiamo prestare molta attenzione al verso in cui stiamo studiando il fenomeno d'interesse.
+  Per esempio $P(A | B)$ non è uguale a $P(B | A)$.
+
+  C'è differenza tra dire:
+  - _la percentuale di studenti tra chi va in default_, cioè
+    $P(S | D) = 127/333 approx 0.38$;
+  - _la percentuale di chi va in default tra gli studenti_, cioè
+    $P(D | S) = 127/2944 approx 0.043$.
+]
+
 Se dovessimo averre più di due classi da classificare ci conviene utilizzare l'analisi discriminante lineare (LDA).
 
 #example(name: "Bayes con più classi k")[
@@ -174,3 +185,138 @@ $ hat(pi)_k = frac(n_k, n) $
   La LDA ci sposta la linea di separazione, LDA stima gaussiane.
   Ovviamente, dato che LDA presuppone che deviazione standard siano uguali su tutte le classi $k$, dobbiamo prestare attenzione se stiamo lavorando con un dataset sbilanciato.
 ]
+
+=== LDA con più predittori, p > 1
+
+Nel caso in cui avessimo più preditorri $X = (X_1, X_2, dots, X_p)$, l'assunzione tipica dell'LDA è che le osservazioni del gruppo $k$, provengono da una distribuzione normale multivariata $X tilde N(mu_k, Sigma)$.
+
+#note[
+  Nella LDA, il vettore $mu_k$ è specifico di ciascuna classe mentre $Sigma$ è comune a tutte le classi.
+]
+
+Un volta effettuata la stima dei parametri $(mu_k, Sigma)$, $k = 1, 2, dots, K$, le probabilità $P(Y = k | X = x)$ sono stimate ricorrendo al teorema di Bayes.
+
+#example(name: "Esempio LDA con 3 classi")[
+  Vediamo un esempio di LDA con 3 classi da classificare, di conseugenza tre frontiere di decisione.
+
+  #figure(image("img/lezione9/lda_p2_tre_classi.svg", width: 70%), caption: [LDA con 3 classi da classificare.])
+
+  A sinistra abbiamo la popolazione che stiamo studiando, a destra il nostro campione.
+
+  Con la linea tratteggiata indichiamo la frontiera di decisione che otteniamo con Bayes, mentre con la linea continua la frontiera di decisione di LDA.
+]
+
+=== Analisi discriminante quadratica (QDA)
+
+Uno dei limiti dell'analisi LDA è che otteniamo frontiere di decisioni *lineari*. Se invece avessimo bisogno di tracciare frontiere di decisione non lineari?
+
+In questo caso usiamo l'analisi discriminante quadratica, QDA, dove per ogni classe $k$, $X tilde N(mu_k, Sigma_k)$, ovvero si presuppone che ogni gruppo abbia variabilità diversa. Questo ci torna utile per dataset sbilanciati.
+
+#figure(image("img/lezione9/lda_qda_confronto.svg", width: 70%), caption: [Analisi QDA.])
+
+=== Confronto LDA e QDA
+
+Riassumendo, l'analisi LDA tende ad essere la scelta migliore se ci sono relativamente poche osservazioni di training e ridurre la variabilità è fondamentale.
+
+Invece QDA, è consigliata se il dataset è molto grande, o se l'assunzione di una matrice di covarianza comune per le $K$ classi è chiaramente insostenibile.
+
+=== Mixture discriminant analysis (MDA)
+
+Per MDA si presume che ogni classe sia una miscela gaussiana di sottoclassi, in cui ogni punto ha una probabilità di appartenere a ciascuna classe.
+
+Si assume ancora l'uguaglianza della matrice di covarianza tra le classi.
+
+#figure(image("img/lezione9/lda_qda_mda.svg", width: 70%), caption: [Differenze LDA, QDA e MDA.])
+
+== Regressione
+
+Fino ad ora abbiamo visto la classificazione che tramite etichette $y_i$ per che rappresentano la classe d'appartenenza di un pattern $x_i$ del dataset. L'obiettivo della classificazione è quello di apprendere un mapping dallo spazio dei pattern a quello delle etichette.
+
+Nella *regressione* invece, non abbiamo più le etichette ma $y_i$ assume valore numerici e continui, in $RR$, qui l'obiettivo del training è quello di apprendere una funzione $f(x) arrow y$
+
+- La funzione $f$ è controllata da un insieme di parametri. Se la dipendenza dai parametri è lineare, la regressione si definisce *lineare*.
+- Nella regressione, $x$ è detta variabile *indipendente*, mentre $y$ è la variabile dipendente.
+- Si assume che la variabile *indipendente* sia *esatta* mentre la variabile *dipendente* sia affetta da errore.
+
+Il fatto che la variabile indipendente sia esatta, è una semplificazione. Esistono modelli di regressione che tengono conto dell'errore anche per la variabile $x$.
+
+=== Regressione lineare semplice
+
+Se la variabile dipendente $x$ è uno scalare, si parla di *simple linear regression*, ovvero *retta di regressione*.
+Definiamo ora la regressione lineare semplice:
+
+#definition(name: "Regressione lineare semplice")[
+  Dato un training set *_TS_* contenente $n$ dati $(x_1, y_1), dots (x_n, y_n)$ e la seguente dipendenza tra variabile dipendente e indipendente:
+
+  $ y_i = alpha + beta dot x_i + epsilon_i $
+
+  - $epsilon_i$ è l'errore incognito i misura del punto $x_i$.
+  - $alpha, beta$ sono parametri da determinare.
+]
+
+L'obiettivo è minimizzare l'errore $epsilon_i$, per questo esiste la soluzione ai *minimi quadrati*, least square, del problema che consiste nel determinare l'equazione della retta che minimizza la somma dei quadrati dei residui.
+
+#figure(image("img/lezione9/regressione_residui.svg", width: 70%), caption: [Soluzione ai minimi quadrati.])
+
+Formalmente si può definire la soluzione come:
+
+$
+  alpha^*, beta^* = italic("argmin")_(alpha,beta) sum_(i = 1, dots, n) (f(x_i) - y_i)^2 = italic("argmin")_(alpha, beta) sum_(i = 1, dots, n) epsilon_i^2
+$
+
+Per ottenere i parametri dobbiamo risolvere il sistema a due equazioni:
+
+$
+  beta^* = frac(sum_(i = 1, dots, n) (x_i - hat(x)) (y_i - hat(y)), sum_(i = 1, dots, n) (x_i - hat(x))^2)
+$
+
+$ alpha^* = hat(y) - beta^* hat(x) $
+
+#example(name: "Regressione lineare per stimare l'altezza dal peso")[
+  #figure(
+    image("img/lezione9/predizione_altezza_peso.svg", width: 70%),
+    caption: [Predizione dell'altezza in base al peso.],
+  )
+]
+
+=== Regressione lineare multipla
+
+Nel caso in cui la variabile indipendente $x$ sia un vettore, si parla di *multiple linear regression*, cerchiamo quindi un iperpiano di regressione.
+
+#figure(image("img/lezione9/piano_regressione_3d.svg", width: 70%), caption: [Iperpiano di regressione.])
+
+Generalizziamo a iperpiani $x in RR^d$, dove $d$ indica la dimensione dello spazio.
+Poniamo $X$ come una matrice rettangolare di dimensioni $(n times (d + 1))$, dove $n$ è il numero di punti del training set e inserendo a destra una colonna con valori tutti a 1 per il vettore dei termini noti.
+
+$
+  X = mat(
+    x_11, dots.h, x_(1d), 1;
+    x_21, dots.h, x_(2d), 1;
+    dots.v, dots.down, dots.v, dots.v;
+    x_(n 1), dots.h, x_(n d), 1;
+  )
+$
+
+E siano
+
+#align(center)[
+  $y = vec(y_1, y_2, dots.v, y_n)$ e $beta = vec(beta_1, beta_2, dots.v, beta_(d + 1))$
+
+]
+
+- $y$, vettore degli scalari per ogni pattern.
+- $beta$, vettore dei termini noti.
+
+Le relazioni tra variabili indipendenti e dipendenti possono essere scritte attraverso le equazioni:
+
+$ y_i = sum_(j = 1, dots, d + 1) x_("ij") dot beta_j quad "per" i = 1, dots, n $
+
+Oppure possiamo vedere le relazioni in forma matriciale:
+
+$ y = X beta $
+
+Questo con $n > (d + 1)$, $X$ è una matrice rettangolare, quindi abbiamo un sistema di equazioni sovradeterminato.
+Possiamo scrivere in forma matriciale la minimizzazione del least square come:
+
+$ ||y - X beta ||^2 $
+
