@@ -6,7 +6,7 @@ Chiedersi sempre se posso confrontare quantità che sto calcolando, sono presi d
 
 No domande aperte su regressione, se dovesse essere nelle crocette non sarà qualcosa di altamente specifico.
 
-NOn è fondamentale riguardare tutte le e impararle a memoria, ma capire i concetti che rappresentano.
+NOn è fondamentale riguardare tutte le formule e impararle a memoria, ma capire i concetti che rappresentano.
 DOmanda per crocette: come si sceglie il valore per il p value? arbitrariamente oppure per cercare di verificare se il risultato ottenuto e tra i migliori possibili.
 
 guardare ANOVA, AIC e BIC; scegleir eil modello ce ha AIC e BIC piu bassi possibili.

@@ -24,7 +24,7 @@ Partiamo definendo la *divergenza di Kullback-Leibler* che ci permette di misura
   - $(P||Q)$, si legge da $P$ a $Q$.
   - Non è simmetrica: $"KL"(P||Q) != "KL"(Q||P)$.
   - $"KL" >= 0$, questo vale sempre.
-]
+] <kullback-leibler>
 
 Possiamo avere una nozione di divergenza simmetrica con *Jensen-Shannon*.
 

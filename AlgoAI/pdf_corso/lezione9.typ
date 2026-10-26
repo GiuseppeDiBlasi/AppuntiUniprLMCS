@@ -228,7 +228,11 @@ Si assume ancora l'uguaglianza della matrice di covarianza tra le classi.
 
 #figure(image("img/lezione9/lda_qda_mda.svg", width: 70%), caption: [Differenze LDA, QDA e MDA.])
 
-== Regressione
+== Regressione <regressione>
+
+#note[
+  Piccola nota, il prof vuole che si capiscano i concetti della regressione, non è necessario impararsi a memoria tutte le formule matematiche, magari capire cosa comportano e cosa rappresentano sì.
+]
 
 Fino ad ora abbiamo visto la classificazione che tramite etichette $y_i$ per che rappresentano la classe d'appartenenza di un pattern $x_i$ del dataset. L'obiettivo della classificazione è quello di apprendere un mapping dallo spazio dei pattern a quello delle etichette.
 

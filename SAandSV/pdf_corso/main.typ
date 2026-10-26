@@ -1,4 +1,4 @@
-#import "../../Template typst/template.typ": academic-paper
+#import "../../Template typst/template.typ": academic-paper, exam-appendix
 
 #set text(lang: "it")
 
@@ -34,3 +34,5 @@
 #include "lezione13.typ"
 #include "lezione14.typ"
 #include "lezione15.typ"
+
+#exam-appendix()

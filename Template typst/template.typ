@@ -119,7 +119,15 @@
 
 
 
-#let exam(body) = styled-box("📝 Possibile domanda d'esame", c-exam-bg, c-exam-bd, body)
+#let exam(answer: none, body) = figure(
+  kind: "esame",
+  supplement: [Domanda],
+  numbering: "1",
+  gap: 0pt,
+  outlined: false,
+  caption: answer,
+  body,
+)
 
 #let recall(topic: none, body) = styled-box(
   if topic != none [🔁 Richiamo — #topic] else [🔁 Richiamo],
@@ -188,6 +196,46 @@
   ]
 ]
 
+#let exam-appendix(title: "Appendice: domande d'esame") = {
+  heading(level: 1, numbering: none)[#title]
+
+  context {
+    let items = query(figure.where(kind: "esame"))
+    if items.len() == 0 [
+      _Nessuna domanda d'esame segnalata._
+    ] else {
+      for it in items {
+        let loc = it.location()
+        let n = counter(figure.where(kind: "esame")).at(loc).first()
+        let page-n = counter(page).at(loc).first()
+        let hs = query(selector(heading).before(loc))
+
+        let origin = text(size: 8.5pt, weight: "regular", fill: c-muted)[
+          #if hs.len() > 0 [
+            #link(hs.last().location())[#hs.last().body], #h(0.3em)
+          ]
+          #link(loc)[pag. #page-n]
+        ]
+
+        styled-box(
+          [📝 Domanda #n #h(1fr) #origin],
+          c-exam-bg,
+          c-exam-bd,
+          [
+            #it.body
+            #if it.caption != none [
+              #v(0.2em)
+              #line(length: 100%, stroke: 0.5pt + c-exam-bd)
+              #v(0.2em)
+              #text(weight: "bold", fill: c-exam-bd)[Risposta.] #it.caption.body
+            ]
+          ],
+        )
+      }
+    }
+  }
+}
+
 // ============================================================
 //  FUNZIONE PRINCIPALE DEL TEMPLATE
 // ============================================================
@@ -247,6 +295,10 @@
   show figure.where(kind: "definizione"): set block(breakable: true)
   show figure.where(kind: "esempio"): set block(breakable: true)
   show figure.where(kind: "teorema"): set block(breakable: true)
+  show figure.where(kind: "esame"): it => context {
+    let n = counter(figure.where(kind: "esame")).at(it.location()).first()
+    styled-box([📝 Possibile domanda d'esame #n], c-exam-bg, c-exam-bd, it.body)
+  }
 
   show math.equation.where(block: true): set block(above: 2em, below: 2em)
 
