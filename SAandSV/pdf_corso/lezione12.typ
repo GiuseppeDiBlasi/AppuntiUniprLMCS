@@ -3,7 +3,7 @@
 )
 #import "@preview/fletcher:0.5.8": diagram, edge, node, shapes
 
-= Lezione 12 del 16 ottobre 2026
+= Lezione 12 del 16 ottobre 2026 <lec-12>
 
 Verso la fine della lezione precedente abbiamo fatto un esempio sul calcolo del punto fisso su un programma rappresentato
 da un CFG. Abbiamo stabilito che il punto fisso esiste, ma non è calcolabile.
