@@ -439,6 +439,9 @@
     v(0.5em)
     text(size: 12pt, weight: "bold", fill: c-primary)[Indice]
     v(0.3em)
+
+    show outline.entry.where(level: 1): set text(weight: "bold", fill: c-primary)
+
     outline(depth: toc-depth, indent: auto)
     v(0.5em)
     line(length: 100%, stroke: 0.4pt + c-border)
