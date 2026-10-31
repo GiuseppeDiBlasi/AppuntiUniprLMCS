@@ -27,5 +27,6 @@
 #include "lezione8.typ"
 #include "lezione9.typ"
 #include "lezione10.typ"
+#include "lezione11.typ"
 
 #exam-appendix()
