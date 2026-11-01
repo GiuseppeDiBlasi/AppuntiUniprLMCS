@@ -117,7 +117,15 @@
   },
 )
 
-
+#let formula(name: none, body) = figure(
+  kind: "formula",
+  supplement: [Formula],
+  numbering: "1",
+  gap: 10pt,
+  outlined: false,
+  caption: name,
+  body,
+)
 
 #let exam(answer: none, body) = figure(
   kind: "esame",
@@ -236,6 +244,38 @@
   }
 }
 
+#let formula-appendix(title: "Appendice: formule") = {
+  heading(level: 1, numbering: none)[#title]
+
+  context {
+    let items = query(figure.where(kind: "formula"))
+    if items.len() == 0 [
+      _Nessuna formula segnalata._
+    ] else {
+      for it in items {
+        let loc = it.location()
+        let n = counter(figure.where(kind: "formula")).at(loc).first()
+        let page-n = counter(page).at(loc).first()
+        let hs = query(selector(heading).before(loc))
+
+        let origin = text(size: 8.5pt, weight: "regular", fill: c-muted)[
+          #if hs.len() > 0 [
+            #link(hs.last().location())[#hs.last().body], #h(0.3em)
+          ]
+          #link(loc)[pag. #page-n]
+        ]
+
+        styled-box(
+          [Formula #n #if it.caption != none [--- #it.caption.body] #h(1fr) #origin],
+          c-def-bg,
+          c-def-bd,
+          align(center, it.body),
+        )
+      }
+    }
+  }
+}
+
 // ============================================================
 //  FUNZIONE PRINCIPALE DEL TEMPLATE
 // ============================================================
@@ -298,6 +338,17 @@
   show figure.where(kind: "esame"): it => context {
     let n = counter(figure.where(kind: "esame")).at(it.location()).first()
     styled-box([📝 Possibile domanda d'esame #n], c-exam-bg, c-exam-bd, it.body)
+  }
+
+  show figure.where(kind: "formula"): set block(breakable: false)
+  show figure.where(kind: "formula"): it => context {
+    let n = counter(figure.where(kind: "formula")).at(it.location()).first()
+    styled-box(
+      [Formula #n] + if it.caption != none [ --- #it.caption.body] else [],
+      c-def-bg,
+      c-def-bd,
+      align(center, it.body),
+    )
   }
 
   show math.equation.where(block: true): set block(above: 2em, below: 2em)
@@ -435,16 +486,9 @@
 
   // ---------- Indice ----------
   if toc {
-    line(length: 100%, stroke: 0.4pt + c-border)
-    v(0.5em)
-    text(size: 12pt, weight: "bold", fill: c-primary)[Indice]
-    v(0.3em)
-
     show outline.entry.where(level: 1): set text(weight: "bold", fill: c-primary)
 
     outline(depth: toc-depth, indent: auto)
-    v(0.5em)
-    line(length: 100%, stroke: 0.4pt + c-border)
     pagebreak()
   }
 

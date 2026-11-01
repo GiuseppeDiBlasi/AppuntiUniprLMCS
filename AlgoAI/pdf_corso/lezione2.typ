@@ -1,5 +1,5 @@
 //--------- Import
-#import "../../Template typst/template.typ": c-border, definition, exam, example, note, theorem, warning
+#import "../../Template typst/template.typ": c-border, definition, exam, example, formula, note, theorem, warning
 
 
 //----------------------  Inizio documento

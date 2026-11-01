@@ -1,4 +1,6 @@
-#import "../../Template typst/template.typ": c-border, definition, exam, example, note, separator, theorem, warning
+#import "../../Template typst/template.typ": (
+  c-border, definition, exam, example, formula, note, separator, theorem, warning,
+)
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 
 = Lezione 11 del 30 ottobre 2026
@@ -194,6 +196,7 @@ Un problema di k-means è capire anche quanti cluster devono essere creati per l
 Una possibile soluzione per evitare la formazione di molti cluster è quella di utilizzare una penalità per ogni nuovo cluster:
 
 $ J_e^* = J_e + "penalty" dot k $
+
 
 Il problema adesso diventa trovare un valore ottimale per penalty.
 

@@ -1,4 +1,4 @@
-#import "../../Template typst/template.typ": academic-paper, exam-appendix
+#import "../../Template typst/template.typ": academic-paper, exam-appendix, formula-appendix
 
 #show: academic-paper.with(
   title: "Algoritmi per l'intelligenza artificiale",

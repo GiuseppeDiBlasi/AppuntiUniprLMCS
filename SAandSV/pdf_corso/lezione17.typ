@@ -35,9 +35,12 @@ Per calcolare il fixpoint dell'intero programma, partiamo dall'entry point, di s
 
 Se è un programma complesso sicuramente avremo altre chiamate a funzione all'interno del main, quindi poi dovremo calcolare i fixpoint delle altre funzioni/procedure che vengono invocate, stessa cosa per invocazioni dentro ad altre funzioni e così via.
 
+Per risolvere le chiamate ad altre procedure dentro il CFG si usa l'analisi interprocedurale che risolve e analizza il CFG della procedura da chiamare.
+
 == Statement semantics
 
 Vogliamo concentrarci sulla semantica, senza doverci preoccupare della sintassi del linguaggio di partenza, in modo da poter svolgere analisi 'generali'.
+L'obiettivo della statement semantics è tradurre il CFG in semantica.
 
 Una soluzione è quello di portare tutto a una singola IR.
 
