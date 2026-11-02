@@ -117,3 +117,15 @@ Le probabilità di appartenenza si calcolano come:
 ]
 
 Il parametro $m$ definisce quanto l'appartenenza ai diversi cluster debba essere 'sfumata'. Di solito si usa un valore pari a 2.
+
+=== Pseudocodice fuzzy k-means
+
+Lo pseudocodice dell'algoritmo è molto simile a k-means.
+
+
++ inizializzare $n, s$
++ inizializzare casualmente $P(C_i | x_j, Theta), i = 1, dots, x; j = 1, dots, n$
++ while(riduzione $J_"fuz"$ AND iteration < max)
++ calcola i centroidi $Theta = {theta_1, dots, theta_s}$
++ calcola i gradi di appartenenza $P(C_i | x_j, Theta), i = 1, dots, x; j = 1, dots, n$
+
