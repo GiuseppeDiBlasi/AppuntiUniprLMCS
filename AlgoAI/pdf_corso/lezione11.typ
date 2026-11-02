@@ -206,3 +206,16 @@ Esiste un metodo più efficcace per determinare il valore ottimo dei cluster ed 
   image("img/lezione11/elbow_method.svg", width: 70%),
   caption: [Andamento di $J_e$ al variare del parametro $k$. In questo caso $k = 4$ è il punto di inflessione.],
 )
+
+==== Silhoutte score
+
+Un criterio più oggettivo per stabilire il numero di cluster è quello di calcolare il *silhoutte score* come media dei coefficienti di silhoutte di ciascun punto e scegliere k che lo massimizza.
+
+#formula(name: "Silhoutte score")[
+  $ italic("silhoutte coeff.") = frac(b - a, max(a, b)) $
+]
+
+- a: distanza media intra-cluster di punto.
+- b: distanza di tale punto e i punti del cluster ad esso più vicini.
+
+Ha valori che vanno da $[-1:1].$
