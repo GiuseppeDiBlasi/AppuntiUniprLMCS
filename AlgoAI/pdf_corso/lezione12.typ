@@ -14,7 +14,7 @@ K-medoids cerca di risolvere il problema degli outlier, invece di prendere il ce
 
 Ci sono diverse tecniche per K-medoids, una è *PAM (Partitioning Around Medoids)* parte da un insieme iniziale di medoidi e sostituisce iterativamente uno dei medoidi con uno dei non medoidi se migliora la distanaz totale del clustering risultate.
 
-#figure(image("img/lezione12/k_medoids.svg", width: 70%), caption: [K-medoids con tencnica PAM.])
+#figure(image("img/lezione12/k_medoids.svg", width: 70%), caption: [K-medoids con tecnica PAM.])
 
 La tecnica PAM funziona in modo efficiente per dataset di piccole dimensioni, dovessi lavorare con dataset di dimensioni elevate diventerebbe del tutto inefficiente. Questo è dovuto alla sua complessità computazionale:
 
@@ -128,4 +128,18 @@ Lo pseudocodice dell'algoritmo è molto simile a k-means.
 + while(riduzione $J_"fuz"$ AND iteration < max)
 + calcola i centroidi $Theta = {theta_1, dots, theta_s}$
 + calcola i gradi di appartenenza $P(C_i | x_j, Theta), i = 1, dots, x; j = 1, dots, n$
+
+Questa variante fuzzy fornisce una convergenza più robusta verso la soluzione finale rispetto al k-means classico.
+
+== Gaussian mixture
+
+In questa tecnica si parte dal presupposto che i cluster siano generati da un mix di distribuzioni gaussiane.
+L'obiettivo di questa tecnica di clustering è risalire ai parametri delle singole distribuzioni che generano i cluster.
+Per semplicità si ipotizza che i cluster abbiano lo stesso tipo di distribuzione.
+
+Il caso più frequente è quello del mix di distribuzioni multinormali di cui vogliamo stimare i parametri, media e deviazione standard.
+
+La stima dei parametri avviene secondo il criterio della *maximum likelyhood*; in generale il likelyhood dei parametri $Theta$ dati i punti $cal(X)$ corrisponde alla probabilità di aver ottenuto i punti dati i parametri:
+
+$ cal(L) (Theta | cal(X)) = p(cal(X) | Theta) $
 
