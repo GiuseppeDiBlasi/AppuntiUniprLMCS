@@ -139,7 +139,84 @@ Per semplicità si ipotizza che i cluster abbiano lo stesso tipo di distribuzion
 
 Il caso più frequente è quello del mix di distribuzioni multinormali di cui vogliamo stimare i parametri, media e deviazione standard.
 
-La stima dei parametri avviene secondo il criterio della *maximum likelyhood*; in generale il likelyhood dei parametri $Theta$ dati i punti $cal(X)$ corrisponde alla probabilità di aver ottenuto i punti dati i parametri:
+La stima dei parametri avviene secondo il criterio della *maximum likelihood*; in generale il likelihood dei parametri $Theta$ dati i punti $cal(X)$ corrisponde alla probabilità di aver ottenuto i punti dati i parametri:
 
 $ cal(L) (Theta | cal(X)) = p(cal(X) | Theta) $
 
+Per semplicità, invece di massimizzare la likelihood  si massimizza il suo logaritmo.
+Considerando i punti indipendenti, la probabilità di aver ottenuto i punti del dataset è il prodotto delle probabilità delle singole generazioni:
+
+$
+  log(p(cal(X) | Theta)) = log product_(j = 1, dots, n) p(x_j | Theta) = sum_(j = 1, dots, n) log(sum_(j = 1, dots, k) alpha_i dot p_i(x_j | theta_i))
+$
+
+=== Expectation-maximization
+
+La sommatoria dentro al logaritmo rende questa massimizzazione molto difficile. Dovremmo sapere per ogni punto $x_j$ del dataset da quale componenete $p_i(dot)$ della mixture è stato generato.
+
+Per questo motivo si utilizza *expectation-maximization (EM)*, un approccio iterativo per il calcolo della maximum likelihood nel caso in cui i dati a disposizione $cal(X) = {x_1, x_2, dots, x_n}$ siano incompleti per la mancanza di alcuni valori $cal(Y) = {y_1, y_2, dots, y_n}$.
+Ogni punto $z_j = [x_j, y_j], j = 1, dots, n$ è costruito da due parti di cui solo la prima è nota.
+
+L'obiettivo di *EM* è la massimizzazione del log-likelihood dei dati completi o log-likelihood-completo:
+
+$ log(cal(L)(Theta | cal(Z))) = log(cal(L)(Theta | cal(X), cal(Y))) = p(cal(X), cal(Y) | Theta) $
+
+==== Expectation
+
+L'expectation calcola il valore atteso $E(dot)$ del log-likelihood-completo, dato il dataset $cal(X)$ e una stima dei parametri $Theta^g$ ottenuti all'iterazione precedente:
+
+$ Q(Theta | Theta^g) = E(log(p(cal(X), cal(Y) | Theta)| cal(X), Theta^g)) $
+
+Il valore atteso è calcolato rispetto alla variabile aleatoria $cal(Y)$, governata dalla distribuzione $f(y | cal(X), Theta^g)$
+
+$
+  E(log(p(cal(X), cal(Y) | Theta) | cal(X), Theta^g)) = integral_(y in Psi) log(p(cal(X), cal(Y) | Theta)) dot f(y | cal(X), Theta^g) d y
+$
+
+L'expectation ci dice quanto è probabile.
+
+==== Maximization
+
+La maximization determina il valore dei parametri che massimizzano il valore atteso calcolato al passo di expectation:
+
+$ Theta^(g + 1) = "argmax"_Theta Q(Theta | Theta^g) $
+
+L'algoritmo expectation-maximization è simile a fuzzy k-means, ma oltre ai centroidi abbiamo anche maggiori gradi di libertà nella forma dei cluster che possono formarsi, per esempio possiamo avere cluster ellissoidali.
+
+#figure(
+  image("img/lezione12/confronto_clustering.svg", width: 70%),
+  caption: [Confronto tra le tecniche di clustering. Notare come cambiano le forme dei cluster in base alla tecnica utilizzata.],
+)
+
+#note[
+  Attenzione, le probabilità di appartenenza possono assumere valori molto piccoli e causare problemi numerici. Il consiglio è quello di utilizzare costanti moltiplicative se necessario e normalizzare alla fine.
+]
+
+C'è anche un limite a questo algoritmo basato su mix di gaussiane, ovvero che si parte dal presupposto che i dati siano descritti da distribuzioni gaussiane.
+
+
+== Clustering gerarchico
+
+Il clustering gerarchico punta a costruire una gerarchia tra i cluster che trova.
+È simile alla classificazione in tassonomia biologica.
+
+#figure(image("img/lezione12/cladogram.svg", width: 60%), caption: [Esempio di clustering gerarchico.])
+
+Gli algoritmi di clustering gerarchico sono generalmente di tipo *bottom-up*.
+L'idea è quella di partire cercando di aggregare singoli elementi e ad ogni passo (livello) si aggregano gli elementi più simili tra loro, questo viene fatto punto a punto, punto a cluster o cluster a cluster.
+
+#figure(image("img/lezione12/dendrogram.svg", width: 60%), caption: [Dendrogramma.])
+
+I vantaggi del clustering gerarchico è che ci permette di trovare cluster non ipersferici e il numero di cluster non è più un parametro che dobbiamo stabilire noi.
+
+=== Tipi di implementazioni
+
+Ci sono tre diversi tipi di implementazioni per il clustering gerarchico, possiamo creare cluster secondo:
+
+- *Simple linkage*: è la distanza minima tra due punti dei due cluster.
+- *Complete linkage*: è la distanza massima tra due punti dei cluster.
+- *Average linkage*: è la distanza media tra tutti i punti dei due cluster.
+- *Ward linkage*: minimizza in modo ricorsivo la varianza intra-cluster.
+
+#figure(image("img/lezione12/linkage.svg", width: 60%), caption: [Tipi di linkage.])
+#figure(image("img/lezione12/ward_linkage.svg", width: 60%), caption: [Confronto tra i vari tipi di linkage.])
