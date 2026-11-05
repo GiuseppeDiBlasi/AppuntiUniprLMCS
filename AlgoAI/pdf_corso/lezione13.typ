@@ -95,3 +95,68 @@ Per rifinire l'albero si segue il procedimento:
 - Manipola solo dati numerici.
 - *È sensibile all'ordine in cui si leggono i dati*.
 - Trova solo cluster di forma sferica in quanto il metodo si basa sul raggio.
+
+Esiste una versione per dataset di grandi dimensioni, $"BIRCH"^"*"$, che è sulle slide '_AIALGO_2627_6-clustering-algoritmi.pdf_' da slide 75 a 84.
+
+=== Dynamic tree cut
+
+Sono tecniche poco comuni ma utilizzate per tagliare rami per rilevare cluster in un dendrogramma a seconda della loro forma.
+Rispetto ai metodi di taglio ad altezza costante le tecniche dinamiche offrono:
+
+- Possibilità di identificare cluster nidificati.
+- Sono flessibili.
+- Sono adatti all'automazione.
+- Possono facoltativamente combinare i vantaggi del clustering gerarchico e del partizionamento attorno ai medoidi, fornendo migliori rilevamenti degli outlier.
+
+=== Metodologia ROCK
+
+La metodologia ROCK (RObust Clustering using linKs) è una metodologia di clustering per dati *categoriali*.
+
+È composta da 3 fasi:
+
+- *Campionamento casuale*: Viene utilizzato per garantire scalabilità su dataset molto grandi. Il campione iniziale viene utilizzato per formare cluster, quindi i dati rimanenti sul disco vengono poi assegnati a questi cluster.
+
+- *Clustering*: Esegue un algoritmo di clustering agglomerativo gerarchico con una particolare definizione di similarità, tramite link.
+
+- *Etichetta i dati su disco*: Infine, i punti generati nel disco vengono assegnati ai cluster generati. Questo viene fatto selezionando un campione casuale $L_i$ da ciascun cluster $C_i$, quindi assegniamo ogni punto $p$ al cluster per il quale ha il link più forte con $L_i$.
+
+==== Calcolo del link
+
+Il calcolo del link si basa sulla *vicinanza*, ovvero se la somiglianza, di solito il coefficiente di Jaccard, tra due punti supera una certa soglia di somiglianza $theta$, sono considerati vicini.
+
+Il *link* per una coppia di punti è: il numero dei loro vicini comuni.
+
+==== Criterio
+
+L'obiettivo della metodologia ROCK è massimizzare il seguente criterio:
+
+#formula(name: "Criterio metodo ROCK")[
+  $ E_l = sum_(i = 1)^k n_i times sum_(p_q, p_r in C_i) frac("link"(p_q, p_r), n_i^(1 + 2f(theta))) $
+
+]
+- $C_i$, cluster attuale.
+- $n_i$, cardinalità del cluster.
+- $k$, numero finale di cluster che si vuole ottenere.
+
+Tipicamente $f(theta)$ viene posto uguale a $(1 - theta) / (1 + theta)$
+
+Per massimizzare la funzione criterio si usa la seguente misura di goodness:
+
+#formula(name: "Misura di goodness")[
+  $ g(C_i, C_j) = frac("link"[C_i, C_j], (n_i + n_j)^(1 + 2f(theta)) - n_i^(1 + 2f(theta)) - n_j^(1 + 2f(theta))) $
+]
+
+=== Metodologia CURE
+
+La metodologia CURE (Clustering Using REpresentatives) risolve il clustering in spazi euclidei quando i cluster non hanno una distribuzione gaussiana attorno a un centroide.
+
+Le fasi della metodologia CURE sono:
+
++ Inizia con la main memory piena di punti random. Questi punti vengono clusterizzati utilizzando un approccio gerarchico.
++ Per ogni cluster scegli un campione di $c$ punti per qualche costante c. Questi punti sono scelti più distante possibile l'uno dall'altro, dopo di che essi si spostano leggermente nella direzione del centroide nel seguente modo:
+  - Scegli il primo come il più lontano dal centroide.
+  - Ripetutamente scegli il punto del cluster che massimizzi la minima distanza da quelli già scelti.
+  - Quando si sono completati i $c$ punti allora spostali tutti leggermente, circa del 20%, verso il centroide.
++ Partiziona l'insieme secondo tutti questi $c$ punti.
+
+#figure(image("img/lezione13/cure_clustering.svg", width: 65%), caption: [CURE clustering.])
