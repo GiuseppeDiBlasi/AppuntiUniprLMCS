@@ -110,7 +110,7 @@ Guardiamo più nel dettaglio cosa vuol dire che il lub non è esatto mentre il g
   )
 ]
 
-Se prendessimo in considerazione il dominio degli intervalli per l'insieme delle parti di $ZZ$ abbiamo una Galois connection tra il concreto e l'astratto, questo però non vale nel caso in cui prendessimo l'insieme delle parti dei numeri razionali $QQ$.
+Se prendessimo in considerazione il dominio degli intervalli per l'insieme delle parti di $ZZ$ abbiamo una Galois connection (@galois-conn) tra il concreto e l'astratto, questo però non vale nel caso in cui prendessimo l'insieme delle parti dei numeri razionali $QQ$.
 
 Per l'insieme delle parti intere abbiamo una connessione di Galois perché gli intervalli hanno estremi interi e $ZZ$ è discreto, quindi per ogni sottoinsieme $S subset ZZ$ limitato c'è un intervallo minimo: $alpha(S) = [min(S), max(S)]$.
 

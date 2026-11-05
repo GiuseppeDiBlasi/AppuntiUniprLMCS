@@ -291,7 +291,7 @@ Mentre $gamma$ è monotona perché:
 - Se concretizziamo qualcosa che rappresenta un quantitativo di informazione minore otteniamo qualcosa con meno o la stessa quantità di informazione.
 
 
-== Connessioni di Galois
+== Connessioni di Galois <galois-conn>
 
 Definiamo una connessione di Galois come:
 
