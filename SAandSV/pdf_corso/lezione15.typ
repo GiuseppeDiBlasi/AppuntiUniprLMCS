@@ -46,7 +46,7 @@ Guardiamo un esempio:
   Consideriamo ora invece l'operazione di moltiplicazione astratta,
   calcoliamo l'espressione nel concreto e poi andiamo ad astrarre il risultato:
 
-  $ {1} * {-1} = {0} attach(arrow, t: alpha) - $
+  $ {1} * {-1} = {-1} attach(arrow, t: alpha) - $
 
   Andando ad astrarre gli elementi e poi applicare $f^"#"$ otteniamo:
 
