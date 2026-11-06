@@ -21,7 +21,7 @@ Partiamo definendo formalmente il dominio degli intervalli:
 
 #definition(name: "Dominio degli intervalli")[
   $
-    "intv" = {[a, b] | a in ZZ union {+ infinity}, b in ZZ union {+ infinity}, a < b} union {bot_"intv"} \
+    "intv" = {[a, b] | a in ZZ union {- infinity}, b in ZZ union {+ infinity}, a < b} union {bot_"intv"} \
     "Top": [-infinity, +infinity] \
     "Bottom": [bot_"intv"]
   $
@@ -59,7 +59,7 @@ Guardiamo più nel dettaglio cosa vuol dire che il lub non è esatto mentre il g
 
   Prendiamo in considerazione l'operazione di lub tra l'intervallo [1, 1] e [3, 3]:
   Applicando il lub otteniamo $[1, 1] sqlub("intv") [3, 3] = [1, 3]$.
-  Il least upper bound è l'insieme $[1, 3]$, però dobbiamo tenere in considerazione che abbiamo aggiunto del rumore, in questo caso abbiamo anche il valore 2 che è compreso nell'intervallo [1, 3] che non compare in nessuno dei due operandi.
+  Il least upper bound è l'intervallo $[1, 3]$, però dobbiamo tenere in considerazione che abbiamo aggiunto del rumore, in questo caso abbiamo anche il valore 2 che è compreso nell'intervallo [1, 3] che non compare in nessuno dei due operandi.
   Se concretizziamo i due intervalli e facciamo l'unione nel concreto otteniamo, ${1} union {3} = {1, 3}$, nel concreto non abbiamo il valore 2.
 
   #align(center)[
@@ -197,7 +197,7 @@ Definiamo ora i vari casi della semantica astratta:
   ]
 ]
 
-Definiamo ora la semantica per le operazioni di moltiplicazione e divisione, qui le cose si fanno un po più articolate soprattutto per la divisione.
+Definiamo ora la semantica per le operazioni di moltiplicazione e divisione, qui le cose si fanno un po' più articolate soprattutto per la divisione.
 
 - $lbs e_1 * e_2 rbs^"#" m^"#" = [min(a*c, a*d, b*c, b*d), max(a*c, a*d, b*c, b*d)]$\ \ con $lbs e_1 rbs^"#" m^"#" = [a, b]$ e $lbs e_2 rbs^"#" = [c, d]$
 
