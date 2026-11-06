@@ -77,7 +77,7 @@ Riprendiamo il CFG dell'esempio @ex-fixpt-cfg, possiamo calcolare il punto fisso
     x_2 & = lbs x = 0 rbs^"#" x_1 union.sq lbs x = x + 2 rbs^"#" x_4 union.sq lbs x = x + 10 rbs^"#" x_5 \
     x_3 & = lbs x < 100 rbs^"#" x_2 \
     x_4 & = lbs x < 50 rbs^"#" x_3 \
-    x_5 & = lbs x >= rbs^"#" x_3 \
+    x_5 & = lbs x >= 50 rbs^"#" x_3 \
     x_6 & = lbs x >= 100 rbs^"#" x_2
   $
 
