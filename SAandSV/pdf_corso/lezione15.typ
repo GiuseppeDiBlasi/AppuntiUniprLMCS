@@ -161,7 +161,7 @@ Riprendiamo il CFG dell'esempio @ex-fixpt-cfg, possiamo calcolare il punto fisso
 
 ]
 
-=== Introduzione operatore di widening e narrowing
+=== Introduzione operatore di widening e narrowing <int-wid-nar>
 
 Introduciamo gli operatori di *widening* e *narrowing* con un esempio; verranno visti nel dettaglio nelle prossime lezioni.
 
