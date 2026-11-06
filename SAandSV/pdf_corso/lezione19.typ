@@ -323,6 +323,40 @@ Definendo formalmente l'assume per il caso $e_1 <= e_2$ abbiamo:
 $
   "assume"_(e_1 <= e_2) (m^"#") = cases(
     m^"#" [x arrow.l [a, min(b, v)]] & quad "se" e_1 = x quad e_2 = v quad lbs e_1 rbs^"#" = [a, b] thick a <= v,
-    bot & quad "se" e_1 = x quad e_2 = v quad a > v quad lbs e_1 rbs^"#" m^"#" = [a, b], gap: #1em
+    m^"#" vec(
+      delim: "[",
+      align: #left,
+      x arrow.l [a, min(b, d)],
+      y arrow.l [max(a, c), d]
+    ) & quad "se" e_1 = x quad e_2 = y quad lbs e_1 rbs^"#" m^"#" = [a, b] and lbs e_2 rbs^"#" m^"#" = [c, d] and a <= d,
+    bot & quad "se" e_1 = x quad e_2 = y quad lbs e_1 rbs^"#" m^"#" = [a, b] and lbs e_2 rbs^"#" m^"#" = [c, d] and a > d,
+    bot & quad "se" e_1 = x quad e_2 = v quad a > v quad lbs e_1 rbs^"#" m^"#" = [a, b],
+    m^"#", & quad "altrimenti",
+    gap: #1em
   )
 $
+
+#note[In questa assume ci sono casi con gestiamo e che andrebbero gestiti in un contesto reale.]
+
+Vediamo alcuni esempi con l'assume:
+
+#example(name: "Esempi con assume su dominio degli intervalli")[
+
+  Prendiamo gli intervalli $x = [30, 40]$ e $y = [25, 35]$ e la guardia $x <= y$.
+
+  In questo caso possiamo raffinare entrambi gli intervalli $x$ e $y$, da entrambi gli intervalli scartiamo i valori per cui la guardia viene valutata a false.
+  Quindi otteniamo: $x = [30, 50]$, $y = [30, 35]$.
+
+  #separator()
+
+  Guardiamo un altro esempio prendendo in considerazione gli intervalli $x = [30, 40]$ e $y = [35, 50]$, sempre con la guardia $x <= y$
+
+  In questo caso valutando l'espressione otterremmo gli stessi intervalli di partenza. Questo perchè i valori dell'intervallo x rispettano già la condizione della guardia sui valori dell'intervallo y.
+
+  #note[
+    Guardare ogni singolo valore dell'intervallo e confrontandolo con l'altro aiuta a visualizzare al meglio quello che sta succedendo.
+  ]
+
+]
+
+
