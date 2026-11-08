@@ -1,4 +1,6 @@
-#import "../../Template typst/template.typ": c-border, definition, example, note, sqglb, sqle, sqlub, theorem, sleq
+#import "../../Template typst/template.typ": (
+  c-border, definition, example, note, separator, sleq, sqglb, sqle, sqlub, theorem,
+)
 #import "@preview/fletcher:0.5.8": diagram, edge, node, shapes
 #import "@preview/lovelace:0.3.1": *
 
@@ -78,9 +80,9 @@ $chevron.l ZZ, <=, max, min chevron.r$ è un PoSet e anche un reticolo, ma non �
 #note()[
   Se abbiamo solo l'operatore *lub*, o anche il *glb*, possiamo dire che partendo dalla definizione del *lub*, possiamo indurre il *glb* e viceversa. *Questo vale solamente per reticoli completi.* I due concetti, si dice che sono in dualità; stessa cosa $top$ e $bot$.
 
-  $union.sq$ induce $inter.sq$ $-> quad$ $union.sq "S" = union.sq {"y" | forall "s" in "S", "y" subset.eq.sq "x"}$
+  $union.sq$ induce $inter.sq$ $-> quad$ $inter.sq S = union.sq {y | forall s in S, y subset.eq.sq s}$
 
-  $inter.sq$ induce $union.sq$ $-> quad$ $inter.sq "S" = inter.sq {"y" | forall "s" in "S", "x" subset.eq.sq "y"}$
+  $inter.sq$ induce $union.sq$ $-> quad$ $union.sq S = inter.sq {y | forall s in S, s subset.eq.sq y}$
 
   #v(0.5cm)
 
@@ -89,56 +91,63 @@ $chevron.l ZZ, <=, max, min chevron.r$ è un PoSet e anche un reticolo, ma non �
   Prendendo come esempio il reticolo dell' @ex-lub-glb possiamo calcolare lub e glb:
 
   #align(center)[
-    #grid(
-      columns: (auto, 1fr),
-      column-gutter: 4em,
-      align: (left, center + horizon, left + horizon),
 
-      diagram(
-        node-stroke: none,
-        node-fill: none,
-        spacing: (1.5em, 2.5em),
 
-        node((3, 0), $top$, name: <T>),
-        node((2, 1), $h$, name: <h>),
-        node((4, 1), $i$, name: <i>),
-        node((1, 2), $e$, name: <e>),
-        node((3, 2), $f$, name: <f>),
-        node((5, 2), $g$, name: <g>),
-        node((0, 3), $a$, name: <a>),
-        node((2, 3), $b$, name: <b>),
-        node((4, 3), $c$, name: <c>),
-        node((6, 3), $d$, name: <d>),
-        node((3, 4), $bot$, name: <bot>),
+    #diagram(
+      node-stroke: none,
+      node-fill: none,
+      spacing: (1.5em, 2.5em),
 
-        edge(<T>, <h>, "-"),
-        edge(<T>, <i>, "-"),
-        edge(<h>, <e>, "-"),
-        edge(<h>, <f>, "-"),
-        edge(<i>, <f>, "-"),
-        edge(<i>, <g>, "-"),
-        edge(<e>, <a>, "-"),
-        edge(<e>, <b>, "-"),
-        edge(<f>, <b>, "-"),
-        edge(<f>, <c>, "-"),
-        edge(<g>, <c>, "-"),
-        edge(<g>, <d>, "-"),
-        edge(<a>, <bot>, "-"),
-        edge(<b>, <bot>, "-"),
-        edge(<c>, <bot>, "-"),
-        edge(<d>, <bot>, "-"),
+      node((3, 0), $top$, name: <T>),
+      node((2, 1), $h$, name: <h>),
+      node((4, 1), $i$, name: <i>),
+      node((1, 2), $e$, name: <e>),
+      node((3, 2), $f$, name: <f>),
+      node((5, 2), $g$, name: <g>),
+      node((0, 3), $a$, name: <a>),
+      node((2, 3), $b$, name: <b>),
+      node((4, 3), $c$, name: <c>),
+      node((6, 3), $d$, name: <d>),
+      node((3, 4), $bot$, name: <bot>),
 
-        // node(enclose: (<f>, <g>, <c>), stroke: blue, shape: shapes.ellipse, inset: 12pt),
-      ),
-
-      [
-        $"lub" -> union.sq {bot, c} = c$
-
-        $"glb" -> inter.sq {i, top} = i$
-      ],
+      edge(<T>, <h>, "-"),
+      edge(<T>, <i>, "-"),
+      edge(<h>, <e>, "-"),
+      edge(<h>, <f>, "-"),
+      edge(<i>, <f>, "-"),
+      edge(<i>, <g>, "-"),
+      edge(<e>, <a>, "-"),
+      edge(<e>, <b>, "-"),
+      edge(<f>, <b>, "-"),
+      edge(<f>, <c>, "-"),
+      edge(<g>, <c>, "-"),
+      edge(<g>, <d>, "-"),
+      edge(<a>, <bot>, "-"),
+      edge(<b>, <bot>, "-"),
+      edge(<c>, <bot>, "-"),
+      edge(<d>, <bot>, "-"),
     )
   ]
 
+  #separator()
+
+  Se prendessimo $S = {f, g}$, per calcolare il glb tramite il lub dobbiamo prendere tutti gli elementi che stanno sotto ad $S$ e che sono in comune tra $f$ e $g$:
+
+  - Elementi inferiori a $f = {b, c, bot}$
+  - Elementi inferiori a $g = {c, d, bot}$
+
+  Gli elementi in comune per ${f, g}$ sono: ${c, bot}$, su questi elementi in comune facciamo il lub: $union.sq{c, bot} = c$
+
+  Quindi: $inter.sq {f, g} = union.sq {c, bot}$
+
+  Se invece volessimo calcolare il lub tramite il glb, sempre per $S$, dobbiamo  guardare gli elementi in comune per ogni elemento di $S$ e fare il glb tra essi.
+
+  - Elementi superiori a $f = {h, i, top}$
+  - Elementi superiori a $g = {i, top}$
+
+  Gli elementi in comune per ${f, g}$ sono ${i, top}$, su questi elementi facciamo il glb: $inter.sq {i, top} = i$
+
+  Quindi $union.sq {f, g} = inter.sq {i, top}$
 
 ]
 
@@ -193,6 +202,13 @@ Per esempio:
     - e se è *suriettiva*: $forall y in Y, exists x => f(x) = y$
 
   _Ricordiamo che la funzione è un tipo di relazione._
+]
+
+#note[
+  Se la funzione *NON è* iniettiva, allora non potrà essere order-embedding.
+  Se la funzione è iniettiva non è detto che sia order-embedding.
+
+  Iniettiva implica che ogni elemento del codominio $Y$, sia associato al più ad un elemento del dominio $X$.
 ]
 
 #v(1cm)
@@ -361,10 +377,15 @@ Per esempio:
   ]
 
   Diamo un'occhiata a quest'ultimo esempio, possiamo vedere che $f$ è monotona.
-  Per quanto riguarda l'order embedding in questo caso è rispettato, nello specifico, se dovessimo prendere la coppia di valori $(1, 2)$ e $(2,1)$ possiamo dire che:
+  Per quanto riguarda l'order embedding in questo caso è rispettato, controllando tutte le coppie ordinate abbiamo:
 
+  - $f(0) subset.sq.eq f(1) => 0 subset.sq.eq 1$ è vera.
+  - $f(0) subset.sq.eq f(2) => 0 subset.sq.eq 2$ è vera.
   - $f(1) subset.sq.eq f(2) => 1 subset.sq.eq 2$ è vera.
+  - $f(1) subset.sq.eq f(0) => 1 subset.sq.eq 0$ è vera, dato che entrambe le condizioni sono false.
   - $f(2) subset.sq.eq f(1) => 2 subset.sq.eq 1$ è vera, dato che entrambe le condizioni sono false.
+  - $f(2) subset.sq.eq f(0) => 2 subset.sq.eq 0$ è vera, dato che entrambe le condizioni sono false.
+
 
   Controlliamo se questa relazione è isomorfa:
   - È order-embedding ✓
@@ -435,10 +456,11 @@ Per esempio:
 
 Il concetto di *catena* ci torna molto utile per il calcolo del punto fisso per determinate funzioni.
 
+
 Diamo una definizione di catena.
 
 #definition(name: "Catena")[
-  Prendiamo il PoSet : $chevron.l X, sqle(X) chevron.r$; prendiamo un sotto insieme $S subset.eq X chevron.r$,
+  Prendiamo il PoSet : $chevron.l X, sqle(X) chevron.r$; prendiamo un sotto insieme $chevron.l S subset.eq X chevron.r$,
   $S$ è una catena se: $forall x, y in S$, $x subset.sq.eq y or y subset.sq.eq x$, ($S$ è totalmente ordinato.)
 
   Una *catena ascendente* è una sequenza $(cal(l)_n), n in NN, quad i <= j => cal(l)_i subset.sq.eq cal(l)_j$
@@ -456,6 +478,7 @@ Diamo ora un'occhiata a un concetto fondamentale per interpretazione astratta.
   - $cal(P)(X)$ solo se $X$ è finito, allora è *ACC*
 ]
 
+Il concetto di catena e condizione ACC tornerà utile per il calcolo del punto fisso per l'analisi dei programmi nelle prossime lezioni.
 
 Diamo ora un'occhiata a vari esempi di catene che rispettano, e non rispettano la condizione ACC.
 
@@ -467,7 +490,6 @@ Diamo ora un'occhiata a vari esempi di catene che rispettano, e non rispettano l
   $chevron.l NN, >= chevron.r$ è ACC: una catena ascendente è $x_0 >= x_1 >= x_2 >= dots$, e non può decrescere all'infinito in $NN$, quindi si stabilizza (es. $5 >= 3 >= 1 >= 0 >= 0 >= dots$).
 ]
 
-#pagebreak()
 
 Il prof ha dato la definizione di continous map (mappe continue) che verranno riprese nella lezione successiva.
 

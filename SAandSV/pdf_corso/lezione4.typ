@@ -1,4 +1,6 @@
-#import "../../Template typst/template.typ": c-border, definition, example, note, sqglb, sqle, sqlub, theorem
+#import "../../Template typst/template.typ": (
+  c-border, definition, example, note, separator, sqglb, sqle, sqlub, theorem, warning,
+)
 #import "@preview/fletcher:0.5.8": diagram, edge, node, shapes
 #import "@preview/lovelace:0.3.1": *
 
@@ -21,14 +23,59 @@ Iniziamo dando una definizione di punto fisso per una funzione $f$.
   $"Fix"(f)$ = ${x | f(x) = x}$
 
   Possiamo definire anche i *least* e *greatest* fix points per una funzione $f$:
-  - $x in "Fix"(f)$ è il *least fixed point (lfp)* se, $forall y in "Fix"(f) x subset.sq.eq y$
-  - $x in "Fix"(f)$ è il *greatest fixed point (gfp)* se, $forall y in "Fix"(f) x supset.sq.eq y$
+  - $x in "Fix"(f)$ è il *least fixed point (lfp)* se, $forall y in "Fix"(f) quad x subset.sq.eq y$
+  - $x in "Fix"(f)$ è il *greatest fixed point (gfp)* se, $forall y in "Fix"(f) quad x supset.sq.eq y$
 ]
 
 Per i nostri scopi di analisi statica siamo interessati a trovare *lfp* e *gfp*.
 Possono non esistere, ma nel caso in cui dovessero esserci sono unici sotto determinate condizioni.
 
 Diamo un'occhiata a un esempio con un reticolo:
+
+Un altro concetto fondamentale sono le iterazioni per una funzione $f(x)$.
+Possiamo definire le iterazioni su $f(x)$ nel seguente modo:
+
+#definition(name: "Iterazioni")[
+  Le iterazioni di $f$ su $x in X$ sono definite come:
+  - $f^0(x) = x$
+  - $f^(n + 1)(x) = f(f^n (x))$
+]
+
+Anche queste iterazioni ci permettono di trovare punti fissi per i nostri scopi di analisi statica.
+
+#pagebreak()
+Introduciamo il teorema fix-point di Knaster-Tarski.
+
+#theorem(name: "Teorema di Knaster-Tarski sui punti fissi")[
+  Prendiamo un reticolo: $chevron.l X, subset.sq.eq, union.sq, inter.sq chevron.r,$ e una funzione  $f: X -> X$, monotona
+
+  Allora, $chevron.l "Fix"(f), subset.eq.sq, union.sq, inter.sq chevron.r$ è un reticolo completo.
+
+  - Definiamo un *post-fixpoint* come: $l in X | l subset.eq.sq f(l)$.
+  - Definiamo un *pre-fixpoint* come: $l in X | f(l) subset.eq.sq l$.
+
+  Possiamo definire anche *lfp* e *gfp*:
+  - $"lfp"(f)$ = $inter.sq {l in X| f(l) subset.eq.sq l}$, è il glb tra tutti i pre-fixpoint
+  - $"gfp"(f)$ = $union.sq {l in X | l subset.sq.eq f(l)}$, è il lub tra tutti i post-fixpoint
+
+] <thm-knaster-tarski>
+
+Questo ci dice che esiste un fix point per il reticolo.
+
+Abbiamo anche il teorema di Kleene che ci dice che possiamo trovare un punto fisso all'interno di un complete lattice.
+
+#theorem(name: "Teorema di Kleene")[
+  Sia $chevron.l X, subset.sq.eq, union.sq, inter.sq, bot, top chevron.r$ un complete lattice, e sia $f: X -> X$ continua.
+
+  La funzione $f$ ha un punto fisso, e può essere calcolato come:
+
+  #align(center)[
+    *$union.sq_(n >= 0) thick f^n (bot)$*
+
+  ]
+] <thm-kleene>
+
+In poche parole possiamo trovare sempre un punto fisso all'interno di un reticolo (o lattice) completo dopo un numero finito di iterazioni sulla funzione $f$.
 
 #example[
   Prendiamo in considerazione il PoSet $chevron.l cal(P)({-1, 0, 1}), subset.eq chevron.r$, indichiamo con $X = {-1, 0, 1}$
@@ -37,7 +84,7 @@ Diamo un'occhiata a un esempio con un reticolo:
 
   $
     f(x) = cases(
-      x without {1} & "se" 1 in X,
+      x without {1} & "se" 1 in x,
       x union {-1} & "altrimenti"
     )
   $
@@ -91,57 +138,44 @@ Diamo un'occhiata a un esempio con un reticolo:
 
   Prendendo ogni singolo insieme abbiamo:
 
-  - $f({emptyset})$ = ${-1}$
-  - $f({-1})$ = ${-1} ->$ *punto fisso*.
-  - $f({0})$ = ${-1, 0}$
-  - $f({1})$ = ${-1, 1}$
+  - $f({emptyset})$ = ${-1}$, post-fixpoint.
+  - $f({-1})$ = ${-1} ->$,  *punto fisso*.
+  - $f({0})$ = ${-1, 0}$, post-fixpoint
+  - $f({1})$ = $emptyset$, pre-fixpoint
   - $f({-1, 0})$ = ${-1, 0} ->$ *punto fisso*.
-  - $f({-1, 1})$ = ${-1}$
-  - $f({0, 1})$ = ${0}$
-  - $f({-1, 0, 1})$ = ${-1, 0}$
+  - $f({-1, 1})$ = ${-1}$, pre-fixpoint.
+  - $f({0, 1})$ = ${0}$, pre-fixpoint.
+  - $f({-1, 0, 1})$ = ${-1, 0}$, pre-fixpoint.
 
   Abbiamo trovato ${-1, 0}$ e ${-1}$ come punti fissi della funzione $f(x)$. Questo concetto tornerà utile per analisi statica.
+
+  In questo esempio $f$ non è monotona, quindi il teorema di *Knaster-Tarski* non si applica.
+
+  #separator()
+
+  Consideriamo sempre lo stesso reticolo per l'insieme delle parti di ${-1, 0, 1}$, ma consideriamo una funzione monotona $f(x) = x union {0}$.
+
+  Applicando la nuova funzione $f$ calcoliamo pre e post fix-point:
+
+  - $f(emptyset) = {0}$, post-fixpoint.
+  - $f({-1}) = {-1, 0}$, post-fixpoint.
+  - $f({0}) = {0}$, *punto fisso*.
+  - $f({1}) = {1, 0}$, post-fixpoint.
+  - $f({-1, 0}) = {-1, 0}$, *punto fisso*.
+  - $f({-1, 1}) = {-1, 0, 1}$, post-fixpoint.
+  - $f({0, 1}) = {0, 1}$, *punto fisso*.
+  - $f({-1, 0, 1}) = {-1, 0, 1}$, *punto fisso*.
+
+  Siccome $f$ è monotona, possiamo applicare *Knaster-Tarski* e calcolare *least fix-point* e * greatest fix-point*.
+  Calcoliamo il least fix-point come il glb tra tutti i pre-fixpoint:
+
+  $bold("lfp") = inter.sq {{0}, {-1, 0}, {0, 1}, {-1, 0, 1}} = {0}$
+
+  Calcoliamo invece il greatest fix-point come il lub tra tutti i post-fixpoint, in questo caso prendiamo tutti gli elementi del reticolo e otteniamo:
+
+  $bold("gfp") = union.sq {cal(P)({-1, 0, 1})} = {-1, 0, 1}$
 ]
 
-Un altro concetto fondamentale sono le iterazioni per una funzione $f(x)$.
-Possiamo definire le iterazioni su $f(x)$ nel seguente modo:
-
-#definition(name: "Iterazioni")[
-  Le iterazioni di $f$ su $x in X$ sono definite come:
-  - $f^0(x) = x$
-  - $f^(n + 1)(x) = f(f^n (x))$
+#warning[
+  Se la funzione $f$ *NON* è monotona, *NON* posso applicare Knaster-Tarski.
 ]
-
-Anche queste iterazioni ci permettono di trovare punti fissi per i nostri scopi di analisi statica.
-
-Introduciamo il teorema fix-point di Knaster-Tarski.
-
-#theorem(name: "Teorema di Knaster-Tarski sui punti fissi")[
-  Prendiamo un reticolo: $chevron.l X, subset.sq.eq, union.sq, inter.sq chevron.r,$ e una funzione  $f: X -> X$, monotona
-
-  Allora, $chevron.l "Fix"(f), subset.eq.sq, union.sq, inter.sq chevron.r$ è un reticolo completo.
-
-  Possiamo definire anche *lfp* e *gfp*:
-  - $"lfp"(f)$ = $inter {l | l supset.sq.eq f(l)}$
-  - $"gfp"(f)$ = $union {l | f(l) supset.sq.eq l}$
-
-] <thm-knaster-tarski>
-
-Questo ci dice che esiste un fix point per il reticolo.
-
-Abbiamo anche il teorema di Kleene che ci dice che possiamo trovare un punto fisso all'interno di un complete lattice.
-
-#theorem(name: "Teorema di Kleene")[
-  Sia $chevron.l X, subset.sq.eq, union.sq, inter.sq, bot, top chevron.r$ un complete lattice, e sia $f: X -> X$ continua.
-
-  La funzione $f$ ha un punto fisso, e può essere calcolato come:
-
-  #align(center)[
-    *$union.sq_(n >= 0) thick f^n (bot)$*
-
-  ]
-] <thm-kleene>
-
-In poche parole possiamo trovare sempre un punto fisso all'interno di un reticolo (o lattice) completo dopo un numero finito di iterazioni sulla funzione $f$.
-
-//_Aggiungere esempi fatti a lezione sul codice._

@@ -538,9 +538,9 @@ Per esempio: $chevron.l ZZ, <=, max, min chevron.r$ è un reticolo.
 #definition(name: "Lub e Glb di un insieme S")[
   Possiamo dare un'altra definizione di _lub_ e _glb_ per un insieme $S$:
 
-  $ "lub: " union.sq "S" = min{"s"' | forall "s" in "S", "s"' supset.sq "s"} $
+  $ "lub: " union.sq "S" = min{"s"' | forall "s" in "S", "s"' supset.eq.sq "s"} $
 
-  $ "glb: " inter.sq "S" = max{"s"' | forall "s" in "S", "s"' subset.sq "s"} $
+  $ "glb: " inter.sq "S" = max{"s"' | forall "s" in "S", "s"' subset.eq.sq "s"} $
 ]
 
 #note()[
