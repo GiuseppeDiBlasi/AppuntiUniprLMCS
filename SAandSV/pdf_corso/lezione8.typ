@@ -69,14 +69,14 @@ La scorsa lezione abbiamo introdotto le analisi DFA e l'analisi delle available 
     align(center, scale(f * 100%, reflow: true, contenuto))
   })
 
-  Come possiamo vedere, nel caso $x := x + 1$ l'insieme *gen* è vuoto, questo perché $"FV"(x + 1)$ contiene la variabile $x$ e non è compatibile con la definizione dell'insieme *gen*, di conseguenza deve appartenere all'insieme $bold("kill") = { x }$.
+  Come possiamo vedere, nel caso $x := x + 1$ l'insieme *gen* è vuoto, questo perché $"FV"(x + 1)$ contiene la variabile $x$ e non è compatibile con la definizione dell'insieme *gen*, di conseguenza deve appartenere all'insieme $bold("kill") = { x + 1 }$.
 
 ]
 
 Definiamo adesso le available expression in ingresso e in uscita da un blocco.
 
 #definition(name: "Available expression, entry ed exit")[
-  Le espressioni in ingresso verso un blocco sono le espressioni available in uscita dal blocco precedente
+  Le espressioni in ingresso verso un blocco sono le espressioni available in uscita dal blocco precedente.
   Come già detto, l'available expression è un'analisi di tipo forward , le informazioni vengono propagate da stati di
   entry (ingresso) a stati d'uscita (exit).
 
@@ -141,8 +141,18 @@ Guardiamo un esempio per entry ed exit:
         ),
         stroke: none,
       ),
-    )]
+    )
 
+    #table(
+      columns: 5,
+      align: center + horizon,
+      inset: 8pt,
+      table.header([*Blocco*], [*entry*], [*kill*], [*gen*], [*exit*]),
+      [1: `x := a+b`], [$∅$], [$∅$], [${a + b}$], [${a + b}$],
+      [2: `y := x+1`], [${a + b}$], [$∅$], [${x + 1}$], [${a + b, x + 1}$],
+      [3: `x := y+1`], [${a + b, x + 1}$], [${x + 1}$], [${y + 1}$], [${a + b, y + 1}$],
+    )
+  ]
 ]
 
 Per combinare queste informazioni con l'operatore di join, dobbiamo tenere conto che, in ogni punto del programma, un'espressione è available solo se è già stata calcolata, e non più modificata, su ogni possibile percorso che porta a quel punto.
@@ -191,18 +201,18 @@ Guardiamo un esempio:
         stroke: none,
       ),
     ))]
+    Per calcolare il valore di _entry_(3) riprendiamo la formula che abbiamo scritto su per gli stati entranti e uscenti: _entry_(_pp_) = exit(predecessor(_pp_)).
+
+    Quindi per calcolare l'_entry_(3) dobbiamo prendere in considerazione l'_exit_ di tutti i blocchi che entrano dentro il blocco 3.
+    Abbiamo il blocco 2 e il blocco 4.
+    Prendiamo _exit_(2) e _exit_(4) e facciamo l'intersezione e otteniamo
+    - _exit_(2) = ${a - b, y + b}$
+    - _exit_(4) = ${a - b, a + b}$
+    - $italic("exit")(2) inter italic("exit")(4) = {a - b}$
+
+    _In questo caso dentro al blocco 4 abbiamo $y := y - 1$ il suo *gen* è $emptyset$, mentre il *kill* è ${y - 1, y + b}$_.
 ]
 
-Per calcolare il valore di _entry_(3) riprendiamo la formula che abbiamo scritto su per gli stati entranti e uscenti: _entry_(_pp_) = exit(predecessor(_pp_)).
-
-Quindi per calcolare l'_entry_(3) dobbiamo prendere in considerazione l'_exit_ di tutti i blocchi che entrano dentro il blocco 3.
-Abbiamo il blocco 2 e il blocco 4.
-Prendiamo _exit_(2) e _exit_(4) e facciamo l'intersezione e otteniamo
-- _exit_(2) = ${a - b, y + b}$
-- _exit_(4) = ${a - b, a + b}$
-- $italic("exit")(2) inter italic("exit")(4) = {a - b}$
-
-_In questo caso dentro al blocco 4 abbiamo $y := y - 1$ il suo *gen* è $emptyset$, mentre il *kill* è ${y - 1, y + b}$_.
 
 Formalizziamo le available expression in ingresso e in uscita da un blocco $i$.
 

@@ -60,17 +60,18 @@ Passiamo ora a definire formalmente la collective semantics.
 
 == Collective semantics <col-sem>
 
-- $lbs dot rbs_c cal(P) -> cal(P)$; semantica collettiva per gli statement.
-- $lbs "skip" rbs_c thick cal(M) = cal(M)$
-- $lbs s_0 thick s_1 rbs_c thick cal(M) = lbs s_1 rbs_c (lbs s_0 rbs_c cal(M))$
-- $lbs x = e rbs_c thick cal(M) = {m [x <- lbs e rbs^m] | m in M}; quad$ $lbs e rbs^m$ è la semantica dell'interprete e non la collecting.
-- $lbs "if" thick b "then" s_0 "else" s_1 rbs_c cal(M) = lbs s_0 rbs_c cal(M) |_b union lbs s_1 rbs_c cal(M) |_(!b)$
-- $lbs "while" thick b thick s rbs_c cal(M) = (union_(i >= 0) (lbs s rbs_c dot |_b)^i cal(M)) |_(!b) equiv ("lfp"_(M_0)^subset.eq thick F) |_(!b)$
+- $lbs dot rbs_c cal(P)(MM) -> cal(P)(MM)$; semantica collettiva per gli statement.
+- $lbs "skip" rbs_c thick MM = MM$
+- $lbs s_0 thick s_1 rbs_c thick MM = lbs s_1 rbs_c (lbs s_0 rbs_c MM)$
+- $lbs x = e rbs_c thick MM = {m [x <- lbs e rbs^m] | m in MM}; quad$ $lbs e rbs^m$ è la semantica dell'interprete e non la collecting.
+- $lbs "if" thick b "then" s_0 "else" s_1 rbs_c MM = lbs s_0 rbs_c MM |_b union lbs s_1 rbs_c MM |_(!b)$
+- $lbs "while" thick b thick s rbs_c MM = (union_(i >= 0) (lbs s rbs_c dot |_b)^i MM) |_(!b) equiv ("lfp"_(M_0)^subset.eq thick F) |_(!b)$
 
-L'operatore $|_b$ vuol dire filtrare da $b$ positivo (!b vuol dire filtrato da not $b$), definendo formalmente otteniamo: $cal(M) |_b = {m | lbs b rbs^m = "TT"}$
+L'operatore $|_b$ vuol dire filtrare da $b$ positivo (!b vuol dire filtrato da not $b$), definendo formalmente otteniamo: $MM |_b = {m | lbs b rbs^m = "TT"}$
 
-La semantica del *while* è un po' complessa, cerchiamo di spiegarla a parole. La sintassi del *while* restituisce in output il set delle memorie dove $b$ è falso.
-Tutti gli insiemi per cui $b$ è positivo rimangono all'interno del ciclo *while*.
+La semantica del *while* è un po' complessa, cerchiamo di spiegarla a parole. La sintassi del *while* restituisce in output il set delle memorie dove $b$ è falso, scartando tutti gli insiemi delle memorie dove la condizione $b$ è vera.
+In sostanza vogliamo l'insieme delle memorie che escono dal ciclo while e non gli insiemi delle memorie che vengono iterati dentro al body del while finché la condizione $b$ è vera.
+Tutte le memorie per cui $b$ è positivo rimangono all'interno del ciclo *while*.
 
 Vediamo un esempio per l'*if*:
 
