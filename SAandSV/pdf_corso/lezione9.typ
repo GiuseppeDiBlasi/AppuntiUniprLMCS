@@ -1,5 +1,5 @@
 #import "../../Template typst/template.typ": (
-  c-border, definition, example, lbs, note, rbs, recall, sqglb, sqle, sqlub, theorem,
+  c-border, definition, example, lbs, note, rbs, recall, sqglb, sqle, sqlub, theorem, warning,
 )
 #import "@preview/fletcher:0.5.8": diagram, edge, node, shapes
 #import "@preview/cetz:0.5.2": canvas, draw
@@ -7,7 +7,7 @@
 = Lezione 9 del 9 ottobre 2026
 
 Abbiamo visto fino ad ora la maximal trace semantics, che in un mondo ideale sarebbe quella che vorremmo calcolare, ma in realtà è infinita e indecidibile.
-Abbiamo visto anche la collective semantics, che è un astrazione della maximal trace semantics, dato che perdiamo la relazione tra le tracce.
+Abbiamo visto anche la collective semantics, che è un'astrazione della maximal trace semantics, dato che perdiamo la relazione tra le tracce.
 Di conseguenza ci serve un'approssimazione che ci permette rispondere con certezza a determinate proprietà di un programma che vogliamo studiare.
 
 == Approssimazioni
@@ -109,7 +109,11 @@ I comportamenti originali del programma *DEVONO* essere contenuti nella nostra a
 
 ]
 
-In queste approssimazioni è normale perdere precisione, soprattutto nell'ultimo caso dove possiamo avere dei falsi positivi, ovvero punti che appartengono all'astrazione $lbs P rbs^"#"$ e si intersecano con la semantica concreta del programma $lbs P rbs$. Quello che non possiamo accettare sono i falsi negativi, in questo caso i punti della semantica concreta che non si intersecano con la semantica astratta, questo ci porta a perdere la proprietà di _*soundness*_.
+In queste approssimazioni è normale perdere precisione, soprattutto nell'ultimo caso dove possiamo avere dei falsi positivi, ovvero punti che appartengono all'astrazione $lbs P rbs^"#"$ ma non a quella della semantica concreta del programma, $lbs P rbs$. Quello che non possiamo accettare sono i falsi negativi, in questo caso i punti della semantica concreta che non sono contenuti nella semantica astratta, questo ci porta a perdere la proprietà di _*soundness*_.
+
+#warning[
+  *NON* possiamo rinunciare alla proprietà di *soundness*.
+]
 
 Ora diamo una definizione di _*astrazione*_.
 
@@ -197,6 +201,7 @@ Quando vogliamo approssimare una proprietà $P$ che ci interessa con un'astrazio
 - O un'approssimazione *dall'alto* (from above): dove $P subset.eq P^"#"$
 
 L'approssimazione dal basso è utile per bug detection, però perdiamo alcuni comportamenti concreti del programma nella nostra astrazione.
+
 Le due nozioni sono duali.
 
 Guardiamo alcuni esempi di approssimazioni from below e from above.
@@ -226,7 +231,7 @@ Guardiamo alcuni esempi di approssimazioni from below e from above.
     })
   ]
 
-  Questo tipo di analisi from below è utile per bug detection, attenzione che se dovessimo avere un bug che si trova in $P$, ma non è dentro l'insieme della nostra astrazione $P^"#"$, perdiamo la possibilità di trovare quel bug con la nostra approssimazione.
+  Questo tipo di analisi *from below* è utile per bug detection, attenzione che se dovessimo avere un bug che si trova in $P$, ma non è dentro l'insieme della nostra astrazione $P^"#"$, perdiamo la possibilità di trovare quel bug con la nostra approssimazione.
 
   Se un determinato comportamento che analizziamo è dentro la nostra approssimazione $P^"#"$ allora il programma avrà quel comportamento, altrimenti non possiamo dirlo con certezza.
 
@@ -261,10 +266,14 @@ Guardiamo alcuni esempi di approssimazioni from below e from above.
     })
   ]
 
-  In questo caso abbiamo un'astrazione from above, e vediamo che la nostra astrazione $P_2^"#"$ contiene $P$, questo ci porta a perdere precisione ma questo è un compromesso quando facciamo una qualunque tipo di astrazione.
+  In questo caso abbiamo un'astrazione *from above*, e vediamo che la nostra astrazione $P_2^"#"$ contiene $P$, questo ci porta a perdere precisione ma questo è un compromesso accettabile quando facciamo una qualunque tipo di astrazione.
 
 ]
 
+Ipotizziamo di voler stabilire se un comportamento o proprietà appartiene al programma concreto $P$,
+nelle approssimazioni from below, quindi siamo nel caso $P^"#" subset.eq P$, se non appartiene alla nostra astrazione non possiamo dire con certezza se faccia parte o meno del programma concreto. Mentre nel caso in cui appartenga alla nostra astrazione, di conseguenza possiamo dire che appartiene anche al programma concreto.
+
+Invece nelle approssimazioni from above, se la proprietà o comportamento non appartiene alla nostra astrazione, siamo sicuri che non appartenga nemmeno al programma concreto, invece nel caso in cui la proprietà appartenga alla nostra approssimazione non possiamo stabilire con certezza se appartiene anche al programma concreto.
 
 #note[
   Possiamo vedere il passaggio da una proprietà concreta a un'approssimazione come una funzione $alpha$ che mappa le proprietà dal concreto alla nostra approssimazione.

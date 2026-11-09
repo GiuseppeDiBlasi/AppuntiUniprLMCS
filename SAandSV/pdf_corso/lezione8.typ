@@ -201,16 +201,16 @@ Guardiamo un esempio:
         stroke: none,
       ),
     ))]
-    Per calcolare il valore di _entry_(3) riprendiamo la formula che abbiamo scritto su per gli stati entranti e uscenti: _entry_(_pp_) = exit(predecessor(_pp_)).
+  Per calcolare il valore di _entry_(3) riprendiamo la formula che abbiamo scritto su per gli stati entranti e uscenti: _entry_(_pp_) = exit(predecessor(_pp_)).
 
-    Quindi per calcolare l'_entry_(3) dobbiamo prendere in considerazione l'_exit_ di tutti i blocchi che entrano dentro il blocco 3.
-    Abbiamo il blocco 2 e il blocco 4.
-    Prendiamo _exit_(2) e _exit_(4) e facciamo l'intersezione e otteniamo
-    - _exit_(2) = ${a - b, y + b}$
-    - _exit_(4) = ${a - b, a + b}$
-    - $italic("exit")(2) inter italic("exit")(4) = {a - b}$
+  Quindi per calcolare l'_entry_(3) dobbiamo prendere in considerazione l'_exit_ di tutti i blocchi che entrano dentro il blocco 3.
+  Abbiamo il blocco 2 e il blocco 4.
+  Prendiamo _exit_(2) e _exit_(4) e facciamo l'intersezione e otteniamo
+  - _exit_(2) = ${a - b, y + b}$
+  - _exit_(4) = ${a - b, a + b}$
+  - $italic("exit")(2) inter italic("exit")(4) = {a - b}$
 
-    _In questo caso dentro al blocco 4 abbiamo $y := y - 1$ il suo *gen* è $emptyset$, mentre il *kill* è ${y - 1, y + b}$_.
+  _In questo caso dentro al blocco 4 abbiamo $y := y - 1$ il suo *gen* è $emptyset$, mentre il *kill* è ${y - 1, y + b}$_.
 ]
 
 
@@ -346,8 +346,8 @@ Guardiamo due esempi di calcolo per entry ed exit.
 Fino ad ora abbiamo visto l'analisi delle available expressions, che è un tipo di analisi *forward* e *definita*.
 - *Forward* perché l'analisi viene svolta raccogliendo informazioni seguendo il flusso originale del progamma, quindi dal blocco $A$ al blocco $B$.
 - *Backward*, le informazioni sono propagate dall'exit del blocco all'entry dei blocchi precedenti, un esempio è l'analisi Live variable analysis.
-- *Definita, o must,* perché un'espressione è considerata available se è disponibile in _*tutti*_ i cammini che arrivano a quel program point.
-- *Possibile, o may*, perché un'informazione (ad esempio una variabile live o una definizione che raggiunge il punto) vale in un program point se vale in _*almeno un*_ cammino che arriva a quel punto, o che parte da esso nelle analisi backward.
+- *Definite, o must,* perché un'espressione è considerata available se è disponibile in _*tutti*_ i cammini che arrivano a quel program point.
+- *Possible, o may*, perché un'informazione (ad esempio una variabile live o una definizione che raggiunge il punto) vale in un program point se vale in _*almeno un*_ cammino che arriva a quel punto, o che parte da esso nelle analisi backward.
 
 Altri tipi di analisi sono:
 
@@ -417,7 +417,7 @@ Per questo motivo è stata introdotta l'interpretazione astratta.
 
   - _*NON*_ è un tipo di analisi distributiva.
 
-  Il lattice della CP è: $chevron.l {bot} union ZZ union {top}, subset.sq.eq, union.sq, inter.sq, bot, top chevron.l$
+  Il lattice della CP è: $chevron.l {bot} union ZZ union {top}, subset.sq.eq, union.sq, inter.sq, bot, top chevron.r$
 ]
 
 Guardiamo un esempio dove proviamo a dimostrare che la constant propagation sia un'analisi distributiva.
