@@ -323,7 +323,7 @@ Invece nelle approssimazioni from above, se la proprietà o comportamento non ap
       node((3.3, 1.35), text(size: 8pt)[più piccolo \ insieme]),
 
       // Concretizzazione γ: dai segni a P(Z)
-      edge(<sbot>, <z2>, "->", bend: 25deg, label: $gamma$, label-side: left),
+      edge(<sbot>, <zbot>, "->", bend: 25deg, label: $gamma$, label-side: left),
     ))
   ]
 
