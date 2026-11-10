@@ -23,8 +23,9 @@ $chevron.l ZZ, <=, max, min chevron.r$ è un PoSet e anche un reticolo, ma non �
 #definition(name: "Complete lattice (Reticolo completo)")[
   Dato: $chevron.l "X", subset.eq.sq, union.sq, inter.sq chevron.r$ è completo se:
 
-  - Qualunque sottoinsieme di $X$ ha *lub*
-  - Deve avere il bottom element
+  - Qualunque sottoinsieme di $X$ ha *lub*.
+  - Deve avere il bottom element.
+  - Deve avere il top element.
 ]
 
 #v(0.5cm)

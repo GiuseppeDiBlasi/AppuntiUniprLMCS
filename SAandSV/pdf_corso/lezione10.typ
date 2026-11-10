@@ -262,7 +262,7 @@ Guardiamo anche un esempio per l'analisi dei segni:
   Mentre la funzione di concretizzazione $gamma_"Sign"$ è definita:
 
   $
-    gamma_"Sign"(s) = cases(
+    gamma_"Sign" (S) = cases(
       gap: #0.8em, {0} &quad S = 0,
       {z | z > 0} & quad S = +,
       {z | z < 0} & quad S = -,
@@ -274,7 +274,7 @@ Guardiamo anche un esempio per l'analisi dei segni:
 ]
 
 
-Questra astrazione in intervallo dei segni è *sound*, ovvero:
+Questra astrazione con il dominio astratto dei segni è *sound*, ovvero:
 - Partiamo da un valore astratto.
 - Concretizziamo sfruttando $gamma$.
 - Torniamo all'astrazione con la funzione $alpha$.
