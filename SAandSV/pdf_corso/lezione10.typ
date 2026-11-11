@@ -278,7 +278,7 @@ Questra astrazione con il dominio astratto dei segni è *sound*, ovvero:
 - Partiamo da un valore astratto.
 - Concretizziamo sfruttando $gamma$.
 - Torniamo all'astrazione con la funzione $alpha$.
-- È sound se e solo se il risultato è $supqle(A)$, o in generale uguale.
+- È sound se e solo se il risultato è $sqle(A)$, o in generale uguale.
 
 === Monotonicità
 
