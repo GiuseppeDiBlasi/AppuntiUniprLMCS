@@ -1,5 +1,5 @@
 #import "../../Template typst/template.typ": (
-  c-border, definition, example, lbs, note, rbs, recall, sqglb, sqle, sqlub, theorem, warning,
+  c-border, definition, example, lbs, note, rbs, recall, separator, sqglb, sqle, sqlub, theorem, warning,
 )
 #import "@preview/fletcher:0.5.8": diagram, edge, node, shapes
 #import "@preview/cetz:0.5.2": canvas, draw
@@ -220,11 +220,11 @@ Guardiamo alcuni esempi di approssimazioni from below e from above.
       content((0.65, 0.3), text(fill: blue, size: 11pt)[$P^"#"$])
 
       // Cerchietto rosso, a cavallo del bordo in basso
-      circle((-0.2, -1.1), radius: 0.3, stroke: 1.3pt + red)
+      // circle((-0.2, -1.1), radius: 0.3, stroke: 1.3pt + red)
 
       // Freccia ad angolo verso il testo rosso
-      line((-0.5, -1.2), (-0.5, -1.9), (0.5, -1.9), stroke: 1.2pt + red, mark: (end: ">"))
-      content((0.7, -1.9), anchor: "west", text(fill: red, size: 14pt)[_non è sound_])
+      //line((-0.5, -1.2), (-0.5, -1.9), (0.5, -1.9), stroke: 1.2pt + red, mark: (end: ">"))
+      // content((0.7, -1.9), anchor: "west", text(fill: red, size: 14pt)[_non è sound_])
 
       // Testo in alto a destra
       content((3.2, 1.3), anchor: "west", text(size: 14pt)[_bug detection_])
@@ -233,9 +233,14 @@ Guardiamo alcuni esempi di approssimazioni from below e from above.
 
   Questo tipo di analisi *from below* è utile per bug detection, attenzione che se dovessimo avere un bug che si trova in $P$, ma non è dentro l'insieme della nostra astrazione $P^"#"$, perdiamo la possibilità di trovare quel bug con la nostra approssimazione.
 
+
   Se un determinato comportamento che analizziamo è dentro la nostra approssimazione $P^"#"$ allora il programma avrà quel comportamento, altrimenti non possiamo dirlo con certezza.
 
-  Nel caso in cui $P^"#"$ fosse l'insieme rosso, non sarebbe un'approssimazione che rispetta la soundness.
+  Questo tipo di approssimazione non è sound, poiché non abbiamo il caso dove $lbs P rbs subset.eq lbs P^"#" rbs$.
+
+  //  Nel caso in cui $P^"#"$ fosse l'insieme rosso, non sarebbe un'approssimazione che rispetta la soundness.
+
+  #separator()
 
   #align(center)[
     #canvas(length: 1cm, {
@@ -266,7 +271,7 @@ Guardiamo alcuni esempi di approssimazioni from below e from above.
     })
   ]
 
-  In questo caso abbiamo un'astrazione *from above*, e vediamo che la nostra astrazione $P_2^"#"$ contiene $P$, questo ci porta a perdere precisione ma questo è un compromesso accettabile quando facciamo una qualunque tipo di astrazione.
+  In questo caso abbiamo un'astrazione *from above*, e vediamo che la nostra astrazione $P_2^"#"$ contiene $P$, $lbs P rbs subset.eq lbs P_2^"#" rbs$, questo ci porta a perdere precisione ma questo è un compromesso accettabile quando facciamo una qualunque tipo di astrazione.
 
 ]
 

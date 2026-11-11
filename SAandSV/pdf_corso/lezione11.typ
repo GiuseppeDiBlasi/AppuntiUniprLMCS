@@ -27,23 +27,28 @@ Riprendiamo dagli argomenti della lezione 10 e proviamo a dimostrare per la cons
     - $|X| > 1, X subset.eq Y arrow.double |Y| > 1$, per def. di $sqle("CP")$: $alpha(X) = top sqle("CP") alpha(Y) = top$
 
   + $gamma$ è monotona, $forall x, y in "CP"$, se $x sqle("CP") y arrow.double gamma(x) sqle("CP") gamma(y)$
-    - $x = bot$, per def. di $gamma(bot) = emptyset$, e per def. di $subset.eq$, $gamma(x) = emptyset subset.eq gamma(y)$, per qualunque $y in "CP"$.
+    - $x = bot$, per def. di $gamma(bot) = emptyset$, e per def. di $sqle("CP")$, $gamma(x) = emptyset subset.eq gamma(y)$, per qualunque $y in "CP"$.
 
-    - $y = top$, per def. di $gamma(T) = ZZ$, per def. di $subset.eq$, $gamma(x) subset ZZ = gamma(y)$, per qualunque $y in "CP"$.
+    - $y = top$, per def. di $gamma(T) = ZZ$, per def. di $sqle("CP")$, $gamma(x) subset ZZ = gamma(y)$, per qualunque $y in "CP"$.
 
     - $x = y = v$, per def. di $gamma$, $gamma(x) = gamma(y) = {v}$
 
-  + $gamma compose alpha$ è estensiva: $forall I in cal(P)(ZZ) . I subset.eq gamma(alpha(I))$
+  + $gamma compose alpha$ è estensiva: $forall I in cal(P)(ZZ) . I sqle("CP") gamma(alpha(I))$
 
-    - $I = emptyset$, per def. di $alpha$, $alpha(I) = bot$, def. $gamma$, $gamma(bot) = emptyset arrow.double emptyset subset.eq gamma(alpha(emptyset))$.
+    - $I = emptyset$, per def. di $alpha$, $alpha(I) = bot$, def. $gamma$, $gamma(bot) = emptyset arrow.double emptyset sqle("CP") gamma(alpha(emptyset))$.
 
-    - $I = {v}$, def. $alpha$,  $alpha({v}) = v$, def. $gamma$, $gamma(v) = v arrow.double {v} subset.eq gamma(alpha({v}))$.
+    - $I = {v}$, def. $alpha$,  $alpha({v}) = v$, def. $gamma$, $gamma(v) = v arrow.double {v} sqle("CP") gamma(alpha({v}))$.
 
-    - $|I| > 1$, def. $alpha$, $alpha(I) = top$, def $gamma$, $gamma(T) = ZZ arrow.double I subset.eq gamma(alpha(I))$.
+    - $|I| > 1$, def. $alpha$, $alpha(I) = top$, def $gamma$, $gamma(bot) = ZZ arrow.double I sqle("CP") gamma(alpha(I))$.
 
-  // Fare caso riduttivo
+  + $alpha compose gamma$ è riduttiva: $forall a in A. alpha(gamma(a)) sqle(A) a$
+
+    - $a = bot$, per def. di $gamma$, $gamma(bot) = emptyset$, def. $alpha$, $alpha(emptyset) = bot arrow.double alpha(gamma(bot)) sqle(A) bot$
+
+    - $a = top$, per def. di $gamma$, $gamma(top) = ZZ$, def. $alpha$, $alpha(ZZ) = top arrow.double alpha(gamma(top)) sqle(A) top$
+
+    - $a = {v}$ per def. di $gamma$, $gamma({v}) = {v}$, def. $alpha$, $alpha({v}) = {v} arrow.double alpha(gamma({v})) sqle(A) {v}$
 ]
-
 #note[Per indicare le connessioni di Galois useremo la seguente notazione
   $
     C #box(baseline: 30%, stack(
@@ -62,7 +67,7 @@ Dalle connessioni di Galois possiamo derivare le inserzioni di Galois.
 Diamo una definizione formale di inserzione di Galois.
 
 #definition(name: "Inserzione di Galois")[
-  Presi due poset $chevron.l C, sqle(C) chevron.r$ e $chevron.l A, sqle(A) chevron.r$ con $alpha: C arrow A$ e $gamma: A arrow C$, supponendo di avere una connessione di Galois tra $C$ ed $A$ tramite $alpha$ e $gamma$, se $alpha compose gamma$ è l'identità allora è chiamata *inserzione di Galois*.
+  Presi due poset $chevron.l C, sqle(C) chevron.r$ e $chevron.l A, sqle(A) chevron.r$ con $alpha: C arrow A$ e $gamma: A arrow C$, supponendo di avere una connessione di Galois tra $C$ ed $A$ tramite $alpha$ e $gamma$, se $alpha compose gamma$ è l'identità, $alpha(gamma(a)) = a$, allora è chiamata *inserzione di Galois*.
 
   In questo caso l'astrazione è suriettiva, mentre la croncretizzazione è iniettiva.
 

@@ -392,12 +392,12 @@ Abbiamo anche una definizione alternativa per la connessione di Galois:
 
     *Best astraction*: se $a$ descrive $c$, allora $alpha(c)$ è almeno
     altrettanto preciso di $a$, cioè $alpha(c)$ è la migliore astrazione di $c$.
-    Esempio: $c = {1, 2}$ e $a = top$. Abbiamo $c subset.eq gamma(top) = ZZ$
-    e infatti $alpha(c) = + sqle(A) top$.
+    Esempio: $c = {1, 2}$ e $a = +$. Abbiamo $c subset.eq gamma(+) = {1, 2, 3, dots}$
+    e infatti $alpha(c) = + sqle(A) +$.
 
     Se invece avessimo (per assurdo) $alpha({1, 2}) = top$, allora
     $c subset.eq gamma(+)$ sarebbe vero ma $alpha(c) = top
-    cancel(sqle(A)) +$, e la 2 fallirebbe: $alpha$ non sarebbe la migliore astrazione.
+    cancel(sqle(A)) +$, e l'implicazione numero 2 fallirebbe: $alpha$ non sarebbe la migliore astrazione.
 
 ]
 
