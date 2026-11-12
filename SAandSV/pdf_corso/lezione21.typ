@@ -234,3 +234,176 @@ Guardiamo degli esempi per 'substring':
   - $"substring"_0^10 (p) = "abcde"^*$
 
 ]
+
+#note[
+  _'Piccola' digressione..._
+
+  Nella definizione della semantica concreta e astratta per le stringhe abbiamo fatto una semplificazione per concentrarci esclusivamente sull'analisi delle stringhe. Nella realtà, siccome il nostro linguaggio toy ha tipi dinamici avremmo dovuto cambiare la definizione della funzione memoria.
+
+  $ MM = VV arrow ZZ union Sigma^* $
+
+  In questo modo possiamo tenere traccia del fatto che una determinata variabile $x$ possa avere valori per interi o per stringhe.
+  Questo comporta anche un'astrazione più complessa però, nel reticolo concreto ci ritroveremmo a dover
+  lavorare sul dominio $cal(P)(ZZ union Sigma^*)$.
+  Nell'astratto per le stringhe usiamo constant propagation e per i numeri il dominio degli intervalli.
+  Di conseguenza il dominio della nostra astrazione diventerebbe: $"CP"_"str" times "Int"$.
+
+  Facciamo un esempio per questo caso, abbiamo questo snippet di codice:
+
+  ```
+  if(?)
+    x = "a";
+  else
+    x = 1;  
+
+  ```
+
+  Nel *concreto* per la variabile $x$ avremo la seguente memoria: $x arrow {"a", 1}$.
+
+  Mentre nell'*astratto*: $x arrow ("a", [1;1])$
+
+  Quindi ci troviamo in una situazione del genere:
+  $
+    cal(P)(ZZ union Sigma^*) #box(baseline: 30%, stack(
+      dir: ttb,
+      spacing: 6pt,
+      $attach(arrow.r.long, t: alpha_"PR")$,
+      $attach(arrow.l.long, b: gamma_"PR")$,
+    )) "CP"_"str" times "Int"
+  $
+
+
+  Questo è un approccio che si usa per linguaggi con tipizzazione dinamica.
+
+  Prendiamo invece questo snippet di codice:
+
+  ```
+  if(?)
+    x = "a";
+  else
+    x = "b";  
+
+  ```
+
+  Adesso nel concreto la variabile $x$ ha come memoria $x arrow {{"a", "b"}, emptyset}$.
+
+  Nell'astratto dobbiamo dire che questa variabile ha solo valori per stringhe e nessuno per valori interi.
+  Un modo per farlo può essere: $x arrow (top, bot)$.
+
+
+  Nel caso di Java, se prendiamo il dominio astratto $"CP"_"str" times "Intv"$, dovremmo fare delle modifiche affinché l'astrazione possa funzionare correttamente.
+
+  Dovremmo ottenere un elemento bottom, e top in comune, per ottenere ciò utilizziamo il costrutto *smashed sum* per combinare i due domini:
+  #align(center)[
+
+
+    #scale(70%, reflow: true)[
+      #diagram(
+        spacing: (1.4em, 4em),
+        node-stroke: none,
+
+        // ---------- Reticolo sinistro (stringhe) ----------
+        node((2, 0), $top$, name: <lt>),
+        node((0, 1), $dots.c$, name: <l0>),
+        node((1, 1), $"\"a\""$, name: <la>),
+        node((2, 1), $"\"b\""$, name: <lb>),
+        node((3, 1), $"\"c\""$, name: <lc>),
+        node((4, 1), $dots.c$, name: <l4>),
+        node((2, 2), strike(stroke: blue + 1pt)[$bot$], name: <lbot>),
+
+        edge(<lt>, <l0>, "-"),
+        edge(<lt>, <la>, "-"),
+        edge(<lt>, <lb>, "-"),
+        edge(<lt>, <lc>, "-"),
+        edge(<lt>, <l4>, "-"),
+        edge(<l0>, <lbot>, "-"),
+        edge(<la>, <lbot>, "-"),
+        edge(<lb>, <lbot>, "-"),
+        edge(<lc>, <lbot>, "-"),
+        edge(<l4>, <lbot>, "-"),
+
+        // ---------- Simbolo di prodotto ----------
+        node((5.5, 1), $times$),
+
+        // ---------- Reticolo destro (intervalli) ----------
+        node((9, 0), $[-infinity; +infinity]$, name: <rt>),
+        node((7.5, 1), $dots.c$, name: <r0>),
+        node((9, 1), $[1; 1]$, name: <r1>),
+        node((10.5, 1), $dots.c$, name: <r2>),
+        node((9, 2), strike(stroke: blue + 1pt)[$bot$], name: <rbot>),
+
+        edge(<rt>, <r0>, "-"),
+        edge(<rt>, <r1>, "-"),
+        edge(<rt>, <r2>, "-"),
+        edge(<r0>, <rbot>, "-"),
+        edge(<r1>, <rbot>, "-"),
+        edge(<r2>, <rbot>, "-"),
+
+        // ---------- Bottom del smash product (rosso) ----------
+        node((5.5, 3), text(fill: red)[$bot_"SM"$], name: <sm>),
+
+        edge(<sm>, <l0>, "-", stroke: red),
+        edge(<sm>, <la>, "-", stroke: red),
+        edge(<sm>, <lb>, "-", stroke: red),
+        edge(<sm>, <lc>, "-", stroke: red),
+        edge(<sm>, <l4>, "-", stroke: red),
+        edge(<sm>, <r0>, "-", stroke: red),
+        edge(<sm>, <r1>, "-", stroke: red),
+        edge(<sm>, <r2>, "-", stroke: red),
+      )
+    ]
+  ]
+
+  Tutti gli elementi che erano inizialmente mappati al loro bottom corrispondente, vengono mappati al nuovo elemento $bot_"sm"$.
+  Lo stesso procedimento va fatto per l'elemento top.
+
+  Alla fine otteniamo un nuovo dominio astratto:
+
+  #align(center)[
+    #scale(70%, reflow: true)[
+      #diagram(
+        spacing: (3.5em, 4em),
+        node-stroke: none,
+
+        // ---------- Livello 0: top del smash product ----------
+        node((2.2, 0), text(fill: red)[$top_"SM"$], name: <tsm>),
+
+        // ---------- Livello 1 ----------
+        node((0.5, 1), $top_"CP"$, name: <tcp>),
+        node((3.5, 1), $[+infinity; -infinity]$, name: <tinf>),
+
+        // ---------- Livello 2 ----------
+        node((-0.3, 2), $dots.c$, name: <dll>),
+        node((0.5, 2), $"\"b\""$, name: <b>),
+        node((1.5, 2), $"\"a\""$, name: <a>),
+        node((2.2, 2), $dots.c$, name: <dl>),
+        node((3, 2), $[1, 1]$, name: <i1>),
+        node((4.0, 2), $[2, 2]$, name: <i2>),
+        node((4.7, 2), $dots.c$, name: <dr>),
+
+        // ---------- Livello 3: bottom del smash product ----------
+        node((2.2, 3.2), text(fill: red)[$bot_"SM"$], name: <bsm>),
+
+        // ---------- Archi dall'alto ----------
+        edge(<tsm>, <tcp>, "-"),
+        edge(<tsm>, <tinf>, "-"),
+
+        edge(<tcp>, <b>, "-"),
+        edge(<tcp>, <a>, "-"),
+
+        edge(<tinf>, <i1>, "-"),
+        edge(<tinf>, <i2>, "-"),
+
+        // ---------- Archi verso il bottom ----------
+        edge(<b>, <bsm>, "-"),
+        edge(<a>, <bsm>, "-"),
+        edge(<i1>, <bsm>, "-"),
+        edge(<i2>, <bsm>, "-"),
+      )    ]
+  ]
+
+  Questa tecnica viene utilizzata per linguaggi con tipizzazione forte.
+
+  La combinazione di domini verrà approfondita nelle prossime lezioni.
+
+]
