@@ -166,7 +166,7 @@ La funzione gamma ci restituisce tutte le stringhe che iniziano per il prefisso 
 
 La funzione $alpha_"PR"$ invece è definita nel seguente modo:
 
-$ alpha_"PR" (S) = inter.sq {p in "PR" | S subset.eq gamma_"PR" (S)} $
+$ alpha_"PR" (S) = inter.sq {p in "PR" | S subset.eq gamma_"PR" (p)} $
 
 #pagebreak()
 
@@ -254,7 +254,7 @@ Guardiamo degli esempi per 'substring':
   if(?)
     x = "a";
   else
-    x = 1;  
+    x = 1;
 
   ```
 
@@ -281,7 +281,7 @@ Guardiamo degli esempi per 'substring':
   if(?)
     x = "a";
   else
-    x = "b";  
+    x = "b";
 
   ```
 
