@@ -331,7 +331,7 @@ $
     ) & quad "se" e_1 = x quad e_2 = y quad lbs e_1 rbs^"#" m^"#" = [a, b] and lbs e_2 rbs^"#" m^"#" = [c, d] and a <= d,
     bot & quad "se" e_1 = x quad e_2 = y quad lbs e_1 rbs^"#" m^"#" = [a, b] and lbs e_2 rbs^"#" m^"#" = [c, d] and a > d,
     bot & quad "se" e_1 = x quad e_2 = v quad a > v quad lbs e_1 rbs^"#" m^"#" = [a, b],
-    m^"#", & quad "altrimenti",
+    m^"#" & quad "altrimenti",
     gap: #1em
   )
 $

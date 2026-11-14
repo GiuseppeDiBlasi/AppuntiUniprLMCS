@@ -224,7 +224,7 @@ Abbiamo due teoremi che possono tornarci utili:
 ]
 
 #theorem(name: "Approssimazione del fixpoint di Tarski")[
-  Dato un complete lattice $chevron.l C, sqle(C), sqlub(C), sqglb(C), bot_c, top_c chevron.r$, una funzione monotona $f: C arrow C$ e una sua astrazione sound $f^"#": A arrow A$ in un dominio astratto $chevron.l A, sqle(A), sqlub(A), sqglb(A), bot_A, top_A chevron.r$ allora qualunque post-fixpoint $a$ di $f^"#"$, tale che $f^"#"(a) sqle(A) a$, è un'astrazione sound di $"lfp"(f)$, quindi $"lfp"(f) sqle(C) gamma(a)$
+  Dato un complete lattice $chevron.l C, sqle(C), sqlub(C), sqglb(C), bot_c, top_c chevron.r$, una funzione monotona $f: C arrow C$ e una sua astrazione sound $f^"#": A arrow A$ in un dominio astratto $chevron.l A, sqle(A), sqlub(A), sqglb(A), bot_A, top_A chevron.r$ allora qualunque post-fixpoint $a$ di $f^"#"$, tale che $f^"#" (a) sqle(A) a$, è un'astrazione sound di $"lfp"(f)$, quindi $"lfp"(f) sqle(C) gamma(a)$
 
   Il teorema sfrutta due concetti:
 
