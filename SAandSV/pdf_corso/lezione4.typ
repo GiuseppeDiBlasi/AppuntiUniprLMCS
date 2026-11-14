@@ -51,12 +51,12 @@ Introduciamo il teorema fix-point di Knaster-Tarski.
 
   Allora, $chevron.l "Fix"(f), subset.eq.sq, union.sq, inter.sq chevron.r$ è un reticolo completo.
 
-  - Definiamo un *post-fixpoint* come: $l in X | l subset.eq.sq f(l)$.
-  - Definiamo un *pre-fixpoint* come: $l in X | f(l) subset.eq.sq l$.
+  - Definiamo un *pre-fixpoint* come: $x in X | x subset.eq.sq f(x)$.
+  - Definiamo un *post-fixpoint* come: $x in X | f(x) subset.eq.sq x$.
 
   Possiamo definire anche *lfp* e *gfp*:
-  - $"lfp"(f)$ = $inter.sq {l in X| f(l) subset.eq.sq l}$, è il glb tra tutti i pre-fixpoint
-  - $"gfp"(f)$ = $union.sq {l in X | l subset.sq.eq f(l)}$, è il lub tra tutti i post-fixpoint
+  - $"lfp"(f)$ = $inter.sq {x in X| f(x) subset.eq.sq x}$, è il glb tra tutti i post-fixpoint.
+  - $"gfp"(f)$ = $union.sq {x in X | x subset.sq.eq f(x)}$, è il lub tra tutti i pre-fixpoint.
 
 ] <thm-knaster-tarski>
 
@@ -138,14 +138,14 @@ In poche parole possiamo trovare sempre un punto fisso all'interno di un reticol
 
   Prendendo ogni singolo insieme abbiamo:
 
-  - $f({emptyset})$ = ${-1}$, post-fixpoint.
+  - $f(emptyset)$ = ${-1}$, pre-fixpoint.
   - $f({-1})$ = ${-1} ->$,  *punto fisso*.
-  - $f({0})$ = ${-1, 0}$, post-fixpoint
-  - $f({1})$ = $emptyset$, pre-fixpoint
+  - $f({0})$ = ${-1, 0}$, pre-fixpoint
+  - $f({1})$ = $emptyset$, post-fixpoint
   - $f({-1, 0})$ = ${-1, 0} ->$ *punto fisso*.
-  - $f({-1, 1})$ = ${-1}$, pre-fixpoint.
-  - $f({0, 1})$ = ${0}$, pre-fixpoint.
-  - $f({-1, 0, 1})$ = ${-1, 0}$, pre-fixpoint.
+  - $f({-1, 1})$ = ${-1}$, post-fixpoint.
+  - $f({0, 1})$ = ${0}$, post-fixpoint.
+  - $f({-1, 0, 1})$ = ${-1, 0}$, post-fixpoint.
 
   Abbiamo trovato ${-1, 0}$ e ${-1}$ come punti fissi della funzione $f(x)$. Questo concetto tornerà utile per analisi statica.
 
@@ -157,23 +157,28 @@ In poche parole possiamo trovare sempre un punto fisso all'interno di un reticol
 
   Applicando la nuova funzione $f$ calcoliamo pre e post fix-point:
 
-  - $f(emptyset) = {0}$, post-fixpoint.
-  - $f({-1}) = {-1, 0}$, post-fixpoint.
+  - $f(emptyset) = {0}$, pre-fixpoint.
+  - $f({-1}) = {-1, 0}$, pre-fixpoint.
   - $f({0}) = {0}$, *punto fisso*.
-  - $f({1}) = {1, 0}$, post-fixpoint.
+  - $f({1}) = {1, 0}$, pre-fixpoint.
   - $f({-1, 0}) = {-1, 0}$, *punto fisso*.
-  - $f({-1, 1}) = {-1, 0, 1}$, post-fixpoint.
+  - $f({-1, 1}) = {-1, 0, 1}$, pre-fixpoint.
   - $f({0, 1}) = {0, 1}$, *punto fisso*.
   - $f({-1, 0, 1}) = {-1, 0, 1}$, *punto fisso*.
 
   Siccome $f$ è monotona, possiamo applicare *Knaster-Tarski* e calcolare *least fix-point* e * greatest fix-point*.
-  Calcoliamo il least fix-point come il glb tra tutti i pre-fixpoint:
 
-  $bold("lfp") = inter.sq {{0}, {-1, 0}, {0, 1}, {-1, 0, 1}} = {0}$
+  #note[
+    Per definizione, i *fixed point* sono sia *pre* che *post* fixpoints.
+  ]
 
-  Calcoliamo invece il greatest fix-point come il lub tra tutti i post-fixpoint, in questo caso prendiamo tutti gli elementi del reticolo e otteniamo:
+  Calcoliamo il least fix-point come il glb tra tutti i post-fixpoint:
 
-  $bold("gfp") = union.sq {cal(P)({-1, 0, 1})} = {-1, 0, 1}$
+  $bold("lfp") = inter.sq {{0}, {-1, 0}, {0, 1}} = {0}$
+
+  Calcoliamo invece il greatest fix-point come il lub tra tutti i pre-fixpoint, in questo caso prendiamo tutti gli elementi del reticolo e otteniamo:
+
+  $bold("gfp") = union.sq cal(P)({-1, 0, 1}) = {-1, 0, 1}$
 ]
 
 #warning[
