@@ -190,7 +190,7 @@ Definiamo ora upper bound e il least upper bound.
 #definition(name: "Upper bound e least upper bound (lub)")[
   Dato un PoSet $chevron.l "X", subset.sq.eq chevron.r,"S" subset.eq "X"$
 
-  - $"s" in "X"$ è un *upper bound* se: $forall "s"' in "S", quad "s" supset.sq.eq "s"'$
+  - $"s" in "X"$ è un *upper bound* se: $forall "s"' in "S", quad "s"' subset.sq.eq "s"$
 
   - $s in X$ è un *least upper bound* (lub) se: $forall "s"' in "UB", "s" subset.sq.eq "s"'$
 ]

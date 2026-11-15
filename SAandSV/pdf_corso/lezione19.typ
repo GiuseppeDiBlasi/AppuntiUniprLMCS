@@ -87,6 +87,46 @@ Guardiamo più nel dettaglio cosa vuol dire che il lub non è esatto mentre il g
     )
   ]
 
+  #separator()
+
+  Proviamo ora a fare il glb tra due intervalli, prendiamo gli intervalli [2, 3] e [1, 8].
+  Per il glb dobbiamo verificare che la condizione: $min(a, c) <= max(b, d)$, nel caso in cui questa condizione fosse falsa il risultato sarebbe $bot_"intv"$, altrimenti possiamo calcolare il glb come: $[2, 3] inter.sq [1, 8] = [max(2, 1), min(3, 8)] = [2, 3]$.
+
+  Controlliamo che il glb sia un'operazione esatta rispetto al lub:
+
+  #align(center)[
+    #diagram(
+      spacing: (5mm, 7mm),
+      node-inset: 3pt,
+
+      // riga astratta
+      node((0, 0), $[2, 3]$),
+      node((1, 0), $inter.sq$),
+      node((2, 0), $[1, 8]$),
+      node((3, 0), $=$),
+      node((4, 0), $[2, 3]$),
+
+      // riga concreta
+      node((0, 1), $\{2, 3\}$),
+      node((1, 1), $inter$),
+      node((2, 1), $\{1, 2, 3, dots, 8\}$),
+      node((3, 1), $=$),
+      node((4, 1), $\{2, 3\}$),
+
+      // frecce di concretizzazione
+      edge((0, 0), (0, 1), "->", label: $gamma$, label-side: left),
+      edge((2, 0), (2, 1), "->", label: $gamma$, label-side: left),
+    )
+  ]
+
+  Con il glb non abbiamo rumore come nel caso del lub.
+
+  Se avessimo avuto due intervalli: [1, 5] e [7, 10], il loro glb sarebbe:
+
+  $max(a, c) <= min(5, 10) = 7 <= 5$. In questo caso il glb è $bot_"intv"$.
+
+  $ [1, 5] inter.sq [7, 10] = bot_"intv" $
+
 ]
 
 #align(center)[
@@ -322,7 +362,7 @@ Definendo formalmente l'assume per il caso $e_1 <= e_2$ abbiamo:
 
 $
   "assume"_(e_1 <= e_2) (m^"#") = cases(
-    m^"#" [x arrow.l [a, min(b, v)]] & quad "se" e_1 = x quad e_2 = v quad lbs e_1 rbs^"#" = [a, b] thick a <= v,
+    m^"#" [x arrow.l [a, min(b, v)]] & quad "se" e_1 = x quad e_2 = v quad lbs e_1 rbs^"#" = [a, b] and a <= v,
     m^"#" vec(
       delim: "[",
       align: #left,
@@ -336,7 +376,7 @@ $
   )
 $
 
-#note[In questa assume ci sono casi con gestiamo e che andrebbero gestiti in un contesto reale.]
+#note[In questa assume ci sono casi che non gestiamo e che andrebbero gestiti in un contesto reale.]
 
 Vediamo alcuni esempi con l'assume:
 
@@ -345,7 +385,7 @@ Vediamo alcuni esempi con l'assume:
   Prendiamo gli intervalli $x = [30, 40]$ e $y = [25, 35]$ e la guardia $x <= y$.
 
   In questo caso possiamo raffinare entrambi gli intervalli $x$ e $y$, da entrambi gli intervalli scartiamo i valori per cui la guardia viene valutata a false.
-  Quindi otteniamo: $x = [30, 50]$, $y = [30, 35]$.
+  Quindi otteniamo: $x = [30, 35]$, $y = [30, 35]$.
 
   #separator()
 
