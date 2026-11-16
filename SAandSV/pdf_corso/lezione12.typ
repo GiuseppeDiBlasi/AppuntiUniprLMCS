@@ -24,7 +24,7 @@ Possiamo calcolare il punto fisso passando dal contesto concreto ad un contesto 
       delim: "{",
       gap: #1em,
       x_1 = I in cal(P)(ZZ),
-      x_2 = lbs x = 0 rbs x_1 union lbs x = x + 2 rbs x_1 union lbs x = x + 10 rbs x_5,
+      x_2 = lbs x = 0 rbs x_1 union lbs x = x + 2 rbs x_4 union lbs x = x + 10 rbs x_5,
       x_3 = lbs x < 100 rbs x_2,
       x_4 = lbs x < 50 rbs x_3,
       x_5 = lbs x >= 50 rbs x_3,
@@ -79,7 +79,7 @@ Possiamo calcolare il punto fisso passando dal contesto concreto ad un contesto 
         x_1 = ZZ,
         x_2 = {0, 2},
         x_3 = {0, 2},
-        x_4 = {0, 5},
+        x_4 = {0, 2},
         x_5 = emptyset,
         x_6 = emptyset,
       )
@@ -97,6 +97,8 @@ Possiamo calcolare il punto fisso passando dal contesto concreto ad un contesto 
       )
     $,
   )
+  Il fixpoint esiste perché stiamo lavorando su un reticolo completo.
+
   In questo caso è calcolabile perché il programma è costante, ma in generale il fix point nel concreto è non decidibile.
 ]<ex-lfp-concreto>
 
