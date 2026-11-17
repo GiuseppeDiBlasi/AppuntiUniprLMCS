@@ -36,10 +36,10 @@ L'operatore di widening è da utilizzare solo per domini che *NON* rispettano la
 Definendo formalmente l'operatore di widening:
 
 #definition(name: "Operatore di widening")[
-  Un operatore binario, $nabla : A times A arrow A$ è un operatore di widening in un dominio astratto $chevron.l A, subset.sq chevron.r$ se:
+  Un operatore binario, $nabla : A times A arrow A$ è un operatore di widening in un dominio astratto $chevron.l A, subset.eq.sq chevron.r$ se:
 
-  - Ci permette di calcolare upper bound: $forall x, y in A: x subset.sq x nabla y and forall x,y in A: y subset.sq x nabla y$
-  - Garantisce la convergenza, per una qualunque sequenza finita o infinita $(y^i)_(i in NN)$ nel dominio $A$, la sequenza $(x^i)_(i in NN)$ viene calcolata come $x^0 = y^0, quad x^(i + 1) = x^i nabla y^i + 1$ si stabilizza in un tempo finito, ovvero: $exists k >= 0. x^(k + 1) = x^k$
+  - Ci permette di calcolare upper bound: $forall x, y in A: x subset.eq.sq x nabla y and forall x,y in A: y subset.eq.sq x nabla y$
+  - Garantisce la convergenza, per una qualunque sequenza finita o infinita $(y^i)_(i in NN)$ nel dominio $A$, la sequenza $(x^i)_(i in NN)$ viene calcolata come $x^0 = y^0, quad x^(i + 1) = x^i nabla y^(i + 1)$ si stabilizza in un tempo finito, ovvero: $exists k >= 0. x^(k + 1) = x^k$
 ]
 
 Se consideriamo la sequenza:
@@ -56,7 +56,7 @@ $
 
 Un esempio di definizione di widening può essere:
 
-$ x nabla y = cases(x & quad "se" y subset.sq x, top & quad "altrimenti", gap: #1em) $
+$ x nabla y = cases(x & quad "se" y subset.eq.sq x, top & quad "altrimenti", gap: #1em) $
 
 È una definizione naive, per gli intervalli invece possiamo l'operatore di widening nel seguente modo:
 
@@ -70,7 +70,7 @@ $
 $
 
 - Questa definizione non è commutativa: $[2, 3] nabla [1, 4] = [- infinity, + infinity]; quad [1, 4] nabla [2, 3] = [1 ,4]$
-- Non è nemmeno monotona: sia $[0, 1] subset.sq [0, 3]; [0, 1] nabla [0, 2] = [0, + infinity]; [0, 3] nabla [0, 2] = [0, 3]$
+- Non è nemmeno monotona: sia $[0, 1] subset.eq.sq [0, 3]; [0, 1] nabla [0, 2] = [0, + infinity]; [0, 3] nabla [0, 2] = [0, 3]$
 
 Guardiamo alcuni esempi di uso per l'operatore di widening:
 
@@ -245,7 +245,7 @@ In questo caso l'equazione per $x_3$ è il nostro *widening point*, dove applich
 
 ]
 
-Siccome l'operaore di widening sovra-approssima il least-fixpoint perdiamo abbastanza informazione sopratutto nelle equazioni $x_3, x_4, x_6$.
+Siccome l'operatore di widening sovra-approssima il least-fixpoint perdiamo abbastanza informazione sopratutto nelle equazioni $x_3, x_4, x_6$.
 Per cercare di avvicinarci al least fixpoint possiamo usare l'operatore di narrowing, che approssima il glb.
 
 Volendo potremmo applicare l'operatore di widening a tutte le equazioni per $F$, comportando ovviamente un'enorme perdita di precisione.
@@ -270,28 +270,29 @@ Definiamo formalmente l'operatore di narrowing:
 #let cap(n, body) = text(size: 0.9em)[*Operatore #n.* #body]
 #let blank = $x #h(2em) y$
 
-#grid(
-  columns: (1fr, 1fr),
-  column-gutter: 2em,
-  row-gutter: (0.5em, 2em, 0.5em, 2em, 0.5em),
-  align: center + top,
+#example(name: "Schema riassuntivo widening e narrowing.")[
+  #grid(
+    columns: (1fr, 1fr),
+    column-gutter: 2em,
+    row-gutter: (0.5em, 2em, 0.5em, 2em, 0.5em),
+    align: center + top,
 
-  // riga 1: formule
-  $x nabla y$, blank,
-  // riga 1: caption
-  cap(1)[Widening: sovra-approssima il $"lfp"(f)$ e garantisce la convergenza], [],
+    // riga 1: formule
+    $x nabla y$, blank,
+    // riga 1: caption
+    cap(1)[Widening: sovra-approssima il $"lfp"(f)$ e garantisce la convergenza], [],
 
-  // riga 2: formule
-  $x union.sq y$, $x Delta y$,
-  // riga 2: caption
-  cap(2)[Operatore Lub], cap(3)[Narrowing: raffina il risultato scendendo verso il $"lfp"(f)$],
+    // riga 2: formule
+    $x union.sq y$, $x Delta y$,
+    // riga 2: caption
+    cap(2)[Operatore Lub], cap(3)[Narrowing: raffina il risultato scendendo verso il $"lfp"(f)$],
 
-  // riga 3: formule
-  blank, $x inter.sq y$,
-  // riga 3: caption
-  [], cap(4)[Operatore glb.],
-)
-
+    // riga 3: formule
+    blank, $x inter.sq y$,
+    // riga 3: caption
+    [], cap(4)[Operatore glb.],
+  )
+]
 #note[
   Applicando il narrowing *NON* possiamo superare il least-fixpoint.
 ]
@@ -325,14 +326,14 @@ $
       gap: #1em,
       x_1 = [- infinity, + infinity],
       x_2 = [0, 0] union.sq [2, 51] union.sq [60, + infinity] = [0, + infinity],
-      x_3 = [0, 0] Delta [0, 99] = [0, 99],
-      x_4 = lbs x < 50 rbs^"#" [0, + infinity] = [0, 49],
+      x_3 = [0, + infinity] Delta [0, 99] = [0, 99],
+      x_4 = lbs x < 50 rbs^"#" [0, + 99] = [0, 49],
       x_5 = lbs x >= 50 rbs^"#" [0, 99] = [50, 99],
       x_6 = lbs x >= 100 rbs^"#" [0, +infinity] = [100, + infinity],
     )
   $
 
-  Per l'equazione $x_2$ dobbiamo fare il lub con la valutazione corrente e la valutazione precedete, quindi $[0, +infinity] inter.sq [0, + infinity] = [0, + infinity]$.
+  Per l'equazione $x_2$ dobbiamo fare il glb con la valutazione corrente $(F_1^Delta)$ e la valutazione precedente $(F_0^Delta)$, quindi $[0, +infinity] inter.sq [0, + infinity] = [0, + infinity]$.
 
 
   $
