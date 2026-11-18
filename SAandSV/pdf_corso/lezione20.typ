@@ -72,6 +72,15 @@ $
 - Questa definizione non è commutativa: $[2, 3] nabla [1, 4] = [- infinity, + infinity]; quad [1, 4] nabla [2, 3] = [1 ,4]$
 - Non è nemmeno monotona: sia $[0, 1] subset.eq.sq [0, 3]; [0, 1] nabla [0, 2] = [0, + infinity]; [0, 3] nabla [0, 2] = [0, 3]$
 
+Il widening si applica nel seguente modo:
+
+$
+  F^"#" = cases(
+    x_i = x_i nabla f_i^"#" (x_1, dots, m) & "se" i in "WP",
+    x_i = x_i union.sq f_i^"#" (x_1, dots, m) & "altrimenti"
+  )
+$
+
 Guardiamo alcuni esempi di uso per l'operatore di widening:
 
 #example()[
@@ -312,8 +321,8 @@ L'operatore di narrowing viene applicato nei widening points, dopo aver calcolat
 
 $
   F^sharp = cases(
-    x_i = x_i triangle.stroked.t f_i^sharp (x_1, ..., x_m) & "if" i in W P,
-    x_i = x_i inter.sq f_i^sharp (x_1, ..., x_m) & "otherwise"
+    x_i = x_i triangle.stroked.t f_i^sharp (x_1, ..., x_m) & "se" i in W P,
+    x_i = x_i inter.sq f_i^sharp (x_1, ..., x_m) & "altrimenti"
   )
 $
 
