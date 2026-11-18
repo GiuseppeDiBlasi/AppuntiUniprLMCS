@@ -190,8 +190,6 @@ Guardiamo alcuni esempi di uso per l'operatore di widening:
 
 ]
 
-
-
 Guardiamo un caso in cui applicare l'operatore di widening, prendiamo l'esempio della lezione 12 (@ex-lfp-concreto) con le equazioni per lo stesso CFG.
 In questo esempio calcoliamo il fix point per il dominio degli intervalli.
 
