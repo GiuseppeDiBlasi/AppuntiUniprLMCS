@@ -47,7 +47,7 @@ Anche queste iterazioni ci permettono di trovare punti fissi per i nostri scopi 
 Introduciamo il teorema fix-point di Knaster-Tarski.
 
 #theorem(name: "Teorema di Knaster-Tarski sui punti fissi")[
-  Prendiamo un reticolo: $chevron.l X, subset.sq.eq, union.sq, inter.sq chevron.r,$ e una funzione  $f: X -> X$, monotona
+  Prendiamo un reticolo completo: $chevron.l X, subset.sq.eq, union.sq, inter.sq chevron.r,$ e una funzione  $f: X -> X$, monotona
 
   Allora, $chevron.l "Fix"(f), subset.eq.sq, union.sq, inter.sq chevron.r$ è un reticolo completo.
 

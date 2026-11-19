@@ -21,7 +21,7 @@ Possiamo definire le stringhe in Imp come:
 - $sigma in Sigma^*$, stringa.
 - $|sigma|$, lunghezza della stringa.
 - $sigma_i$, carattere i-esimo della stringa $sigma$, $i in [0, sigma_(i -1)]$
-- $sigma_1, sigma_2$, concatenazione tra due stringhe.
+- $sigma_1 thick sigma_2$, concatenazione tra due stringhe.
 - $sigma[i, j]$, sottostringa tra i e j, i è incluso mentre j è escluso.
 
 Possiamo estendere la grammatica del linguaggio Imp per accettare le stringhe nel seguente modo:
@@ -62,12 +62,12 @@ Definiamo la semantica per le espressioni booleane per accettare le stringhe:
 
 - $lbs dot rbs_b MM arrow {"TT", "FF"}$
 
-- $lbs s_1 = s_2 rbs_b m = cases(
-    "TT" & quad lbs s_1 rbs_s m == lbs s_2 rbs_s m,
+- $lbs s_1 == s_2 rbs_b m = cases(
+    "TT" & quad "se" lbs s_1 rbs_s m == lbs s_2 rbs_s m,
     "FF" &quad "altrimenti"
   )$
 
-- $lbs "contains"_c (s) rbs_b m = exists i in [0; |lbs s rbs_s m - 1] (lbs s rbs_s m)_i = c$
+- $lbs "contains"_c (s) rbs_b m = exists i in [0; |lbs s rbs_s m| - 1] (lbs s rbs_s m)_i = c$
 
 #v(0.5cm)
 
@@ -137,9 +137,9 @@ Possiamo notare che questo è un dominio infinito, ma è anche un dominio ACC, d
 
 Dal reticolo possiamo definire la relazione d'ordine tra due prefissi $P_1$ e $P_2$:
 
-$ P_1 sqle("PR") P_2 <=> P_1 = bot_"PR" or (|P_2| =< |P_1| and forall i in [0, |P_2| - 1]: P_2_i = P_1_i) $
+$ P_1 sqle("PR") P_2 <=> P_1 = bot_"PR" or (|P_2| <= |P_1| and forall i in [0, |P_2| - 1]: P_2_i = P_1_i) $
 
-Possiamo anche leggerla come: il prefisso $P_1$ è più preciso del prefisso $P_2$, esempio: $"ab*" sqle("PR") "c*"$.
+Possiamo anche leggerla come: il prefisso $P_1$ è più preciso del prefisso $P_2$, esempio: $"ab*" sqle("PR") "a*"$.
 
 Tra il reticolo concreto e quello astratto abbiamo una connessione di Galois:
 
@@ -183,7 +183,7 @@ $ alpha_"PR" (S) = inter.sq {p in "PR" | S subset.eq gamma_"PR" (p)} $
   - $epsilon^*: S subset.eq gamma_"PR" (epsilon^*)$.
   - $"ab"^* : S subset.eq gamma_"PR" ("ab"^*)$.
 
-  Quindi applicando $alpha_"PR" (S) = inter.sq {"ab", epsilon}$, dobbiamo fare il glb tra questi due elementi, che è *'ab'*.
+  Quindi applicando $alpha_"PR" (S) = inter.sq {"ab"^*, epsilon}$, dobbiamo fare il glb tra questi due elementi, che è '$bold("ab"^*)$'.
 
   #separator()
 
