@@ -28,7 +28,7 @@ $ s_1 sqle("SU") s_2 <=> s_1 = bot_"SU" or (s_2 "is suffix of" s_1) $
 
 Il lub invece tra due suffissi è:
 
-$ s_1 sqle("SU") s_2 = "largest common suffix"(s_1, s_2) $
+$ s_1 sqlub("SU") s_2 = "largest common suffix"(s_1, s_2) $
 
 Il glb invece lo definiamo:
 
