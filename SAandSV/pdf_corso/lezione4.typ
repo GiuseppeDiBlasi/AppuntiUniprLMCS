@@ -51,8 +51,8 @@ Introduciamo il teorema fix-point di Knaster-Tarski.
 
   Allora, $chevron.l "Fix"(f), subset.eq.sq, union.sq, inter.sq chevron.r$ è un reticolo completo.
 
-  - Definiamo un *pre-fixpoint* come: $x in X | x subset.eq.sq f(x)$.
-  - Definiamo un *post-fixpoint* come: $x in X | f(x) subset.eq.sq x$.
+  - Definiamo $x$ un *pre-fixpoint* come: $x in X | x subset.eq.sq f(x)$.
+  - Definiamo $x$ un *post-fixpoint* come: $x in X | f(x) subset.eq.sq x$.
 
   Possiamo definire anche *lfp* e *gfp*:
   - $"lfp"(f)$ = $inter.sq {x in X| f(x) subset.eq.sq x}$, è il glb tra tutti i post-fixpoint.
