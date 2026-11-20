@@ -8,7 +8,7 @@ la funzione min fa subset construction + minimizzazione del DFA.
 
 Negare un automa vuol dire cambiare gli stati finali.
 
-Il PoSet dei DFA è un reticolo ù, ma non completo. NOn ho il lub e il glb per un determinato sotto insieme.
+Il PoSet dei DFA è un reticolo , ma non completo. NOn ho il lub e il glb per un determinato sotto insieme.
 
 Non ho una galois connection tra il concreto e l'astratto per gli automi. Non ho la miglior approsimazione per i DFA.
 
