@@ -278,4 +278,106 @@ Non abbiamo una Galois Connection tra il concreto e l'astratto, questo perché i
 
 ]
 
+Guardiamo un esempio di analisi di stringhe tramite automi sul linguaggio JavaScript.
 
+#example(name: "Esempio di DFA su un esempio concreto")[
+
+  Prendiamo come esempio uno snippet di codice in JavaScript dove viene chiamata la funzione 'eval' che può portare a problemi di sicurezza.
+
+  Prendiamo in considerazione il seguente snippet di codice:
+
+  ```
+  if(...)
+    x = "a++;"
+  else 
+    x = "b++;"
+
+  eval(x);
+
+  ```
+
+  Le possibili esecuzioni per 'eval' sono descritte dal seguente DFA:
+
+  #align(center)[
+    #scale(60%, reflow: true, diagram(
+      node-stroke: 0.8pt,
+      node-inset: 0pt,
+      spacing: (2cm, 0.6cm),
+
+      // stato iniziale
+      edge((-0.8, 0), (0, 0), "-|>"),
+      node((0, 0), "", shape: circle, radius: 11pt, name: <q0>),
+
+      // ramo a
+      node((1, -1), "", shape: circle, radius: 11pt, name: <a1>),
+      node((2, -1), "", shape: circle, radius: 11pt, name: <a2>),
+      node((3, -1), "", shape: circle, radius: 11pt, name: <a3>),
+
+      // ramo b
+      node((1, 1), "", shape: circle, radius: 11pt, name: <b1>),
+      node((2, 1), "", shape: circle, radius: 11pt, name: <b2>),
+      node((3, 1), "", shape: circle, radius: 11pt, name: <b3>),
+
+      // stato finale (doppio cerchio)
+      node((4, 0), "", shape: circle, radius: 11pt, name: <qf>),
+      node((4, 0), "", shape: circle, radius: 7pt),
+
+      // transizioni ramo a
+      edge(<q0>, <a1>, $a$, "-|>"),
+      edge(<a1>, <a2>, $+$, "-|>"),
+      edge(<a2>, <a3>, $+$, "-|>"),
+      edge(<a3>, <qf>, $;$, "-|>"),
+
+      // transizioni ramo b
+      edge(<q0>, <b1>, $b$, "-|>"),
+      edge(<b1>, <b2>, $+$, "-|>"),
+      edge(<b2>, <b3>, $+$, "-|>"),
+      edge(<b3>, <qf>, $;$, "-|>"),
+    ))
+  ]
+
+  Per questo snipet di codice, dobbiamo analizzare entrambi i branch, quindi abbiamo bisogno di un CFG che approssimi in maniera sound tutti i comportamenti possibili di quel codice.
+
+  Per fare ciò, dobbiamo creare un CFG che esegue entrambi i branch dell'if:
+
+  #let state(x, a, b) = align(left, text(size: 9pt)[
+    $x arrow.r.bar top$ \
+    $a arrow.r.bar [#a]$ \
+    $b arrow.r.bar [#b]$
+  ])
+
+
+  #align(center)[
+    #scale(55%, reflow: true, diagram(
+      node-stroke: 0.8pt,
+      node-inset: 8pt,
+      spacing: (3.5cm, 2.6cm),
+
+      // nodo di partenza (branch)
+      node((1, 0), [#h(2.2cm)], shape: rect, name: <entry>),
+      node((1, -0.55), state(top, "0,0", "0,0"), stroke: none),
+
+      // rami
+      node((0, 1), `a++;`, shape: rect, name: <a>),
+      node((2, 1), `b++;`, shape: rect, name: <b>),
+
+      // exit
+      node((1, 2), [`exit`], shape: rect, inset: 14pt, name: <exit>),
+
+      // archi
+      edge(<entry>, <a>, $"TT"$, "-|>", label-side: left),
+      edge(<entry>, <b>, $"TT"$, "-|>", label-side: right),
+      edge(<a>, <exit>, "-|>"),
+      edge(<b>, <exit>, "-|>"),
+
+      // stati dopo ogni ramo
+      node((-0.55, 1.65), state(top, "1,1", "0,0"), stroke: none),
+      node((2.55, 1.65), state(top, "0,0", "1,1"), stroke: none),
+    ))
+  ]
+  All'ingresso del blocco 'exit', facciamo il lub tra i due archi entranti e otteniamo la memoria:
+
+  $ x arrow top; a arrow [0, 1]; b arrow [0, 1] $
+
+  Così facendo abbiamo ottenuto un CFG che approssimi tutte le esecuzioni possibili per 'eval'.
+]
