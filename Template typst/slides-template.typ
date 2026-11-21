@@ -404,10 +404,8 @@
     fill: white,
   )[
     // fascia colorata a sinistra
-    #place(top + left, dx: -2.5cm, dy: -2cm,
-      rect(width: 0.9cm, height: 100% + 4cm, fill: c-primary))
-    #place(top + left, dx: -1.6cm, dy: -2cm,
-      rect(width: 0.25cm, height: 100% + 4cm, fill: c-quarternary))
+    #place(top + left, dx: -2.5cm, dy: -2cm, rect(width: 0.9cm, height: 100% + 4cm, fill: c-primary))
+    #place(top + left, dx: -1.6cm, dy: -2cm, rect(width: 0.25cm, height: 100% + 4cm, fill: c-quarternary))
 
     #align(center + horizon)[
       #text(size: 38pt, weight: "bold", fill: c-primary)[#title]
@@ -447,3 +445,4 @@
   // ============================================================
   body
 }
+
