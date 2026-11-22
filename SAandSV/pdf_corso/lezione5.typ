@@ -54,15 +54,15 @@ Definiamo ora la semantica per le produzioni per il simbolo delle espressioni bo
 - $lbs "true" rbs^m_b = "TT" quad lbs "false" rbs^m_b = "FF"$
 - $lbs not b rbs^m_b = ! lbs b rbs^m_b$
 - $lbs b_1 "&&" b_2 rbs^m_b = lbs b_1 rbs^m_b vec(and, or, delim: #none) lbs b_2 rbs^m_e$
-- $lbs e_1 "op"_c e_2 rbs^m_b = lbs e_1 rbs^m_b "op"_c lbs e_2 rbs^m_e$
+- $lbs e_1 "op"_c e_2 rbs^m_b = lbs e_1 rbs^m_e "op"_c lbs e_2 rbs^m_e$
 
 Definiamo infine la semantica per il simbolo degli statement $s$:
 
 - $lbs quad rbs: s times M -> M ->$  questa semantica *produce* side effect.
 - $lbs x = e rbs^m = m [x <- lbs e rbs^m_e] ->$  viene valutata $e$, il suo risultato viene salvato nella memoria di $x$.
 - $lbs "skip" rbs^m = m ->$ non altera lo stato della memoria, è un *nop* (No Operation).
-- $lbs s_1 s_2 rbs^m = lbs s_2 rbs (lbs s_1 rbs^m)$
-- $lbs "if" b s_1 "else" s_2 rbs^m = cases(
+- $lbs s_1 s_2 rbs^m = lbs s_2 rbs^m (lbs s_1 rbs^m)$
+- $lbs "if" b thick thick s_1 "else" s_2 rbs^m = cases(
     lbs s_1 rbs^m & quad "se" lbs b rbs^m_b = "TT",
     lbs s_2 rbs^m & quad "altrimenti",
   )$
