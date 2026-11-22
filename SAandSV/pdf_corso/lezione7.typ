@@ -60,7 +60,7 @@ Passiamo ora a definire formalmente la collective semantics.
 
 == Collective semantics <col-sem>
 
-- $lbs dot rbs_c cal(P)(MM) -> cal(P)(MM)$; semantica collettiva per gli statement.
+- $lbs dot rbs_c: cal(P)(MM) -> cal(P)(MM)$; semantica collettiva per gli statement.
 - $lbs "skip" rbs_c thick MM = MM$
 - $lbs s_0 thick s_1 rbs_c thick MM = lbs s_1 rbs_c (lbs s_0 rbs_c MM)$
 - $lbs x = e rbs_c thick MM = {m [x <- lbs e rbs^m] | m in MM}; quad$ $lbs e rbs^m$ è la semantica dell'interprete e non la collecting.
