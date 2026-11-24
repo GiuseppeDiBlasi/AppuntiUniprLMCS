@@ -376,6 +376,20 @@ Ricapitolando velocemente:
 - *Analisi Forward*: fino al program point.
 - *Analisi Backward*: dal program point a ritroso.
 
+#pagebreak()
+
+#align(center)[
+  #table(
+    columns: (auto, auto, auto, auto),
+    align: (left, center, center, center),
+    inset: 8pt,
+    table.header[*Analisi*][*Direzione*][*May / Must*][*Merge*],
+    [Live variables], [Backward], [May], [$union$],
+    [Reaching definitions], [Forward], [May], [$union$],
+    [Available expressions], [Forward], [Must], [$inter$],
+    [Very busy expressions], [Backward], [Must], [$inter$],
+  )
+]
 == Lattice in analisi dataflow
 
 Possiamo vedere le analisi dataflow come dei lattice, o reticoli. *TUTTE* le analisi dataflow sono dei _*complete lattice*_ e devono rispettare l'ACC @catene.
