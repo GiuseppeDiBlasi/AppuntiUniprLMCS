@@ -198,7 +198,7 @@ Definiamo ora upper bound e il least upper bound.
 Diamo un'occhiata ora alle definizioni di lower bound e greatest lower bound.
 
 #definition(name: "Lower bound e greatest lower bound (glb)")[
-  Dato un PoSet $chevron.l "X", subset.sq.eq ,"S" subset.eq "X" chevron.r$
+  Dato un PoSet $chevron.l "X", subset.sq.eq chevron.r "S" subset.eq "X"$
 
   - $s in X$ è un *lower bound* di $S$ se $forall s' in S, s subset.sq.eq s'$
   - $s in X$ è un *greatest lower bound* se $forall s' in "LB", s' subset.sq.eq s$
