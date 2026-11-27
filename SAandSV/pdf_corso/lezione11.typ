@@ -8,8 +8,8 @@
 Riprendiamo dagli argomenti della lezione 10 e proviamo a dimostrare per la constant propagation le seguenti proprietà:
 
 - $alpha$ e $gamma$ sono monotone
-- $alpha compose gamma$ è estensiva, $forall c in C . c sqle(C) gamma(alpha(c))$
-- $gamma compose alpha$ è riduttiva, $forall a in A . alpha(gamma(a)) sqle(A) a$
+- $alpha compose gamma$ è riduttiva, $forall c in C . c sqle(C) gamma(alpha(c))$
+- $gamma compose alpha$ è estensiva, $forall a in A . alpha(gamma(a)) sqle(A) a$
 
 #example[
   I reticoli presi in considerazione sono quelli dell'esempio della scorsa lezione, @ret-cp-concreto e @ret-cp-astratto.
