@@ -53,7 +53,7 @@ Definiamo ora la semantica per le produzioni per il simbolo delle espressioni bo
 - $lbs quad rbs_b : b times M -> {"TT", "FF"}$
 - $lbs "true" rbs^m_b = "TT" quad lbs "false" rbs^m_b = "FF"$
 - $lbs not b rbs^m_b = ! lbs b rbs^m_b$
-- $lbs b_1 "&&" b_2 rbs^m_b = lbs b_1 rbs^m_b vec(and, or, delim: #none) lbs b_2 rbs^m_e$
+- $lbs b_1 vec("&&", "||", delim: #none) b_2 rbs^m_b = lbs b_1 rbs^m_b vec(and, or, delim: #none) lbs b_2 rbs^m_e$
 - $lbs e_1 "op"_c e_2 rbs^m_b = lbs e_1 rbs^m_e "op"_c lbs e_2 rbs^m_e$
 
 Definiamo infine la semantica per il simbolo degli statement $s$:
